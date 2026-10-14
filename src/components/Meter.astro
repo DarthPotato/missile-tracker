@@ -1,0 +1,49 @@
+---
+// Stock left against the prewar level. Solid = the low end of the estimate,
+// soft = the uncertainty up to the high end. An "at most" figure is all soft:
+// the real number is somewhere below it.
+import type { Range } from "../lib/model";
+import type { Qualifier } from "../lib/schema";
+import { fmt, formatRange } from "../lib/format";
+
+interface Props {
+  remaining: Range;
+  qualifier: Qualifier;
+  prewar: number;
+  name: string;
+}
+const { remaining, qualifier, prewar, name } = Astro.props;
+const pct = (n: number) => Math.max(0, Math.min(100, (n / prewar) * 100));
+const solid = qualifier === "at-most" ? 0 : pct(remaining.low);
+const soft = qualifier === "at-most" ? pct(remaining.high) : pct(remaining.high) - pct(remaining.low);
+const label = `${name}: ${formatRange(remaining, qualifier)} left of about ${fmt(prewar)} before the war`;
+---
+
+<div class="meter" role="img" aria-label={label}>
+  {solid > 0 && <span class="solid" style={`width:${solid}%`} />}
+  {soft > 0.3 && <span class="soft" style={`width:${soft}%`} />}
+</div>
+
+<style>
+  .meter {
+    display: flex;
+    gap: 2px;
+    height: 10px;
+    border-radius: 4px;
+    background: var(--series-1-track);
+    overflow: hidden;
+  }
+  .meter span {
+    height: 100%;
+  }
+  .solid {
+    background: var(--series-1);
+  }
+  .soft {
+    background: var(--series-1-soft);
+  }
+  /* Data-end rounding: the last filled segment gets the 4px rounded end. */
+  .meter span:last-child {
+    border-radius: 0 4px 4px 0;
+  }
+</style>

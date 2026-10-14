@@ -1,0 +1,20 @@
+{
+  "id": "2026-05-27-csis-rebuilding",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Rebuilding U.S. Missile Inventory: A Multiyear Project",
+    "url": "https://www.csis.org/analysis/rebuilding-us-missile-inventory-multiyear-project",
+    "published": "2026-05-27",
+    "authors": ["Mark F. Cancian", "Chris H. Park"],
+    "kind": "think-tank"
+  },
+  "summary": "CSIS follow-up on how long each munition takes to return to prewar levels, using FY2027 budget requests and DoD delivery schedules. Source for most of the rebuild model's delivery dates.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "sm3", "metric": "statement", "asOf": "2026-05-27", "confidence": "reported", "attribution": "CNN, citing DoD sources", "quote": "A CNN report citing DOD sources indicated that actual Standard Missile usage in Operation Epic Fury was closer to the lower-bound estimates in the CSIS munitions inventory study" },
+    { "munition": "sm6", "metric": "statement", "asOf": "2026-05-27", "confidence": "reported", "attribution": "CNN, citing DoD sources", "quote": "A CNN report citing DOD sources indicated that actual Standard Missile usage in Operation Epic Fury was closer to the lower-bound estimates in the CSIS munitions inventory study" },
+    { "munition": "jassm", "metric": "statement", "asOf": "2026-05-27", "confidence": "estimate", "quote": "Thus, while over 1,100 JASSMs were expended, U.S. inventories will recover fairly quickly as past orders are delivered." },
+    { "munition": "prsm", "metric": "statement", "asOf": "2026-05-27", "confidence": "estimate", "quote": "Accordingly, use has been limited—though highly effective—and replacing expenditures will take only a few months." }
+  ]
+}

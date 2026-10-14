@@ -1,0 +1,287 @@
+---
+import Base from "../../layouts/Base.astro";
+import Meter from "../../components/Meter.astro";
+import StatusChip from "../../components/StatusChip.astro";
+import ConfidenceTag from "../../components/ConfidenceTag.astro";
+import ProjectionChart from "../../components/ProjectionChart.astro";
+import { getDataset } from "../../lib/data";
+import { claimsFor, headline, phase1BurnPerDay, daysOfFire } from "../../lib/model";
+import { describeClaim, METRIC_LABEL } from "../../lib/describe";
+import { fmt, formatDate, formatMonth, formatPct, formatRange } from "../../lib/format";
+import { stockStatus } from "../../lib/status";
+import { href } from "../../lib/site";
+import type { Munition } from "../../lib/schema";
+
+export function getStaticPaths() {
+  return getDataset().munitions.map((m) => ({ params: { id: m.id } }));
+}
+
+const ds = getDataset();
+const m = ds.munitionById.get(Astro.params.id as Munition["id"])!;
+const h = headline(ds.reports, m.id)!;
+const basis = h.basis.at(-1)!;
+const burn = phase1BurnPerDay(ds.reports, m.id);
+const days = burn ? daysOfFire(h.remaining, burn) : undefined;
+const claims = claimsFor(ds.reports, m.id).sort(
+  (a, b) => b.claim.asOf.localeCompare(a.claim.asOf) || b.report.source.published.localeCompare(a.report.source.published),
+);
+
+type ParamRow = { label: string; value: string; reportId: string; quote: string; note?: string };
+const params: ParamRow[] = [
+  { ...m.unitCostM, label: "Unit cost", value: `$${m.unitCostM.value}M` },
+  { ...m.deliveriesPerYear, label: "U.S. deliveries per year (recent average)", value: fmt(m.deliveriesPerYear.value) },
+  ...(m.announcedCapacityPerYear
+    ? [{ ...m.announcedCapacityPerYear, label: "Announced production capacity (all customers)", value: `${fmt(m.announcedCapacityPerYear.value)}/yr` }]
+    : []),
+  ...(m.fy27Request ? [{ ...m.fy27Request, label: "FY2027 budget request", value: fmt(m.fy27Request.value) }] : []),
+  ...(m.fy27DeliveriesBegin
+    ? [{ ...m.fy27DeliveriesBegin, label: "FY2027 deliveries begin", value: formatMonth(m.fy27DeliveriesBegin.value) }]
+    : []),
+  { ...m.lotMonths, label: "Months to deliver a full lot", value: String(m.lotMonths.value) },
+  ...(m.rebuildOutlook ? [{ ...m.rebuildOutlook, label: "CSIS rebuild outlook", value: m.rebuildOutlook.text }] : []),
+].map((p) => ({ label: p.label, value: p.value, reportId: p.reportId, quote: p.quote, note: "note" in p ? p.note : undefined }));
+const others = ds.munitions.filter((x) => x.id !== m.id);
+---
+
+<Base title={`${m.name} stockpile`} description={`How many ${m.name} missiles the U.S. has left, with sources, and how long the rebuild takes.`}>
+  <p class="crumb"><a href={href("/#board")}>← All missiles</a></p>
+
+  <header class="mhead">
+    <div>
+      <div class="label">{m.role === "strike" ? "Long-range strike" : "Air & missile defense"} · {m.operator}</div>
+      <h1>{m.name}</h1>
+      <p class="full muted">{m.fullName}</p>
+      <p class="blurb">{m.blurb}</p>
+      <p class="facts small muted">Launched from: {m.launchedFrom} · ~${m.unitCostM.value}M each</p>
+    </div>
+    <div class="card now">
+      <div class="now-top">
+        <span class="label">Estimated left</span>
+        <StatusChip status={stockStatus(h)} />
+      </div>
+      <div class="now-figure">{formatRange(h.remaining, h.qualifier)}</div>
+      <Meter remaining={h.remaining} qualifier={h.qualifier} prewar={h.prewar} name={m.name} />
+      <p class="small muted">
+        {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} before the war · as of {formatDate(h.asOf)}
+      </p>
+      {
+        days && (
+          <p class="small muted">
+            At the opening campaign's pace (~{Math.round(burn!)}/day) that's{" "}
+            <strong>
+              {Math.round(days.low) === Math.round(days.high)
+                ? `~${Math.round(days.low)}`
+                : `${Math.round(days.low)}–${Math.round(days.high)}`}{" "}
+              days
+            </strong>{" "}
+            of fire with no resupply.
+          </p>
+        )
+      }
+      <div class="src small">
+        <ConfidenceTag confidence={basis.claim.confidence} />
+        <a href={basis.report.source.url} rel="noopener">{basis.report.source.outlet}, {formatDate(basis.report.source.published)}</a>
+        {h.method === "prewar-minus-expended" && <span class="muted">(prewar minus reported use)</span>}
+      </div>
+    </div>
+  </header>
+
+  {
+    h.newer.length > 0 && (
+      <aside class="card newer">
+        <div class="label">Newer reporting not in the headline</div>
+        {h.newer.map((r) => (
+          <div class="newer-item">
+            <div class="small">
+              <strong>{r.claim.attribution?.split(",")[0] ?? r.report.source.outlet}</strong>, {formatDate(r.claim.asOf)}
+              {r.claim.metric !== "statement" && <>: {describeClaim(r.claim)}</>} <ConfidenceTag confidence={r.claim.confidence} />
+            </div>
+            <blockquote>“{r.claim.quote}”</blockquote>
+            <div class="small muted">
+              via <a href={r.report.source.url} rel="noopener">{r.report.source.outlet}, {formatDate(r.report.source.published)}</a>
+            </div>
+          </div>
+        ))}
+        <p class="small muted">
+          These can't be turned into a count on the same baseline as the headline (a percentage of an undisclosed total,
+          or no number at all), so they're shown here rather than mixed in.
+        </p>
+      </aside>
+    )
+  }
+
+  <section>
+    <div class="section-head"><span class="label">01</span><h2>Rebuild model</h2></div>
+    <p class="muted intro">
+      How fast does the stockpile come back? This projects it forward from the deliveries already in the pipeline and
+      the FY2027 rebuild order, using the budget's own schedules. Move the sliders to test faster production or a
+      renewed war.
+    </p>
+    <ProjectionChart munition={m} headline={h} />
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">02</span><h2>Every estimate</h2></div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>As of</th><th>Claim</th><th>Source</th><th>Type</th></tr>
+        </thead>
+        <tbody>
+          {
+            claims.map(({ claim: c, report: r }) => (
+              <tr>
+                <td class="nowrap">{formatDate(c.asOf)}</td>
+                <td>
+                  <strong>{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</strong>
+                  {c.attribution && <div class="small muted">Per {c.attribution}</div>}
+                  <details>
+                    <summary class="small">Quote</summary>
+                    <blockquote>“{c.quote}”</blockquote>
+                    {c.note && <div class="small muted">{c.note}</div>}
+                  </details>
+                </td>
+                <td>
+                  <a href={r.source.url} rel="noopener">{r.source.outlet}</a>
+                  <div class="small muted">{formatDate(r.source.published)}</div>
+                </td>
+                <td><ConfidenceTag confidence={c.confidence} /></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">03</span><h2>Model inputs</h2></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Input</th><th class="num">Value</th><th>Source</th></tr></thead>
+        <tbody>
+          {
+            params.map((p) => {
+              const r = ds.reportsById.get(p.reportId)!;
+              return (
+                <tr>
+                  <td>
+                    {p.label}
+                    {p.note && <div class="small muted">{p.note}</div>}
+                  </td>
+                  <td class="num">{p.value}</td>
+                  <td>
+                    <a href={r.source.url} rel="noopener">{r.source.outlet}, {formatDate(r.source.published)}</a>
+                    <details>
+                      <summary class="small">Quote</summary>
+                      <blockquote>“{p.quote}”</blockquote>
+                    </details>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <nav class="others" aria-label="Other missiles">
+    {others.map((o) => <a href={href(`/missiles/${o.id}/`)}>{o.name}</a>)}
+  </nav>
+</Base>
+
+<style>
+  .crumb {
+    margin: 24px 0 8px;
+    font-size: 14px;
+  }
+  .crumb a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .mhead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 8px 0 4px;
+  }
+  .full {
+    margin: 0 0 12px;
+  }
+  .blurb {
+    font-size: 17px;
+    max-width: 58ch;
+    margin: 0 0 10px;
+  }
+  .now {
+    padding: 20px;
+    display: grid;
+    gap: 10px;
+  }
+  .now p {
+    margin: 0;
+  }
+  .now-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .now-figure {
+    font-size: clamp(48px, 9vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+  .src {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .newer {
+    margin-top: 20px;
+    padding: 16px 18px;
+    display: grid;
+    gap: 10px;
+  }
+  .newer p {
+    margin: 0;
+  }
+  .intro {
+    max-width: 70ch;
+    margin-top: 0;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  td blockquote {
+    max-width: 60ch;
+  }
+  .others {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 40px;
+  }
+  .others a {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+  @media (max-width: 760px) {
+    .mhead {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

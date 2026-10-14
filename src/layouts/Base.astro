@@ -1,0 +1,164 @@
+---
+import "../styles/global.css";
+import { SITE, href } from "../lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = SITE.description } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name}: ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={href("/")}>
+          <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"
+            ><path d="M16 3l3.5 7v13L16 28l-3.5-5V10z" fill="currentColor"></path><path
+              d="M12.5 19L9 24h3.5zm7 0l3.5 5h-3.5z"
+              fill="currentColor"
+              opacity=".55"></path></svg
+          >
+          <span>{SITE.name}</span>
+        </a>
+        <nav>
+          <a href={href("/#board")}>Stockpile</a>
+          <a href={href("/#updates")}>Updates</a>
+          <a href={href("/methodology/")}>Methodology</a>
+          <button class="theme" type="button" aria-label="Switch color theme" title="Switch color theme">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+              ><path d="M12 3a9 9 0 1 0 0 18V3z" fill="currentColor"></path><circle
+                cx="12"
+                cy="12"
+                r="8.25"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"></circle></svg
+            >
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          An independent, source-linked tracker. Not affiliated with the U.S. government. Real stockpile numbers are
+          classified, so every figure here is an estimate or a report, linked to where it came from.
+        </p>
+        <p>
+          <a href={href("/methodology/")}>How the numbers work</a> · <a href={SITE.repo}>Data &amp; code on GitHub</a> ·
+          <a href={`${SITE.repo}/issues/new`}>Report a correction</a>
+        </p>
+      </div>
+    </footer>
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>(".site-header .theme");
+      btn?.addEventListener("click", () => {
+        const root = document.documentElement;
+        const dark = root.dataset.theme
+          ? root.dataset.theme === "dark"
+          : matchMedia("(prefers-color-scheme: dark)").matches;
+        const next = dark ? "light" : "dark";
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+        document.dispatchEvent(new CustomEvent("themechange"));
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 56px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .brand svg {
+    color: var(--series-1);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+  }
+  nav a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  nav a:hover {
+    color: var(--ink);
+  }
+  .theme {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  @media (max-width: 560px) {
+    nav a:not(:last-of-type) {
+      display: none;
+    }
+  }
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 72px;
+    padding: 24px 0 40px;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .site-footer p {
+    margin: 0 0 8px;
+    max-width: 720px;
+  }
+  .site-footer a {
+    color: var(--ink-2);
+  }
+</style>

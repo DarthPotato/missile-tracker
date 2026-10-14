@@ -1,0 +1,336 @@
+---
+import type { Munition } from "../lib/schema";
+import { defaultRebuildPerYear, phase1BurnPerDay, stockPoints, claimsFor, type Headline } from "../lib/model";
+import { BUILD_DATE, PROJECTION_END } from "../lib/scenario";
+import { fmt, formatDate, formatMonth } from "../lib/format";
+import { getDataset } from "../lib/data";
+import type { ChartConfig } from "../scripts/projection-chart";
+
+interface Props {
+  munition: Munition;
+  headline: Headline;
+}
+const { munition: m, headline: h } = Astro.props;
+const ds = getDataset();
+
+const burn = phase1BurnPerDay(ds.reports, m.id);
+const rebuildPerYear = defaultRebuildPerYear(m);
+const history = stockPoints(claimsFor(ds.reports, m.id)).map((p) => ({
+  date: p.asOf,
+  low: p.remaining.low,
+  high: p.remaining.high,
+  qualifier: p.qualifier,
+  label: p.basis.at(-1)!.report.source.outlet,
+}));
+
+const rateMax = Math.max(m.announcedCapacityPerYear?.value ?? 0, m.deliveriesPerYear.value * 4);
+const config: ChartConfig = {
+  name: m.name,
+  today: BUILD_DATE,
+  prewar: h.prewar,
+  start: { date: h.asOf, ...h.remaining },
+  qualifier: h.qualifier,
+  deliveriesPerYear: { value: m.deliveriesPerYear.value, max: rateMax },
+  rebuild:
+    rebuildPerYear && m.fy27Request && m.fy27DeliveriesBegin
+      ? { quantity: m.fy27Request.value, begin: m.fy27DeliveriesBegin.value, perYear: rebuildPerYear }
+      : undefined,
+  burnPerDay: burn,
+  csisOutlook: m.rebuildOutlook?.text,
+  end: PROJECTION_END,
+  history,
+};
+// Escape "<" so the JSON can't close the script tag.
+const json = JSON.stringify(config).replace(/</g, "\\u003c");
+const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
+---
+
+<div class="projection" data-projection>
+  <script type="application/json" set:html={json} />
+  <form class="controls" onsubmit="return false">
+    <label>
+      <span class="ctl-label">Deliveries from existing orders</span>
+      <input type="range" name="rate" min="0" max={rateMax} step="1" value={m.deliveriesPerYear.value} />
+      <output for="rate">{fmt(m.deliveriesPerYear.value)} / yr</output>
+    </label>
+    {
+      config.rebuild && (
+        <label class="check">
+          <input type="checkbox" name="rebuild" checked />
+          <span>
+            Count the FY2027 rebuild order: {fmt(config.rebuild.quantity)} missiles from{" "}
+            {formatMonth(config.rebuild.begin)}, ~{fmt(config.rebuild.perYear)}/yr
+          </span>
+        </label>
+      )
+    }
+    <label>
+      <span class="ctl-label">Renewed full-scale war</span>
+      <input type="range" name="warDays" min="0" max="120" step="1" value="0" />
+      <output for="warDays">Off</output>
+    </label>
+    {
+      burn && (
+        <label>
+          <span class="ctl-label">Firing rate in that war</span>
+          <input type="range" name="warRate" min="0" max={burnMax} step="0.5" value={burn.toFixed(1)} />
+          <output for="warRate">{Math.round(burn)} / day</output>
+        </label>
+      )
+    }
+    <label>
+      <span class="ctl-label">War starts</span>
+      <select name="warStart">
+        <option value="0">Now</option>
+        <option value="6">In 6 months</option>
+        <option value="12">In 1 year</option>
+        <option value="24">In 2 years</option>
+      </select>
+    </label>
+    <button type="reset">Reset to sourced defaults</button>
+  </form>
+
+  <div class="readout"></div>
+
+  <div class="chart-wrap card">
+    <div class="legend small">
+      <span><i class="k-pt"></i> Published estimates</span>
+      <span><i class="k-line"></i> Projection</span>
+      <span><i class="k-band"></i> Low–high range</span>
+      <span><i class="k-ref"></i> Prewar level</span>
+    </div>
+    <div class="plot">
+      <svg class="chart" role="img" aria-label={`Projected ${m.name} stockpile through ${PROJECTION_END.slice(0, 4)}`}></svg>
+      <div class="tip" hidden></div>
+    </div>
+  </div>
+  <p class="small muted">
+    Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you add a renewed
+    war. Fighting has continued at lower intensity since July 8, so treat
+    projections from older estimates as optimistic.
+    {burn && ` The default firing rate is the opening campaign's average: ~${Math.round(burn)} a day over 39 days.`}
+  </p>
+  <details>
+    <summary>Table view</summary>
+    <div class="table-scroll">
+      <table class="proj">
+        <thead><tr><th>Date</th><th class="num">Low estimate</th><th class="num">High estimate</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </details>
+</div>
+
+<script>
+  import { mountProjection } from "../scripts/projection-chart";
+  for (const el of document.querySelectorAll<HTMLElement>("[data-projection]")) mountProjection(el);
+</script>
+
+<style>
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 14px 20px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+  .controls label {
+    display: grid;
+    gap: 4px;
+    font-size: 14px;
+  }
+  .ctl-label {
+    color: var(--ink-2);
+  }
+  .controls output {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .controls input[type="range"] {
+    width: 100%;
+    accent-color: var(--series-1);
+  }
+  .controls .check {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    grid-column: 1 / -1;
+  }
+  .controls .check input {
+    margin-top: 4px;
+    accent-color: var(--series-1);
+  }
+  .controls select,
+  .controls button {
+    font: inherit;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .controls button {
+    cursor: pointer;
+    justify-self: start;
+  }
+  .readout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .readout :global(.tile) {
+    padding: 14px 16px;
+  }
+  .readout :global(.tile-label) {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .readout :global(.tile-value) {
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+  .readout :global(.tile-note) {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .chart-wrap {
+    padding: 14px 14px 6px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .legend i {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+  .k-pt {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--series-1);
+  }
+  .k-line {
+    width: 16px;
+    border-top: 2px dashed var(--series-1);
+  }
+  .k-band {
+    width: 16px;
+    height: 10px;
+    background: var(--series-1-wash);
+    border-radius: 2px;
+  }
+  .k-ref {
+    width: 16px;
+    border-top: 1px solid var(--ink-3);
+  }
+  .plot {
+    position: relative;
+  }
+  svg.chart {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+  svg.chart :global(.gridline) {
+    stroke: var(--grid);
+    stroke-width: 1;
+  }
+  svg.chart :global(.baseline) {
+    stroke: var(--axis);
+    stroke-width: 1;
+  }
+  svg.chart :global(.tick) {
+    fill: var(--ink-3);
+    font: 12px var(--sans);
+    font-variant-numeric: tabular-nums;
+  }
+  svg.chart :global(.ref) {
+    stroke: var(--ink-3);
+    stroke-width: 1;
+  }
+  svg.chart :global(.ref-label),
+  svg.chart :global(.today-label),
+  svg.chart :global(.war-label),
+  svg.chart :global(.recover-label) {
+    fill: var(--ink-2);
+    font: 12px var(--sans);
+  }
+  svg.chart :global(.recover-label) {
+    fill: var(--ink);
+    font-weight: 600;
+  }
+  svg.chart :global(.today) {
+    stroke: var(--axis);
+    stroke-width: 1;
+  }
+  svg.chart :global(.war) {
+    fill: var(--wash);
+  }
+  svg.chart :global(.band) {
+    fill: var(--series-1-wash);
+  }
+  svg.chart :global(.proj) {
+    fill: none;
+    stroke: var(--series-1);
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  svg.chart :global(.whisker) {
+    stroke: var(--series-1);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  svg.chart :global(.pt) {
+    fill: var(--series-1);
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+  svg.chart :global(.pt.open) {
+    fill: var(--surface);
+    stroke: var(--series-1);
+  }
+  svg.chart :global(.recover) {
+    fill: var(--ink);
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+  svg.chart :global(.cross) {
+    stroke: var(--ink-3);
+    stroke-width: 1;
+  }
+  .tip {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    pointer-events: none;
+    display: grid;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .tip[hidden] {
+    display: none;
+  }
+  .tip :global(strong) {
+    font-size: 16px;
+  }
+  .tip :global(span) {
+    color: var(--ink-2);
+  }
+  details {
+    margin-top: 8px;
+  }
+</style>

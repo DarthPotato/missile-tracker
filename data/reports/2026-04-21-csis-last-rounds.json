@@ -1,0 +1,35 @@
+{
+  "id": "2026-04-21-csis-last-rounds",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Last Rounds? Status of Key Munitions at the Iran War Ceasefire",
+    "url": "https://csis-website-prod.s3.amazonaws.com/s3fs-public/2026-04/260424_Cancian_Park_Last_Rounds.pdf?VersionId=JbVbjtv2ywN4avgN_9KSGw.kbdz8Ettl",
+    "published": "2026-04-21",
+    "authors": ["Mark F. Cancian", "Chris H. Park"],
+    "kind": "think-tank",
+    "altUrls": ["https://www.csis.org/analysis/last-rounds-status-key-munitions-iran-war-ceasefire"]
+  },
+  "summary": "CSIS's inventory estimate for seven key munitions at the April 8 ceasefire, built from DoD budget exhibits (P-5, P-21). Table 1 was updated after publication with WSJ and NYT reporting on Tomahawk and JASSM use. The baseline for most of this site.",
+  "addedBy": "human",
+  "quoteCheck": "manual",
+  "quoteCheckNote": "Quotes checked against the PDF text (pdftotext). The HTML version renders its tables as images.",
+  "claims": [
+    { "munition": "tomahawk", "metric": "prewar", "low": 3100, "high": 3100, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "Tomahawk $2.6 3,100 1,000+ 47", "note": "Table 1 row: unit cost ($M), prewar inventory, used in the Iran war, delivery timeline (months)." },
+    { "munition": "tomahawk", "metric": "expended", "low": 850, "high": 850, "qualifier": "at-least", "asOf": "2026-03-28", "confidence": "reported", "attribution": "The Washington Post", "quote": "The Washington Post reported that U.S. naval assets fired more than 850 TLAMs in the first month of the Iran war." },
+    { "munition": "tomahawk", "metric": "expended", "low": 1000, "high": 1000, "qualifier": "at-least", "asOf": "2026-04-08", "confidence": "reported", "attribution": "The Wall Street Journal", "quote": "the Wall Street Journal reporting an updated Tomahawk expenditure of more than 1,000" },
+    { "munition": "jassm", "metric": "prewar", "low": 4400, "high": 4400, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "JASSM $2.6 4,400 1,100+ 48", "note": "Table 1 row." },
+    { "munition": "jassm", "metric": "expended", "low": 1000, "high": 1000, "qualifier": "at-least", "asOf": "2026-03-28", "confidence": "reported", "attribution": "Bloomberg", "quote": "Bloomberg reported that more than a thousand JASSMs have been used in Operation Epic Fury’s first month." },
+    { "munition": "jassm", "metric": "expended", "low": 1100, "high": 1100, "qualifier": "about", "asOf": "2026-04-08", "confidence": "reported", "attribution": "The New York Times", "quote": "around 1,100 JASSM-ERs have now been used, according to the New York Times" },
+    { "munition": "prsm", "metric": "prewar", "low": 90, "high": 90, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "PrSM $1.6 90 40–70 46", "note": "Table 1 row." },
+    { "munition": "prsm", "metric": "expended", "low": 40, "high": 70, "qualifier": "range", "asOf": "2026-04-08", "confidence": "estimate", "quote": "PrSM $1.6 90 40–70 46", "note": "Table 1 row." },
+    { "munition": "prsm", "metric": "statement", "asOf": "2026-04-08", "confidence": "reported", "attribution": "an unnamed Army official", "quote": "An Army official reportedly shared that the “entire inventory of PrSM” had been expended in the Iran war, though other officials maintain some remain in the inventory." },
+    { "munition": "sm3", "metric": "prewar", "low": 410, "high": 410, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "SM-3 $28.7 410 130–250 64", "note": "Table 1 row." },
+    { "munition": "sm3", "metric": "expended", "low": 130, "high": 250, "qualifier": "range", "asOf": "2026-04-08", "confidence": "estimate", "quote": "SM-3 $28.7 410 130–250 64", "note": "Table 1 row. The range reflects uncertainty over allied intercepts and munitions mix." },
+    { "munition": "sm6", "metric": "prewar", "low": 1160, "high": 1160, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "SM-6 $5.3 1,160 190–370 53", "note": "Table 1 row." },
+    { "munition": "sm6", "metric": "expended", "low": 190, "high": 370, "qualifier": "range", "asOf": "2026-04-08", "confidence": "estimate", "quote": "SM-6 $5.3 1,160 190–370 53", "note": "Table 1 row." },
+    { "munition": "thaad", "metric": "prewar", "low": 360, "high": 360, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "THAAD $15.5 360 190–290 53", "note": "Table 1 row. CSIS raised this baseline to 452 in its July 27 update." },
+    { "munition": "thaad", "metric": "expended", "low": 190, "high": 290, "qualifier": "range", "asOf": "2026-04-08", "confidence": "estimate", "quote": "THAAD $15.5 360 190–290 53", "note": "Table 1 row." },
+    { "munition": "patriot", "metric": "prewar", "low": 2330, "high": 2330, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "Patriot $3.9 2,330 1,060–1,430 42", "note": "Table 1 row. Includes about a thousand older PAC-3s alongside PAC-3 MSE; excludes up to 400 PAC-2s." },
+    { "munition": "patriot", "metric": "expended", "low": 1060, "high": 1430, "qualifier": "range", "asOf": "2026-04-08", "confidence": "estimate", "quote": "Patriot $3.9 2,330 1,060–1,430 42", "note": "Table 1 row." }
+  ]
+}

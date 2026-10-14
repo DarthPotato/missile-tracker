@@ -1,0 +1,141 @@
+---
+import Base from "../layouts/Base.astro";
+import ConfidenceTag from "../components/ConfidenceTag.astro";
+import { SITE, href } from "../lib/site";
+---
+
+<Base title="Methodology" description="Where the numbers come from, how the headline is chosen, and what the rebuild model assumes.">
+  <article class="prose">
+    <p class="label">Methodology</p>
+    <h1>How the numbers work</h1>
+    <p class="lede">
+      U.S. munitions inventories are classified. Nobody outside the Pentagon knows the exact count, and this site
+      doesn't pretend to. What it does is collect the best public estimates and reports, keep each one tied to its
+      source, and show where they agree and where they don't.
+    </p>
+
+    <h2>Sources and claims</h2>
+    <p>
+      Every number starts as a <strong>claim</strong> inside a <strong>report</strong>: a CSIS analysis, a news story,
+      an inspector general summary. A claim records the missile, what's being measured (prewar stock, number used,
+      number left, share used), the date the number describes, how the source hedged it ("about", "more than",
+      "nearly"), and the exact sentence it came from.
+    </p>
+    <p>Each claim gets one of three tags:</p>
+    <ul>
+      <li><ConfidenceTag confidence="official" /> On the record from a government body: DoD, an inspector general, CRS, CBO.</li>
+      <li>
+        <ConfidenceTag confidence="reported" /> Journalists citing officials, documents or unnamed sources. Often the
+        freshest information, but usually without a stated baseline.
+      </li>
+      <li>
+        <ConfidenceTag confidence="estimate" /> An analyst's model. Most stock counts here come from CSIS (Mark Cancian
+        and Chris Park), who rebuild inventories from DoD budget exhibits: missiles bought (P-5) and delivered (P-21),
+        less 5% for testing and training, less earlier wars and transfers to Ukraine.
+      </li>
+    </ul>
+
+    <h2>Quotes are checked by machine</h2>
+    <p>
+      Before a report is merged, a script downloads the source page and confirms every quote appears in it word for
+      word, ignoring only curly-vs-straight quotes and whitespace. A quote that only paraphrases the source fails.
+      Sources that can't be fetched automatically (a PDF, or a paywall) are marked for manual checking.
+    </p>
+
+    <h2>How the headline is picked</h2>
+    <p>For each missile, the big number is the newest stock-left figure we can state <em>without mixing sources</em>:</p>
+    <ol>
+      <li>A direct "this many left" claim, or</li>
+      <li>Prewar stock minus the number used, when the same document gives both.</li>
+    </ol>
+    <p>
+      Ties on date go to the more specific figure: a range beats "about", which beats "at most". The share left is
+      measured against the same document's prewar figure when it has one, otherwise the most recent earlier one.
+    </p>
+    <p>
+      Some newer reporting can't be converted. CNN's August report that "nearly 80%" of THAAD interceptors had been
+      used doesn't say 80% <em>of what</em>, and Pentagon and CSIS baselines differ. Rather than multiplying it against
+      someone else's number, the site flags it as <strong>Newer reporting</strong> next to the headline.
+    </p>
+
+    <h2>The rebuild model</h2>
+    <p>
+      Each missile page projects the stockpile day by day from the headline estimate, using sourced inputs listed on
+      that page:
+    </p>
+    <ul>
+      <li>
+        <strong>Existing orders</strong> arrive at the recent U.S. delivery rate, CSIS's five-year average of
+        procurement.
+      </li>
+      <li>
+        <strong>The FY2027 rebuild order</strong> starts arriving on the date in DoD's delivery schedules. It's
+        delivered over one production lot, but never faster than announced production capacity.
+      </li>
+      <li>
+        <strong>A renewed war</strong> is off by default. Turned on, it fires at the opening campaign's average rate
+        (the April ceasefire tally divided by 39 days) unless you change it. Stock can't go below zero; the unmet part is
+        reported as a shortfall.
+      </li>
+    </ul>
+    <p>What it leaves out, on purpose:</p>
+    <ul>
+      <li>
+        <strong>Firing since the estimate date.</strong> Fighting resumed on July 8 at lower intensity, but no one has
+        published counts for it. Projections that start from April estimates are optimistic.
+      </li>
+      <li>
+        <strong>Allied demand.</strong> Announced capacities cover all customers. About half of current Patriot output
+        goes abroad.
+      </li>
+      <li>
+        <strong>Later budgets.</strong> Only the FY2027 order is modeled. FY2028 and beyond would speed things up.
+      </li>
+    </ul>
+    <p>
+      The model is deliberately simple, so every input is visible and adjustable. Its results land near CSIS's own
+      return-to-prewar dates for Tomahawk, THAAD and Patriot. For JASSM it is slower than CSIS, which expects large
+      deliveries from recent orders.
+    </p>
+
+    <h2>How updates happen</h2>
+    <p>
+      A scheduled job checks a fixed list of sources (CSIS, Pentagon contract announcements, news searches for each
+      missile) once a day. When something new mentions stockpile numbers, Claude drafts the claims, a script checks
+      every quote against the page, and the draft opens as a pull request. A person reviews it before anything goes
+      live. Nothing is published straight from an AI.
+    </p>
+
+    <h2>Corrections</h2>
+    <p>
+      Spotted a wrong number, a newer source, or a quote out of context? <a href={`${SITE.repo}/issues/new`}
+        >Open an issue</a
+      >. All data lives in plain JSON in the <a href={SITE.repo}>repository</a>, one file per source.
+    </p>
+    <p><a href={href("/")}>← Back to the tracker</a></p>
+  </article>
+</Base>
+
+<style>
+  .prose {
+    max-width: 70ch;
+    margin: 40px 0 0;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 44px);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 8px 0 12px;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+  h2 {
+    font-size: 21px;
+    margin: 36px 0 8px;
+  }
+  li {
+    margin: 6px 0;
+  }
+</style>

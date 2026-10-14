@@ -1,0 +1,30 @@
+{
+  "name": "missile-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Source-linked estimates of the U.S. missile stockpile and how long it takes to rebuild.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run validate && astro build",
+    "preview": "astro preview",
+    "check": "astro check && tsc --noEmit",
+    "test": "vitest run",
+    "validate": "tsx scripts/validate-data.ts",
+    "watch-sources": "tsx scripts/pipeline/watch.ts",
+    "add-source": "tsx scripts/pipeline/add.ts"
+  },
+  "dependencies": {
+    "astro": "^7.3.8",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^22.20.5",
+    "fast-xml-parser": "^5.11.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.4"
+  }
+}

@@ -1,0 +1,117 @@
+---
+import type { Munition } from "../lib/schema";
+import type { Headline } from "../lib/model";
+import { fmt, formatDate, formatPct, formatRange } from "../lib/format";
+import { describeClaim } from "../lib/describe";
+import { stockStatus } from "../lib/status";
+import { href } from "../lib/site";
+import Meter from "./Meter.astro";
+import StatusChip from "./StatusChip.astro";
+import ConfidenceTag from "./ConfidenceTag.astro";
+
+interface Props {
+  munition: Munition;
+  headline: Headline;
+}
+const { munition: m, headline: h } = Astro.props;
+const basis = h.basis.at(-1)!;
+const newest = h.newer[0];
+---
+
+<a class="card mcard" href={href(`/missiles/${m.id}/`)}>
+  <div class="top">
+    <div>
+      <h3>{m.name}</h3>
+      <div class="label">{m.role === "strike" ? "Strike" : "Air defense"} · {m.operator}</div>
+    </div>
+    <StatusChip status={stockStatus(h)} />
+  </div>
+  <div class="figure">
+    <span class="value">{formatRange(h.remaining, h.qualifier)}</span>
+    <span class="unit">left</span>
+  </div>
+  <Meter remaining={h.remaining} qualifier={h.qualifier} prewar={h.prewar} name={m.name} />
+  <p class="sub">
+    {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} prewar · as of {formatDate(h.asOf)}
+  </p>
+  <div class="meta">
+    <ConfidenceTag confidence={basis.claim.confidence} />
+    <span class="src">{basis.claim.attribution ?? basis.report.source.outlet}</span>
+  </div>
+  {
+    newest && (
+      <p class="newer">
+        <strong>Newer:</strong> {newest.claim.attribution?.split(",")[0] ?? newest.report.source.outlet}, {formatDate(newest.claim.asOf)}
+        {newest.claim.metric === "statement" ? " — see reporting" : `: ${describeClaim(newest.claim)}`}
+      </p>
+    )
+  }
+</a>
+
+<style>
+  .mcard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+  .mcard:hover {
+    border-color: var(--axis);
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 650;
+  }
+  .figure {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .value {
+    font-size: 34px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .unit {
+    color: var(--ink-2);
+  }
+  .sub {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: auto;
+    padding-top: 4px;
+    min-width: 0;
+  }
+  .src {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .newer {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--grid);
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+</style>

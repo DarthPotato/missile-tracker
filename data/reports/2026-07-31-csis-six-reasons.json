@@ -1,0 +1,24 @@
+{
+  "id": "2026-07-31-csis-six-reasons",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Six Reasons Why the United States Is Low on Munitions",
+    "url": "https://www.csis.org/analysis/six-reasons-why-united-states-low-munitions",
+    "published": "2026-07-31",
+    "authors": ["Mark F. Cancian", "Chris H. Park"],
+    "kind": "think-tank"
+  },
+  "summary": "CSIS says about half the initial inventory of Patriot, THAAD and PrSM has been used, and about a third of JASSM, Standard Missiles and Tomahawk. It argues enough remains for Iran, and the risk is a future war with China.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "patriot", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "The United States has used about half of the initial inventory for three of these munitions (Patriot, THAAD, and PrSM)" },
+    { "munition": "thaad", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "The United States has used about half of the initial inventory for three of these munitions (Patriot, THAAD, and PrSM)" },
+    { "munition": "prsm", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "The United States has used about half of the initial inventory for three of these munitions (Patriot, THAAD, and PrSM)" },
+    { "munition": "tomahawk", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "about one-third of the initial inventory for the rest (JASSM, SM-2/3/6, and Tomahawk)" },
+    { "munition": "jassm", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "about one-third of the initial inventory for the rest (JASSM, SM-2/3/6, and Tomahawk)" },
+    { "munition": "sm3", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "about one-third of the initial inventory for the rest (JASSM, SM-2/3/6, and Tomahawk)" },
+    { "munition": "sm6", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "about one-third of the initial inventory for the rest (JASSM, SM-2/3/6, and Tomahawk)" },
+    { "munition": "all", "metric": "statement", "asOf": "2026-07-31", "confidence": "estimate", "quote": "Even so, enough remains for any plausible scenario in the war against Iran." }
+  ]
+}

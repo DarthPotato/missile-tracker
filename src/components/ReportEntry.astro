@@ -1,0 +1,131 @@
+---
+import type { Report } from "../lib/schema";
+import { formatDate } from "../lib/format";
+import { describeClaim, METRIC_LABEL, SHORT_NAME } from "../lib/describe";
+import ConfidenceTag from "./ConfidenceTag.astro";
+
+interface Props {
+  report: Report;
+  /** Only show claims about this munition. */
+  only?: string;
+}
+const { report: r, only } = Astro.props;
+const claims = r.claims.filter((c) => !only || c.munition === only || c.munition === "all");
+const tags = [...new Set(claims.map((c) => c.confidence))];
+---
+
+<article class="entry">
+  <div class="date">
+    <time datetime={r.source.published}>{formatDate(r.source.published)}</time>
+  </div>
+  <div class="body">
+    <div class="head">
+      <span class="outlet">{r.source.outlet}</span>
+      {tags.map((t) => <ConfidenceTag confidence={t} />)}
+    </div>
+    <h3><a href={r.source.url} rel="noopener">{r.source.title}</a></h3>
+    <p class="summary">{r.summary}</p>
+    {
+      claims.length > 0 && (
+        <details>
+          <summary>
+            {claims.length} sourced {claims.length === 1 ? "claim" : "claims"}
+          </summary>
+          <ul class="claims">
+            {claims.map((c) => (
+              <li>
+                <div class="claim-head">
+                  <span class="mun">{SHORT_NAME[c.munition]}</span>
+                  <span class="what">{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</span>
+                  <span class="asof">as of {formatDate(c.asOf)}</span>
+                  <ConfidenceTag confidence={c.confidence} />
+                </div>
+                {c.attribution && <div class="attr">Per {c.attribution}</div>}
+                <blockquote>“{c.quote}”</blockquote>
+                {c.note && <div class="note">{c.note}</div>}
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--grid);
+  }
+  .date {
+    font: 600 13px/1.6 var(--mono);
+    color: var(--ink-3);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .outlet {
+    font-weight: 650;
+    font-size: 14px;
+  }
+  h3 {
+    margin: 6px 0 4px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  h3 a {
+    color: var(--ink);
+    text-decoration-color: var(--axis);
+  }
+  .summary {
+    margin: 0 0 8px;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  summary {
+    font-size: 14px;
+    color: var(--link);
+  }
+  .claims {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .claim-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .mun {
+    font-weight: 650;
+  }
+  .asof,
+  .attr,
+  .note {
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .attr {
+    margin-top: 2px;
+  }
+  .note {
+    margin-top: 4px;
+  }
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>

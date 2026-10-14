@@ -1,0 +1,270 @@
+---
+import Base from "../layouts/Base.astro";
+import MunitionCard from "../components/MunitionCard.astro";
+import ReportEntry from "../components/ReportEntry.astro";
+import ConfidenceTag from "../components/ConfidenceTag.astro";
+import { getDataset } from "../lib/data";
+import { daysOfFire, headline, phase1BurnPerDay, project } from "../lib/model";
+import { scenarioInput } from "../lib/scenario";
+import { fmt, formatDate, formatMonth, formatRange } from "../lib/format";
+import { SITE, href } from "../lib/site";
+
+const ds = getDataset();
+const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id)! }));
+const airDefense = rows.filter((r) => r.m.role === "air-defense");
+const strike = rows.filter((r) => r.m.role === "strike");
+
+const featured = rows.find((r) => r.m.id === SITE.featured)!;
+const fm = featured.m;
+const fh = featured.h;
+const burn = phase1BurnPerDay(ds.reports, fm.id);
+const days = burn ? daysOfFire(fh.remaining, burn) : undefined;
+const recovered = project(scenarioInput(fm, fh)).recovered;
+const usedLow = Math.round(100 - fh.pctLeft.high);
+const usedHigh = Math.round(100 - fh.pctLeft.low);
+const fbasis = fh.basis.at(-1)!;
+const lastUpdate = ds.reports[0].source.published;
+---
+
+<Base>
+  <section class="hero">
+    <div class="status label">
+      <span class="pulse" aria-hidden="true"></span> Tracking · last source {formatDate(lastUpdate)}
+    </div>
+    <h1>{SITE.tagline}</h1>
+    <p class="lede">
+      The 2026 Iran war burned through U.S. missiles faster than factories can make them. The real numbers are
+      classified. These are the best public estimates, each one linked to the document it came from.
+    </p>
+
+    <div class="hero-grid">
+      <div class="card hero-main">
+        <div class="label">{fm.name} interceptors left · estimate</div>
+        <div class="hero-figure">{formatRange(fh.remaining, fh.qualifier)}</div>
+        <p class="muted">
+          of ~{fmt(fh.prewar)} before the war · as of {formatDate(fh.asOf)}
+        </p>
+        <div class="hero-src">
+          <ConfidenceTag confidence={fbasis.claim.confidence} />
+          <a href={fbasis.report.source.url} rel="noopener"
+            >{fbasis.claim.attribution ?? fbasis.report.source.outlet} via {fbasis.report.source.outlet}</a
+          >
+        </div>
+      </div>
+      <div class="tiles">
+        <div class="card tile">
+          <div class="tile-label">Share of prewar stock used</div>
+          <div class="tile-value">{usedLow === usedHigh ? `~${usedLow}%` : `${usedLow}–${usedHigh}%`}</div>
+        </div>
+        {
+          days && (
+            <div class="card tile">
+              <div class="tile-label">Days of fire left at the opening campaign's average pace</div>
+              <div class="tile-value">
+                {Math.round(days.low) === Math.round(days.high) ? `~${Math.round(days.low)}` : `${Math.round(days.low)}–${Math.round(days.high)}`}
+              </div>
+              <div class="tile-note">~{Math.round(burn!)} a day over the first 39 days, no resupply</div>
+            </div>
+          )
+        }
+        {
+          recovered.low && (
+            <div class="card tile">
+              <div class="tile-label">Back to prewar level (our model)</div>
+              <div class="tile-value">{formatMonth(recovered.low)}</div>
+              {fm.rebuildOutlook && <div class="tile-note">CSIS: {fm.rebuildOutlook.text}</div>}
+            </div>
+          )
+        }
+      </div>
+    </div>
+    <a class="cta" href={href(`/missiles/${fm.id}/`)}>Explore the {fm.name} rebuild model →</a>
+  </section>
+
+  <section id="board">
+    <div class="section-head"><span class="label">01</span><h2>Stockpile board</h2></div>
+    <h3 class="group label">Air &amp; missile defense</h3>
+    <div class="grid">{airDefense.map((r) => <MunitionCard munition={r.m} headline={r.h} />)}</div>
+    <h3 class="group label">Long-range strike</h3>
+    <div class="grid">{strike.map((r) => <MunitionCard munition={r.m} headline={r.h} />)}</div>
+    <p class="small muted legend">
+      <span class="key solid"></span> low end of the estimate <span class="key soft"></span> range up to the high end
+      (an "at most" figure is all light) <span class="key track"></span> used since Feb 28. Each card uses the newest
+      count we can pin to one source's own baseline; reporting we can't convert to a count is flagged as "Newer".
+    </p>
+  </section>
+
+  <section id="updates">
+    <div class="section-head"><span class="label">02</span><h2>Source log</h2></div>
+    <p class="muted small">
+      Every document behind the numbers, newest first. Open one to see each claim with its exact quote.
+    </p>
+    {ds.reports.map((r) => <ReportEntry report={r} />)}
+  </section>
+
+  <section id="method">
+    <div class="section-head"><span class="label">03</span><h2>How this works</h2></div>
+    <div class="method-grid">
+      <div>
+        <h3>Estimates, labeled</h3>
+        <p class="muted">
+          Stockpiles are classified. Every number carries a tag: <ConfidenceTag confidence="official" /> on the record from
+          a government body, <ConfidenceTag confidence="reported" /> journalists citing officials or documents, and <ConfidenceTag
+            confidence="estimate"
+          /> an analyst's model built from budget documents.
+        </p>
+      </div>
+      <div>
+        <h3>Quotes, checked</h3>
+        <p class="muted">
+          Each claim stores the exact sentence it came from. Before anything is published, a script fetches the source
+          and confirms the quote is really there.
+        </p>
+      </div>
+      <div>
+        <h3>A model you can push on</h3>
+        <p class="muted">
+          Each missile page projects the stockpile forward from the budget's delivery schedules, and lets you change
+          production rates or start a renewed war.
+        </p>
+      </div>
+    </div>
+    <p><a href={href("/methodology/")}>Full methodology →</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    margin-top: 40px;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 25%, transparent);
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 14px 0 12px;
+    max-width: 16ch;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0 0 28px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+  .hero-main {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-figure {
+    font-size: clamp(56px, 11vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 10px 0 8px;
+  }
+  .hero-main p {
+    margin: 0 0 14px;
+  }
+  .hero-src {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+  .tiles {
+    display: grid;
+    gap: 14px;
+  }
+  .tile {
+    padding: 16px 18px;
+  }
+  .tile-label {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .tile-value {
+    font-size: 30px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .tile-note {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .cta {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 600;
+  }
+  .group {
+    margin: 24px 0 12px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    gap: 14px;
+  }
+  .legend {
+    margin-top: 16px;
+    max-width: 80ch;
+  }
+  .key {
+    display: inline-block;
+    width: 14px;
+    height: 8px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin: 0 2px 0 8px;
+  }
+  .key:first-child {
+    margin-left: 0;
+  }
+  .key.solid {
+    background: var(--series-1);
+  }
+  .key.soft {
+    background: var(--series-1-soft);
+  }
+  .key.track {
+    background: var(--series-1-track);
+  }
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 24px;
+  }
+  .method-grid h3 {
+    font-size: 16px;
+    margin: 0 0 6px;
+  }
+  .method-grid p {
+    margin: 0;
+    font-size: 15px;
+  }
+  @media (max-width: 760px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

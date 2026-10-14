@@ -1,0 +1,19 @@
+{
+  "id": "2026-09-15-stripes-dodig",
+  "source": {
+    "outlet": "Stars and Stripes",
+    "title": "Iran war exposed US munitions shortfalls and production bottlenecks, Pentagon IG says",
+    "url": "https://www.stripes.com/theaters/us/2026-09-15/dodig-iran-war-cost-munitions-22860181.html",
+    "published": "2026-09-15",
+    "authors": ["Chad Garland"],
+    "kind": "news"
+  },
+  "summary": "Coverage of the DoD Inspector General's first Iran war report (Feb 28 - Jun 30): $22.3B of the war's $33.4B cost was expended munitions, and officials described shortfalls plus industrial bottlenecks. No per-missile counts.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "all", "metric": "statement", "asOf": "2026-06-29", "confidence": "official", "attribution": "DoD Inspector General", "quote": "Meanwhile, as of June 29, expended munitions accounted for $22.3 billion of the Pentagon’s $33.4 billion estimated price tag for the war at that point, the IG reported." },
+    { "munition": "all", "metric": "statement", "asOf": "2026-06-30", "confidence": "official", "attribution": "military officials, via the DoD Inspector General", "quote": "The U.S. has burned through so many munitions during the Iran conflict that it now faces shortfalls, compounded by bottlenecks in its industrial base limiting its ability to resupply, military officials told the Pentagon’s watchdog agency." },
+    { "munition": "all", "metric": "statement", "asOf": "2026-05-31", "confidence": "official", "attribution": "Adm. Brad Cooper, CENTCOM commander", "quote": "Missile defenses had intercepted more than 6,000 attack drones and over 1,500 ballistic missiles targeting U.S. and partner forces as of May, Cooper told the Senate Armed Services Committee at that time.", "note": "\"As of May\" - the exact day isn't given; dated to month end." }
+  ]
+}

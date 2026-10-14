@@ -1,0 +1,19 @@
+{
+  "id": "2026-08-05-stripes-hegseth-disputes",
+  "source": {
+    "outlet": "Stars and Stripes",
+    "title": "Hegseth disputes reports of depleted US missile interceptor stocks",
+    "url": "https://www.stripes.com/theaters/us/2026-08-05/us-missile-defense-stockpile-dangerously-low-22462099.html",
+    "published": "2026-08-05",
+    "authors": ["Jennifer H. Svan"],
+    "kind": "news"
+  },
+  "summary": "Relays CNN's report, based on a recent inventory assessment, that nearly 80% of THAAD and about half of Patriot interceptors have been used. Hegseth called it \"NOT TRUE.\" CNN's percentages sit on an undisclosed baseline, so they aren't used in the headline numbers.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "thaad", "metric": "pct_expended", "low": 80, "high": 80, "qualifier": "at-most", "asOf": "2026-08-04", "confidence": "reported", "attribution": "CNN, citing sources familiar with a recent inventory assessment", "quote": "CNN reported that the United States has used nearly 80% of its Terminal High Altitude Area Defense missile stockpile and about half of its Patriot interceptors since the war began, citing sources familiar with a recent inventory assessment." },
+    { "munition": "patriot", "metric": "pct_expended", "low": 50, "high": 50, "qualifier": "about", "asOf": "2026-08-04", "confidence": "reported", "attribution": "CNN, citing sources familiar with a recent inventory assessment", "quote": "CNN reported that the United States has used nearly 80% of its Terminal High Altitude Area Defense missile stockpile and about half of its Patriot interceptors since the war began, citing sources familiar with a recent inventory assessment." },
+    { "munition": "all", "metric": "statement", "asOf": "2026-08-05", "confidence": "official", "attribution": "Defense Secretary Pete Hegseth", "quote": "Responding to a screenshot of a CNN news banner on X, Hegseth dismissed the reporting as “NOT TRUE” and added: “Shame on you.”" }
+  ]
+}

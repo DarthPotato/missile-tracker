@@ -1,0 +1,18 @@
+{
+  "id": "2026-06-23-csis-epic-fury-cost",
+  "source": {
+    "outlet": "CSIS",
+    "title": "The War May Be Ending. What Did Epic Fury Cost?",
+    "url": "https://www.csis.org/analysis/war-may-be-ending-what-did-epic-fury-cost",
+    "published": "2026-06-23",
+    "authors": ["Mark F. Cancian", "Chris H. Park"],
+    "kind": "think-tank"
+  },
+  "summary": "CSIS puts the war's cost at about $40 billion, of which $26.1 billion is munitions. It also counts 49 Tomahawks fired during skirmishing on June 10, while the ceasefire was nominally in effect.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "tomahawk", "metric": "statement", "asOf": "2026-06-10", "confidence": "estimate", "quote": "CSIS also included estimated munitions used related to skirmishing during the ceasefire, including 49 Tomahawks fired on June 10.", "note": "Firing during the ceasefire, on top of the April tally." },
+    { "munition": "all", "metric": "statement", "asOf": "2026-06-23", "confidence": "estimate", "quote": "Munitions: $26.1 billion. U.S. forces fired many expensive missiles, making munitions the largest component of the war cost estimate." }
+  ]
+}

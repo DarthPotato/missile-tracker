@@ -1,0 +1,15 @@
+---
+import type { Confidence } from "../lib/schema";
+import { CONFIDENCE_LABEL } from "../lib/describe";
+interface Props {
+  confidence: Confidence;
+}
+const { confidence } = Astro.props;
+const help = {
+  official: "On the record from a government body",
+  reported: "Journalists citing officials, documents or unnamed sources",
+  estimate: "An analyst's model built from public data",
+}[confidence];
+---
+
+<span class="tag" data-confidence={confidence} title={help}><span class="dot"></span>{CONFIDENCE_LABEL[confidence]}</span>

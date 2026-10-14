@@ -1,0 +1,66 @@
+name: Watch sources
+
+# Once a day: look for new stockpile reporting, let Claude draft claims, and
+# open a pull request for a human to review. Nothing is published unreviewed.
+on:
+  schedule:
+    - cron: "17 13 * * *" # 13:17 UTC, morning U.S. Eastern
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: watch-sources
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      # URLs already looked at live in the Actions cache, not the repo, so
+      # quiet days don't create commits.
+      - name: Restore watcher state
+        uses: actions/cache/restore@v4
+        with:
+          path: data/pipeline-state.json
+          key: watch-state-${{ github.run_id }}
+          restore-keys: watch-state-
+
+      - name: Check sources and draft reports
+        run: npm run watch-sources
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
+          USE_BING_NEWS: ${{ vars.USE_BING_NEWS }}
+
+      - name: Save watcher state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/pipeline-state.json
+          key: watch-state-${{ github.run_id }}
+
+      - name: Validate drafts
+        run: npm run validate -- --quotes
+
+      - name: Read summary
+        id: summary
+        run: echo "changes=$(cat pipeline-out/has-changes)" >> "$GITHUB_OUTPUT"
+
+      - name: Open pull request
+        if: steps.summary.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: sources/daily
+          title: "Source check: new stockpile reporting"
+          body-path: pipeline-out/summary.md
+          commit-message: "Draft reports from daily source check"
+          add-paths: data/reports/*.json
+          labels: sources

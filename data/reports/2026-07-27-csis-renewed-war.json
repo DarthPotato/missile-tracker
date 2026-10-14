@@ -1,0 +1,19 @@
+{
+  "id": "2026-07-27-csis-renewed-war",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Renewed Iran War Would Test Diminished Interceptor Inventories",
+    "url": "https://www.csis.org/analysis/renewed-iran-war-would-test-diminished-interceptor-inventories",
+    "published": "2026-07-27",
+    "authors": ["Mark F. Cancian", "Chris H. Park"],
+    "kind": "think-tank"
+  },
+  "summary": "CSIS update after the ceasefire collapsed on July 8: fighting since the ceasefire pushed Patriot and THAAD inventories lower, though Iranian launch rates are below the opening weeks.",
+  "addedBy": "human",
+  "quoteCheck": "auto",
+  "claims": [
+    { "munition": "patriot", "metric": "remaining", "low": 1000, "high": 1000, "qualifier": "at-most", "asOf": "2026-07-27", "confidence": "estimate", "quote": "This has required extensive use of interceptors, with Patriot inventories now under 1,000 and THAAD inventories at about 250." },
+    { "munition": "thaad", "metric": "remaining", "low": 250, "high": 250, "qualifier": "about", "asOf": "2026-07-27", "confidence": "estimate", "quote": "This has required extensive use of interceptors, with Patriot inventories now under 1,000 and THAAD inventories at about 250." },
+    { "munition": "all", "metric": "statement", "asOf": "2026-07-27", "confidence": "estimate", "quote": "Resumption of combat operations has reduced inventories further, though Iranian launches have so far been at a lower rate than before the ceasefire." }
+  ]
+}
