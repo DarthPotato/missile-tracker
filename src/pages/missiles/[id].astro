@@ -4,6 +4,7 @@ import Meter from "../../components/Meter.astro";
 import StatusChip from "../../components/StatusChip.astro";
 import ConfidenceTag from "../../components/ConfidenceTag.astro";
 import ProjectionChart from "../../components/ProjectionChart.astro";
+import BlockGrid from "../../components/BlockGrid.astro";
 import { getDataset } from "../../lib/data";
 import { claimsFor, headline, phase1BurnPerDay, daysOfFire } from "../../lib/model";
 import { describeClaim, METRIC_LABEL } from "../../lib/describe";
@@ -43,7 +44,11 @@ const params: ParamRow[] = [
 const others = ds.munitions.filter((x) => x.id !== m.id);
 ---
 
-<Base title={`${m.name} stockpile`} description={`How many ${m.name} missiles the U.S. has left, with sources, and how long the rebuild takes.`}>
+<Base
+  title={`${m.name} stockpile`}
+  description={`How many ${m.name} missiles the U.S. has left, with sources, and how long the rebuild takes.`}
+  ogImage={`/og/${m.id}.png`}
+>
   <p class="crumb"><a href={href("/#board")}>← All missiles</a></p>
 
   <header class="mhead">
@@ -111,7 +116,12 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   }
 
   <section>
-    <div class="section-head"><span class="label">01</span><h2>Rebuild model</h2></div>
+    <div class="section-head"><span class="label">01</span><h2>In blocks of 10</h2></div>
+    <BlockGrid rows={[{ munition: m, headline: h }]} single />
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">02</span><h2>Rebuild model</h2></div>
     <p class="muted intro">
       How fast does the stockpile come back? This projects it forward from the deliveries already in the pipeline and
       the FY2027 rebuild order, using the budget's own schedules. Move the sliders to test faster production or a
@@ -121,7 +131,7 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   </section>
 
   <section>
-    <div class="section-head"><span class="label">02</span><h2>Every estimate</h2></div>
+    <div class="section-head"><span class="label">03</span><h2>Every estimate</h2></div>
     <div class="table-scroll">
       <table>
         <thead>
@@ -155,7 +165,7 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   </section>
 
   <section>
-    <div class="section-head"><span class="label">03</span><h2>Model inputs</h2></div>
+    <div class="section-head"><span class="label">04</span><h2>Model inputs</h2></div>
     <div class="table-scroll">
       <table>
         <thead><tr><th>Input</th><th class="num">Value</th><th>Source</th></tr></thead>

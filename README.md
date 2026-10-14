@@ -18,10 +18,13 @@ These are the seven munitions in CSIS's [*Last Rounds?*](https://csis-website-pr
 data/
   munitions.json        what each missile is + sourced model inputs (cost, delivery rates, FY27 buy)
   reports/*.json        one file per source document, holding its claims and verbatim quotes
+  perspective.json      war costs vs. program costs for the /perspective/ page, each figure sourced and quote-checked
 src/lib/
   schema.ts             zod schema for both files (the validator and the pipeline share it)
   model.ts              headline selection + the day-by-day rebuild projection
-src/pages/              Astro static site: home, /missiles/<id>/, /methodology/
+  blocks.ts             block-grid math (1 block = 10 missiles, or $50M)
+  og.ts                 share-preview images (1200×630 PNGs rendered at build time)
+src/pages/              Astro static site: home, /missiles/<id>/, /perspective/, /methodology/, /og/*.png
 scripts/
   validate-data.ts      schema + cross-reference checks; --quotes fetches sources and checks quotes
   pipeline/watch.ts     daily: feeds → Claude drafts claims → quote check → pull request

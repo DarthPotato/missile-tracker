@@ -1,0 +1,189 @@
+---
+// Every missile as a row of equal blocks: 10 missiles each, or $50M each.
+// Solid = left (low end), soft = the estimate's range, gray = used.
+import type { Munition } from "../lib/schema";
+import type { Headline } from "../lib/model";
+import { blockCounts, formatDollars, type BlockCounts } from "../lib/blocks";
+import { fmt, formatRange } from "../lib/format";
+import { href } from "../lib/site";
+
+interface Props {
+  rows: { munition: Munition; headline: Headline }[];
+  /** Hide the missiles/dollars toggle and show missiles only (missile pages). */
+  single?: boolean;
+}
+const { rows, single = false } = Astro.props;
+
+const PER_COUNT = 10;
+const PER_DOLLARS = 50e6;
+
+function describe(m: Munition, h: Headline, b: BlockCounts, mode: "count" | "dollars"): string {
+  const unit = mode === "count" ? `${PER_COUNT} missiles` : formatDollars(PER_DOLLARS);
+  return `${m.name}: ${b.total} blocks of ${unit}. ${b.left} left, ${b.uncertain} within the estimate's range, ${b.used} used.`;
+}
+
+const modes = (["count", "dollars"] as const).filter((mode) => !single || mode === "count");
+const data = modes.map((mode) => ({
+  mode,
+  rows: rows.map(({ munition: m, headline: h }) => {
+    const cost = m.unitCostM.value * 1e6;
+    const b = mode === "count" ? blockCounts(h, PER_COUNT) : blockCounts(h, PER_DOLLARS, cost);
+    const summary =
+      mode === "count"
+        ? `${formatRange(h.remaining, h.qualifier)} of ~${fmt(h.prewar)}`
+        : `${formatDollars(cost * h.remaining.low)}${h.remaining.high !== h.remaining.low ? `–${formatDollars(cost * h.remaining.high)}` : ""} of ~${formatDollars(cost * h.prewar)}`;
+    return { m, b, summary, label: describe(m, h, b, mode) };
+  }),
+}));
+---
+
+<div class="blocks" data-blocks>
+  {
+    !single && (
+      <div class="switch" role="group" aria-label="Block size">
+        <button type="button" data-mode="count" aria-pressed="true">
+          1 block = {PER_COUNT} missiles
+        </button>
+        <button type="button" data-mode="dollars" aria-pressed="false">
+          1 block = {formatDollars(PER_DOLLARS)}
+        </button>
+      </div>
+    )
+  }
+  {
+    data.map((set) => (
+      <div class="set" data-set={set.mode} hidden={set.mode !== "count"}>
+        {set.rows.map(({ m, b, summary, label }) => (
+          <div class="row">
+            <div class="who">
+              {single ? <strong>{m.name}</strong> : <a href={href(`/missiles/${m.id}/`)}>{m.name}</a>}
+              <span class="sum">{summary}</span>
+            </div>
+            <div class="cells" role="img" aria-label={label}>
+              {Array.from({ length: b.left }, () => <i class="l" />)}
+              {Array.from({ length: b.uncertain }, () => <i class="u" />)}
+              {Array.from({ length: b.used }, () => <i class="x" />)}
+            </div>
+          </div>
+        ))}
+      </div>
+    ))
+  }
+  <p class="key small">
+    <span><i class="l"></i> left</span>
+    <span><i class="u"></i> within the estimate's range</span>
+    <span><i class="x"></i> used since Feb 28</span>
+    {!single && <span class="muted">Dollar blocks use each missile's unit cost from CSIS.</span>}
+  </p>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-blocks]")) {
+    const buttons = root.querySelectorAll<HTMLButtonElement>(".switch button");
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
+        for (const set of root.querySelectorAll<HTMLElement>("[data-set]")) set.hidden = set.dataset.set !== b.dataset.mode;
+      });
+    }
+  }
+</script>
+
+<style>
+  .switch {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px;
+    margin-bottom: 16px;
+    background: var(--surface);
+  }
+  .switch button {
+    font: inherit;
+    font-size: 14px;
+    border: 0;
+    background: transparent;
+    color: var(--ink-2);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .switch button[aria-pressed="true"] {
+    background: var(--wash);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .set[hidden] {
+    display: none;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 6px 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--grid);
+  }
+  .who {
+    display: grid;
+    gap: 2px;
+    font-size: 15px;
+    align-content: start;
+  }
+  .who a {
+    color: var(--ink);
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .who a:hover {
+    text-decoration: underline;
+  }
+  .sum {
+    font-size: 13px;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .cells {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-content: flex-start;
+  }
+  i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+  .l {
+    background: var(--series-1);
+  }
+  .u {
+    background: var(--series-1-soft);
+  }
+  /* Used blocks are neutral gray: gone, not "less blue". */
+  .x {
+    background: var(--axis);
+  }
+  .key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    align-items: center;
+    margin-top: 14px;
+    color: var(--ink-2);
+  }
+  .key span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+    i {
+      width: 8px;
+      height: 8px;
+    }
+  }
+</style>

@@ -1,0 +1,209 @@
+---
+import Base from "../layouts/Base.astro";
+import { getDataset, getPerspective } from "../lib/data";
+import { formatBig, resolveAmounts } from "../lib/perspective";
+import { formatDollars } from "../lib/blocks";
+import { formatDate } from "../lib/format";
+import { href } from "../lib/site";
+
+const p = getPerspective();
+const amounts = resolveAmounts(p, getDataset());
+---
+
+<Base
+  title="What else it could buy"
+  description="The Iran war's cost set against school lunches, teachers, groceries and college grants. Every figure sourced."
+  ogImage="/og/perspective.png"
+>
+  <article class="persp">
+    <p class="label">Perspective</p>
+    <blockquote class="epigraph">
+      <p>“{p.epigraph.text}”</p>
+      <footer>— {p.epigraph.by}, {p.epigraph.work}</footer>
+    </blockquote>
+
+    <p class="lede">
+      The rest of this site tracks the stockpile. This page asks what the same money could have done at home. The
+      framing is ours; every figure is sourced and checked the same way as the tracker.
+    </p>
+
+    <div class="pick" role="group" aria-label="Choose an amount">
+      {
+        amounts.map((a, i) => (
+          <button type="button" data-amount={a.id} aria-pressed={i === 0 ? "true" : "false"}>
+            <span class="amt">{formatDollars(a.value)}</span>
+            <span class="what">{a.label}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      amounts.map((a, i) => (
+        <section class="set" data-set={a.id} hidden={i !== 0}>
+          <p class="equals">
+            <strong>{formatDollars(a.value)}</strong> could instead pay for:
+          </p>
+          <div class="cards">
+            {p.comparisons.map((c) => (
+              <div class="card cmp">
+                <div class="big">{formatBig(a.value / c.unitCost)}</div>
+                <div class="unit">{c.unit}</div>
+                <div class="cost small muted">
+                  {c.costNote} ·{" "}
+                  <a href={c.source.url} rel="noopener">
+                    {c.source.outlet}
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p class="small muted src">
+            {a.source ? (
+              <>
+                Amount: <a href={a.source.url} rel="noopener">{a.source.outlet}</a>, {formatDate(a.source.published)}.
+              </>
+            ) : (
+              <>{a.note}</>
+            )}
+          </p>
+        </section>
+      ))
+    }
+
+    <h2>Reading these numbers</h2>
+    <ul class="muted">
+      <li>
+        Each figure is a straight division: the amount over one unit's cost. It shows scale, not a budget plan.
+        Programs don't trade dollar for dollar, and defense and social spending come from different parts of the
+        budget.
+      </li>
+      <li>
+        The war cost is the Pentagon Inspector General's estimate through June 30, before fighting resumed in July. The
+        full cost is higher.
+      </li>
+      <li>
+        "The seven missiles on this site" uses CSIS's midpoint estimates of how many were fired by the April 8
+        ceasefire. See the <a href={href("/methodology/")}>methodology</a>.
+      </li>
+    </ul>
+  </article>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".pick button");
+  for (const b of buttons) {
+    b.addEventListener("click", () => {
+      for (const o of buttons) o.setAttribute("aria-pressed", String(o === b));
+      for (const s of document.querySelectorAll<HTMLElement>(".set")) s.hidden = s.dataset.set !== b.dataset.amount;
+    });
+  }
+</script>
+
+<style>
+  .persp {
+    margin-top: 40px;
+  }
+  .epigraph {
+    margin: 12px 0 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .epigraph p {
+    font-size: clamp(30px, 5.5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px;
+    max-width: 20ch;
+  }
+  .epigraph footer {
+    color: var(--ink-2);
+    font-size: 16px;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0 0 28px;
+  }
+  .pick {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .pick button {
+    display: grid;
+    gap: 4px;
+    text-align: left;
+    font: inherit;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .pick button[aria-pressed="true"] {
+    border-color: var(--series-1);
+    box-shadow: inset 0 0 0 1px var(--series-1);
+  }
+  .amt {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .what {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+  .set[hidden] {
+    display: none;
+  }
+  .equals {
+    font-size: 18px;
+    margin: 0 0 12px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 12px;
+  }
+  .cmp {
+    padding: 18px;
+    display: grid;
+    gap: 4px;
+    align-content: start;
+  }
+  .big {
+    font-size: clamp(32px, 5vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .unit {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .cost {
+    margin-top: 6px;
+  }
+  .src {
+    margin-top: 12px;
+  }
+  h2 {
+    font-size: 20px;
+    margin: 48px 0 8px;
+  }
+  ul {
+    max-width: 70ch;
+    padding-left: 20px;
+  }
+  li {
+    margin: 6px 0;
+  }
+</style>

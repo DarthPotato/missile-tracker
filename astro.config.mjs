@@ -7,4 +7,6 @@ export default defineConfig({
   site: process.env.SITE_URL ?? "https://missiletracker.info",
   base: process.env.BASE_PATH ?? "/",
   trailingSlash: "ignore",
+  // Native module used to render share images at build time; keep it out of the bundle.
+  vite: { ssr: { external: ["@resvg/resvg-js"] } },
 });

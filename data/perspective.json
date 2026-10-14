@@ -1,0 +1,120 @@
+{
+  "epigraph": {
+    "text": "They got money for wars, but can't feed the poor.",
+    "by": "Tupac Shakur",
+    "work": "“Keep Ya Head Up,” 1993"
+  },
+  "amounts": [
+    {
+      "id": "war-cost",
+      "label": "The war's cost to the Pentagon, Feb 28 – Jun 30",
+      "value": 33400000000,
+      "source": {
+        "outlet": "Stars and Stripes (DoD Inspector General report)",
+        "title": "Iran war exposed US munitions shortfalls and production bottlenecks, Pentagon IG says",
+        "url": "https://www.stripes.com/theaters/us/2026-09-15/dodig-iran-war-cost-munitions-22860181.html",
+        "published": "2026-09-15",
+        "quote": "expended munitions accounted for $22.3 billion of the Pentagon’s $33.4 billion estimated price tag for the war at that point"
+      }
+    },
+    {
+      "id": "munitions",
+      "label": "Munitions fired, Feb 28 – Jun 29",
+      "value": 22300000000,
+      "source": {
+        "outlet": "Stars and Stripes (DoD Inspector General report)",
+        "title": "Iran war exposed US munitions shortfalls and production bottlenecks, Pentagon IG says",
+        "url": "https://www.stripes.com/theaters/us/2026-09-15/dodig-iran-war-cost-munitions-22860181.html",
+        "published": "2026-09-15",
+        "quote": "expended munitions accounted for $22.3 billion of the Pentagon’s $33.4 billion estimated price tag for the war at that point"
+      }
+    },
+    {
+      "id": "tracked-missiles",
+      "label": "The seven missiles on this site, fired by the April ceasefire",
+      "computed": "missiles-fired-by-ceasefire",
+      "note": "Our math: CSIS's midpoint estimate of each missile used by April 8, times its unit cost."
+    },
+    {
+      "id": "one-sm3",
+      "label": "One SM-3 interceptor",
+      "value": 28700000,
+      "source": {
+        "outlet": "CSIS",
+        "title": "Last Rounds? Status of Key Munitions at the Iran War Ceasefire",
+        "url": "https://csis-website-prod.s3.amazonaws.com/s3fs-public/2026-04/260424_Cancian_Park_Last_Rounds.pdf?VersionId=JbVbjtv2ywN4avgN_9KSGw.kbdz8Ettl",
+        "published": "2026-04-21",
+        "quote": "SM-3 $28.7 410 130–250 64",
+        "quoteCheck": "manual"
+      }
+    },
+    {
+      "id": "one-patriot",
+      "label": "One Patriot interceptor",
+      "value": 3900000,
+      "source": {
+        "outlet": "CSIS",
+        "title": "Last Rounds? Status of Key Munitions at the Iran War Ceasefire",
+        "url": "https://csis-website-prod.s3.amazonaws.com/s3fs-public/2026-04/260424_Cancian_Park_Last_Rounds.pdf?VersionId=JbVbjtv2ywN4avgN_9KSGw.kbdz8Ettl",
+        "published": "2026-04-21",
+        "quote": "Patriot $3.9 2,330 1,060–1,430 42",
+        "quoteCheck": "manual"
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "school-lunches",
+      "unit": "free school lunches",
+      "unitCost": 4.76,
+      "costNote": "$4.76 each: the 2026–27 federal reimbursement for a free lunch",
+      "source": {
+        "outlet": "Delaware Department of Education (USDA rates)",
+        "title": "SY 2026-2027 Reimbursement Rates, July 1, 2026 through June 30, 2027",
+        "url": "https://education.delaware.gov/wp-content/uploads/2026/07/SNP-2027-1.pdf",
+        "published": "2026-07-20",
+        "quote": "Free $4.76 $4.85 $4.78 $4.87",
+        "quoteCheck": "manual"
+      }
+    },
+    {
+      "id": "snap-years",
+      "unit": "years of groceries for someone on SNAP",
+      "unitCost": 2256,
+      "costNote": "$188 a month, the average SNAP benefit (FY2025), × 12",
+      "source": {
+        "outlet": "USAFacts",
+        "title": "How much does the federal government spend on SNAP every year?",
+        "url": "https://usafacts.org/answers/how-much-does-the-federal-government-spend-on-snap-every-year/country/united-states/",
+        "published": "2026-02-11",
+        "quote": "In FY 2025, the average participant received $188 in monthly benefits"
+      }
+    },
+    {
+      "id": "teacher-years",
+      "unit": "years of a public school teacher's salary",
+      "unitCost": 74495,
+      "costNote": "$74,495, the national average (NEA, 2024–25), not counting benefits",
+      "source": {
+        "outlet": "WAMC / NPR (NEA data)",
+        "title": "Inflation is sucking the life out of teacher pay raises, report says",
+        "url": "https://www.wamc.org/2026-04-27/inflation-is-sucking-the-life-out-of-teacher-pay-raises-report-says",
+        "published": "2026-04-27",
+        "quote": "The average salary for a public school teacher in the U.S. rose to $74,495 in the last school year"
+      }
+    },
+    {
+      "id": "pell-grants",
+      "unit": "maximum Pell Grants for college",
+      "unitCost": 7395,
+      "costNote": "$7,395, the 2026–27 maximum award",
+      "source": {
+        "outlet": "U.S. Department of Education",
+        "title": "(GEN-26-01) 2026–27 Federal Pell Grant Maximum and Minimum Award Amounts",
+        "url": "https://fsapartners.ed.gov/knowledge-center/library/dear-colleague-letters/2026-01-30/2026-27-federal-pell-grant-maximum-and-minimum-award-amounts",
+        "published": "2026-01-30",
+        "quote": "the maximum Pell Grant award remains fixed at $7,395"
+      }
+    }
+  ]
+}

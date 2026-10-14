@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import MunitionCard from "../components/MunitionCard.astro";
 import ReportEntry from "../components/ReportEntry.astro";
 import ConfidenceTag from "../components/ConfidenceTag.astro";
+import BlockGrid from "../components/BlockGrid.astro";
 import { getDataset } from "../lib/data";
 import { daysOfFire, headline, phase1BurnPerDay, project } from "../lib/model";
 import { scenarioInput } from "../lib/scenario";
@@ -94,8 +95,17 @@ const lastUpdate = ds.reports[0].source.published;
     </p>
   </section>
 
+  <section id="blocks">
+    <div class="section-head"><span class="label">02</span><h2>Every missile, in blocks</h2></div>
+    <p class="muted small intro">
+      Same estimates as the board, at one scale, so the sizes compare directly. Switch to dollars to see what's been
+      spent.
+    </p>
+    <BlockGrid rows={[...airDefense, ...strike].map((r) => ({ munition: r.m, headline: r.h }))} />
+  </section>
+
   <section id="updates">
-    <div class="section-head"><span class="label">02</span><h2>Source log</h2></div>
+    <div class="section-head"><span class="label">03</span><h2>Source log</h2></div>
     <p class="muted small">
       Every document behind the numbers, newest first. Open one to see each claim with its exact quote.
     </p>
@@ -103,7 +113,7 @@ const lastUpdate = ds.reports[0].source.published;
   </section>
 
   <section id="method">
-    <div class="section-head"><span class="label">03</span><h2>How this works</h2></div>
+    <div class="section-head"><span class="label">04</span><h2>How this works</h2></div>
     <div class="method-grid">
       <div>
         <h3>Estimates, labeled</h3>
@@ -224,6 +234,10 @@ const lastUpdate = ds.reports[0].source.published;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
     gap: 14px;
+  }
+  .intro {
+    max-width: 70ch;
+    margin: 0 0 14px;
   }
   .legend {
     margin-top: 16px;

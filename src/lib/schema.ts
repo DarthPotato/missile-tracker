@@ -152,3 +152,54 @@ export const Munition = z
 export type Munition = z.infer<typeof Munition>;
 
 export const MunitionsFile = z.array(Munition).length(MUNITION_IDS.length);
+
+// ---------------------------------------------------------------------------
+// The perspective page: war costs set against everyday program costs. It's
+// opinion in framing, so every figure on it is sourced and quote-checked the
+// same way as the tracker's data.
+// ---------------------------------------------------------------------------
+
+const SourcedFigure = z
+  .object({
+    outlet: z.string(),
+    title: z.string(),
+    url: z.url(),
+    published: isoDate,
+    quote: z.string().min(12),
+    quoteCheck: z.enum(["auto", "manual"]).default("auto"),
+  })
+  .strict();
+
+export const PerspectiveFile = z
+  .object({
+    epigraph: z.object({ text: z.string(), by: z.string(), work: z.string() }).strict(),
+    amounts: z.array(
+      z
+        .object({
+          id: slug,
+          label: z.string(),
+          /** USD. Omit for amounts computed from the tracker's own data. */
+          value: z.number().positive().optional(),
+          computed: z.enum(["missiles-fired-by-ceasefire"]).optional(),
+          source: SourcedFigure.optional(),
+          note: z.string().optional(),
+        })
+        .strict()
+        .refine((a) => (a.value !== undefined) !== (a.computed !== undefined), "give either value or computed")
+        .refine((a) => a.computed !== undefined || a.source !== undefined, "a stated value needs a source"),
+    ),
+    comparisons: z.array(
+      z
+        .object({
+          id: slug,
+          /** Plural noun phrase: "free school lunches". */
+          unit: z.string(),
+          unitCost: z.number().positive(),
+          costNote: z.string(),
+          source: SourcedFigure,
+        })
+        .strict(),
+    ),
+  })
+  .strict();
+export type PerspectiveFile = z.infer<typeof PerspectiveFile>;

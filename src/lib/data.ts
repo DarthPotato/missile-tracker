@@ -1,6 +1,8 @@
 // Loads and validates the JSON data at build time (Astro + Vitest both run on
 // Vite, so import.meta.glob works in either). Node scripts use load-node.ts.
 import munitionsJson from "../../data/munitions.json";
+import perspectiveJson from "../../data/perspective.json";
+import { PerspectiveFile } from "./schema";
 import { buildDataset, type Dataset } from "./dataset";
 
 const reportModules = import.meta.glob<{ default: unknown }>("../../data/reports/*.json", { eager: true });
@@ -16,4 +18,10 @@ export function getDataset(): Dataset {
     cached = buildDataset(munitionsJson, reports);
   }
   return cached;
+}
+
+let perspective: PerspectiveFile | undefined;
+
+export function getPerspective(): PerspectiveFile {
+  return (perspective ??= PerspectiveFile.parse(perspectiveJson));
 }
