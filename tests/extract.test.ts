@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type Anthropic from "@anthropic-ai/sdk";
-import { extract, reportId } from "../scripts/pipeline/extract";
+import { extract, reportId, SCHEMA } from "../scripts/pipeline/extract";
 
 // A stand-in client that returns a canned structured-output response, so the
 // post-processing (quote check, schema check) is tested without an API call.
@@ -80,5 +80,15 @@ describe("extract", () => {
 
   it("builds a stable slug id", () => {
     expect(reportId(article)).toBe("2026-10-12-example-news-interceptors-run-low");
+  });
+
+  it("never declares an enum on a multi-type field (the API rejects it)", () => {
+    const walk = (node: unknown): void => {
+      if (!node || typeof node !== "object") return;
+      const n = node as Record<string, unknown>;
+      if ("enum" in n) expect(typeof n.type, JSON.stringify(n)).toBe("string");
+      Object.values(n).forEach(walk);
+    };
+    walk(SCHEMA);
   });
 });

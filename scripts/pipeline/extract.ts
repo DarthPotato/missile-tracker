@@ -29,9 +29,11 @@ export interface Extraction {
   dropped: { quote: string; reason: string }[];
 }
 
-const nullable = (type: string) => ({ type: [type, "null"] });
+// Structured outputs reject an enum mixed with a ["string", "null"] type, so
+// optional fields are spelled as anyOf.
+const nullable = (schema: Record<string, unknown>) => ({ anyOf: [schema, { type: "null" }] });
 
-const SCHEMA = {
+export const SCHEMA = {
   type: "object",
   additionalProperties: false,
   required: ["relevant", "summary", "claims"],
@@ -47,14 +49,14 @@ const SCHEMA = {
         properties: {
           munition: { type: "string", enum: [...MUNITION_IDS, "all"] },
           metric: { type: "string", enum: ["prewar", "expended", "remaining", "pct_expended", "statement"] },
-          low: nullable("number"),
-          high: nullable("number"),
-          qualifier: { type: ["string", "null"], enum: ["exact", "about", "at-least", "at-most", "range", null] },
+          low: nullable({ type: "number" }),
+          high: nullable({ type: "number" }),
+          qualifier: nullable({ type: "string", enum: ["exact", "about", "at-least", "at-most", "range"] }),
           asOf: { type: "string" },
           confidence: { type: "string", enum: ["official", "reported", "estimate"] },
           quote: { type: "string" },
-          attribution: nullable("string"),
-          note: nullable("string"),
+          attribution: nullable({ type: "string" }),
+          note: nullable({ type: "string" }),
         },
       },
     },

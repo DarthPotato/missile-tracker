@@ -80,6 +80,7 @@ async function main() {
 
   for (const item of candidates) {
     if (processed >= MAX_ARTICLES) break;
+    // Mark seen up front; failures below un-mark it so tomorrow's run retries.
     state.seen[item.url] = today;
 
     let text: string | undefined;
@@ -92,6 +93,7 @@ async function main() {
         partial = true;
       } else {
         unreadable.push(`- [${item.title}](${item.url}) (${item.outlet}): ${(e as Error).message}`);
+        delete state.seen[item.url];
         continue;
       }
     }
@@ -130,6 +132,7 @@ async function main() {
       }
     } catch (e) {
       skipped.push(`- [${item.title}](${item.url}): extraction failed (${(e as Error).message})`);
+      delete state.seen[item.url];
     }
   }
 
