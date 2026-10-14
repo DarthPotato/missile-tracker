@@ -54,7 +54,10 @@ jobs:
 
       - name: Read summary
         id: summary
-        run: echo "changes=$(cat pipeline-out/has-changes)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "changes=$(cat pipeline-out/has-changes)" >> "$GITHUB_OUTPUT"
+          # Shown on the run's page in the Actions tab, even on days with no PR.
+          cat pipeline-out/summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open pull request
         if: steps.summary.outputs.changes == 'true'
