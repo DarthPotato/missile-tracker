@@ -13,7 +13,7 @@ import { fetchText } from "../fetch-text.ts";
 import { loadDataset, REPORTS_DIR, ROOT } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
 import { extract, type Article } from "./extract.ts";
-import { bing, contracts, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
+import { bing, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
 
 const STATE_FILE = path.join(ROOT, "data", "pipeline-state.json");
 const OUT_DIR = path.join(ROOT, "pipeline-out");
@@ -36,13 +36,19 @@ function canonical(url: string): string {
 }
 
 async function main() {
+  if (!dryRun && !process.env.ANTHROPIC_API_KEY) {
+    console.error(
+      "ANTHROPIC_API_KEY is not set. In GitHub: Settings → Secrets and variables → Actions → Repository secrets.",
+    );
+    process.exit(1);
+  }
   const ds = loadDataset();
   const state = loadState();
   const today = new Date().toISOString().slice(0, 10);
   const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 86_400_000).toISOString().slice(0, 10);
   const known = new Set(ds.reports.flatMap((r) => [r.source.url, ...(r.source.altUrls ?? [])].map(canonical)));
 
-  const settled = await Promise.allSettled([csis(), contracts(), nyt(process.env.NYT_API_KEY), gdelt(), bing()]);
+  const settled = await Promise.allSettled([csis(), nyt(process.env.NYT_API_KEY), gdelt(), bing()]);
   const items: FeedItem[] = settled.flatMap((s) => (s.status === "fulfilled" ? s.value : []));
   for (const s of settled) if (s.status === "rejected") console.warn(`feed failed: ${s.reason}`);
 

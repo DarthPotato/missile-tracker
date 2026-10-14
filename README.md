@@ -47,11 +47,11 @@ npm run build                       # validate + build to dist/
 
 `.github/workflows/watch-sources.yml` runs once a day:
 
-1. Pulls candidates from CSIS (the Cancian and Park author pages), daily DoD contract announcements, the GDELT news index, and, if keyed, the NYT Article Search API.
+1. Pulls candidates from CSIS (the Cancian and Park author pages), the GDELT news index, the NYT Article Search API (if keyed), and Bing News (if enabled). GDELT rate-limits GitHub's runners heavily, so in practice NYT and Bing do most of the news finding.
 2. Keeps items that mention a tracked missile *and* stockpile language.
 3. Sends each article to Claude Haiku 5.5 (`claude-haiku-5-5`, structured output) to draft claims with verbatim quotes. Roughly $0.001–0.002 per article.
 4. Throws out any claim whose quote isn't on the page word for word, or that fails the schema.
-5. Opens a pull request with the drafts and a summary. Contract announcements that name a tracked missile appear as leads for updating model inputs.
+5. Opens a pull request with the drafts and a summary.
 
 A person merges the pull request. Nothing reaches the site without that review.
 

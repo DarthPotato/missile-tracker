@@ -93,7 +93,11 @@ export async function bing(): Promise<FeedItem[]> {
   return out;
 }
 
-/** Daily DoD contract announcements: production news for the model's inputs. */
+/**
+ * Daily DoD contract announcements: production news for the model's inputs.
+ * Not in the default watch: war.gov serves the RSS feed but answers 403 to
+ * article requests from cloud IPs (GitHub's runners included).
+ */
 export async function contracts(): Promise<FeedItem[]> {
   const items = rssItems(await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"));
   return items.map((i) => ({
@@ -119,9 +123,14 @@ export async function gdelt(): Promise<FeedItem[]> {
   ];
   const out: FeedItem[] = [];
   for (const q of queries) {
-    const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`${q} sourcelang:english`)}&mode=artlist&format=json&maxrecords=50&timespan=3d&sort=datedesc`;
+    const target = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`${q} sourcelang:english`)}&mode=artlist&format=json&maxrecords=50&timespan=3d&sort=datedesc`;
     try {
-      const body = await get(url);
+      // GDELT rate-limits shared cloud IPs hard; one patient retry, then move on.
+      const body = await get(target).catch(async (e: Error) => {
+        if (!/HTTP 429/.test(e.message)) throw e;
+        await sleep(20_000);
+        return get(target);
+      });
       const data = JSON.parse(body) as { articles?: { url: string; title: string; domain: string; seendate: string }[] };
       for (const a of data.articles ?? []) {
         const s = a.seendate; // 20261013T120000Z
