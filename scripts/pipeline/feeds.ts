@@ -71,9 +71,11 @@ export async function csis(): Promise<FeedItem[]> {
 }
 
 /**
- * Bing News RSS returns publisher URLs (inside its click-tracking link). Its
- * terms limit the feed to personal, non-commercial aggregation, so it's off
- * unless USE_BING_NEWS=1.
+ * Bing News RSS returns publisher URLs (inside its click-tracking link).
+ * Runs only when USE_BING_NEWS=1: the watch workflow sets that by default
+ * (repository variable USE_BING_NEWS=0 turns it off); local runs leave it off
+ * unless you set it. Its terms limit the feed to personal, non-commercial
+ * aggregation.
  */
 export async function bing(): Promise<FeedItem[]> {
   if (process.env.USE_BING_NEWS !== "1") return [];
