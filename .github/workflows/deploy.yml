@@ -28,9 +28,10 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          # With a custom domain set SITE_URL to it and BASE_PATH to "/".
-          SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
-          BASE_PATH: ${{ vars.BASE_PATH || format('/{0}/', github.event.repository.name) }}
+          # Served from the custom domain's root. To go back to the github.io
+          # project URL, set SITE_URL=https://<owner>.github.io and BASE_PATH=/<repo>/.
+          SITE_URL: ${{ vars.SITE_URL || 'https://missiletracker.info' }}
+          BASE_PATH: ${{ vars.BASE_PATH || '/' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
