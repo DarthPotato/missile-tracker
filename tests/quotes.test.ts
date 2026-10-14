@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getDataset, getPerspective } from "../src/lib/data";
-import { checkQuotes, PERSPECTIVE, quoteTargets, strictIdsFromChanged, summarize, type QuoteTarget } from "../scripts/quotes";
+import { checkQuotes, healthLines, PERSPECTIVE, quoteTargets, strictIdsFromChanged, summarize, type QuoteTarget } from "../scripts/quotes";
 
 const page = (text: string) => async () => text;
 const target = (over: Partial<QuoteTarget> = {}): QuoteTarget => ({
@@ -76,6 +76,22 @@ describe("checkQuotes", () => {
       throw new Error("should not be called");
     });
     expect(r.ok).toBe(true);
+  });
+});
+
+describe("healthLines (the watcher's non-blocking report on old sources)", () => {
+  it("lists a vanished quote and an unreachable page without failing anything", async () => {
+    const fetcher = async (url: string) => {
+      if (url.endsWith("/gone")) throw new Error("HTTP 404");
+      return "the article was edited";
+    };
+    const r = await checkQuotes([target(), target({ id: "gone", url: "https://example.com/gone" })], fetcher, {
+      strict: () => false,
+      allowNoneReachable: true,
+    });
+    const lines = healthLines(r);
+    expect(lines[0]).toMatch(/\*\*r1\*\*: quote no longer found/);
+    expect(lines[1]).toMatch(/\*\*gone\*\*: couldn't fetch .*HTTP 404/);
   });
 });
 

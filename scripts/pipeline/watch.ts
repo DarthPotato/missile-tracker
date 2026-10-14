@@ -14,6 +14,8 @@ import { loadDataset, REPORTS_DIR, ROOT } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
 import { extract, type Article } from "./extract.ts";
 import { applyToFile } from "./inputs.ts";
+import { checkQuotes, healthLines, quoteTargets } from "../quotes.ts";
+import { PerspectiveFile } from "../../src/lib/schema.ts";
 import { bing, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
 
 const STATE_FILE = path.join(ROOT, "data", "pipeline-state.json");
@@ -74,6 +76,7 @@ async function main() {
   }
 
   const drafted: string[] = [];
+  const newIds: string[] = [];
   const leads: string[] = [];
   const skipped: string[] = [];
   const unreadable: string[] = [];
@@ -122,6 +125,7 @@ async function main() {
       if (result.report) {
         const file = path.join(REPORTS_DIR, `${result.report.id}.json`);
         writeFileSync(file, `${JSON.stringify(result.report, null, 2)}\n`);
+        newIds.push(result.report.id);
         const lines = result.report.claims.map(
           (c) => `  - **${SHORT_NAME[c.munition]}** ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`,
         );
@@ -149,14 +153,26 @@ async function main() {
   for (const [u, d] of Object.entries(state.seen)) if (d < keepAfter) delete state.seen[u];
   writeFileSync(STATE_FILE, `${JSON.stringify(state, null, 2)}\n`);
 
+  // Re-check the sources already on the site, without blocking: a page that
+  // changed or vanished is reported for a human, never a reason to hold back
+  // today's drafts. (CI still checks strictly when a PR touches a report.)
+  const perspective = PerspectiveFile.parse(JSON.parse(readFileSync(path.join(ROOT, "data", "perspective.json"), "utf8")));
+  const health = await checkQuotes(quoteTargets(ds, perspective), fetchText, {
+    strict: () => false,
+    allowNoneReachable: true,
+  });
+  const broken = healthLines(health);
+
   mkdirSync(OUT_DIR, { recursive: true });
+  writeFileSync(path.join(OUT_DIR, "new-reports.txt"), newIds.join("\n"));
   const section = (title: string, rows: string[]) => (rows.length ? `## ${title}\n\n${rows.join("\n")}\n\n` : "");
   const summary =
     `Automated source check for ${today}. Claude drafted these; every quote below was found verbatim on the source page (except where marked). Review each claim before merging.\n\n` +
     section(`Drafted reports (${drafted.length})`, drafted) +
     section("Contract announcements naming tracked missiles", leads) +
     section("Looked at, nothing to add", skipped) +
-    section("Couldn't fetch (add by hand with `npm run add-source -- <url> --text-file <file>`)", unreadable);
+    section("Couldn't fetch (add by hand with `npm run add-source -- <url> --text-file <file>`)", unreadable) +
+    section("Sources that changed or disappeared", broken);
   writeFileSync(path.join(OUT_DIR, "summary.md"), summary);
   writeFileSync(path.join(OUT_DIR, "has-changes"), drafted.length || leads.length ? "true" : "false");
   console.log(summary);

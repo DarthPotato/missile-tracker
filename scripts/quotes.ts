@@ -118,3 +118,11 @@ export async function checkQuotes(
 export function summarize(r: QuoteResult): string {
   return `quotes: ${r.found} found, ${r.missing.length} missing, ${r.unreachable.length} sources unreachable, ${r.manual.length} manual`;
 }
+
+/** Markdown bullets for sources already on the site that no longer check out. */
+export function healthLines(r: QuoteResult): string[] {
+  return [
+    ...r.missing.map((m) => `- **${m.id}**: quote no longer found on the page: "${m.quote.slice(0, 160)}"`),
+    ...r.unreachable.map((u) => `- **${u.id}**: couldn't fetch [the page](${u.url}) (${u.error}). Often temporary.`),
+  ];
+}

@@ -49,8 +49,13 @@ jobs:
           path: data/pipeline-state.json
           key: watch-state-v2-${{ github.run_id }}
 
+      # Quote-check only today's drafts. Problems with older sources are listed
+      # in the summary instead, so one dead page can't block new data.
       - name: Validate drafts
-        run: npm run validate -- --quotes
+        run: |
+          npm run validate
+          ids=$(paste -sd, pipeline-out/new-reports.txt)
+          if [ -n "$ids" ]; then npm run validate -- --quotes --only "$ids"; fi
 
       - name: Read summary
         id: summary
