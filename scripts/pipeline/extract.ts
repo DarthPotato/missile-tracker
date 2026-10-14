@@ -7,7 +7,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Claim, MUNITION_IDS, Report, type Report as ReportT } from "../../src/lib/schema.ts";
 import { containsQuote } from "../../src/lib/text.ts";
 
-export const MODEL = "claude-opus-5-5";
+// Haiku: extraction is a well-specified, high-volume job, and the quote check
+// below catches mistakes regardless of model. About $0.001-0.002 per article.
+export const MODEL = "claude-haiku-5-5";
 
 export interface Article {
   url: string;
@@ -112,11 +114,10 @@ export function reportId(a: Pick<Article, "published" | "outlet" | "title">): st
 }
 
 export async function extract(article: Article, client = new Anthropic()): Promise<Extraction> {
-  const response = await client.beta.messages.create({
+  // Haiku has no server-side fallback model; a refusal is handled below.
+  const response = await client.messages.create({
     model: MODEL,
     max_tokens: 16000,
-    betas: ["server-side-fallback-2026-07-01"],
-    fallbacks: "default",
     output_config: { effort: "high", format: { type: "json_schema", schema: SCHEMA } },
     system: SYSTEM,
     messages: [

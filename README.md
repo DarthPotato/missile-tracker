@@ -49,7 +49,7 @@ npm run build                       # validate + build to dist/
 
 1. Pulls candidates from CSIS (the Cancian and Park author pages), daily DoD contract announcements, the GDELT news index, and, if keyed, the NYT Article Search API.
 2. Keeps items that mention a tracked missile *and* stockpile language.
-3. Sends each article to Claude (`claude-opus-5-5`, structured output) to draft claims with verbatim quotes.
+3. Sends each article to Claude Haiku 5.5 (`claude-haiku-5-5`, structured output) to draft claims with verbatim quotes. Roughly $0.001–0.002 per article.
 4. Throws out any claim whose quote isn't on the page word for word, or that fails the schema.
 5. Opens a pull request with the drafts and a summary. Contract announcements that name a tracked missile appear as leads for updating model inputs.
 

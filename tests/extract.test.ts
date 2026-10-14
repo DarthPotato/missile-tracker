@@ -6,10 +6,15 @@ import { extract, reportId } from "../scripts/pipeline/extract";
 // post-processing (quote check, schema check) is tested without an API call.
 function fakeClient(payload: unknown, stop_reason = "end_turn") {
   return {
-    beta: {
-      messages: {
-        create: async () => ({ stop_reason, content: [{ type: "text", text: JSON.stringify(payload) }] }),
-      },
+    messages: {
+      // Thinking blocks come first on Haiku 5.5; the text block carries the JSON.
+      create: async () => ({
+        stop_reason,
+        content: [
+          { type: "thinking", thinking: "", signature: "x" },
+          { type: "text", text: JSON.stringify(payload) },
+        ],
+      }),
     },
   } as unknown as Anthropic;
 }
