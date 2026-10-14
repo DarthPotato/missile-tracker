@@ -61,7 +61,7 @@ A person merges the pull request. Nothing reaches the site without that review.
 | --- | --- | --- |
 | `ANTHROPIC_API_KEY` | secret | Required for drafting |
 | `NYT_API_KEY` | secret | Optional. Free key from developer.nytimes.com. NYT pages are paywalled, so these drafts use the abstract and are flagged for a manual quote check |
-| `USE_BING_NEWS` | variable | Optional, set to `1`. Adds Bing News RSS, which catches more trade press than GDELT. Bing's terms limit the feed to personal, non-commercial use, so it's off by default |
+| `USE_BING_NEWS` | variable | On unless set to `0`. Bing News RSS is the main news source while GDELT rate-limits GitHub's runners. Bing's terms limit the feed to personal, non-commercial use |
 
 Run it locally without spending API credits: `npm run watch-sources -- --dry-run`.
 

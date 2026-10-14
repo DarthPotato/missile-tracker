@@ -39,7 +39,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
-          USE_BING_NEWS: ${{ vars.USE_BING_NEWS }}
+          # On by default; set the repository variable USE_BING_NEWS to 0 to turn it off.
+          USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
 
       - name: Save watcher state
         if: always()
