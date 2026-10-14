@@ -10,6 +10,8 @@
     "preview": "astro preview",
     "check": "astro check && tsc --noEmit",
     "test": "vitest run",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
     "validate": "tsx scripts/validate-data.ts",
     "watch-sources": "tsx scripts/pipeline/watch.ts",
     "add-source": "tsx scripts/pipeline/add.ts"
@@ -25,8 +27,11 @@
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.20.5",
     "fast-xml-parser": "^5.11.2",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
+    "unpdf": "^1.8.1",
     "vitest": "^5.0.4"
   }
 }

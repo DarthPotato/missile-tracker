@@ -21,34 +21,38 @@ const tags = [...new Set(claims.map((c) => c.confidence))];
   <div class="body">
     <div class="head">
       <span class="outlet">{r.source.outlet}</span>
-      {tags.map((t) => <ConfidenceTag confidence={t} />)}
+      {tags.map((t) => (
+        <ConfidenceTag confidence={t} />
+      ))}
     </div>
-    <h3><a href={r.source.url} rel="noopener">{r.source.title}</a></h3>
+    <h3>
+      <a href={r.source.url} rel="noopener">
+        {r.source.title}
+      </a>
+    </h3>
     <p class="summary">{r.summary}</p>
-    {
-      claims.length > 0 && (
-        <details>
-          <summary>
-            {claims.length} sourced {claims.length === 1 ? "claim" : "claims"}
-          </summary>
-          <ul class="claims">
-            {claims.map((c) => (
-              <li>
-                <div class="claim-head">
-                  <span class="mun">{SHORT_NAME[c.munition]}</span>
-                  <span class="what">{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</span>
-                  <span class="asof">as of {formatDate(c.asOf)}</span>
-                  <ConfidenceTag confidence={c.confidence} />
-                </div>
-                {c.attribution && <div class="attr">Per {c.attribution}</div>}
-                <blockquote>“{c.quote}”</blockquote>
-                {c.note && <div class="note">{c.note}</div>}
-              </li>
-            ))}
-          </ul>
-        </details>
-      )
-    }
+    {claims.length > 0 && (
+      <details>
+        <summary>
+          {claims.length} sourced {claims.length === 1 ? "claim" : "claims"}
+        </summary>
+        <ul class="claims">
+          {claims.map((c) => (
+            <li>
+              <div class="claim-head">
+                <span class="mun">{SHORT_NAME[c.munition]}</span>
+                <span class="what">{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</span>
+                <span class="asof">as of {formatDate(c.asOf)}</span>
+                <ConfidenceTag confidence={c.confidence} />
+              </div>
+              {c.attribution && <div class="attr">Per {c.attribution}</div>}
+              <blockquote>“{c.quote}”</blockquote>
+              {c.note && <div class="note">{c.note}</div>}
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
   </div>
 </article>
 

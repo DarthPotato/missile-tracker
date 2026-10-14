@@ -38,41 +38,49 @@ const data = modes.map((mode) => ({
 ---
 
 <div class="blocks" data-blocks>
-  {
-    !single && (
-      <div class="switch" role="group" aria-label="Block size">
-        <button type="button" data-mode="count" aria-pressed="true">
-          1 block = {PER_COUNT} missiles
-        </button>
-        <button type="button" data-mode="dollars" aria-pressed="false">
-          1 block = {formatDollars(PER_DOLLARS)}
-        </button>
-      </div>
-    )
-  }
-  {
-    data.map((set) => (
-      <div class="set" data-set={set.mode} hidden={set.mode !== "count"}>
-        {set.rows.map(({ m, b, summary, label }) => (
-          <div class="row">
-            <div class="who">
-              {single ? <strong>{m.name}</strong> : <a href={href(`/missiles/${m.id}/`)}>{m.name}</a>}
-              <span class="sum">{summary}</span>
-            </div>
-            <div class="cells" role="img" aria-label={label}>
-              {Array.from({ length: b.left }, () => <i class="l" />)}
-              {Array.from({ length: b.uncertain }, () => <i class="u" />)}
-              {Array.from({ length: b.used }, () => <i class="x" />)}
-            </div>
+  {!single && (
+    <div class="switch" role="group" aria-label="Block size">
+      <button type="button" data-mode="count" aria-pressed="true">
+        1 block = {PER_COUNT} missiles
+      </button>
+      <button type="button" data-mode="dollars" aria-pressed="false">
+        1 block = {formatDollars(PER_DOLLARS)}
+      </button>
+    </div>
+  )}
+  {data.map((set) => (
+    <div class="set" data-set={set.mode} hidden={set.mode !== "count"}>
+      {set.rows.map(({ m, b, summary, label }) => (
+        <div class="row">
+          <div class="who">
+            {single ? <strong>{m.name}</strong> : <a href={href(`/missiles/${m.id}/`)}>{m.name}</a>}
+            <span class="sum">{summary}</span>
           </div>
-        ))}
-      </div>
-    ))
-  }
+          <div class="cells" role="img" aria-label={label}>
+            {Array.from({ length: b.left }, () => (
+              <i class="l" />
+            ))}
+            {Array.from({ length: b.uncertain }, () => (
+              <i class="u" />
+            ))}
+            {Array.from({ length: b.used }, () => (
+              <i class="x" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  ))}
   <p class="key small">
-    <span><i class="l"></i> left</span>
-    <span><i class="u"></i> within the estimate's range</span>
-    <span><i class="x"></i> used since Feb 28</span>
+    <span>
+      <i class="l"></i> left
+    </span>
+    <span>
+      <i class="u"></i> within the estimate's range
+    </span>
+    <span>
+      <i class="x"></i> used since Feb 28
+    </span>
     {!single && <span class="muted">Dollar blocks use each missile's unit cost from CSIS.</span>}
   </p>
 </div>
@@ -83,7 +91,8 @@ const data = modes.map((mode) => ({
     for (const b of buttons) {
       b.addEventListener("click", () => {
         for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
-        for (const set of root.querySelectorAll<HTMLElement>("[data-set]")) set.hidden = set.dataset.set !== b.dataset.mode;
+        for (const set of root.querySelectorAll<HTMLElement>("[data-set]"))
+          set.hidden = set.dataset.set !== b.dataset.mode;
       });
     }
   }

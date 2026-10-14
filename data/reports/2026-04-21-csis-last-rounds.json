@@ -11,8 +11,7 @@
   },
   "summary": "CSIS's inventory estimate for seven key munitions at the April 8 ceasefire, built from DoD budget exhibits (P-5, P-21). Table 1 was updated after publication with WSJ and NYT reporting on Tomahawk and JASSM use. The baseline for most of this site.",
   "addedBy": "human",
-  "quoteCheck": "manual",
-  "quoteCheckNote": "Quotes checked against the PDF text (pdftotext). The HTML version renders its tables as images.",
+  "quoteCheck": "auto",
   "claims": [
     { "munition": "tomahawk", "metric": "prewar", "low": 3100, "high": 3100, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "quote": "Tomahawk $2.6 3,100 1,000+ 47", "note": "Table 1 row: unit cost ($M), prewar inventory, used in the Iran war, delivery timeline (months)." },
     { "munition": "tomahawk", "metric": "expended", "low": 850, "high": 850, "qualifier": "at-least", "asOf": "2026-03-28", "confidence": "reported", "attribution": "The Washington Post", "quote": "The Washington Post reported that U.S. naval assets fired more than 850 TLAMs in the first month of the Iran war." },

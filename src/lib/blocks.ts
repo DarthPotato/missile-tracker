@@ -19,7 +19,11 @@ export interface BlockCounts {
  * Partial blocks round so the total matches the prewar figure, and the left
  * and uncertain counts never exceed it.
  */
-export function blockCounts(h: Pick<Headline, "prewar" | "remaining" | "qualifier">, perBlock: number, scale = 1): BlockCounts {
+export function blockCounts(
+  h: Pick<Headline, "prewar" | "remaining" | "qualifier">,
+  perBlock: number,
+  scale = 1,
+): BlockCounts {
   const blocks = (missiles: number) => (missiles * scale) / perBlock;
   const total = Math.max(1, Math.round(blocks(h.prewar)));
   const clamp = (n: number) => Math.max(0, Math.min(total, n));

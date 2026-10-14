@@ -23,7 +23,12 @@ export interface Article {
 }
 
 /** Model inputs Haiku may propose changing, when an article states the figure outright. */
-export const INPUT_FIELDS = ["deliveriesPerYear", "announcedCapacityPerYear", "fy27Request", "fy27DeliveriesBegin"] as const;
+export const INPUT_FIELDS = [
+  "deliveriesPerYear",
+  "announcedCapacityPerYear",
+  "fy27Request",
+  "fy27DeliveriesBegin",
+] as const;
 export type InputField = (typeof INPUT_FIELDS)[number];
 
 export interface InputUpdate {
@@ -58,7 +63,18 @@ export const SCHEMA = {
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["munition", "metric", "low", "high", "qualifier", "asOf", "confidence", "quote", "attribution", "note"],
+        required: [
+          "munition",
+          "metric",
+          "low",
+          "high",
+          "qualifier",
+          "asOf",
+          "confidence",
+          "quote",
+          "attribution",
+          "note",
+        ],
         properties: {
           munition: { type: "string", enum: [...MUNITION_IDS, "all"] },
           metric: { type: "string", enum: ["prewar", "expended", "remaining", "pct_expended", "statement"] },
@@ -205,7 +221,9 @@ export async function extract(article: Article, client = new Anthropic()): Promi
     const valid =
       (MUNITION_IDS as readonly string[]).includes(raw.munition) &&
       (INPUT_FIELDS as readonly string[]).includes(raw.field) &&
-      (raw.field === "fy27DeliveriesBegin" ? typeof value === "string" && /^\d{4}-\d{2}$/.test(value) : typeof value === "number" && value > 0);
+      (raw.field === "fy27DeliveriesBegin"
+        ? typeof value === "string" && /^\d{4}-\d{2}$/.test(value)
+        : typeof value === "number" && value > 0);
     if (!valid) {
       dropped.push({ quote: raw.quote, reason: `model input ${raw.munition}.${raw.field} has no usable value` });
     } else if (!containsQuote(article.text, raw.quote)) {
@@ -229,7 +247,13 @@ export async function extract(article: Article, client = new Anthropic()): Promi
 
   const parsed = Report.safeParse({
     id: reportId(article),
-    source: { outlet: article.outlet, title: article.title, url: article.url, published: article.published, kind: article.kind ?? "news" },
+    source: {
+      outlet: article.outlet,
+      title: article.title,
+      url: article.url,
+      published: article.published,
+      kind: article.kind ?? "news",
+    },
     summary: draft.summary,
     claims: claims.map((c) => (c.asOf > article.published ? { ...c, asOf: article.published } : c)),
     addedBy: "pipeline",

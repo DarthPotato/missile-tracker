@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+pipeline-out/
+# Data files are written by people and by the pipeline (JSON.stringify, 2 spaces);
+# reformatting them would bury real data changes in noise.
+data/

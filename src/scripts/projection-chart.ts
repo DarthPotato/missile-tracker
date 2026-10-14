@@ -107,7 +107,9 @@ export function mountProjection(root: HTMLElement) {
       items.push([
         "Runs out during the renewed war",
         result.depleted.low ? `Day ${Math.round((t(result.depleted.low) - t(input.war.start)) / DAY) + 1}` : "No",
-        result.shortfall > 0 ? `${nf.format(result.shortfall)} fewer than the war would need (low estimate)` : "Stock outlasts the scenario",
+        result.shortfall > 0
+          ? `${nf.format(result.shortfall)} fewer than the war would need (low estimate)`
+          : "Stock outlasts the scenario",
       ]);
     }
     readout.replaceChildren(
@@ -159,7 +161,11 @@ export function mountProjection(root: HTMLElement) {
     const ticks = 4;
     for (let i = 0; i <= ticks; i++) {
       const v = (ymax / ticks) * i;
-      el("line", { x1: M.left, x2: width - M.right, y1: yScale(v), y2: yScale(v), class: i === 0 ? "baseline" : "gridline" }, g);
+      el(
+        "line",
+        { x1: M.left, x2: width - M.right, y1: yScale(v), y2: yScale(v), class: i === 0 ? "baseline" : "gridline" },
+        g,
+      );
       const tx = el("text", { x: M.left - 8, y: yScale(v) + 4, class: "tick", "text-anchor": "end" }, g);
       tx.textContent = compact(v);
     }
@@ -209,20 +215,29 @@ export function mountProjection(root: HTMLElement) {
     const hist = el("g", { class: "hist" }, svg);
     for (const h of cfg.history) {
       const hx = xScale(t(h.date));
-      if (h.high - h.low > 0) el("line", { x1: hx, x2: hx, y1: yScale(h.low), y2: yScale(h.high), class: "whisker" }, hist);
-      el("circle", { cx: hx, cy: yScale((h.low + h.high) / 2), r: 4.5, class: h.qualifier === "at-most" ? "pt open" : "pt" }, hist);
+      if (h.high - h.low > 0)
+        el("line", { x1: hx, x2: hx, y1: yScale(h.low), y2: yScale(h.high), class: "whisker" }, hist);
+      el(
+        "circle",
+        { cx: hx, cy: yScale((h.low + h.high) / 2), r: 4.5, class: h.qualifier === "at-most" ? "pt open" : "pt" },
+        hist,
+      );
     }
 
     // Recovery marker
     if (result.recovered.low) {
       const rx = xScale(t(result.recovered.low));
       el("circle", { cx: rx, cy: py, r: 5, class: "recover" }, svg);
-      const rl = el("text", {
-        x: Math.min(rx, width - M.right - 4),
-        y: py + 18,
-        class: "recover-label",
-        "text-anchor": rx > width - 140 ? "end" : "middle",
-      }, svg);
+      const rl = el(
+        "text",
+        {
+          x: Math.min(rx, width - M.right - 4),
+          y: py + 18,
+          class: "recover-label",
+          "text-anchor": rx > width - 140 ? "end" : "middle",
+        },
+        svg,
+      );
       rl.textContent = `Back by ${formatMonth(result.recovered.low)}`;
     }
 
@@ -241,9 +256,7 @@ export function mountProjection(root: HTMLElement) {
       cross.setAttribute("visibility", "visible");
       const v = document.createElement("strong");
       v.textContent =
-        Math.round(p.low) === Math.round(p.high)
-          ? nf.format(p.low)
-          : `${nf.format(p.low)}–${nf.format(p.high)}`;
+        Math.round(p.low) === Math.round(p.high) ? nf.format(p.low) : `${nf.format(p.low)}–${nf.format(p.high)}`;
       const d = document.createElement("span");
       d.textContent = `${formatDate(p.date)} · ${t(p.date) <= t(cfg.today) ? "modeled" : "projected"}`;
       tip.replaceChildren(v, d);
@@ -262,7 +275,8 @@ export function mountProjection(root: HTMLElement) {
       const box = svg.getBoundingClientRect();
       const ms = x0 + (((clientX - box.left) * (width / box.width) - M.left) / iw) * (x1 - x0);
       let best = 0;
-      for (let i = 1; i < pts.length; i++) if (Math.abs(t(pts[i].date) - ms) < Math.abs(t(pts[best].date) - ms)) best = i;
+      for (let i = 1; i < pts.length; i++)
+        if (Math.abs(t(pts[i].date) - ms) < Math.abs(t(pts[best].date) - ms)) best = i;
       return best;
     };
     hit.addEventListener("pointermove", (e) => show(nearest((e as PointerEvent).clientX)));

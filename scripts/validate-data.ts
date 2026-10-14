@@ -1,13 +1,30 @@
-// npm run validate                 schema + cross-reference checks (offline)
-// npm run validate -- --quotes     also fetch every "auto" source and confirm
-//                                  each quote appears on the page verbatim
-import { DataError, sourcedParams } from "../src/lib/dataset.ts";
-import { containsQuote } from "../src/lib/text.ts";
-import { fetchText } from "./fetch-text.ts";
-import { loadDataset, ROOT } from "./load-node.ts";
+// npm run validate                       schema + cross-reference checks (offline)
+// npm run validate -- --quotes           also fetch every "auto" source and confirm each
+//                                        quote appears on the page verbatim
+//
+// Options for --quotes:
+//   --only <id,id,...>         check just these reports ("perspective" for that page)
+//   --changed <path,path,...>  pull-request mode: sources tied to these changed files
+//                              must be reachable; others may be unreachable
+//   --allow-unreachable        escape hatch for known-flaky hosts or offline runs:
+//                              unreachable sources warn instead of failing
+//
+// Missing quotes always fail. With no options every source must be reachable,
+// and a run where no source at all can be fetched fails unless --allow-unreachable.
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { DataError } from "../src/lib/dataset.ts";
 import { PerspectiveFile } from "../src/lib/schema.ts";
+import { fetchText } from "./fetch-text.ts";
+import { loadDataset, ROOT } from "./load-node.ts";
+import { checkQuotes, quoteTargets, strictIdsFromChanged, summarize } from "./quotes.ts";
+
+function listArg(name: string): string[] | undefined {
+  const i = process.argv.indexOf(`--${name}`);
+  if (i === -1) return undefined;
+  const v = process.argv[i + 1];
+  return v && !v.startsWith("--") ? v.split(/[\s,]+/).filter(Boolean) : [];
+}
 
 async function main() {
   let ds;
@@ -30,47 +47,25 @@ async function main() {
 
   if (!process.argv.includes("--quotes")) return;
 
-  let failures = 0;
-  for (const r of ds.reports) {
-    if (r.quoteCheck === "manual") {
-      console.log(`skip  ${r.id} (manual quote check)`);
-      continue;
-    }
-    let text: string;
-    try {
-      text = await fetchText(r.source.url);
-    } catch (e) {
-      console.warn(`warn  ${r.id}: could not fetch (${(e as Error).message})`);
-      continue;
-    }
-    const quotes = [
-      ...r.claims.map((c) => c.quote),
-      ...ds.munitions.flatMap((m) => sourcedParams(m).filter((p) => p.reportId === r.id).map((p) => p.quote)),
-    ];
-    const missing = [...new Set(quotes)].filter((q) => !containsQuote(text, q));
-    if (missing.length) {
-      failures += missing.length;
-      for (const q of missing) console.error(`FAIL  ${r.id}: quote not found: "${q.slice(0, 90)}…"`);
-    } else {
-      console.log(`ok    ${r.id}: ${quotes.length} quotes found on page`);
-    }
+  const only = listArg("only");
+  const changed = listArg("changed");
+  const allowUnreachable = process.argv.includes("--allow-unreachable");
+
+  let targets = quoteTargets(ds, p.data);
+  if (only) targets = targets.filter((t) => only.includes(t.id));
+  const strictIds = changed ? strictIdsFromChanged(changed, ds) : undefined;
+  const strict = (id: string) => !allowUnreachable && (strictIds ? strictIds.has(id) : true);
+
+  const r = await checkQuotes(targets, fetchText, { strict, allowNoneReachable: allowUnreachable });
+  for (const id of new Set(r.manual)) console.log(`skip  ${id} (manual quote check)`);
+  for (const u of r.unreachable) {
+    console[u.strict ? "error" : "warn"](
+      `${u.strict ? "FAIL" : "warn"}  ${u.id}: could not fetch ${u.url} (${u.error})`,
+    );
   }
-  // The perspective page's figures get the same check.
-  const figures = [
-    ...p.data.amounts.flatMap((a) => (a.source ? [a.source] : [])),
-    ...p.data.comparisons.map((c) => c.source),
-  ];
-  for (const f of figures) {
-    if (f.quoteCheck === "manual") continue;
-    try {
-      const ok = containsQuote(await fetchText(f.url), f.quote);
-      if (!ok) failures++;
-      console[ok ? "log" : "error"](`${ok ? "ok  " : "FAIL"}  perspective: ${f.outlet}`);
-    } catch (e) {
-      console.warn(`warn  perspective ${f.outlet}: could not fetch (${(e as Error).message})`);
-    }
-  }
-  if (failures) process.exit(1);
+  for (const m of r.missing) console.error(`FAIL  ${m.id}: quote not found: "${m.quote.slice(0, 90)}…"`);
+  console.log(summarize(r));
+  if (!r.ok) process.exit(1);
 }
 
 main();

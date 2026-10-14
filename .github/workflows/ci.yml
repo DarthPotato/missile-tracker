@@ -10,16 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the quote check diffs against the base branch
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Check formatting
+        run: npm run lint
       - name: Validate data
         run: npm run validate
+      # Sources tied to files this PR changes must be reachable; others may be
+      # down without blocking the PR (a run that reaches nothing still fails).
       - name: Check every quote against its source page
         if: github.event_name == 'pull_request'
-        run: npm run validate -- --quotes
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- data/ | paste -sd, -)
+          npm run validate -- --quotes --changed "$changed"
       - run: npm test
       - run: npm run check
       - run: npm run build

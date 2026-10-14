@@ -4,7 +4,10 @@ import ConfidenceTag from "../components/ConfidenceTag.astro";
 import { SITE, href } from "../lib/site";
 ---
 
-<Base title="Methodology" description="Where the numbers come from, how the headline is chosen, and what the rebuild model assumes.">
+<Base
+  title="Methodology"
+  description="Where the numbers come from, how the headline is chosen, and what the rebuild model assumes."
+>
   <article class="prose">
     <p class="label">Methodology</p>
     <h1>How the numbers work</h1>
@@ -23,7 +26,10 @@ import { SITE, href } from "../lib/site";
     </p>
     <p>Each claim gets one of three tags:</p>
     <ul>
-      <li><ConfidenceTag confidence="official" /> On the record from a government body: DoD, an inspector general, CRS, CBO.</li>
+      <li>
+        <ConfidenceTag confidence="official" /> On the record from a government body: DoD, an inspector general, CRS,
+        CBO.
+      </li>
       <li>
         <ConfidenceTag confidence="reported" /> Journalists citing officials, documents or unnamed sources. Often the
         freshest information, but usually without a stated baseline.
@@ -38,12 +44,25 @@ import { SITE, href } from "../lib/site";
     <h2>Quotes are checked by machine</h2>
     <p>
       Before a report is merged, a script downloads the source page and confirms every quote appears in it word for
-      word, ignoring only curly-vs-straight quotes and whitespace. A quote that only paraphrases the source fails.
-      Sources that can't be fetched automatically (a PDF, or a paywall) are marked for manual checking.
+      word. Before comparing, it lowercases both texts, treats curly and straight quotes as the same, treats every kind
+      of dash (hyphen, en dash, em dash, minus) as the same, reads "…" as "...", and collapses runs of whitespace.
+      Nothing else is forgiven: a quote that only paraphrases the source fails.
+    </p>
+    <p>
+      If a source page can't be fetched, the check fails rather than passing quietly. On a pull request, the sources
+      that pull request adds or changes must be reachable; older sources that happen to be down are reported but don't
+      block it. The daily watch lists any older source whose page changed or disappeared in its summary.
+    </p>
+    <p>
+      PDFs are read the same way. CSIS's "Last Rounds?" report, which supplies most prewar and production figures, is a
+      PDF; its quotes are rows from its tables, checked against the text extracted from the file. Sources that can't be
+      fetched automatically, such as a paywalled story, are marked for manual checking.
     </p>
 
     <h2>How the headline is picked</h2>
-    <p>For each missile, the big number is the newest stock-left figure we can state <em>without mixing sources</em>:</p>
+    <p>
+      For each missile, the big number is the newest stock-left figure we can state <em>without mixing sources</em>:
+    </p>
     <ol>
       <li>A direct "this many left" claim, or</li>
       <li>Prewar stock minus the number used, when the same document gives both.</li>
@@ -53,8 +72,8 @@ import { SITE, href } from "../lib/site";
       measured against the same document's prewar figure when it has one, otherwise the most recent earlier one.
     </p>
     <p>
-      Some newer reporting can't be converted. CNN's August report that "nearly 80%" of THAAD interceptors had been
-      used doesn't say 80% <em>of what</em>, and Pentagon and CSIS baselines differ. Rather than multiplying it against
+      Some newer reporting can't be converted. CNN's August report that "nearly 80%" of THAAD interceptors had been used
+      doesn't say 80% <em>of what</em>, and Pentagon and CSIS baselines differ. Rather than multiplying it against
       someone else's number, the site flags it as <strong>Newer reporting</strong> next to the headline.
     </p>
 
@@ -74,8 +93,8 @@ import { SITE, href } from "../lib/site";
       </li>
       <li>
         <strong>A renewed war</strong> is off by default. Turned on, it fires at the opening campaign's average rate
-        (the April ceasefire tally divided by 39 days) unless you change it. Stock can't go below zero; the unmet part is
-        reported as a shortfall.
+        (the April ceasefire tally divided by 39 days) unless you change it. Stock can't go below zero; the unmet part
+        is reported as a shortfall.
       </li>
     </ul>
     <p>What it leaves out, on purpose:</p>
@@ -101,19 +120,20 @@ import { SITE, href } from "../lib/site";
     <h2>How updates happen</h2>
     <p>
       A scheduled job checks a fixed list of sources (CSIS analysts' pages and news searches for each missile) once a
-      day. When something new mentions stockpile numbers, Claude drafts the claims (and any model inputs the article states
-      outright, like a new production rate), a script checks
-      every quote against the page, and the draft opens as a pull request. A person reviews it before anything goes
-      live. Nothing is published straight from an AI.
+      day. When something new mentions stockpile numbers, Claude drafts the claims (and any model inputs the article
+      states outright, like a new production rate), a script checks every quote against the page, and the draft opens as
+      a pull request. A person reviews it before anything goes live. Nothing is published straight from an AI.
     </p>
 
     <h2>Corrections</h2>
     <p>
-      Spotted a wrong number, a newer source, or a quote out of context? <a href={`${SITE.repo}/issues/new`}
-        >Open an issue</a
-      >. All data lives in plain JSON in the <a href={SITE.repo}>repository</a>, one file per source.
+      Spotted a wrong number, a newer source, or a quote out of context?{" "}
+      <a href={`${SITE.repo}/issues/new`}>Open an issue</a>. All data lives in plain JSON in the{" "}
+      <a href={SITE.repo}>repository</a>, one file per source.
     </p>
-    <p><a href={href("/")}>← Back to the tracker</a></p>
+    <p>
+      <a href={href("/")}>← Back to the tracker</a>
+    </p>
   </article>
 </Base>
 

@@ -45,7 +45,9 @@ function invert(q: Qualifier): Qualifier {
 }
 
 export function claimsFor(reports: Report[], id: MunitionId): ClaimRef[] {
-  return reports.flatMap((report) => report.claims.filter((c) => c.munition === id).map((claim) => ({ report, claim })));
+  return reports.flatMap((report) =>
+    report.claims.filter((c) => c.munition === id).map((claim) => ({ report, claim })),
+  );
 }
 
 const mid = (r: Range) => (r.low + r.high) / 2;
@@ -112,6 +114,8 @@ export function headline(reports: Report[], id: MunitionId): Headline | undefine
   const prewarRef = prewarFor(best, refs);
   if (!prewarRef) return undefined;
   const prewar = mid({ low: prewarRef.claim.low!, high: prewarRef.claim.high! });
+  // A zero baseline would make "% left" infinite; treat it as no usable headline.
+  if (!(prewar > 0)) return undefined;
   const newer = refs
     .filter((r) => r.claim.asOf > best.asOf && r.claim.metric !== "prewar")
     .sort((a, b) => b.claim.asOf.localeCompare(a.claim.asOf));

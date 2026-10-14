@@ -19,7 +19,9 @@ const amounts = resolveAmounts(p, getDataset());
     <p class="label">Perspective</p>
     <blockquote class="epigraph">
       <p>“{p.epigraph.text}”</p>
-      <footer>— {p.epigraph.by}, {p.epigraph.work}</footer>
+      <footer>
+        — {p.epigraph.by}, {p.epigraph.work}
+      </footer>
     </blockquote>
 
     <p class="lede">
@@ -28,55 +30,54 @@ const amounts = resolveAmounts(p, getDataset());
     </p>
 
     <div class="pick" role="group" aria-label="Choose an amount">
-      {
-        amounts.map((a, i) => (
-          <button type="button" data-amount={a.id} aria-pressed={i === 0 ? "true" : "false"}>
-            <span class="amt">{formatDollars(a.value)}</span>
-            <span class="what">{a.label}</span>
-          </button>
-        ))
-      }
+      {amounts.map((a, i) => (
+        <button type="button" data-amount={a.id} aria-pressed={i === 0 ? "true" : "false"}>
+          <span class="amt">{formatDollars(a.value)}</span>
+          <span class="what">{a.label}</span>
+        </button>
+      ))}
     </div>
 
-    {
-      amounts.map((a, i) => (
-        <section class="set" data-set={a.id} hidden={i !== 0}>
-          <p class="equals">
-            <strong>{formatDollars(a.value)}</strong> could instead pay for:
-          </p>
-          <div class="cards">
-            {p.comparisons.map((c) => (
-              <div class="card cmp">
-                <div class="big">{formatBig(a.value / c.unitCost)}</div>
-                <div class="unit">{c.unit}</div>
-                <div class="cost small muted">
-                  {c.costNote} ·{" "}
-                  <a href={c.source.url} rel="noopener">
-                    {c.source.outlet}
-                  </a>
-                </div>
+    {amounts.map((a, i) => (
+      <section class="set" data-set={a.id} hidden={i !== 0}>
+        <p class="equals">
+          <strong>{formatDollars(a.value)}</strong> could instead pay for:
+        </p>
+        <div class="cards">
+          {p.comparisons.map((c) => (
+            <div class="card cmp">
+              <div class="big">{formatBig(a.value / c.unitCost)}</div>
+              <div class="unit">{c.unit}</div>
+              <div class="cost small muted">
+                {c.costNote} ·{" "}
+                <a href={c.source.url} rel="noopener">
+                  {c.source.outlet}
+                </a>
               </div>
-            ))}
-          </div>
-          <p class="small muted src">
-            {a.source ? (
-              <>
-                Amount: <a href={a.source.url} rel="noopener">{a.source.outlet}</a>, {formatDate(a.source.published)}.
-              </>
-            ) : (
-              <>{a.note}</>
-            )}
-          </p>
-        </section>
-      ))
-    }
+            </div>
+          ))}
+        </div>
+        <p class="small muted src">
+          {a.source ? (
+            <>
+              Amount:{" "}
+              <a href={a.source.url} rel="noopener">
+                {a.source.outlet}
+              </a>
+              , {formatDate(a.source.published)}.
+            </>
+          ) : (
+            <>{a.note}</>
+          )}
+        </p>
+      </section>
+    ))}
 
     <h2>Reading these numbers</h2>
     <ul class="muted">
       <li>
-        Each figure is a straight division: the amount over one unit's cost. It shows scale, not a budget plan.
-        Programs don't trade dollar for dollar, and defense and social spending come from different parts of the
-        budget.
+        Each figure is a straight division: the amount over one unit's cost. It shows scale, not a budget plan. Programs
+        don't trade dollar for dollar, and defense and social spending come from different parts of the budget.
       </li>
       <li>
         The war cost is the Pentagon Inspector General's estimate through June 30, before fighting resumed in July. The

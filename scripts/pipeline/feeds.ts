@@ -1,6 +1,7 @@
 // Where the daily watcher looks. Each feed returns lightweight items; the
 // watcher fetches full text only for items that pass the keyword filter.
 import { XMLParser } from "fast-xml-parser";
+import { redact } from "../fetch-text.ts";
 
 export interface FeedItem {
   url: string;
@@ -16,8 +17,10 @@ export interface FeedItem {
   undated?: boolean;
 }
 
-const MUNITION_WORDS = /\b(patriot|pac-3|thaad|sm-3|sm-6|standard missile|tomahawk|tlam|jassm|precision strike missile|prsm|atacms)\b/i;
-const STOCK_WORDS = /\b(stockpile|stockpiles|inventor(y|ies)|interceptors?|munitions?|expended|depleted|shortfall|replenish|winchester)\b/i;
+const MUNITION_WORDS =
+  /\b(patriot|pac-3|thaad|sm-3|sm-6|standard missile|tomahawk|tlam|jassm|precision strike missile|prsm|atacms)\b/i;
+const STOCK_WORDS =
+  /\b(stockpile|stockpiles|inventor(y|ies)|interceptors?|munitions?|expended|depleted|shortfall|replenish|winchester)\b/i;
 
 export function looksRelevant(text: string): boolean {
   return MUNITION_WORDS.test(text) && STOCK_WORDS.test(text);
@@ -30,11 +33,13 @@ const UA = "missile-tracker/0.1 (+https://github.com/DarthPotato/missile-tracker
 
 async function get(url: string): Promise<string> {
   const res = await fetch(url, { headers: { "user-agent": UA } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
+  // redact(): the NYT API key rides in the query string; never print it.
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${redact(url)}`);
   return res.text();
 }
 
-function rssItems(body: string): { title: string; link: string; pubDate?: string; description?: string }[] {
+/** Parse an RSS 2.0 body; works for a channel with one <item> or many. */
+export function parseRss(body: string): { title: string; link: string; pubDate?: string; description?: string }[] {
   const doc = xml.parse(body);
   const items = doc?.rss?.channel?.item ?? [];
   return (Array.isArray(items) ? items : [items]).map((i: Record<string, unknown>) => ({
@@ -71,20 +76,40 @@ export async function csis(): Promise<FeedItem[]> {
 }
 
 /**
- * Bing News RSS returns publisher URLs (inside its click-tracking link). Its
- * terms limit the feed to personal, non-commercial aggregation, so it's off
- * unless USE_BING_NEWS=1.
+ * Bing News RSS returns publisher URLs (inside its click-tracking link).
+ * Runs only when USE_BING_NEWS=1: the watch workflow sets that by default
+ * (repository variable USE_BING_NEWS=0 turns it off); local runs leave it off
+ * unless you set it. Its terms limit the feed to personal, non-commercial
+ * aggregation.
  */
+/** One Bing RSS item to a FeedItem, or undefined if its links are malformed (skips only that item). */
+export function bingItem(i: { title: string; link: string; pubDate?: string }): FeedItem | undefined {
+  try {
+    const real = new URL(i.link).searchParams.get("url");
+    if (!real) return undefined;
+    const published = i.pubDate && !Number.isNaN(Date.parse(i.pubDate)) ? day(i.pubDate) : day(Date.now());
+    return { url: real, title: i.title, outlet: new URL(real).hostname.replace(/^www\./, ""), published, kind: "news" };
+  } catch {
+    return undefined;
+  }
+}
+
 export async function bing(): Promise<FeedItem[]> {
   if (process.env.USE_BING_NEWS !== "1") return [];
-  const queries = ["THAAD interceptors stockpile", "Patriot interceptors stockpile", "Tomahawk missiles stockpile", "SM-6 SM-3 interceptors Navy", "JASSM stockpile", "munitions stockpile Iran war"];
+  const queries = [
+    "THAAD interceptors stockpile",
+    "Patriot interceptors stockpile",
+    "Tomahawk missiles stockpile",
+    "SM-6 SM-3 interceptors Navy",
+    "JASSM stockpile",
+    "munitions stockpile Iran war",
+  ];
   const out: FeedItem[] = [];
   for (const q of queries) {
     try {
-      for (const i of rssItems(await get(`https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss`))) {
-        const real = new URL(i.link).searchParams.get("url");
-        if (!real) continue;
-        out.push({ url: real, title: i.title, outlet: new URL(real).hostname.replace(/^www\./, ""), published: i.pubDate ? day(i.pubDate) : day(Date.now()), kind: "news" });
+      for (const i of parseRss(await get(`https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss`))) {
+        const item = bingItem(i);
+        if (item) out.push(item);
       }
     } catch (e) {
       console.warn(`bing: ${(e as Error).message}`);
@@ -99,7 +124,9 @@ export async function bing(): Promise<FeedItem[]> {
  * article requests from cloud IPs (GitHub's runners included).
  */
 export async function contracts(): Promise<FeedItem[]> {
-  const items = rssItems(await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"));
+  const items = parseRss(
+    await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"),
+  );
   return items.map((i) => ({
     url: i.link,
     title: i.title,
@@ -131,7 +158,9 @@ export async function gdelt(): Promise<FeedItem[]> {
         await sleep(20_000);
         return get(target);
       });
-      const data = JSON.parse(body) as { articles?: { url: string; title: string; domain: string; seendate: string }[] };
+      const data = JSON.parse(body) as {
+        articles?: { url: string; title: string; domain: string; seendate: string }[];
+      };
       for (const a of data.articles ?? []) {
         const s = a.seendate; // 20261013T120000Z
         out.push({
@@ -163,7 +192,14 @@ export async function nyt(apiKey: string | undefined): Promise<FeedItem[]> {
   try {
     const data = JSON.parse(await get(url));
     return (data.response?.docs ?? []).map(
-      (d: { web_url: string; headline?: { main?: string }; abstract?: string; lead_paragraph?: string; snippet?: string; pub_date: string }) => ({
+      (d: {
+        web_url: string;
+        headline?: { main?: string };
+        abstract?: string;
+        lead_paragraph?: string;
+        snippet?: string;
+        pub_date: string;
+      }) => ({
         url: d.web_url,
         title: d.headline?.main ?? "",
         outlet: "The New York Times",

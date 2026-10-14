@@ -24,7 +24,8 @@ const basis = h.basis.at(-1)!;
 const burn = phase1BurnPerDay(ds.reports, m.id);
 const days = burn ? daysOfFire(h.remaining, burn) : undefined;
 const claims = claimsFor(ds.reports, m.id).sort(
-  (a, b) => b.claim.asOf.localeCompare(a.claim.asOf) || b.report.source.published.localeCompare(a.report.source.published),
+  (a, b) =>
+    b.claim.asOf.localeCompare(a.claim.asOf) || b.report.source.published.localeCompare(a.report.source.published),
 );
 
 type ParamRow = { label: string; value: string; reportId: string; quote: string; note?: string };
@@ -32,7 +33,13 @@ const params: ParamRow[] = [
   { ...m.unitCostM, label: "Unit cost", value: `$${m.unitCostM.value}M` },
   { ...m.deliveriesPerYear, label: "U.S. deliveries per year (recent average)", value: fmt(m.deliveriesPerYear.value) },
   ...(m.announcedCapacityPerYear
-    ? [{ ...m.announcedCapacityPerYear, label: "Announced production capacity (all customers)", value: `${fmt(m.announcedCapacityPerYear.value)}/yr` }]
+    ? [
+        {
+          ...m.announcedCapacityPerYear,
+          label: "Announced production capacity (all customers)",
+          value: `${fmt(m.announcedCapacityPerYear.value)}/yr`,
+        },
+      ]
     : []),
   ...(m.fy27Request ? [{ ...m.fy27Request, label: "FY2027 budget request", value: fmt(m.fy27Request.value) }] : []),
   ...(m.fy27DeliveriesBegin
@@ -40,7 +47,13 @@ const params: ParamRow[] = [
     : []),
   { ...m.lotMonths, label: "Months to deliver a full lot", value: String(m.lotMonths.value) },
   ...(m.rebuildOutlook ? [{ ...m.rebuildOutlook, label: "CSIS rebuild outlook", value: m.rebuildOutlook.text }] : []),
-].map((p) => ({ label: p.label, value: p.value, reportId: p.reportId, quote: p.quote, note: "note" in p ? p.note : undefined }));
+].map((p) => ({
+  label: p.label,
+  value: p.value,
+  reportId: p.reportId,
+  quote: p.quote,
+  note: "note" in p ? p.note : undefined,
+}));
 const others = ds.munitions.filter((x) => x.id !== m.id);
 ---
 
@@ -49,15 +62,21 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   description={`How many ${m.name} missiles the U.S. has left, with sources, and how long the rebuild takes.`}
   ogImage={`/og/${m.id}.png`}
 >
-  <p class="crumb"><a href={href("/#board")}>← All missiles</a></p>
+  <p class="crumb">
+    <a href={href("/#board")}>← All missiles</a>
+  </p>
 
   <header class="mhead">
     <div>
-      <div class="label">{m.role === "strike" ? "Long-range strike" : "Air & missile defense"} · {m.operator}</div>
+      <div class="label">
+        {m.role === "strike" ? "Long-range strike" : "Air & missile defense"} · {m.operator}
+      </div>
       <h1>{m.name}</h1>
       <p class="full muted">{m.fullName}</p>
       <p class="blurb">{m.blurb}</p>
-      <p class="facts small muted">Launched from: {m.launchedFrom} · ~${m.unitCostM.value}M each</p>
+      <p class="facts small muted">
+        Launched from: {m.launchedFrom} · ~${m.unitCostM.value}M each
+      </p>
     </div>
     <div class="card now">
       <div class="now-top">
@@ -69,59 +88,67 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
       <p class="small muted">
         {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} before the war · as of {formatDate(h.asOf)}
       </p>
-      {
-        days && (
-          <p class="small muted">
-            At the opening campaign's pace (~{Math.round(burn!)}/day) that's{" "}
-            <strong>
-              {Math.round(days.low) === Math.round(days.high)
-                ? `~${Math.round(days.low)}`
-                : `${Math.round(days.low)}–${Math.round(days.high)}`}{" "}
-              days
-            </strong>{" "}
-            of fire with no resupply.
-          </p>
-        )
-      }
+      {days && (
+        <p class="small muted">
+          At the opening campaign's pace (~{Math.round(burn!)}/day) that's{" "}
+          <strong>
+            {Math.round(days.low) === Math.round(days.high)
+              ? `~${Math.round(days.low)}`
+              : `${Math.round(days.low)}–${Math.round(days.high)}`}{" "}
+            days
+          </strong>{" "}
+          of fire with no resupply.
+        </p>
+      )}
       <div class="src small">
         <ConfidenceTag confidence={basis.claim.confidence} />
-        <a href={basis.report.source.url} rel="noopener">{basis.report.source.outlet}, {formatDate(basis.report.source.published)}</a>
+        <a href={basis.report.source.url} rel="noopener">
+          {basis.report.source.outlet}, {formatDate(basis.report.source.published)}
+        </a>
         {h.method === "prewar-minus-expended" && <span class="muted">(prewar minus reported use)</span>}
       </div>
     </div>
   </header>
 
-  {
-    h.newer.length > 0 && (
-      <aside class="card newer">
-        <div class="label">Newer reporting not in the headline</div>
-        {h.newer.map((r) => (
-          <div class="newer-item">
-            <div class="small">
-              <strong>{r.claim.attribution?.split(",")[0] ?? r.report.source.outlet}</strong>, {formatDate(r.claim.asOf)}
-              {r.claim.metric !== "statement" && <>: {describeClaim(r.claim)}</>} <ConfidenceTag confidence={r.claim.confidence} />
-            </div>
-            <blockquote>“{r.claim.quote}”</blockquote>
-            <div class="small muted">
-              via <a href={r.report.source.url} rel="noopener">{r.report.source.outlet}, {formatDate(r.report.source.published)}</a>
-            </div>
+  {h.newer.length > 0 && (
+    <aside class="card newer">
+      <div class="label">Newer reporting not in the headline</div>
+      {h.newer.map((r) => (
+        <div class="newer-item">
+          <div class="small">
+            <strong>{r.claim.attribution?.split(",")[0] ?? r.report.source.outlet}</strong>, {formatDate(r.claim.asOf)}
+            {r.claim.metric !== "statement" && <>: {describeClaim(r.claim)}</>}{" "}
+            <ConfidenceTag confidence={r.claim.confidence} />
           </div>
-        ))}
-        <p class="small muted">
-          These can't be turned into a count on the same baseline as the headline (a percentage of an undisclosed total,
-          or no number at all), so they're shown here rather than mixed in.
-        </p>
-      </aside>
-    )
-  }
+          <blockquote>“{r.claim.quote}”</blockquote>
+          <div class="small muted">
+            via{" "}
+            <a href={r.report.source.url} rel="noopener">
+              {r.report.source.outlet}, {formatDate(r.report.source.published)}
+            </a>
+          </div>
+        </div>
+      ))}
+      <p class="small muted">
+        These can't be turned into a count on the same baseline as the headline (a percentage of an undisclosed total,
+        or no number at all), so they're shown here rather than mixed in.
+      </p>
+    </aside>
+  )}
 
   <section>
-    <div class="section-head"><span class="label">01</span><h2>In blocks of 10</h2></div>
+    <div class="section-head">
+      <span class="label">01</span>
+      <h2>In blocks of 10</h2>
+    </div>
     <BlockGrid rows={[{ munition: m, headline: h }]} single />
   </section>
 
   <section>
-    <div class="section-head"><span class="label">02</span><h2>Rebuild model</h2></div>
+    <div class="section-head">
+      <span class="label">02</span>
+      <h2>Rebuild model</h2>
+    </div>
     <p class="muted intro">
       How fast does the stockpile come back? This projects it forward from the deliveries already in the pipeline and
       the FY2027 rebuild order, using the budget's own schedules. Move the sliders to test faster production or a
@@ -131,73 +158,94 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   </section>
 
   <section>
-    <div class="section-head"><span class="label">03</span><h2>Every estimate</h2></div>
+    <div class="section-head">
+      <span class="label">03</span>
+      <h2>Every estimate</h2>
+    </div>
     <div class="table-scroll">
       <table>
         <thead>
-          <tr><th>As of</th><th>Claim</th><th>Source</th><th>Type</th></tr>
+          <tr>
+            <th>As of</th>
+            <th>Claim</th>
+            <th>Source</th>
+            <th>Type</th>
+          </tr>
         </thead>
         <tbody>
-          {
-            claims.map(({ claim: c, report: r }) => (
-              <tr>
-                <td class="nowrap">{formatDate(c.asOf)}</td>
-                <td>
-                  <strong>{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</strong>
-                  {c.attribution && <div class="small muted">Per {c.attribution}</div>}
-                  <details>
-                    <summary class="small">Quote</summary>
-                    <blockquote>“{c.quote}”</blockquote>
-                    {c.note && <div class="small muted">{c.note}</div>}
-                  </details>
-                </td>
-                <td>
-                  <a href={r.source.url} rel="noopener">{r.source.outlet}</a>
-                  <div class="small muted">{formatDate(r.source.published)}</div>
-                </td>
-                <td><ConfidenceTag confidence={c.confidence} /></td>
-              </tr>
-            ))
-          }
+          {claims.map(({ claim: c, report: r }) => (
+            <tr>
+              <td class="nowrap">{formatDate(c.asOf)}</td>
+              <td>
+                <strong>{c.metric === "statement" ? METRIC_LABEL.statement : describeClaim(c)}</strong>
+                {c.attribution && <div class="small muted">Per {c.attribution}</div>}
+                <details>
+                  <summary class="small">Quote</summary>
+                  <blockquote>“{c.quote}”</blockquote>
+                  {c.note && <div class="small muted">{c.note}</div>}
+                </details>
+              </td>
+              <td>
+                <a href={r.source.url} rel="noopener">
+                  {r.source.outlet}
+                </a>
+                <div class="small muted">{formatDate(r.source.published)}</div>
+              </td>
+              <td>
+                <ConfidenceTag confidence={c.confidence} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="label">04</span><h2>Model inputs</h2></div>
+    <div class="section-head">
+      <span class="label">04</span>
+      <h2>Model inputs</h2>
+    </div>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>Input</th><th class="num">Value</th><th>Source</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th class="num">Value</th>
+            <th>Source</th>
+          </tr>
+        </thead>
         <tbody>
-          {
-            params.map((p) => {
-              const r = ds.reportsById.get(p.reportId)!;
-              return (
-                <tr>
-                  <td>
-                    {p.label}
-                    {p.note && <div class="small muted">{p.note}</div>}
-                  </td>
-                  <td class="num">{p.value}</td>
-                  <td>
-                    <a href={r.source.url} rel="noopener">{r.source.outlet}, {formatDate(r.source.published)}</a>
-                    <details>
-                      <summary class="small">Quote</summary>
-                      <blockquote>“{p.quote}”</blockquote>
-                    </details>
-                  </td>
-                </tr>
-              );
-            })
-          }
+          {params.map((p) => {
+            const r = ds.reportsById.get(p.reportId)!;
+            return (
+              <tr>
+                <td>
+                  {p.label}
+                  {p.note && <div class="small muted">{p.note}</div>}
+                </td>
+                <td class="num">{p.value}</td>
+                <td>
+                  <a href={r.source.url} rel="noopener">
+                    {r.source.outlet}, {formatDate(r.source.published)}
+                  </a>
+                  <details>
+                    <summary class="small">Quote</summary>
+                    <blockquote>“{p.quote}”</blockquote>
+                  </details>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
   </section>
 
   <nav class="others" aria-label="Other missiles">
-    {others.map((o) => <a href={href(`/missiles/${o.id}/`)}>{o.name}</a>)}
+    {others.map((o) => (
+      <a href={href(`/missiles/${o.id}/`)}>{o.name}</a>
+    ))}
   </nav>
 </Base>
 
