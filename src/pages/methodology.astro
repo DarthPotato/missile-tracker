@@ -101,7 +101,8 @@ import { SITE, href } from "../lib/site";
     <h2>How updates happen</h2>
     <p>
       A scheduled job checks a fixed list of sources (CSIS analysts' pages and news searches for each missile) once a
-      day. When something new mentions stockpile numbers, Claude drafts the claims, a script checks
+      day. When something new mentions stockpile numbers, Claude drafts the claims (and any model inputs the article states
+      outright, like a new production rate), a script checks
       every quote against the page, and the draft opens as a pull request. A person reviews it before anything goes
       live. Nothing is published straight from an AI.
     </p>

@@ -13,6 +13,7 @@ import { fetchText } from "../fetch-text.ts";
 import { loadDataset, REPORTS_DIR, ROOT } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
 import { extract, type Article } from "./extract.ts";
+import { applyToFile } from "./inputs.ts";
 import { bing, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
 
 const STATE_FILE = path.join(ROOT, "data", "pipeline-state.json");
@@ -124,6 +125,13 @@ async function main() {
         const lines = result.report.claims.map(
           (c) => `  - **${SHORT_NAME[c.munition]}** ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`,
         );
+        if (result.inputUpdates.length) {
+          const { applied, rejected } = applyToFile(result.inputUpdates, result.report.id);
+          for (const a of applied) {
+            lines.push(`  - 🔧 **Model input:** ${SHORT_NAME[a.munition]} \`${a.field}\` ${a.previous ?? "(none)"} → **${a.value}** — "${a.quote}"`);
+          }
+          for (const r of rejected) lines.push(`  - model input not applied: ${SHORT_NAME[r.update.munition]} \`${r.update.field}\` (${r.reason})`);
+        }
         drafted.push(
           `- [${item.title}](${item.url}) — ${item.outlet}, ${item.published}${partial ? " · ⚠️ abstract only, check quotes by hand" : ""}\n  ${result.summary}\n${lines.join("\n")}${drops ? `\n${drops}` : ""}`,
         );

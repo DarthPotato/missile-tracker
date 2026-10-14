@@ -91,4 +91,25 @@ describe("extract", () => {
     };
     walk(SCHEMA);
   });
+
+  it("turns an outright figure into a model-input update, even with no stock claims", async () => {
+    const text = "The Army says THAAD production will reach 400 interceptors a year. Raytheon also won a $6 billion deal.";
+    const r = await extract(
+      { ...article, text },
+      fakeClient({
+        relevant: true,
+        summary: "Production capacity news for THAAD.",
+        claims: [],
+        modelInputs: [
+          { munition: "thaad", field: "announcedCapacityPerYear", number: 400, month: null, quote: "THAAD production will reach 400 interceptors a year", note: null },
+          { munition: "sm3", field: "fy27Request", number: null, month: null, quote: "Raytheon also won a $6 billion deal", note: null },
+        ],
+      }),
+    );
+    expect(r.report?.claims).toEqual([]);
+    expect(r.inputUpdates).toEqual([
+      { munition: "thaad", field: "announcedCapacityPerYear", value: 400, quote: "THAAD production will reach 400 interceptors a year" },
+    ]);
+    expect(r.dropped[0].reason).toMatch(/no usable value/);
+  });
 });

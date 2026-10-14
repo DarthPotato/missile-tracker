@@ -10,6 +10,7 @@ import { fetchText } from "../fetch-text.ts";
 import { REPORTS_DIR } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
 import { extract } from "./extract.ts";
+import { applyToFile } from "./inputs.ts";
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -44,6 +45,11 @@ async function main() {
   console.log(`Wrote ${path.relative(process.cwd(), file)}\n${result.summary}`);
   for (const c of result.report.claims) {
     console.log(`  ${SHORT_NAME[c.munition]}: ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`);
+  }
+  if (result.inputUpdates.length) {
+    const { applied, rejected } = applyToFile(result.inputUpdates, result.report.id);
+    for (const a of applied) console.log(`  model input: ${SHORT_NAME[a.munition]}.${a.field} ${a.previous ?? "(none)"} -> ${a.value}`);
+    for (const r of rejected) console.log(`  model input not applied: ${SHORT_NAME[r.update.munition]}.${r.update.field} (${r.reason})`);
   }
   console.log("Check the outlet, title and date fields, then run `npm run validate`.");
 }

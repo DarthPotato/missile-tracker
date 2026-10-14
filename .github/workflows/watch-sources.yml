@@ -67,5 +67,7 @@ jobs:
           title: "Source check: new stockpile reporting"
           body-path: pipeline-out/summary.md
           commit-message: "Draft reports from daily source check"
-          add-paths: data/reports/*.json
+          add-paths: |
+            data/reports/*.json
+            data/munitions.json
           labels: sources
