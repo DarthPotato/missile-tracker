@@ -1,3 +1,4 @@
+import { headline } from "./model";
 import { MunitionsFile, Report, type Munition, type MunitionId, type Report as ReportT } from "./schema";
 
 export interface Dataset {
@@ -58,6 +59,16 @@ export function buildDataset(munitionsJson: unknown, reportFiles: { file: string
   for (const r of reports) {
     for (const c of r.claims) {
       if (c.asOf > r.source.published) problems.push(`${r.id}: claim asOf ${c.asOf} is after the source was published`);
+    }
+  }
+
+  // Every page and share image needs a headline; say which missile lacks one
+  // instead of crashing the build on an undefined value later.
+  if (!problems.length) {
+    for (const mu of munitions) {
+      if (!headline(reports, mu.id)) {
+        problems.push(`${mu.id}: no usable headline (needs a "remaining" claim, or prewar + expended from one report, with prewar > 0)`);
+      }
     }
   }
 

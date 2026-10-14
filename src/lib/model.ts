@@ -112,6 +112,8 @@ export function headline(reports: Report[], id: MunitionId): Headline | undefine
   const prewarRef = prewarFor(best, refs);
   if (!prewarRef) return undefined;
   const prewar = mid({ low: prewarRef.claim.low!, high: prewarRef.claim.high! });
+  // A zero baseline would make "% left" infinite; treat it as no usable headline.
+  if (!(prewar > 0)) return undefined;
   const newer = refs
     .filter((r) => r.claim.asOf > best.asOf && r.claim.metric !== "prewar")
     .sort((a, b) => b.claim.asOf.localeCompare(a.claim.asOf));

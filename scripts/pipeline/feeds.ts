@@ -1,6 +1,7 @@
 // Where the daily watcher looks. Each feed returns lightweight items; the
 // watcher fetches full text only for items that pass the keyword filter.
 import { XMLParser } from "fast-xml-parser";
+import { redact } from "../fetch-text.ts";
 
 export interface FeedItem {
   url: string;
@@ -30,7 +31,8 @@ const UA = "missile-tracker/0.1 (+https://github.com/DarthPotato/missile-tracker
 
 async function get(url: string): Promise<string> {
   const res = await fetch(url, { headers: { "user-agent": UA } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
+  // redact(): the NYT API key rides in the query string; never print it.
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${redact(url)}`);
   return res.text();
 }
 
@@ -78,6 +80,18 @@ export async function csis(): Promise<FeedItem[]> {
  * unless you set it. Its terms limit the feed to personal, non-commercial
  * aggregation.
  */
+/** One Bing RSS item to a FeedItem, or undefined if its links are malformed (skips only that item). */
+export function bingItem(i: { title: string; link: string; pubDate?: string }): FeedItem | undefined {
+  try {
+    const real = new URL(i.link).searchParams.get("url");
+    if (!real) return undefined;
+    const published = i.pubDate && !Number.isNaN(Date.parse(i.pubDate)) ? day(i.pubDate) : day(Date.now());
+    return { url: real, title: i.title, outlet: new URL(real).hostname.replace(/^www\./, ""), published, kind: "news" };
+  } catch {
+    return undefined;
+  }
+}
+
 export async function bing(): Promise<FeedItem[]> {
   if (process.env.USE_BING_NEWS !== "1") return [];
   const queries = ["THAAD interceptors stockpile", "Patriot interceptors stockpile", "Tomahawk missiles stockpile", "SM-6 SM-3 interceptors Navy", "JASSM stockpile", "munitions stockpile Iran war"];
@@ -85,9 +99,8 @@ export async function bing(): Promise<FeedItem[]> {
   for (const q of queries) {
     try {
       for (const i of parseRss(await get(`https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss`))) {
-        const real = new URL(i.link).searchParams.get("url");
-        if (!real) continue;
-        out.push({ url: real, title: i.title, outlet: new URL(real).hostname.replace(/^www\./, ""), published: i.pubDate ? day(i.pubDate) : day(Date.now()), kind: "news" });
+        const item = bingItem(i);
+        if (item) out.push(item);
       }
     } catch (e) {
       console.warn(`bing: ${(e as Error).message}`);
