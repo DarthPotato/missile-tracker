@@ -7,7 +7,11 @@ const quote = "a quote long enough to pass";
 
 describe("applyInputUpdates", () => {
   it("replaces a parameter and points it at the new report", () => {
-    const r = applyInputUpdates(munitions, [{ munition: "thaad", field: "deliveriesPerYear", value: 96, quote }], "new-report");
+    const r = applyInputUpdates(
+      munitions,
+      [{ munition: "thaad", field: "deliveriesPerYear", value: 96, quote }],
+      "new-report",
+    );
     const thaad = r.munitions.find((m) => m.id === "thaad")!;
     expect(thaad.deliveriesPerYear).toEqual({ value: 96, reportId: "new-report", quote });
     expect(r.applied[0].previous).toBe(28);

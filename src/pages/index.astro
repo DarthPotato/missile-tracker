@@ -47,9 +47,9 @@ const lastUpdate = ds.reports[0].source.published;
         </p>
         <div class="hero-src">
           <ConfidenceTag confidence={fbasis.claim.confidence} />
-          <a href={fbasis.report.source.url} rel="noopener"
-            >{fbasis.claim.attribution ?? fbasis.report.source.outlet} via {fbasis.report.source.outlet}</a
-          >
+          <a href={fbasis.report.source.url} rel="noopener">
+            {fbasis.claim.attribution ?? fbasis.report.source.outlet} via {fbasis.report.source.outlet}
+          </a>
         </div>
       </div>
       <div class="tiles">
@@ -57,37 +57,48 @@ const lastUpdate = ds.reports[0].source.published;
           <div class="tile-label">Share of prewar stock used</div>
           <div class="tile-value">{usedLow === usedHigh ? `~${usedLow}%` : `${usedLow}–${usedHigh}%`}</div>
         </div>
-        {
-          days && (
-            <div class="card tile">
-              <div class="tile-label">Days of fire left at the opening campaign's average pace</div>
-              <div class="tile-value">
-                {Math.round(days.low) === Math.round(days.high) ? `~${Math.round(days.low)}` : `${Math.round(days.low)}–${Math.round(days.high)}`}
-              </div>
-              <div class="tile-note">~{Math.round(burn!)} a day over the first 39 days, no resupply</div>
+        {days && (
+          <div class="card tile">
+            <div class="tile-label">Days of fire left at the opening campaign's average pace</div>
+            <div class="tile-value">
+              {Math.round(days.low) === Math.round(days.high)
+                ? `~${Math.round(days.low)}`
+                : `${Math.round(days.low)}–${Math.round(days.high)}`}
             </div>
-          )
-        }
-        {
-          recovered.low && (
-            <div class="card tile">
-              <div class="tile-label">Back to prewar level (our model)</div>
-              <div class="tile-value">{formatMonth(recovered.low)}</div>
-              {fm.rebuildOutlook && <div class="tile-note">CSIS: {fm.rebuildOutlook.text}</div>}
-            </div>
-          )
-        }
+            <div class="tile-note">~{Math.round(burn!)} a day over the first 39 days, no resupply</div>
+          </div>
+        )}
+        {recovered.low && (
+          <div class="card tile">
+            <div class="tile-label">Back to prewar level (our model)</div>
+            <div class="tile-value">{formatMonth(recovered.low)}</div>
+            {fm.rebuildOutlook && <div class="tile-note">CSIS: {fm.rebuildOutlook.text}</div>}
+          </div>
+        )}
       </div>
     </div>
-    <a class="cta" href={href(`/missiles/${fm.id}/`)}>Explore the {fm.name} rebuild model →</a>
+    <a class="cta" href={href(`/missiles/${fm.id}/`)}>
+      Explore the {fm.name} rebuild model →
+    </a>
   </section>
 
   <section id="board">
-    <div class="section-head"><span class="label">01</span><h2>Stockpile board</h2></div>
+    <div class="section-head">
+      <span class="label">01</span>
+      <h2>Stockpile board</h2>
+    </div>
     <h3 class="group label">Air &amp; missile defense</h3>
-    <div class="grid">{airDefense.map((r) => <MunitionCard munition={r.m} headline={r.h} />)}</div>
+    <div class="grid">
+      {airDefense.map((r) => (
+        <MunitionCard munition={r.m} headline={r.h} />
+      ))}
+    </div>
     <h3 class="group label">Long-range strike</h3>
-    <div class="grid">{strike.map((r) => <MunitionCard munition={r.m} headline={r.h} />)}</div>
+    <div class="grid">
+      {strike.map((r) => (
+        <MunitionCard munition={r.m} headline={r.h} />
+      ))}
+    </div>
     <p class="small muted legend">
       <span class="key solid"></span> low end of the estimate <span class="key soft"></span> range up to the high end
       (an "at most" figure is all light) <span class="key track"></span> used since Feb 28. Each card uses the newest
@@ -96,7 +107,10 @@ const lastUpdate = ds.reports[0].source.published;
   </section>
 
   <section id="blocks">
-    <div class="section-head"><span class="label">02</span><h2>Every missile, in blocks</h2></div>
+    <div class="section-head">
+      <span class="label">02</span>
+      <h2>Every missile, in blocks</h2>
+    </div>
     <p class="muted small intro">
       Same estimates as the board, at one scale, so the sizes compare directly. Switch to dollars to see what's been
       spent.
@@ -105,23 +119,30 @@ const lastUpdate = ds.reports[0].source.published;
   </section>
 
   <section id="updates">
-    <div class="section-head"><span class="label">03</span><h2>Source log</h2></div>
+    <div class="section-head">
+      <span class="label">03</span>
+      <h2>Source log</h2>
+    </div>
     <p class="muted small">
       Every document behind the numbers, newest first. Open one to see each claim with its exact quote.
     </p>
-    {ds.reports.map((r) => <ReportEntry report={r} />)}
+    {ds.reports.map((r) => (
+      <ReportEntry report={r} />
+    ))}
   </section>
 
   <section id="method">
-    <div class="section-head"><span class="label">04</span><h2>How this works</h2></div>
+    <div class="section-head">
+      <span class="label">04</span>
+      <h2>How this works</h2>
+    </div>
     <div class="method-grid">
       <div>
         <h3>Estimates, labeled</h3>
         <p class="muted">
-          Stockpiles are classified. Every number carries a tag: <ConfidenceTag confidence="official" /> on the record from
-          a government body, <ConfidenceTag confidence="reported" /> journalists citing officials or documents, and <ConfidenceTag
-            confidence="estimate"
-          /> an analyst's model built from budget documents.
+          Stockpiles are classified. Every number carries a tag: <ConfidenceTag confidence="official" /> on the record
+          from a government body, <ConfidenceTag confidence="reported" /> journalists citing officials or documents, and{" "}
+          <ConfidenceTag confidence="estimate" /> an analyst's model built from budget documents.
         </p>
       </div>
       <div>
@@ -139,7 +160,9 @@ const lastUpdate = ds.reports[0].source.published;
         </p>
       </div>
     </div>
-    <p><a href={href("/methodology/")}>Full methodology →</a></p>
+    <p>
+      <a href={href("/methodology/")}>Full methodology →</a>
+    </p>
   </section>
 </Base>
 

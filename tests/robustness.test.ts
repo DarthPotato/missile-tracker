@@ -18,8 +18,26 @@ describe("headline", () => {
       addedBy: "human",
       quoteCheck: "auto",
       claims: [
-        { munition: "prsm", metric: "prewar", low: 0, high: 0, qualifier: "about", asOf: "2026-02-28", confidence: "estimate", quote: "zero prewar in this test" },
-        { munition: "prsm", metric: "remaining", low: 5, high: 5, qualifier: "about", asOf: "2026-05-01", confidence: "estimate", quote: "five left in this test" },
+        {
+          munition: "prsm",
+          metric: "prewar",
+          low: 0,
+          high: 0,
+          qualifier: "about",
+          asOf: "2026-02-28",
+          confidence: "estimate",
+          quote: "zero prewar in this test",
+        },
+        {
+          munition: "prsm",
+          metric: "remaining",
+          low: 5,
+          high: 5,
+          qualifier: "about",
+          asOf: "2026-05-01",
+          confidence: "estimate",
+          quote: "five left in this test",
+        },
       ],
     } as Report;
     expect(headline([report], "prsm")).toBeUndefined();
@@ -30,7 +48,10 @@ describe("buildDataset", () => {
   it("names the missile that has no usable headline", () => {
     const files = reportFiles().map((f) =>
       f.file === "2026-04-21-csis-last-rounds.json"
-        ? { ...f, json: { ...f.json, claims: f.json.claims.filter((c: { munition: string }) => c.munition !== "prsm") } }
+        ? {
+            ...f,
+            json: { ...f.json, claims: f.json.claims.filter((c: { munition: string }) => c.munition !== "prsm") },
+          }
         : f,
     );
     expect(() => buildDataset(munitions, files)).toThrow(DataError);
@@ -54,6 +75,8 @@ describe("bingItem", () => {
 
   it("skips a malformed item instead of throwing", () => {
     expect(bingItem({ title: "bad", link: "not a url" })).toBeUndefined();
-    expect(bingItem({ title: "bad", link: "http://www.bing.com/news/apiclick.aspx?url=also%20not%20a%20url" })).toBeUndefined();
+    expect(
+      bingItem({ title: "bad", link: "http://www.bing.com/news/apiclick.aspx?url=also%20not%20a%20url" }),
+    ).toBeUndefined();
   });
 });

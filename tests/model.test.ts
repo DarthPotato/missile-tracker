@@ -63,23 +63,40 @@ describe("phase 1 burn rate", () => {
 });
 
 describe("project", () => {
-  const base = { start: { date: "2026-01-01", low: 100, high: 200 }, prewar: 300, deliveriesPerYear: 365.25, end: "2027-12-31" };
+  const base = {
+    start: { date: "2026-01-01", low: 100, high: 200 },
+    prewar: 300,
+    deliveriesPerYear: 365.25,
+    end: "2027-12-31",
+  };
 
   it("adds deliveries linearly and finds the recovery day for each track", () => {
     const r = project(base);
     expect(r.recovered.high).toBe("2026-04-11"); // 100 days at 1/day
     expect(r.recovered.low).toBe("2026-07-20"); // 200 days
     expect(r.points[0]).toEqual({ date: "2026-01-01", low: 100, high: 200 });
-    expect(r.points.every((p) => p.date === "2026-01-01" || p.date.endsWith("-01") || p.date === "2027-12-31")).toBe(true);
+    expect(r.points.every((p) => p.date === "2026-01-01" || p.date.endsWith("-01") || p.date === "2027-12-31")).toBe(
+      true,
+    );
   });
 
   it("delivers a rebuild lot once, at its own rate", () => {
-    const r = project({ ...base, deliveriesPerYear: 0, rebuild: { quantity: 50, begin: "2026-02", perYear: 365.25 * 10 }, end: "2026-03-01" });
+    const r = project({
+      ...base,
+      deliveriesPerYear: 0,
+      rebuild: { quantity: 50, begin: "2026-02", perYear: 365.25 * 10 },
+      end: "2026-03-01",
+    });
     expect(r.points.at(-1)!.low).toBeCloseTo(150, 6);
   });
 
   it("floors stock at zero during a scenario war and counts the shortfall", () => {
-    const r = project({ ...base, deliveriesPerYear: 0, war: { start: "2026-02-01", days: 10, perDay: 15 }, end: "2026-03-01" });
+    const r = project({
+      ...base,
+      deliveriesPerYear: 0,
+      war: { start: "2026-02-01", days: 10, perDay: 15 },
+      end: "2026-03-01",
+    });
     expect(r.depleted.low).toBe("2026-02-07"); // 100 / 15 -> empty on day 7
     expect(r.depleted.high).toBeUndefined(); // 200 - 150 = 50 left
     expect(r.shortfall).toBe(50);
@@ -87,7 +104,12 @@ describe("project", () => {
   });
 
   it("does not count a pre-war recovery when a scenario war follows", () => {
-    const r = project({ ...base, start: { date: "2026-01-01", low: 300, high: 300 }, deliveriesPerYear: 0, war: { start: "2026-02-01", days: 5, perDay: 10 } });
+    const r = project({
+      ...base,
+      start: { date: "2026-01-01", low: 300, high: 300 },
+      deliveriesPerYear: 0,
+      war: { start: "2026-02-01", days: 5, perDay: 10 },
+    });
     expect(r.recovered.low).toBeUndefined();
   });
 });

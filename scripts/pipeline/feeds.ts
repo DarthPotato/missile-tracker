@@ -17,8 +17,10 @@ export interface FeedItem {
   undated?: boolean;
 }
 
-const MUNITION_WORDS = /\b(patriot|pac-3|thaad|sm-3|sm-6|standard missile|tomahawk|tlam|jassm|precision strike missile|prsm|atacms)\b/i;
-const STOCK_WORDS = /\b(stockpile|stockpiles|inventor(y|ies)|interceptors?|munitions?|expended|depleted|shortfall|replenish|winchester)\b/i;
+const MUNITION_WORDS =
+  /\b(patriot|pac-3|thaad|sm-3|sm-6|standard missile|tomahawk|tlam|jassm|precision strike missile|prsm|atacms)\b/i;
+const STOCK_WORDS =
+  /\b(stockpile|stockpiles|inventor(y|ies)|interceptors?|munitions?|expended|depleted|shortfall|replenish|winchester)\b/i;
 
 export function looksRelevant(text: string): boolean {
   return MUNITION_WORDS.test(text) && STOCK_WORDS.test(text);
@@ -94,7 +96,14 @@ export function bingItem(i: { title: string; link: string; pubDate?: string }): 
 
 export async function bing(): Promise<FeedItem[]> {
   if (process.env.USE_BING_NEWS !== "1") return [];
-  const queries = ["THAAD interceptors stockpile", "Patriot interceptors stockpile", "Tomahawk missiles stockpile", "SM-6 SM-3 interceptors Navy", "JASSM stockpile", "munitions stockpile Iran war"];
+  const queries = [
+    "THAAD interceptors stockpile",
+    "Patriot interceptors stockpile",
+    "Tomahawk missiles stockpile",
+    "SM-6 SM-3 interceptors Navy",
+    "JASSM stockpile",
+    "munitions stockpile Iran war",
+  ];
   const out: FeedItem[] = [];
   for (const q of queries) {
     try {
@@ -115,7 +124,9 @@ export async function bing(): Promise<FeedItem[]> {
  * article requests from cloud IPs (GitHub's runners included).
  */
 export async function contracts(): Promise<FeedItem[]> {
-  const items = parseRss(await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"));
+  const items = parseRss(
+    await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"),
+  );
   return items.map((i) => ({
     url: i.link,
     title: i.title,
@@ -147,7 +158,9 @@ export async function gdelt(): Promise<FeedItem[]> {
         await sleep(20_000);
         return get(target);
       });
-      const data = JSON.parse(body) as { articles?: { url: string; title: string; domain: string; seendate: string }[] };
+      const data = JSON.parse(body) as {
+        articles?: { url: string; title: string; domain: string; seendate: string }[];
+      };
       for (const a of data.articles ?? []) {
         const s = a.seendate; // 20261013T120000Z
         out.push({
@@ -179,7 +192,14 @@ export async function nyt(apiKey: string | undefined): Promise<FeedItem[]> {
   try {
     const data = JSON.parse(await get(url));
     return (data.response?.docs ?? []).map(
-      (d: { web_url: string; headline?: { main?: string }; abstract?: string; lead_paragraph?: string; snippet?: string; pub_date: string }) => ({
+      (d: {
+        web_url: string;
+        headline?: { main?: string };
+        abstract?: string;
+        lead_paragraph?: string;
+        snippet?: string;
+        pub_date: string;
+      }) => ({
         url: d.web_url,
         title: d.headline?.main ?? "",
         outlet: "The New York Times",

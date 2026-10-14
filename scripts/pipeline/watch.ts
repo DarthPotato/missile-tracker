@@ -65,7 +65,8 @@ async function main() {
   console.log(`${items.length} feed items, ${candidates.length} new candidates`);
 
   if (dryRun) {
-    for (const c of candidates) console.log(`${c.published}  ${c.lead ? "[lead] " : ""}${c.outlet}: ${c.title}\n            ${c.url}`);
+    for (const c of candidates)
+      console.log(`${c.published}  ${c.lead ? "[lead] " : ""}${c.outlet}: ${c.title}\n            ${c.url}`);
     return;
   }
 
@@ -98,13 +99,25 @@ async function main() {
 
     if (item.lead) {
       // Contract days list hundreds of awards; only surface the ones naming a tracked missile.
-      const hits = text.split(/\n+/).filter((p) => looksRelevant(p) || /\b(PAC-3|THAAD|Tomahawk|JASSM|SM-6|SM-3|Precision Strike Missile)\b/.test(p));
-      if (hits.length) leads.push(`- [${item.title}](${item.url})\n${hits.slice(0, 5).map((h) => `  > ${h.slice(0, 400)}`).join("\n")}`);
+      const hits = text
+        .split(/\n+/)
+        .filter(
+          (p) => looksRelevant(p) || /\b(PAC-3|THAAD|Tomahawk|JASSM|SM-6|SM-3|Precision Strike Missile)\b/.test(p),
+        );
+      if (hits.length)
+        leads.push(
+          `- [${item.title}](${item.url})\n${hits
+            .slice(0, 5)
+            .map((h) => `  > ${h.slice(0, 400)}`)
+            .join("\n")}`,
+        );
       continue;
     }
 
     if (item.undated) {
-      const m = text.match(/Published (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/);
+      const m = text.match(
+        /Published (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/,
+      );
       if (!m) continue;
       item.published = new Date(`${m[1]} ${m[2]}, ${m[3]} UTC`).toISOString().slice(0, 10);
       if (item.published < cutoff) continue;
@@ -112,7 +125,15 @@ async function main() {
     }
     if (!looksRelevant(text)) continue;
     processed++;
-    const article: Article = { url: item.url, title: item.title, outlet: item.outlet, published: item.published, text, partial, kind: item.kind };
+    const article: Article = {
+      url: item.url,
+      title: item.title,
+      outlet: item.outlet,
+      published: item.published,
+      text,
+      partial,
+      kind: item.kind,
+    };
     try {
       const result = await extract(article);
       const drops = result.dropped.map((d) => `  - dropped: "${d.quote.slice(0, 120)}" (${d.reason})`).join("\n");
@@ -121,14 +142,20 @@ async function main() {
         writeFileSync(file, `${JSON.stringify(result.report, null, 2)}\n`);
         newIds.push(result.report.id);
         const lines = result.report.claims.map(
-          (c) => `  - **${SHORT_NAME[c.munition]}** ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`,
+          (c) =>
+            `  - **${SHORT_NAME[c.munition]}** ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`,
         );
         if (result.inputUpdates.length) {
           const { applied, rejected } = applyToFile(result.inputUpdates, result.report.id);
           for (const a of applied) {
-            lines.push(`  - 🔧 **Model input:** ${SHORT_NAME[a.munition]} \`${a.field}\` ${a.previous ?? "(none)"} → **${a.value}** — "${a.quote}"`);
+            lines.push(
+              `  - 🔧 **Model input:** ${SHORT_NAME[a.munition]} \`${a.field}\` ${a.previous ?? "(none)"} → **${a.value}** — "${a.quote}"`,
+            );
           }
-          for (const r of rejected) lines.push(`  - model input not applied: ${SHORT_NAME[r.update.munition]} \`${r.update.field}\` (${r.reason})`);
+          for (const r of rejected)
+            lines.push(
+              `  - model input not applied: ${SHORT_NAME[r.update.munition]} \`${r.update.field}\` (${r.reason})`,
+            );
         }
         drafted.push(
           `- [${item.title}](${item.url}) — ${item.outlet}, ${item.published}${partial ? " · ⚠️ abstract only, check quotes by hand" : ""}\n  ${result.summary}\n${lines.join("\n")}${drops ? `\n${drops}` : ""}`,
@@ -150,7 +177,9 @@ async function main() {
   // Re-check the sources already on the site, without blocking: a page that
   // changed or vanished is reported for a human, never a reason to hold back
   // today's drafts. (CI still checks strictly when a PR touches a report.)
-  const perspective = PerspectiveFile.parse(JSON.parse(readFileSync(path.join(ROOT, "data", "perspective.json"), "utf8")));
+  const perspective = PerspectiveFile.parse(
+    JSON.parse(readFileSync(path.join(ROOT, "data", "perspective.json"), "utf8")),
+  );
   const health = await checkQuotes(quoteTargets(ds, perspective), fetchText, {
     strict: () => false,
     allowNoneReachable: true,

@@ -42,7 +42,10 @@ const claim = {
 
 describe("extract", () => {
   it("keeps claims whose quote is on the page", async () => {
-    const r = await extract(article, fakeClient({ relevant: true, summary: "Reports a new Patriot count from officials.", claims: [claim] }));
+    const r = await extract(
+      article,
+      fakeClient({ relevant: true, summary: "Reports a new Patriot count from officials.", claims: [claim] }),
+    );
     expect(r.report?.claims).toHaveLength(1);
     expect(r.report?.addedBy).toBe("pipeline");
     expect(r.report?.claims[0].note).toBeUndefined();
@@ -51,25 +54,46 @@ describe("extract", () => {
   it("drops claims whose quote was paraphrased", async () => {
     const r = await extract(
       article,
-      fakeClient({ relevant: true, summary: "Reports a new Patriot count.", claims: [{ ...claim, quote: "the Army has roughly 700 Patriots left" }] }),
+      fakeClient({
+        relevant: true,
+        summary: "Reports a new Patriot count.",
+        claims: [{ ...claim, quote: "the Army has roughly 700 Patriots left" }],
+      }),
     );
     expect(r.report).toBeUndefined();
     expect(r.dropped[0].reason).toMatch(/verbatim/);
   });
 
   it("drops claims that fail the schema", async () => {
-    const r = await extract(article, fakeClient({ relevant: true, summary: "Reports a new Patriot count.", claims: [{ ...claim, low: 900, high: 700 }] }));
+    const r = await extract(
+      article,
+      fakeClient({
+        relevant: true,
+        summary: "Reports a new Patriot count.",
+        claims: [{ ...claim, low: 900, high: 700 }],
+      }),
+    );
     expect(r.report).toBeUndefined();
     expect(r.dropped).toHaveLength(1);
   });
 
   it("clamps an asOf after publication to the publication date", async () => {
-    const r = await extract(article, fakeClient({ relevant: true, summary: "Reports a new Patriot count.", claims: [{ ...claim, asOf: "2026-12-01" }] }));
+    const r = await extract(
+      article,
+      fakeClient({
+        relevant: true,
+        summary: "Reports a new Patriot count.",
+        claims: [{ ...claim, asOf: "2026-12-01" }],
+      }),
+    );
     expect(r.report?.claims[0].asOf).toBe("2026-10-12");
   });
 
   it("marks reports built from partial text for a manual quote check", async () => {
-    const r = await extract({ ...article, partial: true }, fakeClient({ relevant: true, summary: "Reports a new Patriot count.", claims: [claim] }));
+    const r = await extract(
+      { ...article, partial: true },
+      fakeClient({ relevant: true, summary: "Reports a new Patriot count.", claims: [claim] }),
+    );
     expect(r.report?.quoteCheck).toBe("manual");
   });
 
@@ -93,7 +117,8 @@ describe("extract", () => {
   });
 
   it("turns an outright figure into a model-input update, even with no stock claims", async () => {
-    const text = "The Army says THAAD production will reach 400 interceptors a year. Raytheon also won a $6 billion deal.";
+    const text =
+      "The Army says THAAD production will reach 400 interceptors a year. Raytheon also won a $6 billion deal.";
     const r = await extract(
       { ...article, text },
       fakeClient({
@@ -101,14 +126,33 @@ describe("extract", () => {
         summary: "Production capacity news for THAAD.",
         claims: [],
         modelInputs: [
-          { munition: "thaad", field: "announcedCapacityPerYear", number: 400, month: null, quote: "THAAD production will reach 400 interceptors a year", note: null },
-          { munition: "sm3", field: "fy27Request", number: null, month: null, quote: "Raytheon also won a $6 billion deal", note: null },
+          {
+            munition: "thaad",
+            field: "announcedCapacityPerYear",
+            number: 400,
+            month: null,
+            quote: "THAAD production will reach 400 interceptors a year",
+            note: null,
+          },
+          {
+            munition: "sm3",
+            field: "fy27Request",
+            number: null,
+            month: null,
+            quote: "Raytheon also won a $6 billion deal",
+            note: null,
+          },
         ],
       }),
     );
     expect(r.report?.claims).toEqual([]);
     expect(r.inputUpdates).toEqual([
-      { munition: "thaad", field: "announcedCapacityPerYear", value: 400, quote: "THAAD production will reach 400 interceptors a year" },
+      {
+        munition: "thaad",
+        field: "announcedCapacityPerYear",
+        value: 400,
+        quote: "THAAD production will reach 400 interceptors a year",
+      },
     ]);
     expect(r.dropped[0].reason).toMatch(/no usable value/);
   });

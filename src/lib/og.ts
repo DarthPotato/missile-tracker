@@ -4,8 +4,8 @@ import path from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 
 const FONT_DIR = path.join(process.cwd(), "node_modules/@expo-google-fonts/inter");
-const FONTS = ["400Regular/Inter_400Regular.ttf", "600SemiBold/Inter_600SemiBold.ttf", "700Bold/Inter_700Bold.ttf"].map((f) =>
-  path.join(FONT_DIR, f),
+const FONTS = ["400Regular/Inter_400Regular.ttf", "600SemiBold/Inter_600SemiBold.ttf", "700Bold/Inter_700Bold.ttf"].map(
+  (f) => path.join(FONT_DIR, f),
 );
 
 export const W = 1200;
@@ -27,7 +27,8 @@ export const C = {
   good: "#0ca30c",
 };
 
-export const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 export function render(svg: string, width = W): ArrayBuffer {
   const png = new Resvg(svg, {
@@ -56,7 +57,16 @@ export function frame(body: string): string {
 }
 
 /** A horizontal stock bar: solid to `low`, soft to `high`, track to `max`. */
-export function bar(x: number, y: number, w: number, h: number, low: number, high: number, max: number, allSoft = false): string {
+export function bar(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  low: number,
+  high: number,
+  max: number,
+  allSoft = false,
+): string {
   const sx = (v: number) => Math.max(0, Math.min(w, (v / max) * w));
   const solid = allSoft ? 0 : sx(low);
   const soft = sx(high) - solid;

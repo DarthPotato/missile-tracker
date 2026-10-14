@@ -22,7 +22,9 @@ const newest = h.newer[0];
   <div class="top">
     <div>
       <h3>{m.name}</h3>
-      <div class="label">{m.role === "strike" ? "Strike" : "Air defense"} · {m.operator}</div>
+      <div class="label">
+        {m.role === "strike" ? "Strike" : "Air defense"} · {m.operator}
+      </div>
     </div>
     <StatusChip status={stockStatus(h)} />
   </div>
@@ -38,14 +40,13 @@ const newest = h.newer[0];
     <ConfidenceTag confidence={basis.claim.confidence} />
     <span class="src">{basis.claim.attribution ?? basis.report.source.outlet}</span>
   </div>
-  {
-    newest && (
-      <p class="newer">
-        <strong>Newer:</strong> {newest.claim.attribution?.split(",")[0] ?? newest.report.source.outlet}, {formatDate(newest.claim.asOf)}
-        {newest.claim.metric === "statement" ? " — see reporting" : `: ${describeClaim(newest.claim)}`}
-      </p>
-    )
-  }
+  {newest && (
+    <p class="newer">
+      <strong>Newer:</strong> {newest.claim.attribution?.split(",")[0] ?? newest.report.source.outlet},{" "}
+      {formatDate(newest.claim.asOf)}
+      {newest.claim.metric === "statement" ? " — see reporting" : `: ${describeClaim(newest.claim)}`}
+    </p>
+  )}
 </a>
 
 <style>

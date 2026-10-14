@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { getDataset, getPerspective } from "../src/lib/data";
-import { checkQuotes, healthLines, PERSPECTIVE, quoteTargets, strictIdsFromChanged, summarize, type QuoteTarget } from "../scripts/quotes";
+import {
+  checkQuotes,
+  healthLines,
+  PERSPECTIVE,
+  quoteTargets,
+  strictIdsFromChanged,
+  summarize,
+  type QuoteTarget,
+} from "../scripts/quotes";
 
 const page = (text: string) => async () => text;
 const target = (over: Partial<QuoteTarget> = {}): QuoteTarget => ({
@@ -33,16 +41,24 @@ describe("checkQuotes", () => {
   });
 
   it("fails when nothing is reachable even if every source is lenient", async () => {
-    const r = await checkQuotes([target()], async () => {
-      throw new Error("offline");
-    }, { strict: () => false });
+    const r = await checkQuotes(
+      [target()],
+      async () => {
+        throw new Error("offline");
+      },
+      { strict: () => false },
+    );
     expect(r.ok).toBe(false);
   });
 
   it("lets the escape hatch pass an offline run", async () => {
-    const r = await checkQuotes([target()], async () => {
-      throw new Error("offline");
-    }, { strict: () => false, allowNoneReachable: true });
+    const r = await checkQuotes(
+      [target()],
+      async () => {
+        throw new Error("offline");
+      },
+      { strict: () => false, allowNoneReachable: true },
+    );
     expect(r.ok).toBe(true);
     expect(r.unreachable).toHaveLength(1);
   });
@@ -109,7 +125,10 @@ describe("quoteTargets / strictIdsFromChanged", () => {
   });
 
   it("maps changed files to the sources that must be reachable", () => {
-    const ids = strictIdsFromChanged(["data/reports/2026-07-27-csis-renewed-war.json", "data/perspective.json", "README.md"], ds);
+    const ids = strictIdsFromChanged(
+      ["data/reports/2026-07-27-csis-renewed-war.json", "data/perspective.json", "README.md"],
+      ds,
+    );
     expect([...ids].sort()).toEqual(["2026-07-27-csis-renewed-war", PERSPECTIVE]);
     // munitions.json makes every report it cites strict
     expect(strictIdsFromChanged(["data/munitions.json"], ds).has("2026-05-27-csis-rebuilding")).toBe(true);

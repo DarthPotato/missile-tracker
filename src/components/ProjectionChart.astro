@@ -53,31 +53,27 @@ const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
       <input type="range" name="rate" min="0" max={rateMax} step="1" value={m.deliveriesPerYear.value} />
       <output for="rate">{fmt(m.deliveriesPerYear.value)} / yr</output>
     </label>
-    {
-      config.rebuild && (
-        <label class="check">
-          <input type="checkbox" name="rebuild" checked />
-          <span>
-            Count the FY2027 rebuild order: {fmt(config.rebuild.quantity)} missiles from{" "}
-            {formatMonth(config.rebuild.begin)}, ~{fmt(config.rebuild.perYear)}/yr
-          </span>
-        </label>
-      )
-    }
+    {config.rebuild && (
+      <label class="check">
+        <input type="checkbox" name="rebuild" checked />
+        <span>
+          Count the FY2027 rebuild order: {fmt(config.rebuild.quantity)} missiles from{" "}
+          {formatMonth(config.rebuild.begin)}, ~{fmt(config.rebuild.perYear)}/yr
+        </span>
+      </label>
+    )}
     <label>
       <span class="ctl-label">Renewed full-scale war</span>
       <input type="range" name="warDays" min="0" max="120" step="1" value="0" />
       <output for="warDays">Off</output>
     </label>
-    {
-      burn && (
-        <label>
-          <span class="ctl-label">Firing rate in that war</span>
-          <input type="range" name="warRate" min="0" max={burnMax} step="0.5" value={burn.toFixed(1)} />
-          <output for="warRate">{Math.round(burn)} / day</output>
-        </label>
-      )
-    }
+    {burn && (
+      <label>
+        <span class="ctl-label">Firing rate in that war</span>
+        <input type="range" name="warRate" min="0" max={burnMax} step="0.5" value={burn.toFixed(1)} />
+        <output for="warRate">{Math.round(burn)} / day</output>
+      </label>
+    )}
     <label>
       <span class="ctl-label">War starts</span>
       <select name="warStart">
@@ -94,27 +90,44 @@ const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
 
   <div class="chart-wrap card">
     <div class="legend small">
-      <span><i class="k-pt"></i> Published estimates</span>
-      <span><i class="k-line"></i> Projection</span>
-      <span><i class="k-band"></i> Low–high range</span>
-      <span><i class="k-ref"></i> Prewar level</span>
+      <span>
+        <i class="k-pt"></i> Published estimates
+      </span>
+      <span>
+        <i class="k-line"></i> Projection
+      </span>
+      <span>
+        <i class="k-band"></i> Low–high range
+      </span>
+      <span>
+        <i class="k-ref"></i> Prewar level
+      </span>
     </div>
     <div class="plot">
-      <svg class="chart" role="img" aria-label={`Projected ${m.name} stockpile through ${PROJECTION_END.slice(0, 4)}`}></svg>
+      <svg
+        class="chart"
+        role="img"
+        aria-label={`Projected ${m.name} stockpile through ${PROJECTION_END.slice(0, 4)}`}
+      ></svg>
       <div class="tip" hidden></div>
     </div>
   </div>
   <p class="small muted">
-    Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you add a renewed
-    war. Fighting has continued at lower intensity since July 8, so treat
-    projections from older estimates as optimistic.
+    Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you add a renewed war.
+    Fighting has continued at lower intensity since July 8, so treat projections from older estimates as optimistic.
     {burn && ` The default firing rate is the opening campaign's average: ~${Math.round(burn)} a day over 39 days.`}
   </p>
   <details>
     <summary>Table view</summary>
     <div class="table-scroll">
       <table class="proj">
-        <thead><tr><th>Date</th><th class="num">Low estimate</th><th class="num">High estimate</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th class="num">Low estimate</th>
+            <th class="num">High estimate</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
     </div>

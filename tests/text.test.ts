@@ -3,7 +3,7 @@ import { containsQuote, htmlToText, normalizeForMatch } from "../src/lib/text";
 
 describe("htmlToText", () => {
   it("decodes named, decimal and hex entities", () => {
-    expect(htmlToText("<p>Pentagon&rsquo;s &#8217;s &#x2019;s &amp; &quot;x&quot;</p>")).toBe("Pentagon’s ’s ’s & \"x\"");
+    expect(htmlToText("<p>Pentagon&rsquo;s &#8217;s &#x2019;s &amp; &quot;x&quot;</p>")).toBe('Pentagon’s ’s ’s & "x"');
   });
 
   it("drops scripts, styles and comments", () => {

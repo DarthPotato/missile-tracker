@@ -45,7 +45,9 @@ function invert(q: Qualifier): Qualifier {
 }
 
 export function claimsFor(reports: Report[], id: MunitionId): ClaimRef[] {
-  return reports.flatMap((report) => report.claims.filter((c) => c.munition === id).map((claim) => ({ report, claim })));
+  return reports.flatMap((report) =>
+    report.claims.filter((c) => c.munition === id).map((claim) => ({ report, claim })),
+  );
 }
 
 const mid = (r: Range) => (r.low + r.high) / 2;

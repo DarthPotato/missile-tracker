@@ -59,7 +59,9 @@ async function main() {
   const r = await checkQuotes(targets, fetchText, { strict, allowNoneReachable: allowUnreachable });
   for (const id of new Set(r.manual)) console.log(`skip  ${id} (manual quote check)`);
   for (const u of r.unreachable) {
-    console[u.strict ? "error" : "warn"](`${u.strict ? "FAIL" : "warn"}  ${u.id}: could not fetch ${u.url} (${u.error})`);
+    console[u.strict ? "error" : "warn"](
+      `${u.strict ? "FAIL" : "warn"}  ${u.id}: could not fetch ${u.url} (${u.error})`,
+    );
   }
   for (const m of r.missing) console.error(`FAIL  ${m.id}: quote not found: "${m.quote.slice(0, 90)}…"`);
   console.log(summarize(r));

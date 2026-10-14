@@ -33,7 +33,11 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteT
     quotes: [
       ...new Set([
         ...r.claims.map((c) => c.quote),
-        ...ds.munitions.flatMap((m) => sourcedParams(m).filter((p) => p.reportId === r.id).map((p) => p.quote)),
+        ...ds.munitions.flatMap((m) =>
+          sourcedParams(m)
+            .filter((p) => p.reportId === r.id)
+            .map((p) => p.quote),
+        ),
       ]),
     ],
   }));
@@ -42,7 +46,8 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteT
       ...perspective.amounts.flatMap((a) => (a.source ? [a.source] : [])),
       ...perspective.comparisons.map((c) => c.source),
     ];
-    for (const f of figures) targets.push({ id: PERSPECTIVE, url: f.url, quotes: [f.quote], manual: f.quoteCheck === "manual" });
+    for (const f of figures)
+      targets.push({ id: PERSPECTIVE, url: f.url, quotes: [f.quote], manual: f.quoteCheck === "manual" });
   }
   return targets;
 }

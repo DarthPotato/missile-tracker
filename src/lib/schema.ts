@@ -72,7 +72,8 @@ export const Claim = z
         return;
       }
       if (c.low > c.high) ctx.addIssue({ code: "custom", message: "low must be <= high" });
-      if (c.metric === "pct_expended" && c.high > 100) ctx.addIssue({ code: "custom", message: "pct_expended is 0-100" });
+      if (c.metric === "pct_expended" && c.high > 100)
+        ctx.addIssue({ code: "custom", message: "pct_expended is 0-100" });
       if (c.munition === "all") ctx.addIssue({ code: "custom", message: "numeric claims must name a munition" });
       if (!c.qualifier) ctx.addIssue({ code: "custom", message: "numeric claims need a qualifier" });
     } else if (c.low !== undefined || c.high !== undefined) {

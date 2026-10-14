@@ -11,14 +11,20 @@ describe("looksRelevant", () => {
   });
 });
 
-const rss = (items: string) => `<?xml version="1.0"?><rss version="2.0"><channel><title>t</title>${items}</channel></rss>`;
+const rss = (items: string) =>
+  `<?xml version="1.0"?><rss version="2.0"><channel><title>t</title>${items}</channel></rss>`;
 const item = (n: number) =>
   `<item><title>Story ${n}</title><link>https://example.com/${n}</link><pubDate>Tue, 13 Oct 2026 21:00:04 GMT</pubDate><description>About &amp; more</description></item>`;
 
 describe("parseRss", () => {
   it("parses a channel with a single item", () => {
     expect(parseRss(rss(item(1)))).toEqual([
-      { title: "Story 1", link: "https://example.com/1", pubDate: "Tue, 13 Oct 2026 21:00:04 GMT", description: "About & more" },
+      {
+        title: "Story 1",
+        link: "https://example.com/1",
+        pubDate: "Tue, 13 Oct 2026 21:00:04 GMT",
+        description: "About & more",
+      },
     ]);
   });
 
@@ -37,6 +43,8 @@ describe("parseRss", () => {
 
 describe("canonical", () => {
   it("strips tracking parameters and the hash, keeps real ones", () => {
-    expect(canonical("https://ex.com/a?utm_source=x&utm_medium=y&id=7&fbclid=1&gclid=2&cmpid=3#top")).toBe("https://ex.com/a?id=7");
+    expect(canonical("https://ex.com/a?utm_source=x&utm_medium=y&id=7&fbclid=1&gclid=2&cmpid=3#top")).toBe(
+      "https://ex.com/a?id=7",
+    );
   });
 });

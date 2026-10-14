@@ -20,7 +20,9 @@ function arg(name: string): string | undefined {
 async function main() {
   const url = process.argv[2];
   if (!url || url.startsWith("--")) {
-    console.error("usage: npm run add-source -- <url> [--outlet X] [--title X] [--published YYYY-MM-DD] [--text-file F]");
+    console.error(
+      "usage: npm run add-source -- <url> [--outlet X] [--title X] [--published YYYY-MM-DD] [--text-file F]",
+    );
     process.exit(2);
   }
   const textFile = arg("text-file");
@@ -44,12 +46,16 @@ async function main() {
   writeFileSync(file, `${JSON.stringify(result.report, null, 2)}\n`);
   console.log(`Wrote ${path.relative(process.cwd(), file)}\n${result.summary}`);
   for (const c of result.report.claims) {
-    console.log(`  ${SHORT_NAME[c.munition]}: ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`);
+    console.log(
+      `  ${SHORT_NAME[c.munition]}: ${c.metric === "statement" ? "statement" : describeClaim(c)} (as of ${c.asOf}, ${c.confidence})`,
+    );
   }
   if (result.inputUpdates.length) {
     const { applied, rejected } = applyToFile(result.inputUpdates, result.report.id);
-    for (const a of applied) console.log(`  model input: ${SHORT_NAME[a.munition]}.${a.field} ${a.previous ?? "(none)"} -> ${a.value}`);
-    for (const r of rejected) console.log(`  model input not applied: ${SHORT_NAME[r.update.munition]}.${r.update.field} (${r.reason})`);
+    for (const a of applied)
+      console.log(`  model input: ${SHORT_NAME[a.munition]}.${a.field} ${a.previous ?? "(none)"} -> ${a.value}`);
+    for (const r of rejected)
+      console.log(`  model input not applied: ${SHORT_NAME[r.update.munition]}.${r.update.field} (${r.reason})`);
   }
   console.log("Check the outlet, title and date fields, then run `npm run validate`.");
 }

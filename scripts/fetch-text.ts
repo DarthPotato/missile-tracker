@@ -24,10 +24,14 @@ export async function pdfToText(bytes: ArrayBuffer): Promise<string> {
 }
 
 export async function fetchText(url: string): Promise<string> {
-  const res = await fetch(url, { headers: { "user-agent": UA, accept: "text/html,application/pdf,*/*" }, redirect: "follow" });
+  const res = await fetch(url, {
+    headers: { "user-agent": UA, accept: "text/html,application/pdf,*/*" },
+    redirect: "follow",
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${redact(url)}`);
   const type = res.headers.get("content-type") ?? "";
   if (type.includes("pdf")) return pdfToText(await res.arrayBuffer());
-  if (!type.includes("html") && !type.includes("text")) throw new Error(`unsupported content-type "${type}" for ${redact(url)}`);
+  if (!type.includes("html") && !type.includes("text"))
+    throw new Error(`unsupported content-type "${type}" for ${redact(url)}`);
   return htmlToText(await res.text());
 }

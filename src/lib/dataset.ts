@@ -11,7 +11,9 @@ export interface Dataset {
 /** Every sourced parameter on a munition: unit cost, delivery rates, dates, outlook. */
 export function sourcedParams(m: Munition): { key: string; reportId: string; quote: string }[] {
   return Object.entries(m).flatMap(([key, p]) =>
-    p && typeof p === "object" && "reportId" in p && "quote" in p ? [{ key, reportId: p.reportId, quote: p.quote }] : [],
+    p && typeof p === "object" && "reportId" in p && "quote" in p
+      ? [{ key, reportId: p.reportId, quote: p.quote }]
+      : [],
   );
 }
 
@@ -51,9 +53,11 @@ export function buildDataset(munitionsJson: unknown, reportFiles: { file: string
 
   for (const mu of munitions) {
     for (const p of sourcedParams(mu)) {
-      if (!reportsById.has(p.reportId)) problems.push(`munitions.json ${mu.id}.${p.key}: unknown reportId "${p.reportId}"`);
+      if (!reportsById.has(p.reportId))
+        problems.push(`munitions.json ${mu.id}.${p.key}: unknown reportId "${p.reportId}"`);
     }
-    if (mu.fy27Request && !mu.fy27DeliveriesBegin) problems.push(`munitions.json ${mu.id}: fy27Request needs fy27DeliveriesBegin`);
+    if (mu.fy27Request && !mu.fy27DeliveriesBegin)
+      problems.push(`munitions.json ${mu.id}: fy27Request needs fy27DeliveriesBegin`);
   }
 
   for (const r of reports) {
@@ -67,7 +71,9 @@ export function buildDataset(munitionsJson: unknown, reportFiles: { file: string
   if (!problems.length) {
     for (const mu of munitions) {
       if (!headline(reports, mu.id)) {
-        problems.push(`${mu.id}: no usable headline (needs a "remaining" claim, or prewar + expended from one report, with prewar > 0)`);
+        problems.push(
+          `${mu.id}: no usable headline (needs a "remaining" claim, or prewar + expended from one report, with prewar > 0)`,
+        );
       }
     }
   }

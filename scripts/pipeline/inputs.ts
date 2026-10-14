@@ -27,12 +27,20 @@ export function applyInputUpdates(munitions: Munition[], updates: InputUpdate[],
       rejected.push({ update: u, reason: "already the current value" });
       continue;
     }
-    (m as Record<string, unknown>)[u.field] = { value: u.value, reportId, quote: u.quote, ...(u.note ? { note: u.note } : {}) };
+    (m as Record<string, unknown>)[u.field] = {
+      value: u.value,
+      reportId,
+      quote: u.quote,
+      ...(u.note ? { note: u.note } : {}),
+    };
     const check = MunitionsFile.safeParse(next);
     // A rebuild order with no delivery date can't be modeled, so it waits for the date.
     const incomplete = u.field === "fy27Request" && !m.fy27DeliveriesBegin;
     if (!check.success || incomplete) {
-      rejected.push({ update: u, reason: incomplete ? "no FY2027 delivery date to go with it" : check.error!.issues[0].message });
+      rejected.push({
+        update: u,
+        reason: incomplete ? "no FY2027 delivery date to go with it" : check.error!.issues[0].message,
+      });
       continue;
     }
     current = check.data;

@@ -34,7 +34,9 @@ describe("pdfToText", () => {
 
 describe("redact", () => {
   it("drops query strings so API keys never reach logs", () => {
-    expect(redact("https://api.nytimes.com/svc/search?q=x&api-key=SECRET")).toBe("https://api.nytimes.com/svc/search?…");
+    expect(redact("https://api.nytimes.com/svc/search?q=x&api-key=SECRET")).toBe(
+      "https://api.nytimes.com/svc/search?…",
+    );
     expect(redact("https://example.com/a")).toBe("https://example.com/a");
     expect(redact("not a url")).toBe("(invalid url)");
   });
