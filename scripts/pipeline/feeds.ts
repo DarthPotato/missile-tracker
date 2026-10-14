@@ -34,7 +34,8 @@ async function get(url: string): Promise<string> {
   return res.text();
 }
 
-function rssItems(body: string): { title: string; link: string; pubDate?: string; description?: string }[] {
+/** Parse an RSS 2.0 body; works for a channel with one <item> or many. */
+export function parseRss(body: string): { title: string; link: string; pubDate?: string; description?: string }[] {
   const doc = xml.parse(body);
   const items = doc?.rss?.channel?.item ?? [];
   return (Array.isArray(items) ? items : [items]).map((i: Record<string, unknown>) => ({
@@ -83,7 +84,7 @@ export async function bing(): Promise<FeedItem[]> {
   const out: FeedItem[] = [];
   for (const q of queries) {
     try {
-      for (const i of rssItems(await get(`https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss`))) {
+      for (const i of parseRss(await get(`https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss`))) {
         const real = new URL(i.link).searchParams.get("url");
         if (!real) continue;
         out.push({ url: real, title: i.title, outlet: new URL(real).hostname.replace(/^www\./, ""), published: i.pubDate ? day(i.pubDate) : day(Date.now()), kind: "news" });
@@ -101,7 +102,7 @@ export async function bing(): Promise<FeedItem[]> {
  * article requests from cloud IPs (GitHub's runners included).
  */
 export async function contracts(): Promise<FeedItem[]> {
-  const items = rssItems(await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"));
+  const items = parseRss(await get("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=10"));
   return items.map((i) => ({
     url: i.link,
     title: i.title,

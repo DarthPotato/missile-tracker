@@ -14,6 +14,7 @@ import { loadDataset, REPORTS_DIR, ROOT } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
 import { extract, type Article } from "./extract.ts";
 import { applyToFile } from "./inputs.ts";
+import { canonical } from "./urls.ts";
 import { checkQuotes, healthLines, quoteTargets } from "../quotes.ts";
 import { PerspectiveFile } from "../../src/lib/schema.ts";
 import { bing, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
@@ -29,13 +30,6 @@ type State = { seen: Record<string, string> };
 function loadState(): State {
   if (!existsSync(STATE_FILE)) return { seen: {} };
   return JSON.parse(readFileSync(STATE_FILE, "utf8"));
-}
-
-function canonical(url: string): string {
-  const u = new URL(url);
-  u.hash = "";
-  for (const k of [...u.searchParams.keys()]) if (/^(utm_|fbclid|gclid|cmpid)/.test(k)) u.searchParams.delete(k);
-  return u.toString();
 }
 
 async function main() {
