@@ -112,7 +112,7 @@ Or write a JSON file in `data/reports/` yourself, following the existing ones. `
 
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push to `main`, and once a day so the projections' "today" line stays current. Pages is set to Source: GitHub Actions.
 
-The site is served at **https://missiletracker.info** (registrar: Porkbun). DNS: four `A` records to `185.199.108–111.153`, four `AAAA` records to `2606:50c0:8000–8003::153`, `www` as a `CNAME` to `darthpotato.github.io`, plus the `_github-pages-challenge-DarthPotato` TXT record that verifies the domain. The custom domain is set under Settings → Pages. With Actions deploys no `CNAME` file is needed in the repo.
+The site is served at **https://missiletracker.info** (registrar: Porkbun). DNS: an `ALIAS` record on the root domain pointing to `darthpotato.github.io` (Porkbun resolves it to GitHub Pages' IP addresses), `www` as a `CNAME` to `darthpotato.github.io`, plus the `_github-pages-challenge-DarthPotato` TXT record that verifies the domain. Four `A` records to `185.199.108–111.153` (and `AAAA` to `2606:50c0:8000–8003::153`) would work the same way. The custom domain is set under Settings → Pages. With Actions deploys no `CNAME` file is needed in the repo.
 
 ## Corrections
 
