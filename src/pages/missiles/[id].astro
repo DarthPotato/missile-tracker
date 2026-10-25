@@ -5,7 +5,8 @@ import StatusChip from "../../components/StatusChip.astro";
 import ConfidenceTag from "../../components/ConfidenceTag.astro";
 import ProjectionChart from "../../components/ProjectionChart.astro";
 import BlockGrid from "../../components/BlockGrid.astro";
-import { getDataset } from "../../lib/data";
+import MissilePhoto from "../../components/MissilePhoto.astro";
+import { getDataset, getPhoto } from "../../lib/data";
 import { claimsFor, headline, phase1BurnPerDay, daysOfFire } from "../../lib/model";
 import { describeClaim, METRIC_LABEL } from "../../lib/describe";
 import { fmt, formatDate, formatMonth, formatPct, formatRange } from "../../lib/format";
@@ -54,6 +55,7 @@ const params: ParamRow[] = [
   quote: p.quote,
   note: "note" in p ? p.note : undefined,
 }));
+const pic = getPhoto(m.id);
 const others = ds.munitions.filter((x) => x.id !== m.id);
 ---
 
@@ -109,6 +111,12 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
       </div>
     </div>
   </header>
+
+  {pic && (
+    <div class="banner">
+      <MissilePhoto {...pic} caption eager sizes="(min-width: 1180px) 1120px, 100vw" />
+    </div>
+  )}
 
   {h.newer.length > 0 && (
     <aside class="card newer">
@@ -257,6 +265,9 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   .crumb a {
     color: var(--ink-2);
     text-decoration: none;
+  }
+  .banner {
+    margin-top: 28px;
   }
   .mhead {
     display: grid;

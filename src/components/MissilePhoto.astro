@@ -1,0 +1,81 @@
+---
+// A DVIDS photo, resized to modern formats at build time. With `caption`,
+// it's a figure with the official caption's first sentence and the credit.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import type { Photo } from "../lib/schema";
+import { captionLead } from "../lib/format";
+
+interface Props {
+  photo: Photo;
+  image: ImageMetadata;
+  /** CSS `sizes` for responsive loading. */
+  sizes: string;
+  caption?: boolean;
+  eager?: boolean;
+  class?: string;
+}
+const { photo, image, sizes, caption = false, eager = false, class: cls } = Astro.props;
+const firstSentence = captionLead(photo.caption);
+const year = photo.taken.slice(0, 4);
+const style = photo.focus === undefined ? undefined : `object-position: 50% ${photo.focus}%`;
+---
+
+{caption ? (
+  <figure class:list={["photo", cls]}>
+    <Image
+      src={image}
+      alt={photo.alt}
+      style={style}
+      widths={[640, 960, 1400, 2000].filter((w) => w <= image.width)}
+      sizes={sizes}
+      loading={eager ? "eager" : "lazy"}
+    />
+    <figcaption>
+      {firstSentence}{" "}
+      <span class="credit">
+        Photo: {photo.credit}, {year}.{" "}
+        <a href={photo.sourceUrl} rel="noopener">
+          DVIDS
+        </a>
+        , public domain.
+      </span>
+    </figcaption>
+  </figure>
+) : (
+  <Image
+    class={cls}
+    src={image}
+    alt={photo.alt}
+    style={style}
+    widths={[400, 640, 960].filter((w) => w <= image.width)}
+    sizes={sizes}
+    loading={eager ? "eager" : "lazy"}
+  />
+)}
+
+<style>
+  .photo {
+    margin: 0;
+  }
+  .photo :global(img) {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 34vw, 420px);
+    object-fit: cover;
+    border-radius: var(--radius);
+    background: var(--wash);
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ink-2);
+    max-width: 90ch;
+  }
+  .credit {
+    color: var(--ink-3);
+  }
+  .credit a {
+    color: inherit;
+  }
+</style>

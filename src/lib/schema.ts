@@ -204,3 +204,29 @@ export const PerspectiveFile = z
   })
   .strict();
 export type PerspectiveFile = z.infer<typeof PerspectiveFile>;
+
+// ---------------------------------------------------------------------------
+// Photos: one public-domain DVIDS image per missile, stored at
+// src/assets/photos/<id>.jpg and credited wherever it appears.
+// ---------------------------------------------------------------------------
+
+export const Photo = z
+  .object({
+    dvidsId: z.string().regex(/^\d+$/),
+    sourceUrl: z.url(),
+    /** Short description for screen readers. */
+    alt: z.string().min(10),
+    /** The official caption. */
+    caption: z.string(),
+    /** "David Poe, Fort Bliss Public Affairs Office" */
+    credit: z.string().min(3),
+    taken: isoDate,
+    license: z.literal("public-domain"),
+    /** Vertical crop focus, 0 (top) to 100 (bottom). Default 50. */
+    focus: z.number().min(0).max(100).optional(),
+  })
+  .strict();
+export type Photo = z.infer<typeof Photo>;
+
+export const PhotosFile = z.partialRecord(MunitionId, Photo);
+export type PhotosFile = z.infer<typeof PhotosFile>;
