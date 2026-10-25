@@ -1,0 +1,68 @@
+{
+  "patriot": {
+    "dvidsId": "9979640",
+    "sourceUrl": "https://www.dvidshub.net/image/9979640",
+    "alt": "A Patriot interceptor climbs from its launcher on a desert test range, trailing white smoke.",
+    "caption": "A PATRIOT missile launches into the sky over the Fort Bliss Training Complex in New Mexico, Sept. 19, 2026. Soldiers from the 5th Battalion, 52nd Air Defense Artillery, 11th ADA Brigade, conducted a live-fire collaborative shoot, marking the end of Exercise Shining Star 26, a joint PATRIOT defense scenario with Japanese troops from the Japan Air Self-Defense Force.",
+    "credit": "David Poe, Fort Bliss Public Affairs Office",
+    "taken": "2026-09-19",
+    "license": "public-domain",
+    "focus": 10
+  },
+  "thaad": {
+    "dvidsId": "5711542",
+    "sourceUrl": "https://www.dvidshub.net/image/5711542",
+    "alt": "A THAAD interceptor launches from a truck-mounted launcher on Kwajalein Atoll, flame and smoke at its base.",
+    "caption": "A THAAD interceptor is launched from the Reagan Test Site, Kwajalein Atoll in the Republic of the Marshall Islands, during Flight Test THAAD-23, August 30, 2019.",
+    "credit": "Missile Defense Agency",
+    "taken": "2019-08-30",
+    "license": "public-domain",
+    "focus": 5
+  },
+  "sm3": {
+    "dvidsId": "9218012",
+    "sourceUrl": "https://www.dvidshub.net/image/9218012",
+    "alt": "The destroyer USS Hopper fires an SM-3 interceptor from its deck at sea.",
+    "caption": "The destroyer USS Hopper (DDG 70) launches a Standard Missile-3 as it operates in the Pacific Ocean on July 30, 2009. The missile successfully intercepted a sub-scale, short-range ballistic missile launched from the Kauai Test Facility, Pacific Missile Range Facility Barking Sands, Kauai, Hawaii. The launch was the latest Missile Defense Agency test in conjunction with the U.S. Navy.",
+    "credit": "U.S. Navy",
+    "taken": "2009-07-31",
+    "license": "public-domain"
+  },
+  "sm6": {
+    "dvidsId": "7714422",
+    "sourceUrl": "https://www.dvidshub.net/image/7714422",
+    "alt": "An SM-6 lifts off from the destroyer USS Daniel Inouye at night, lighting up the ship's mast.",
+    "caption": "A Standard Missile-6 (SM-6) Dual II with Software Upgrade (SWUP) is launched from the USS Daniel Inouye (DDG 118) off the coast of the Pacific Missile Range Facility in Kauai, Hawaii as part of Flight Test Aegis Weapon System 31 Event 1a (FTM-31 E1a), March 30, 2023. The Missile Defense Agency, in cooperation with the U. S. Navy, held the successful missile defense event that demonstrated the capability of a ballistic missile defense (BMD)-configured Aegis ship to detect, track, engage, and intercept a medium range ballistic missile target in the terminal phase of flight utilizing the SM-6 Dual II SWUP in a single salvo of two interceptors.",
+    "credit": "Mark Wright, Missile Defense Agency",
+    "taken": "2023-03-30",
+    "license": "public-domain",
+    "focus": 0
+  },
+  "tomahawk": {
+    "dvidsId": "9545929",
+    "sourceUrl": "https://www.dvidshub.net/image/9545929",
+    "alt": "A Tomahawk cruise missile in flight against a pale sky, trailing exhaust, on the first day of Operation Epic Fury.",
+    "caption": "Arleigh Burke-class guided-missile destroyer USS Delbert D. Black (DDG 119) fires a Tomahawk Land Attack Missile (TLAM) in support of Operation Epic Fury, Feb. 28, 2026. (U.S. Navy photo)",
+    "credit": "U.S. Navy, U.S. Central Command Public Affairs",
+    "taken": "2026-02-28",
+    "license": "public-domain"
+  },
+  "jassm": {
+    "dvidsId": "6504145",
+    "sourceUrl": "https://www.dvidshub.net/image/6504145",
+    "alt": "Rows of JASSM-ER cruise missiles laid out on a flight line for inspection at Barksdale Air Force Base.",
+    "caption": "Airmen from the 2nd Munitions Squadron lay out AGM-158 Joint Air-to-Surface Standoff Missile (JASSM) Extended Range munitions for inspection during a 2nd Maintenance Group load generation exercise at Barksdale Air Force Base, La., Jan. 28, 2021. The 2nd MUNS executed a safe and secure breakout, inspection, software revision, delivery and restoration as part of the demonstrated continued uncompromising combat capability of the 2nd Bomb Wing. (U.S. Air Force photo by Airman 1st Class Jacob B. Wrightsman)",
+    "credit": "Airman 1st Class Jacob Wrightsman, 2nd Bomb Wing",
+    "taken": "2021-01-28",
+    "license": "public-domain"
+  },
+  "prsm": {
+    "dvidsId": "8929153",
+    "sourceUrl": "https://www.dvidshub.net/image/8929153",
+    "alt": "A Precision Strike Missile rises from a HIMARS launcher during a test at Vandenberg Space Force Base.",
+    "caption": "A U.S. Army M142 High Mobility Artillery Rocket System, commonly known as HIMARS, launches a Precision Strike Missile (PrSM) during a flight test at Vandenberg Space Force Base, Calif., March 19, 2025. Missile performance was nominal for all parameters and demonstrated PrSM\u2019s contribution to the enhancement of Army long range precision fires capabilities. (U.S. Space Force Photo by Anthony Mendez)",
+    "credit": "Anthony Mendez, U.S. Space Force",
+    "taken": "2025-03-19",
+    "license": "public-domain"
+  }
+}

@@ -47,3 +47,13 @@ export function formatMonth(iso: string): string {
 export function daysBetween(a: string, b: string): number {
   return Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000);
 }
+
+/**
+ * The first sentence of a DVIDS caption. Their captions are full of
+ * abbreviations ("Sept.", "La.", "Delbert D. Black") but the first sentence
+ * almost always ends on the date's year, so cut there.
+ */
+export function captionLead(caption: string): string {
+  const lead = caption.match(/^.*?\b(?:19|20)\d{2}\.(?=\s|$)/)?.[0] ?? caption;
+  return lead.length > 320 ? `${lead.slice(0, 317).trimEnd()}…` : lead;
+}

@@ -2,6 +2,9 @@
 import Base from "../layouts/Base.astro";
 import ConfidenceTag from "../components/ConfidenceTag.astro";
 import { SITE, href } from "../lib/site";
+import { getAllPhotos, getDataset } from "../lib/data";
+
+const names = getDataset().munitionById;
 ---
 
 <Base
@@ -124,6 +127,26 @@ import { SITE, href } from "../lib/site";
       states outright, like a new production rate), a script checks every quote against the page, and the draft opens as
       a pull request. A person reviews it before anything goes live. Nothing is published straight from an AI.
     </p>
+
+    <h2>Photos</h2>
+    <p>
+      Every photo is an official U.S. military image from{" "}
+      <a href="https://www.dvidshub.net/" rel="noopener">
+        DVIDS
+      </a>
+      , in the public domain. They show the missile, not necessarily a launch from this war.
+    </p>
+    <ul class="photos">
+      {getAllPhotos().map(([id, p]) => (
+        <li>
+          <strong>{names.get(id)!.name}</strong>: {p.credit}, {p.taken.slice(0, 4)} (
+          <a href={p.sourceUrl} rel="noopener">
+            DVIDS {p.dvidsId}
+          </a>
+          )
+        </li>
+      ))}
+    </ul>
 
     <h2>Corrections</h2>
     <p>

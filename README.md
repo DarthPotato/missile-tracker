@@ -108,6 +108,16 @@ npm run add-source -- https://www.nytimes.com/... --outlet "The New York Times" 
 
 Or write a JSON file in `data/reports/` yourself, following the existing ones. `npm run validate -- --quotes` tells you if a quote doesn't match.
 
+### Photos
+
+Each missile has one public-domain photo from [DVIDS](https://www.dvidshub.net/). To swap one, pass the DVIDS image page:
+
+```sh
+npm run add-photo -- patriot https://www.dvidshub.net/image/9979640/... "Short alt text for screen readers"
+```
+
+It saves the 2000px preview (no DVIDS login needed) to `src/assets/photos/`, records the caption, credit and date in `data/photos.json`, and refuses images not marked public domain. If the crop cuts off the missile, set `focus` in `data/photos.json` (0 = top, 100 = bottom). The site resizes the photos at build time.
+
 ## Deploying
 
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push to `main`, and once a day so the projections' "today" line stays current. Pages is set to Source: GitHub Actions.

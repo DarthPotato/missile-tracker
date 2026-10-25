@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "validate": "tsx scripts/validate-data.ts",
     "watch-sources": "tsx scripts/pipeline/watch.ts",
-    "add-source": "tsx scripts/pipeline/add.ts"
+    "add-source": "tsx scripts/pipeline/add.ts",
+    "add-photo": "tsx scripts/add-photo.ts"
   },
   "dependencies": {
     "astro": "^7.3.8",
