@@ -1,0 +1,64 @@
+{
+  "id": "2026-11-10-csis-munition-inventories-an-update-amid-renewed",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Munition Inventories: An Update Amid Renewed War Risk",
+    "url": "https://www.csis.org/analysis/munition-inventories-update-amid-renewed-war-risk",
+    "published": "2026-11-10",
+    "kind": "think-tank"
+  },
+  "summary": "CSIS analysts estimate that about two-thirds of prewar Patriot, about half of THAAD, and about a third each of Tomahawk and JASSM inventories were expended in the Iran war, but the report gives only fractions, not absolute counts. It also cites announced production goals for Patriot (2,000/yr), Tomahawk (1,000/yr) and SM-6 (500/yr), which are targets rather than current output.",
+  "claims": [
+    {
+      "munition": "patriot",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "An estimated two-thirds of prewar Patriot interceptor inventory have been expended against Iranian ballistic missiles in the past nine months.",
+      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+    },
+    {
+      "munition": "thaad",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Around half of the prewar Terminal High Altitude Area Defense (THAAD) inventory is estimated to have been used in the Iran war.",
+      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+    },
+    {
+      "munition": "tomahawk",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "U.S. destroyers and submarines are estimated to have fired around a third of the prewar Tomahawk inventory so far in the Iran war.",
+      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+    },
+    {
+      "munition": "jassm",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Around a third of the prewar inventory was expended.",
+      "note": "Stated in the JASSM section; analyst estimate expressed as a fraction, no absolute count given."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "In the 39-day campaign until the April 8 ceasefire and subsequent operations, the United States expended between a third and two-thirds of key munition inventories.",
+      "note": "Aggregate range across key munitions; not tied to a specific system."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Sufficient numbers remain for a renewed conflict with Iran, as administration officials have said",
+      "attribution": "administration officials (as cited by CSIS)",
+      "note": "Authors' summary of administration position; the report does not give remaining counts."
+    }
+  ],
+  "addedBy": "pipeline",
+  "quoteCheck": "auto"
+}
