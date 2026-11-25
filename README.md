@@ -88,9 +88,10 @@ npm run build                       # validate + build to dist/
 
 1. Pulls candidates from CSIS (the Cancian and Park author pages), the GDELT news index, the NYT Article Search API (if keyed), and Bing News (if enabled). GDELT rate-limits GitHub's runners heavily, so in practice NYT and Bing do most of the news finding.
 2. Keeps items that mention a tracked missile _and_ stockpile language.
-3. Sends each article to Claude Haiku 5.5 (`claude-haiku-5-5`, structured output) to draft claims with verbatim quotes, plus any model-input changes the article states outright. Roughly $0.001–0.002 per article.
-4. Throws out anything whose quote isn't on the page word for word, or that fails the schema.
-5. Opens a pull request with the new report files, any `munitions.json` changes, and a summary. On quiet days the summary of what was checked is on the run's page in the Actions tab.
+3. Screens each article with Claude Haiku 5.5 (`claude-haiku-5-5`, about $0.001 each): does it state a figure about these stockpiles? Only the ones it flags go on.
+4. Sends those to Claude Opus 5.5 (`claude-opus-5-5`, structured output) to draft claims with verbatim quotes, plus any model-input changes the article states outright. Roughly 5–10¢ per article, and only a few articles a week get this far. A plain fraction of stock used ("two-thirds") is entered as a share used (about 67%), with the original words kept in the note. Set the repository variables `SCREEN_MODEL` or `EXTRACT_MODEL` to use other models.
+5. Throws out anything whose quote isn't on the page word for word, or that fails the schema.
+6. Opens a pull request with the new report files, any `munitions.json` changes, and a summary. On quiet days the summary of what was checked is on the run's page in the Actions tab.
 
 A person merges the pull request. Nothing reaches the site without that review.
 

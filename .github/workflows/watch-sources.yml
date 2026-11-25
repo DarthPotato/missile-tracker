@@ -44,6 +44,9 @@ jobs:
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
           # On by default; set the repository variable USE_BING_NEWS to 0 to turn it off.
           USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
+          # Haiku screens, a stronger model drafts the claims. Override with repo variables.
+          SCREEN_MODEL: ${{ vars.SCREEN_MODEL || 'claude-haiku-5-5' }}
+          EXTRACT_MODEL: ${{ vars.EXTRACT_MODEL || 'claude-opus-5-5' }}
 
       - name: Save watcher state
         if: always()

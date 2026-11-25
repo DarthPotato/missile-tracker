@@ -1,22 +1,21 @@
 import { describe, expect, it } from "vitest";
 import type Anthropic from "@anthropic-ai/sdk";
-import { extract, reportId, SCHEMA } from "../scripts/pipeline/extract";
+import { extract, reportId, SCHEMA, screen } from "../scripts/pipeline/extract";
 
 // A stand-in client that returns a canned structured-output response, so the
 // post-processing (quote check, schema check) is tested without an API call.
 function fakeClient(payload: unknown, stop_reason = "end_turn") {
-  return {
-    messages: {
-      // Thinking blocks come first on Haiku 5.5; the text block carries the JSON.
-      create: async () => ({
-        stop_reason,
-        content: [
-          { type: "thinking", thinking: "", signature: "x" },
-          { type: "text", text: JSON.stringify(payload) },
-        ],
-      }),
-    },
-  } as unknown as Anthropic;
+  const messages = {
+    // Thinking blocks come first; the text block carries the JSON.
+    create: async (_req: unknown) => ({
+      stop_reason,
+      content: [
+        { type: "thinking", thinking: "", signature: "x" },
+        { type: "text", text: JSON.stringify(payload) },
+      ],
+    }),
+  };
+  return { messages, beta: { messages } } as unknown as Anthropic;
 }
 
 const article = {
@@ -155,5 +154,18 @@ describe("extract", () => {
       },
     ]);
     expect(r.dropped[0].reason).toMatch(/no usable value/);
+  });
+});
+
+describe("screen", () => {
+  it("passes through the screening answer", async () => {
+    expect(await screen(article, fakeClient({ relevant: false, reason: "weather" }))).toEqual({
+      relevant: false,
+      reason: "weather",
+    });
+  });
+  it("sends refused or cut-off screens on to the full read", async () => {
+    expect((await screen(article, fakeClient({}, "refusal"))).relevant).toBe(true);
+    expect((await screen(article, fakeClient({}, "max_tokens"))).relevant).toBe(true);
   });
 });
