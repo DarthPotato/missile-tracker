@@ -11,35 +11,47 @@
   "claims": [
     {
       "munition": "patriot",
-      "metric": "statement",
+      "metric": "pct_expended",
+      "low": 67,
+      "high": 67,
+      "qualifier": "about",
       "asOf": "2026-11-10",
       "confidence": "estimate",
       "quote": "An estimated two-thirds of prewar Patriot interceptor inventory have been expended against Iranian ballistic missiles in the past nine months.",
-      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+      "note": "CSIS gives a fraction, not a count: \"two-thirds\" of prewar inventory used, entered as about 67%."
     },
     {
       "munition": "thaad",
-      "metric": "statement",
+      "metric": "pct_expended",
+      "low": 50,
+      "high": 50,
+      "qualifier": "about",
       "asOf": "2026-11-10",
       "confidence": "estimate",
       "quote": "Around half of the prewar Terminal High Altitude Area Defense (THAAD) inventory is estimated to have been used in the Iran war.",
-      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+      "note": "CSIS gives a fraction, not a count: \"half\" of prewar inventory used, entered as about 50%."
     },
     {
       "munition": "tomahawk",
-      "metric": "statement",
+      "metric": "pct_expended",
+      "low": 33,
+      "high": 33,
+      "qualifier": "about",
       "asOf": "2026-11-10",
       "confidence": "estimate",
       "quote": "U.S. destroyers and submarines are estimated to have fired around a third of the prewar Tomahawk inventory so far in the Iran war.",
-      "note": "Analyst estimate expressed as a fraction; no absolute count given."
+      "note": "CSIS gives a fraction, not a count: \"a third\" of prewar inventory used, entered as about 33%."
     },
     {
       "munition": "jassm",
-      "metric": "statement",
+      "metric": "pct_expended",
+      "low": 33,
+      "high": 33,
+      "qualifier": "about",
       "asOf": "2026-11-10",
       "confidence": "estimate",
       "quote": "Around a third of the prewar inventory was expended.",
-      "note": "Stated in the JASSM section; analyst estimate expressed as a fraction, no absolute count given."
+      "note": "CSIS gives a fraction, not a count: \"a third\" of prewar inventory used, entered as about 33%."
     },
     {
       "munition": "all",
@@ -60,5 +72,6 @@
     }
   ],
   "addedBy": "pipeline",
-  "quoteCheck": "auto"
+  "quoteCheck": "manual",
+  "quoteCheckNote": "csis.org refuses GitHub-hosted runners, so CI can't fetch the page. The daily watch matched every quote against the page word for word when it drafted this on 2026-11-10; read them against the report before merging."
 }
