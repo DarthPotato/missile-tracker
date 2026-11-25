@@ -149,9 +149,8 @@ const ongoingMax = burn ? Math.max(10, Math.round((burn * 30) / 3 / 5) * 5) : Ma
   </div>
   <p class="small muted">
     Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you set "Firing since
-    the estimate" or add a renewed war. Fighting has continued at lower intensity since July 8, but nobody has published
-    counts, so treat projections from older estimates as optimistic. The sliders are saved in the page's address, so you
-    can share a scenario as a link.
+    the estimate" or add a renewed war. Firing after the estimate date isn't counted, so a projection from an older
+    estimate is optimistic. The sliders are saved in the page's address, so you can share a scenario as a link.
     {burn && ` The default firing rate is the opening campaign's average: ~${Math.round(burn)} a day over 39 days.`}
   </p>
   <details>

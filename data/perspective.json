@@ -7,56 +7,58 @@
   "amounts": [
     {
       "id": "war-cost",
-      "label": "The war's cost to the Pentagon, Feb 28 – Jun 30",
-      "value": 33400000000,
+      "label": "The war's cost to the Pentagon, through Oct 16",
+      "value": 47100000000,
       "source": {
-        "outlet": "Stars and Stripes (DoD Inspector General report)",
-        "title": "Iran war exposed US munitions shortfalls and production bottlenecks, Pentagon IG says",
-        "url": "https://www.stripes.com/theaters/us/2026-09-15/dodig-iran-war-cost-munitions-22860181.html",
-        "published": "2026-09-15",
-        "quote": "expended munitions accounted for $22.3 billion of the Pentagon’s $33.4 billion estimated price tag for the war at that point"
+        "outlet": "Stars and Stripes (Pentagon estimate to Congress)",
+        "title": "Pentagon puts cost of Iran war at $47 billion",
+        "url": "https://www.stripes.com/theaters/middle_east/2026-10-28/pentagon-estimate-iran-war-cost-47b-23289282.html",
+        "published": "2026-10-28",
+        "quote": "The Defense Department estimated that the war had cost $47.1 billion as of Oct. 16"
       }
     },
     {
       "id": "munitions",
-      "label": "Munitions fired, Feb 28 – Jun 29",
-      "value": 22300000000,
+      "label": "Replacing the munitions fired, Pentagon estimate",
+      "value": 29000000000,
       "source": {
-        "outlet": "Stars and Stripes (DoD Inspector General report)",
-        "title": "Iran war exposed US munitions shortfalls and production bottlenecks, Pentagon IG says",
-        "url": "https://www.stripes.com/theaters/us/2026-09-15/dodig-iran-war-cost-munitions-22860181.html",
-        "published": "2026-09-15",
-        "quote": "expended munitions accounted for $22.3 billion of the Pentagon’s $33.4 billion estimated price tag for the war at that point"
+        "outlet": "Stars and Stripes (Pentagon estimate to Congress)",
+        "title": "Pentagon puts cost of Iran war at $47 billion",
+        "url": "https://www.stripes.com/theaters/middle_east/2026-10-28/pentagon-estimate-iran-war-cost-47b-23289282.html",
+        "published": "2026-10-28",
+        "quote": "About $29 billion of the estimate is earmarked for replacing munitions"
       }
     },
     {
       "id": "tracked-missiles",
-      "label": "The seven missiles on this site, fired by the April ceasefire",
-      "computed": "missiles-fired-by-ceasefire",
-      "note": "Our math: CSIS's midpoint estimate of each missile used by April 8, times its unit cost."
+      "label": "The seven missiles on this site, fired through Nov 3",
+      "computed": "missiles-fired-to-date",
+      "note": "Our math: CSIS's November estimate of how many of each missile were used (the midpoint, or the floor where CSIS says “1,100+”), times its FY2027 unit cost."
     },
     {
       "id": "one-sm3",
       "label": "One SM-3 interceptor",
-      "value": 28700000,
+      "value": 30000000,
       "source": {
         "outlet": "CSIS",
-        "title": "Last Rounds? Status of Key Munitions at the Iran War Ceasefire",
-        "url": "https://csis-website-prod.s3.amazonaws.com/s3fs-public/2026-04/260424_Cancian_Park_Last_Rounds.pdf?VersionId=JbVbjtv2ywN4avgN_9KSGw.kbdz8Ettl",
-        "published": "2026-04-21",
-        "quote": "SM-3 $28.7 410 130–250 64"
+        "title": "Munition Inventories: An Update Amid Renewed War Risk",
+        "url": "https://www.csis.org/analysis/munition-inventories-update-amid-renewed-war-risk",
+        "published": "2026-11-10",
+        "quote": "SM-3 $30 million 410 130–250 Mid-2029",
+        "quoteCheck": "manual"
       }
     },
     {
       "id": "one-patriot",
       "label": "One Patriot interceptor",
-      "value": 3900000,
+      "value": 5000000,
       "source": {
         "outlet": "CSIS",
-        "title": "Last Rounds? Status of Key Munitions at the Iran War Ceasefire",
-        "url": "https://csis-website-prod.s3.amazonaws.com/s3fs-public/2026-04/260424_Cancian_Park_Last_Rounds.pdf?VersionId=JbVbjtv2ywN4avgN_9KSGw.kbdz8Ettl",
-        "published": "2026-04-21",
-        "quote": "Patriot $3.9 2,330 1,060–1,430 42"
+        "title": "Munition Inventories: An Update Amid Renewed War Risk",
+        "url": "https://www.csis.org/analysis/munition-inventories-update-amid-renewed-war-risk",
+        "published": "2026-11-10",
+        "quote": "Patriot $5 million 2,330 1,596–1,697 Late 2029",
+        "quoteCheck": "manual"
       }
     }
   ],
@@ -111,6 +113,47 @@
         "url": "https://fsapartners.ed.gov/knowledge-center/library/dear-colleague-letters/2026-01-30/2026-27-federal-pell-grant-maximum-and-minimum-award-amounts",
         "published": "2026-01-30",
         "quote": "the maximum Pell Grant award remains fixed at $7,395"
+      }
+    }
+  ],
+  "programs": [
+    {
+      "id": "school-lunch",
+      "name": "every federally funded school lunch",
+      "annualCost": 18900000000,
+      "costNote": "National School Lunch Program, $18.9 billion in FY2025",
+      "source": {
+        "outlet": "USDA Economic Research Service",
+        "title": "The Food and Nutrition Assistance Landscape: Fiscal Year 2025 Annual Report",
+        "url": "https://ers.usda.gov/media/29245/eib-304.pdf",
+        "published": "2026-06",
+        "quote": "Total spending (billion dollars) 17.8 18.9 5.7"
+      }
+    },
+    {
+      "id": "pell",
+      "name": "Pell Grants for every eligible college student",
+      "annualCost": 38100000000,
+      "costNote": "7.4 million students, $38.1 billion for 2025–26 (CBO projection)",
+      "source": {
+        "outlet": "Congressional Budget Office",
+        "title": "The Pell Grant Program: Funding and Current Shortfall",
+        "url": "https://www.cbo.gov/system/files/2025-04/61366-Pell-Grant-Program.pdf",
+        "published": "2025-04-29",
+        "quote": "Total federal cost of $38.1 billion"
+      }
+    },
+    {
+      "id": "snap",
+      "name": "SNAP, the federal food-stamp program",
+      "annualCost": 101700000000,
+      "costNote": "$101.7 billion in FY2025",
+      "source": {
+        "outlet": "USDA Economic Research Service",
+        "title": "The Food and Nutrition Assistance Landscape: Fiscal Year 2025 Annual Report (summary)",
+        "url": "https://www.ers.usda.gov/media/29235/eib-304-report-summary.pdf?v=25468",
+        "published": "2026-06",
+        "quote": "Spending on the Supplemental Nutrition Assistance Program (SNAP) totaled $101.7 billion in FY 2025"
       }
     }
   ]

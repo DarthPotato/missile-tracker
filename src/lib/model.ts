@@ -37,7 +37,7 @@ export interface Headline extends StockPoint {
   newer: ClaimRef[];
 }
 
-const SPECIFICITY: Record<Qualifier, number> = { range: 3, exact: 3, about: 2, "at-most": 1, "at-least": 1 };
+export const SPECIFICITY: Record<Qualifier, number> = { range: 3, exact: 3, about: 2, "at-most": 1, "at-least": 1 };
 
 /** Flip a qualifier when a number is subtracted from a fixed total. */
 function invert(q: Qualifier): Qualifier {
