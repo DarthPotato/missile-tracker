@@ -6,6 +6,10 @@ import type { MunitionId } from "../src/lib/schema";
 
 const ds = getDataset();
 const hl = (id: MunitionId) => headline(ds.reports, id)!;
+// The cases below pin how the model picks a headline. They read the reports as
+// they stood before CSIS's November update, so new data doesn't move them.
+const beforeNov = ds.reports.filter((r) => r.source.published < "2026-11-01");
+const hlJuly = (id: MunitionId) => headline(beforeNov, id)!;
 
 describe("dataset", () => {
   it("loads every munition with a headline", () => {
@@ -14,8 +18,15 @@ describe("dataset", () => {
 });
 
 describe("headline", () => {
-  it("uses CSIS's July range for Patriot, against the April prewar baseline", () => {
+  it("uses CSIS's November Table 2 for Patriot: 2,330 prewar less 1,596-1,697 used", () => {
     const h = hl("patriot");
+    expect(h.asOf).toBe("2026-11-03");
+    expect(h.method).toBe("prewar-minus-expended");
+    expect(h.remaining).toEqual({ low: 633, high: 734 });
+  });
+
+  it("uses CSIS's July range for Patriot, against the April prewar baseline", () => {
+    const h = hlJuly("patriot");
     expect(h.asOf).toBe("2026-07-27");
     expect(h.remaining).toEqual({ low: 759, high: 827 });
     expect(h.prewar).toBe(2330);
@@ -23,18 +34,18 @@ describe("headline", () => {
   });
 
   it("prefers the 234-278 range over 'about 250' on the same date, with the revised 452 baseline", () => {
-    const h = hl("thaad");
+    const h = hlJuly("thaad");
     expect(h.remaining).toEqual({ low: 234, high: 278 });
     expect(h.prewar).toBe(452);
   });
 
   it("surfaces CNN's later percentage as newer reporting instead of mixing baselines", () => {
-    const h = hl("thaad");
+    const h = hlJuly("thaad");
     expect(h.newer.map((r) => r.claim.metric)).toContain("pct_expended");
   });
 
   it("derives prewar-minus-expended and flips 'more than 1,000 used' into 'at most 2,100 left'", () => {
-    const h = hl("tomahawk");
+    const h = hlJuly("tomahawk");
     expect(h.method).toBe("prewar-minus-expended");
     expect(h.qualifier).toBe("at-most");
     expect(formatRange(h.remaining, h.qualifier)).toBe("≤2,100");
