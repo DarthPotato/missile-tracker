@@ -6,6 +6,12 @@ on:
   schedule:
     - cron: "5 6 * * *" # daily rebuild so "today" on the projection charts stays current
   workflow_dispatch:
+  # The live feed calls this after committing new data (see live-feed.yml).
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -21,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22

@@ -43,6 +43,8 @@ const config: ChartConfig = {
 // Escape "<" so the JSON can't close the script tag.
 const json = JSON.stringify(config).replace(/</g, "\\u003c");
 const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
+// Up to a third of the opening campaign's daily pace, sustained for a month.
+const ongoingMax = burn ? Math.max(10, Math.round((burn * 30) / 3 / 5) * 5) : Math.max(10, m.deliveriesPerYear.value);
 ---
 
 <div class="projection" data-projection>
@@ -62,6 +64,11 @@ const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
         </span>
       </label>
     )}
+    <label>
+      <span class="ctl-label">Firing since the estimate (no published counts)</span>
+      <input type="range" name="ongoing" min="0" max={ongoingMax} step="1" value="0" />
+      <output for="ongoing">None</output>
+    </label>
     <label>
       <span class="ctl-label">Renewed full-scale war</span>
       <input type="range" name="warDays" min="0" max="120" step="1" value="0" />
@@ -84,6 +91,9 @@ const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
       </select>
     </label>
     <button type="reset">Reset to sourced defaults</button>
+    <button type="button" class="copy-link">
+      Copy link to this scenario
+    </button>
   </form>
 
   <div class="readout"></div>
@@ -113,8 +123,10 @@ const burnMax = burn ? Math.max(10, Math.ceil((burn * 3) / 5) * 5) : 0;
     </div>
   </div>
   <p class="small muted">
-    Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you add a renewed war.
-    Fighting has continued at lower intensity since July 8, so treat projections from older estimates as optimistic.
+    Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you set "Firing since
+    the estimate" or add a renewed war. Fighting has continued at lower intensity since July 8, but nobody has published
+    counts, so treat projections from older estimates as optimistic. The sliders are saved in the page's address, so you
+    can share a scenario as a link.
     {burn && ` The default firing rate is the opening campaign's average: ~${Math.round(burn)} a day over 39 days.`}
   </p>
   <details>

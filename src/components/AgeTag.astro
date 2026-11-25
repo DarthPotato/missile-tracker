@@ -1,0 +1,38 @@
+---
+// How old a headline estimate is, flagged once it passes STALE_DAYS.
+import { ageDays, formatAge, STALE_DAYS } from "../lib/format";
+import { BUILD_DATE } from "../lib/scenario";
+
+interface Props {
+  asOf: string;
+}
+const days = ageDays(Astro.props.asOf, BUILD_DATE);
+const stale = days > STALE_DAYS;
+---
+
+<span
+  class:list={["age", { stale }]}
+  title={stale ? "No newer count has been published; fighting has continued since." : undefined}
+>
+  {formatAge(days)}
+</span>
+
+<style>
+  .age {
+    white-space: nowrap;
+  }
+  .stale {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .stale::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--serious);
+    margin-right: 5px;
+    vertical-align: 1px;
+  }
+</style>

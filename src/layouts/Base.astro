@@ -24,6 +24,7 @@ const image = new URL(href(ogImage), Astro.site);
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
     <link rel="apple-touch-icon" href={href("/apple-touch-icon.png")} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name}: new sources`} href={href("/feed.xml")} />
     <meta name="theme-color" content="#0d0d0d" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={fullTitle} />
@@ -58,6 +59,7 @@ const image = new URL(href(ogImage), Astro.site);
         <nav>
           <a href={href("/#board")}>Stockpile</a>
           <a href={href("/#updates")}>Updates</a>
+          <a href={href("/live/")}>Live</a>
           <a href={href("/perspective/")}>Perspective</a>
           <a href={href("/methodology/")}>Methodology</a>
           <button class="theme" type="button" aria-label="Switch color theme" title="Switch color theme">
@@ -79,8 +81,9 @@ const image = new URL(href(ogImage), Astro.site);
           classified, so every figure here is an estimate or a report, linked to where it came from.
         </p>
         <p>
-          <a href={href("/methodology/")}>How the numbers work</a> · <a href={SITE.repo}>Data &amp; code on GitHub</a> ·
-          <a href={`${SITE.repo}/issues/new`}>Report a correction</a>
+          <a href={href("/methodology/")}>How the numbers work</a> ·{" "}
+          <a href={href("/methodology/#data")}>Download the data</a> ·<a href={href("/feed.xml")}>RSS</a> ·{" "}
+          <a href={SITE.repo}>Code on GitHub</a> ·<a href={`${SITE.repo}/issues/new`}>Report a correction</a>
         </p>
       </div>
     </footer>

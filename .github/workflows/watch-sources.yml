@@ -15,7 +15,10 @@ concurrency: watch-sources
 
 jobs:
   watch:
-    runs-on: ubuntu-latest
+    # CSIS refuses requests from cloud servers (HTTP 403 since Nov 18, 2026).
+    # Register a self-hosted runner on a home machine and set the repository
+    # variable WATCH_RUNNER to its label (e.g. self-hosted) to run from there.
+    runs-on: ${{ vars.WATCH_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4

@@ -3,6 +3,8 @@
 import munitionsJson from "../../data/munitions.json";
 import perspectiveJson from "../../data/perspective.json";
 import photosJson from "../../data/photos.json";
+import liveJson from "../../data/live/events.json";
+import { LiveFile } from "./live";
 import type { ImageMetadata } from "astro";
 import { PerspectiveFile, PhotosFile, type MunitionId, type Photo } from "./schema";
 import { buildDataset, type Dataset } from "./dataset";
@@ -42,4 +44,11 @@ export function getPhoto(id: MunitionId): { photo: Photo; image: ImageMetadata }
 
 export function getAllPhotos(): [MunitionId, Photo][] {
   return Object.entries(photos) as [MunitionId, Photo][];
+}
+
+let live: LiveFile | undefined;
+
+/** The unverified live intercept log (data/live/events.json). */
+export function getLive(): LiveFile {
+  return (live ??= LiveFile.parse(liveJson));
 }

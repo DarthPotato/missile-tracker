@@ -6,6 +6,8 @@ import ConfidenceTag from "../../components/ConfidenceTag.astro";
 import ProjectionChart from "../../components/ProjectionChart.astro";
 import BlockGrid from "../../components/BlockGrid.astro";
 import MissilePhoto from "../../components/MissilePhoto.astro";
+import EstimateSpread from "../../components/EstimateSpread.astro";
+import AgeTag from "../../components/AgeTag.astro";
 import { getDataset, getPhoto } from "../../lib/data";
 import { claimsFor, headline, phase1BurnPerDay, daysOfFire } from "../../lib/model";
 import { describeClaim, METRIC_LABEL } from "../../lib/describe";
@@ -88,7 +90,8 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
       <div class="now-figure">{formatRange(h.remaining, h.qualifier)}</div>
       <Meter remaining={h.remaining} qualifier={h.qualifier} prewar={h.prewar} name={m.name} />
       <p class="small muted">
-        {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} before the war · as of {formatDate(h.asOf)}
+        {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} before the war · as of {formatDate(h.asOf)} ·{" "}
+        <AgeTag asOf={h.asOf} />
       </p>
       {days && (
         <p class="small muted">
@@ -147,6 +150,19 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
   <section>
     <div class="section-head">
       <span class="label">01</span>
+      <h2>Where the estimates land</h2>
+    </div>
+    <p class="muted intro">
+      Every stock-left figure a source gives for the {m.name}, on one timeline. Sources disagree, and the gap between
+      them is part of the story. Converted figures (dashed) turn a reported share used into a count using a prewar total
+      the source didn't give, so treat them as rougher than the rest.
+    </p>
+    <EstimateSpread munition={m} headline={h} />
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="label">02</span>
       <h2>In blocks of 10</h2>
     </div>
     <BlockGrid rows={[{ munition: m, headline: h }]} single />
@@ -154,7 +170,7 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
 
   <section>
     <div class="section-head">
-      <span class="label">02</span>
+      <span class="label">03</span>
       <h2>Rebuild model</h2>
     </div>
     <p class="muted intro">
@@ -167,7 +183,7 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
 
   <section>
     <div class="section-head">
-      <span class="label">03</span>
+      <span class="label">04</span>
       <h2>Every estimate</h2>
     </div>
     <div class="table-scroll">
@@ -211,7 +227,7 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
 
   <section>
     <div class="section-head">
-      <span class="label">04</span>
+      <span class="label">05</span>
       <h2>Model inputs</h2>
     </div>
     <div class="table-scroll">

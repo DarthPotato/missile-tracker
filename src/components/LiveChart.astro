@@ -1,0 +1,139 @@
+---
+// Intercepts per day, stacked by threat type. Static SVG.
+import { dailySeries, THREAT_LABEL, type LiveEvent, type Threat } from "../lib/live";
+import { fmt, formatDate } from "../lib/format";
+
+interface Props {
+  events: LiveEvent[];
+  today: string;
+  days?: number;
+  label: string;
+}
+const { events, today, days = 60, label } = Astro.props;
+const series = dailySeries(events, today, days);
+const ORDER: Threat[] = ["drone", "cruise", "ballistic", "mixed", "unknown"];
+const present = ORDER.filter((t) => series.some((d) => d.byThreat[t]));
+
+const W = 760;
+const H = 200;
+const pad = { top: 12, right: 8, bottom: 26, left: 48 };
+const iw = W - pad.left - pad.right;
+const ih = H - pad.top - pad.bottom;
+const max = Math.max(1, ...series.map((d) => d.total));
+const bw = iw / series.length;
+const Y = (v: number) => pad.top + ih - (v / max) * ih;
+const total = series.reduce((a, d) => a + d.total, 0);
+---
+
+<figure class="livechart">
+  <svg
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    aria-label={`${label}: ${fmt(total)} reported intercepted over the last ${days} days`}
+  >
+    <line x1={pad.left} x2={W - pad.right} y1={Y(0)} y2={Y(0)} class="axis" />
+    <line x1={pad.left} x2={W - pad.right} y1={Y(max)} y2={Y(max)} class="grid" />
+    <text x={pad.left - 6} y={Y(max)} dy="0.35em" text-anchor="end">
+      {fmt(max)}
+    </text>
+    <text x={pad.left - 6} y={Y(0)} dy="0.35em" text-anchor="end">
+      0
+    </text>
+    {series.map((d, i) => {
+      let acc = 0;
+      return (
+        <g>
+          <title>{`${formatDate(d.date)}: ${fmt(d.total)} intercepted`}</title>
+          {present.map((t) => {
+            const v = d.byThreat[t] ?? 0;
+            if (!v) return null;
+            const y0 = Y(acc);
+            acc += v;
+            return (
+              <rect
+                class={`b ${t}`}
+                x={pad.left + i * bw + 1}
+                width={Math.max(1, bw - 2)}
+                y={Y(acc)}
+                height={Math.max(1, y0 - Y(acc))}
+              />
+            );
+          })}
+        </g>
+      );
+    })}
+    <text x={pad.left} y={H - 6}>
+      {formatDate(series[0].date)}
+    </text>
+    <text x={W - pad.right} y={H - 6} text-anchor="end">
+      {formatDate(today)}
+    </text>
+  </svg>
+  {present.length > 0 && (
+    <figcaption class="small muted key">
+      {present.map((t) => (
+        <span>
+          <i class={`sw ${t}`} /> {THREAT_LABEL[t]}
+        </span>
+      ))}
+      <span>· lower figure where sources disagree</span>
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .livechart {
+    margin: 0;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  text {
+    fill: var(--ink-3);
+    font: 12px var(--mono);
+  }
+  .axis {
+    stroke: var(--axis);
+  }
+  .grid {
+    stroke: var(--grid);
+    stroke-dasharray: 3 3;
+  }
+  .b.drone,
+  .sw.drone {
+    fill: var(--warning);
+    background: var(--warning);
+  }
+  .b.cruise,
+  .sw.cruise {
+    fill: var(--serious);
+    background: var(--serious);
+  }
+  .b.ballistic,
+  .sw.ballistic {
+    fill: var(--critical);
+    background: var(--critical);
+  }
+  .b.mixed,
+  .sw.mixed,
+  .b.unknown,
+  .sw.unknown {
+    fill: var(--ink-3);
+    background: var(--ink-3);
+  }
+  .key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin-top: 6px;
+  }
+  .sw {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    vertical-align: -1px;
+  }
+</style>

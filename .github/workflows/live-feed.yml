@@ -1,0 +1,59 @@
+name: Live feed
+
+# Every 6 hours: read the Telegram channels and news queries in
+# data/live/sources.json, log intercept counts with Claude Haiku, commit
+# data/live/ and redeploy. Published without review by design: the site labels
+# these figures unverified and keeps them out of the stockpile numbers.
+# Turn it off by setting the repository variable LIVE_FEED to 0.
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency: live-feed
+
+jobs:
+  update:
+    if: vars.LIVE_FEED != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Read sources and log intercepts
+        run: npm run live-feed
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
+      - name: Show summary
+        if: always()
+        run: cat pipeline-out/live-summary.md >> "$GITHUB_STEP_SUMMARY" || true
+      - name: Commit
+        id: commit
+        run: |
+          git add data/live/events.json data/live/state.json
+          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Live feed update"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  # Pushes made with GITHUB_TOKEN don't trigger other workflows, so deploy here.
+  deploy:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: main

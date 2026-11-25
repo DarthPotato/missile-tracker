@@ -58,6 +58,8 @@ export function mountProjection(root: HTMLElement) {
   const warRate = root.querySelector<HTMLInputElement>("[name=warRate]");
   const warRateOut = root.querySelector<HTMLOutputElement>("output[for=warRate]");
   const warStart = $<HTMLSelectElement>("[name=warStart]");
+  const ongoing = root.querySelector<HTMLInputElement>("[name=ongoing]");
+  const ongoingOut = root.querySelector<HTMLOutputElement>("output[for=ongoing]");
   const svg = $<SVGSVGElement>("svg.chart");
   const tip = $<HTMLDivElement>(".tip");
   const readout = $<HTMLDivElement>(".readout");
@@ -75,6 +77,7 @@ export function mountProjection(root: HTMLElement) {
       deliveriesPerYear: Number(rate.value),
       rebuild: rebuildBox?.checked ? cfg.rebuild : undefined,
       war: days > 0 && perDay > 0 ? { start: addMonths(cfg.today, Number(warStart.value)), days, perDay } : undefined,
+      ongoingPerMonth: ongoing ? Number(ongoing.value) : 0,
       end: cfg.end,
     };
   }
@@ -83,6 +86,8 @@ export function mountProjection(root: HTMLElement) {
     rateOut.value = `${nf.format(Number(rate.value))} / yr`;
     warDaysOut.value = Number(warDays.value) === 0 ? "Off" : `${warDays.value} days`;
     if (warRate && warRateOut) warRateOut.value = `${nf.format(Number(warRate.value))} / day`;
+    if (ongoing && ongoingOut)
+      ongoingOut.value = Number(ongoing.value) === 0 ? "None" : `${nf.format(Number(ongoing.value))} / month`;
     input = currentInput();
     result = project(input);
     renderReadout();
@@ -309,8 +314,61 @@ export function mountProjection(root: HTMLElement) {
     );
   }
 
-  for (const input of root.querySelectorAll("input, select")) input.addEventListener("input", update);
-  root.querySelector("button[type=reset]")?.addEventListener("click", () => setTimeout(update));
+  // Shareable scenarios: control values live in the URL's query string.
+  const controls = [...root.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input[name], select[name]")];
+  function readUrl() {
+    const q = new URLSearchParams(location.search);
+    for (const c of controls) {
+      const v = q.get(c.name);
+      if (v === null) continue;
+      if (c instanceof HTMLInputElement && c.type === "checkbox") c.checked = v === "1";
+      else if (c instanceof HTMLInputElement && c.type === "range") {
+        const n = Number(v);
+        if (Number.isFinite(n)) c.value = String(Math.min(Number(c.max), Math.max(Number(c.min), n)));
+      } else if (c instanceof HTMLSelectElement && [...c.options].some((o) => o.value === v)) c.value = v;
+    }
+  }
+  function writeUrl() {
+    const q = new URLSearchParams(location.search);
+    for (const c of controls) {
+      const v = c instanceof HTMLInputElement && c.type === "checkbox" ? (c.checked ? "1" : "0") : c.value;
+      const def =
+        c instanceof HTMLInputElement && c.type === "checkbox"
+          ? c.defaultChecked
+            ? "1"
+            : "0"
+          : c instanceof HTMLSelectElement
+            ? ([...c.options].find((o) => o.defaultSelected) ?? c.options[0]).value
+            : c.defaultValue;
+      if (v === def) q.delete(c.name);
+      else q.set(c.name, v);
+    }
+    const qs = q.toString();
+    history.replaceState(null, "", `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`);
+  }
+
+  readUrl();
+  for (const input of controls)
+    input.addEventListener("input", () => {
+      update();
+      writeUrl();
+    });
+  root.querySelector("button[type=reset]")?.addEventListener("click", () =>
+    setTimeout(() => {
+      update();
+      writeUrl();
+    }),
+  );
+  const copy = root.querySelector<HTMLButtonElement>(".copy-link");
+  copy?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      copy.textContent = "Link copied";
+    } catch {
+      copy.textContent = "Copy the address bar";
+    }
+    setTimeout(() => (copy.textContent = "Copy link to this scenario"), 2000);
+  });
   new ResizeObserver(() => renderChart()).observe(svg);
   update();
 }

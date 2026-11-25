@@ -4,6 +4,10 @@ import MunitionCard from "../components/MunitionCard.astro";
 import ReportEntry from "../components/ReportEntry.astro";
 import ConfidenceTag from "../components/ConfidenceTag.astro";
 import BlockGrid from "../components/BlockGrid.astro";
+import AgeTag from "../components/AgeTag.astro";
+import { getLive } from "../lib/data";
+import { IRAN_THEATERS, daysAgo, filterEvents, totals } from "../lib/live";
+import { BUILD_DATE } from "../lib/scenario";
 import { getDataset } from "../lib/data";
 import { daysOfFire, headline, phase1BurnPerDay, project } from "../lib/model";
 import { scenarioInput } from "../lib/scenario";
@@ -25,6 +29,10 @@ const usedLow = Math.round(100 - fh.pctLeft.high);
 const usedHigh = Math.round(100 - fh.pctLeft.low);
 const fbasis = fh.basis.at(-1)!;
 const lastUpdate = ds.reports[0].source.published;
+const live = getLive();
+const live30 = totals(filterEvents(live.events, daysAgo(BUILD_DATE, 29), IRAN_THEATERS));
+const liveRange = (c: { low: number; high: number }) =>
+  Math.round(c.low) === Math.round(c.high) ? fmt(c.low) : `${fmt(c.low)}–${fmt(c.high)}`;
 ---
 
 <Base>
@@ -43,7 +51,7 @@ const lastUpdate = ds.reports[0].source.published;
         <div class="label">{fm.name} interceptors left · estimate</div>
         <div class="hero-figure">{formatRange(fh.remaining, fh.qualifier)}</div>
         <p class="muted">
-          of ~{fmt(fh.prewar)} before the war · as of {formatDate(fh.asOf)}
+          of ~{fmt(fh.prewar)} before the war · as of {formatDate(fh.asOf)} · <AgeTag asOf={fh.asOf} />
         </p>
         <div class="hero-src">
           <ConfidenceTag confidence={fbasis.claim.confidence} />
@@ -80,6 +88,15 @@ const lastUpdate = ds.reports[0].source.published;
     <a class="cta" href={href(`/missiles/${fm.id}/`)}>
       Explore the {fm.name} rebuild model →
     </a>
+    {live.updated && (
+      <a class="live-strip" href={href("/live/")}>
+        <span class="label">Live · unverified</span>
+        <span>
+          Last 30 days in the Gulf, Israel and Red Sea: <strong>{liveRange(live30.intercepted)}</strong> drones and
+          missiles reported shot down, across {fmt(live30.events)} reports →
+        </span>
+      </a>
+    )}
   </section>
 
   <section id="board">
@@ -169,6 +186,24 @@ const lastUpdate = ds.reports[0].source.published;
 <style>
   .hero {
     margin-top: 40px;
+  }
+  .live-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: baseline;
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px dashed var(--axis);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .live-strip:hover {
+    border-color: var(--ink-3);
+  }
+  .live-strip .label {
+    color: var(--ink);
   }
   .status {
     display: inline-flex;
