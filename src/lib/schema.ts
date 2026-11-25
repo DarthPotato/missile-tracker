@@ -23,6 +23,10 @@ export const ClaimTarget = z.union([MunitionId, z.literal("all")]);
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD");
 const isoMonth = z.string().regex(/^\d{4}-\d{2}$/, "expected YYYY-MM");
+/** A Wayback Machine snapshot of a page, kept in case the original changes, disappears or refuses CI. */
+const ArchiveUrl = z
+  .string()
+  .regex(/^https:\/\/web\.archive\.org\/web\/\d{14}\/https?:\/\/.+$/, "expected a Wayback snapshot address");
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "expected a lowercase-hyphenated slug");
 
 /**
@@ -93,10 +97,7 @@ export const Report = z
         title: z.string(),
         url: z.url(),
         /** A Wayback Machine snapshot of the page, kept in case the original changes or disappears. */
-        archiveUrl: z
-          .string()
-          .regex(/^https:\/\/web\.archive\.org\/web\/\d{14}\/https?:\/\/.+$/, "expected a Wayback snapshot address")
-          .optional(),
+        archiveUrl: ArchiveUrl.optional(),
         published: isoDate,
         authors: z.array(z.string()).optional(),
         kind: SourceKind,
@@ -173,6 +174,7 @@ const SourcedFigure = z
     outlet: z.string(),
     title: z.string(),
     url: z.url(),
+    archiveUrl: ArchiveUrl.optional(),
     published: isoDate,
     quote: z.string().min(12),
     quoteCheck: z.enum(["auto", "manual"]).default("auto"),
