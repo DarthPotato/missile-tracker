@@ -46,14 +46,11 @@ describe("headline", () => {
 
 describe("buildDataset", () => {
   it("names the missile that has no usable headline", () => {
-    const files = reportFiles().map((f) =>
-      f.file === "2026-04-21-csis-last-rounds.json"
-        ? {
-            ...f,
-            json: { ...f.json, claims: f.json.claims.filter((c: { munition: string }) => c.munition !== "prsm") },
-          }
-        : f,
-    );
+    // Drop PrSM from every report, so no source gives it a count.
+    const files = reportFiles().map((f) => ({
+      ...f,
+      json: { ...f.json, claims: f.json.claims.filter((c: { munition: string }) => c.munition !== "prsm") },
+    }));
     expect(() => buildDataset(munitions, files)).toThrow(DataError);
     expect(() => buildDataset(munitions, files)).toThrow(/prsm: no usable headline/);
   });

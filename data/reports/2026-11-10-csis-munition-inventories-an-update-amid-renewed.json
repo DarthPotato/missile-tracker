@@ -1,0 +1,223 @@
+{
+  "id": "2026-11-10-csis-munition-inventories-an-update-amid-renewed",
+  "source": {
+    "outlet": "CSIS",
+    "title": "Munition Inventories: An Update Amid Renewed War Risk",
+    "url": "https://www.csis.org/analysis/munition-inventories-update-amid-renewed-war-risk",
+    "published": "2026-11-10",
+    "kind": "think-tank",
+    "authors": [
+      "Mark F. Cancian",
+      "Chris H. Park"
+    ]
+  },
+  "summary": "CSIS's November update. Table 2 gives prewar inventory and Iran war use for all seven tracked missiles as of November 3: Patriot 1,596–1,697 used of 2,330, THAAD 239–254 of 452, SM-3 130–250 of 410, SM-6 190–370 of 1,160, Tomahawk and JASSM more than 1,100 each, PrSM 70–90 of 90. The text puts overall use at between a third and two-thirds of key inventories.",
+  "claims": [
+    {
+      "munition": "patriot",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "An estimated two-thirds of prewar Patriot interceptor inventory have been expended against Iranian ballistic missiles in the past nine months.",
+      "note": "Fraction in the text; the counts in Table 2 of the same report carry the numbers."
+    },
+    {
+      "munition": "thaad",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Around half of the prewar Terminal High Altitude Area Defense (THAAD) inventory is estimated to have been used in the Iran war.",
+      "note": "Fraction in the text; the counts in Table 2 of the same report carry the numbers."
+    },
+    {
+      "munition": "tomahawk",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "U.S. destroyers and submarines are estimated to have fired around a third of the prewar Tomahawk inventory so far in the Iran war.",
+      "note": "Fraction in the text; the counts in Table 2 of the same report carry the numbers."
+    },
+    {
+      "munition": "jassm",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Around a third of the prewar inventory was expended.",
+      "note": "Fraction in the text; the counts in Table 2 of the same report carry the numbers."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "In the 39-day campaign until the April 8 ceasefire and subsequent operations, the United States expended between a third and two-thirds of key munition inventories.",
+      "note": "Aggregate range across key munitions; not tied to a specific system."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-11-10",
+      "confidence": "estimate",
+      "quote": "Sufficient numbers remain for a renewed conflict with Iran, as administration officials have said",
+      "attribution": "administration officials (as cited by CSIS)",
+      "note": "Authors' summary of administration position; the report does not give remaining counts."
+    },
+    {
+      "munition": "patriot",
+      "metric": "prewar",
+      "low": 2330,
+      "high": 2330,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "Patriot $5 million 2,330 1,596–1,697 Late 2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026. CSIS counts only PAC-3 CRI and MSE here; around 400 older PAC-2 GEM-T may also remain."
+    },
+    {
+      "munition": "patriot",
+      "metric": "expended",
+      "low": 1596,
+      "high": 1697,
+      "qualifier": "range",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "Patriot $5 million 2,330 1,596–1,697 Late 2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026. CSIS counts only PAC-3 CRI and MSE here; around 400 older PAC-2 GEM-T may also remain."
+    },
+    {
+      "munition": "thaad",
+      "metric": "prewar",
+      "low": 452,
+      "high": 452,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "THAAD $12 million 452 239–254 Late 2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "thaad",
+      "metric": "expended",
+      "low": 239,
+      "high": 254,
+      "qualifier": "range",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "THAAD $12 million 452 239–254 Late 2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "sm3",
+      "metric": "prewar",
+      "low": 410,
+      "high": 410,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "SM-3 $30 million 410 130–250 Mid-2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "sm3",
+      "metric": "expended",
+      "low": 130,
+      "high": 250,
+      "qualifier": "range",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "SM-3 $30 million 410 130–250 Mid-2029",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "sm6",
+      "metric": "prewar",
+      "low": 1160,
+      "high": 1160,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "SM-6 $4.3 million 1,160 190–370 Late 2028–",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "sm6",
+      "metric": "expended",
+      "low": 190,
+      "high": 370,
+      "qualifier": "range",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "SM-6 $4.3 million 1,160 190–370 Late 2028–",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "tomahawk",
+      "metric": "prewar",
+      "low": 3100,
+      "high": 3100,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "Tomahawk $2.5 million 3,100 1,100+ Early 2031",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "tomahawk",
+      "metric": "expended",
+      "low": 1100,
+      "high": 1100,
+      "qualifier": "at-least",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "Tomahawk $2.5 million 3,100 1,100+ Early 2031",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "jassm",
+      "metric": "prewar",
+      "low": 4400,
+      "high": 4400,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "JASSM $2.4 million 4,400 1,100+ Mid-to-late 2027",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "jassm",
+      "metric": "expended",
+      "low": 1100,
+      "high": 1100,
+      "qualifier": "at-least",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "JASSM $2.4 million 4,400 1,100+ Mid-to-late 2027",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "prsm",
+      "metric": "prewar",
+      "low": 90,
+      "high": 90,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "quote": "PrSM $1.6 million 90 70–90 Late 2026",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    },
+    {
+      "munition": "prsm",
+      "metric": "expended",
+      "low": 70,
+      "high": 90,
+      "qualifier": "range",
+      "asOf": "2026-11-03",
+      "confidence": "estimate",
+      "quote": "PrSM $1.6 million 90 70–90 Late 2026",
+      "note": "Table 2 row: unit cost, prewar inventory estimate, Iran war use estimate, estimated recovery to prewar level. CSIS dates the table November 3, 2026."
+    }
+  ],
+  "addedBy": "pipeline",
+  "quoteCheck": "manual",
+  "quoteCheckNote": "csis.org refuses GitHub-hosted runners, so CI can't fetch the page. Every quote was checked word for word on 2026-11-25 against a saved copy of the report the maintainer provided."
+}
