@@ -6,10 +6,12 @@ import { describeClaim } from "../lib/describe";
 import { stockStatus } from "../lib/status";
 import { href } from "../lib/site";
 import Meter from "./Meter.astro";
+import AgeTag from "./AgeTag.astro";
 import StatusChip from "./StatusChip.astro";
 import ConfidenceTag from "./ConfidenceTag.astro";
 import MissilePhoto from "./MissilePhoto.astro";
-import { getPhoto } from "../lib/data";
+import { getDataset, getPhoto } from "../lib/data";
+import { recentSpread, spreadPoints } from "../lib/spread";
 
 interface Props {
   munition: Munition;
@@ -19,6 +21,9 @@ const { munition: m, headline: h } = Astro.props;
 const basis = h.basis.at(-1)!;
 const newest = h.newer[0];
 const pic = getPhoto(m.id);
+const spread = recentSpread(spreadPoints(getDataset().reports, m.id, h));
+// Only worth a line when sources actually disagree beyond the headline's own range.
+const showSpread = spread && spread.n > 1 && (spread.low < h.remaining.low - 1 || spread.high > h.remaining.high + 1);
 ---
 
 <a class="card mcard" href={href(`/missiles/${m.id}/`)}>
@@ -38,8 +43,14 @@ const pic = getPhoto(m.id);
   </div>
   <Meter remaining={h.remaining} qualifier={h.qualifier} prewar={h.prewar} name={m.name} />
   <p class="sub">
-    {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} prewar · as of {formatDate(h.asOf)}
+    {formatPct(h.pctLeft, h.qualifier)} of ~{fmt(h.prewar)} prewar · as of {formatDate(h.asOf)} ·{" "}
+    <AgeTag asOf={h.asOf} />
   </p>
+  {showSpread && (
+    <p class="sub spread">
+      Recent sources: {fmt(Math.round(spread!.low))}–{fmt(Math.round(spread!.high))} left ({spread!.n} sources)
+    </p>
+  )}
   <div class="meta">
     <ConfidenceTag confidence={basis.claim.confidence} />
     <span class="src">{basis.claim.attribution ?? basis.report.source.outlet}</span>

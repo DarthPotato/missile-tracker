@@ -19,17 +19,23 @@ data/
   munitions.json        what each missile is + sourced model inputs (cost, delivery rates, FY27 buy)
   reports/*.json        one file per source document, holding its claims and verbatim quotes
   perspective.json      war costs vs. program costs for the /perspective/ page, each figure sourced and quote-checked
+  live/                 the unverified live intercept log (events.json), its sources and run state
 src/lib/
   schema.ts             zod schema for both files (the validator and the pipeline share it)
   model.ts              headline selection + the day-by-day rebuild projection
+  spread.ts             every source's stock-left figure on one axis, for the "Where the estimates land" chart
+  live.ts               live-log schema, merging, counts and reliability labels
+  exports.ts            CSV/JSON downloads and the RSS feed
   blocks.ts             block-grid math (1 block = 10 missiles, or $50M)
   og.ts                 share-preview images (1200×630 PNGs rendered at build time)
-src/pages/              Astro static site: home, /missiles/<id>/, /perspective/, /methodology/, /og/*.png
+src/pages/              Astro static site: home, /missiles/<id>/, /live/, /perspective/, /methodology/, /og/*.png,
+                        /data/*.csv|json, /feed.xml, /sitemap.xml, /robots.txt
 scripts/
   validate-data.ts      schema + cross-reference checks; --quotes fetches sources and checks quotes
   pipeline/watch.ts     daily: feeds → Claude drafts claims → quote check → pull request
   pipeline/inputs.ts    applies proposed model-input changes to munitions.json
   pipeline/add.ts       add one source by hand (paywalled stories, things the watcher missed)
+  live/run.ts           every 6 hours: Telegram + news → Claude logs intercept counts → quote check → events.json
 ```
 
 ## Where the numbers come from
@@ -82,9 +88,10 @@ npm run build                       # validate + build to dist/
 
 1. Pulls candidates from CSIS (the Cancian and Park author pages), the GDELT news index, the NYT Article Search API (if keyed), and Bing News (if enabled). GDELT rate-limits GitHub's runners heavily, so in practice NYT and Bing do most of the news finding.
 2. Keeps items that mention a tracked missile _and_ stockpile language.
-3. Sends each article to Claude Haiku 5.5 (`claude-haiku-5-5`, structured output) to draft claims with verbatim quotes, plus any model-input changes the article states outright. Roughly $0.001–0.002 per article.
-4. Throws out anything whose quote isn't on the page word for word, or that fails the schema.
-5. Opens a pull request with the new report files, any `munitions.json` changes, and a summary. On quiet days the summary of what was checked is on the run's page in the Actions tab.
+3. Screens each article with Claude Haiku 5.5 (`claude-haiku-5-5`, about $0.001 each): does it state a figure about these stockpiles? Only the ones it flags go on.
+4. Sends those to Claude Opus 5.5 (`claude-opus-5-5`, structured output) to draft claims with verbatim quotes, plus any model-input changes the article states outright. Roughly 5–10¢ per article, and only a few articles a week get this far. A plain fraction of stock used ("two-thirds") is entered as a share used (about 67%), with the original words kept in the note. Set the repository variables `SCREEN_MODEL` or `EXTRACT_MODEL` to use other models.
+5. Throws out anything whose quote isn't on the page word for word, or that fails the schema.
+6. Opens a pull request with the new report files, any `munitions.json` changes, and a summary. On quiet days the summary of what was checked is on the run's page in the Actions tab.
 
 A person merges the pull request. Nothing reaches the site without that review.
 
@@ -97,6 +104,27 @@ A person merges the pull request. Nothing reaches the site without that review.
 | `USE_BING_NEWS`     | variable | On unless set to `0`. Bing News RSS is the main news source while GDELT rate-limits GitHub's runners. Bing's terms limit the feed to personal, non-commercial use: confirm the site's use fits those terms, or set this to `0` |
 
 Run it locally without spending API credits: `npm run watch-sources -- --dry-run`.
+
+**CSIS blocks GitHub's runners.** Since mid-November csis.org answers GitHub-hosted runners with HTTP 403, so the watch can't read new CSIS reports and the pull-request quote check fails on CSIS sources. Two ways round it, neither of which tries to get past CSIS's block:
+
+- Add CSIS reports by hand with `--text-file` (below): save the page text from your browser, and the report is marked for a manual quote check.
+- Or run the watch on a [self-hosted runner](https://docs.github.com/en/actions/hosting-your-own-runners) on your own machine and set the repository variable `WATCH_RUNNER` to its label (for example `self-hosted`). Unset, it uses `ubuntu-latest`.
+
+### Automatic: the live intercept log
+
+`.github/workflows/live-feed.yml` runs every 6 hours and fills the `/live/` page with drones and missiles reported shot down:
+
+1. Reads the public web previews of the Telegram channels in `data/live/sources.json` (`t.me/s/<channel>`, no account or API key), plus the Bing News queries listed there.
+2. Keeps posts that look like intercept reports, and sends them in batches to Claude Haiku, which logs counts per day, theater, defender and threat type.
+3. Throws out any event whose quote isn't in the post word for word, with no count, more intercepted than launched, or a date that doesn't fit the post.
+4. Merges reports of the same event from different channels, commits `data/live/events.json` to `main` and redeploys.
+
+**Unlike the daily watch, this publishes without review, by design.** It's meant to be current, so the page labels every figure as unverified, shows each event's sources and quotes, rates it Official channel / Multiple sources / Single source, and none of it feeds the stockpile estimates. The log keeps 180 days.
+
+- Add or remove channels in `data/live/sources.json` (`official: true` only for a government's own channel).
+- Turn it off by setting the repository variable `LIVE_FEED` to `0`.
+- Cost: a few cents a day at Haiku prices (a handful of batched calls per run).
+- Try it locally without API calls or writes: `npm run live-feed -- --dry-run`.
 
 ### By hand
 
@@ -117,6 +145,10 @@ npm run add-photo -- patriot https://www.dvidshub.net/image/9979640/... "Short a
 ```
 
 It saves the 2000px preview (no DVIDS login needed) to `src/assets/photos/`, records the caption, credit and date in `data/photos.json`, and refuses images not marked public domain. If the crop cuts off the missile, set `focus` in `data/photos.json` (0 = top, 100 = bottom). The site resizes the photos at build time.
+
+### Downloads and feeds
+
+Every deploy publishes `/data/claims.csv` and `/data/claims.json` (every claim with its quote), `/data/headlines.json` (each missile's headline figure and the reports behind it), `/data/live-events.json` (the unverified log), and `/feed.xml` (RSS of new sources). They're linked from the methodology page and the footer.
 
 ## Deploying
 

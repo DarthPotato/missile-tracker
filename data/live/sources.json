@@ -1,0 +1,24 @@
+{
+  "telegram": [
+    {
+      "handle": "kpszsu",
+      "name": "Ukrainian Air Force",
+      "official": true,
+      "note": "Posts a daily tally of drones and missiles launched and shot down, in Ukrainian."
+    },
+    {
+      "handle": "OSINTdefender",
+      "name": "OSINTdefender",
+      "official": false,
+      "note": "Fast-moving OSINT aggregator covering the Gulf and Israel. Unverified; often first, sometimes wrong."
+    }
+  ],
+  "newsQueries": [
+    "intercepted drones Bahrain",
+    "intercepted drones Kuwait",
+    "CENTCOM intercepted Iranian drones",
+    "intercepted ballistic missiles Iran",
+    "Houthi drones intercepted Red Sea",
+    "UAE intercepts drones"
+  ]
+}

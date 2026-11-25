@@ -114,6 +114,24 @@ describe("project", () => {
     expect(r.points.at(-1)!.high).toBeCloseTo(50, 6);
   });
 
+  it("subtracts ongoing firing from the estimate date on, never below zero", () => {
+    const r = project({
+      ...base,
+      deliveriesPerYear: 0,
+      ongoingPerMonth: 365.25 / 12, // 1 a day
+      end: "2026-05-01",
+    });
+    expect(r.points.find((p) => p.date === "2026-02-01")!.low).toBeCloseTo(69, 6);
+    expect(r.depleted.low).toBe("2026-04-11"); // 100 days
+    expect(r.points.at(-1)!.low).toBe(0);
+    expect(r.recovered.low).toBeUndefined();
+  });
+
+  it("nets ongoing firing against deliveries", () => {
+    const r = project({ ...base, ongoingPerMonth: 365.25 / 12, end: "2026-03-01" });
+    expect(r.points.at(-1)).toEqual({ date: "2026-03-01", low: 100, high: 200 });
+  });
+
   it("does not count a pre-war recovery when a scenario war follows", () => {
     const r = project({
       ...base,

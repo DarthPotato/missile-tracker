@@ -104,7 +104,9 @@ const names = getDataset().munitionById;
     <ul>
       <li>
         <strong>Firing since the estimate date.</strong> Fighting resumed on July 8 at lower intensity, but no one has
-        published counts for it. Projections that start from April estimates are optimistic.
+        published counts for it. It's 0 by default; the "Firing since the estimate" slider on each missile page lets you
+        set a monthly rate and see how much it moves the rebuild. Projections that start from old estimates are
+        optimistic.
       </li>
       <li>
         <strong>Allied demand.</strong> Announced capacities cover all customers. About half of current Patriot output
@@ -125,7 +127,23 @@ const names = getDataset().munitionById;
       A scheduled job checks a fixed list of sources (CSIS analysts' pages and news searches for each missile) once a
       day. When something new mentions stockpile numbers, Claude drafts the claims (and any model inputs the article
       states outright, like a new production rate), a script checks every quote against the page, and the draft opens as
-      a pull request. A person reviews it before anything goes live. Nothing is published straight from an AI.
+      a pull request. A person reviews it before anything goes live. Nothing in the stockpile figures is published
+      straight from an AI.
+    </p>
+
+    <h2 id="live">The live intercept log</h2>
+    <p>
+      The <a href={href("/live/")}>live log</a> is the one exception, and it's kept apart on purpose. Every six hours a
+      job reads a short list of public Telegram channels (Ukraine's Air Force, plus an OSINT aggregator for the Gulf and
+      Israel) and news headlines about intercepts. Claude Haiku logs each reported count of drones or missiles launched
+      and shot down, with the exact words it came from; a script throws out any count whose quote isn't in the post word
+      for word. It's then published without a human review, so it stays current.
+    </p>
+    <p>
+      That makes it fast and rough. Each entry says whether it comes from an <strong>official channel</strong> (the
+      force doing the intercepting), <strong>multiple sources</strong>, or a <strong>single source</strong>. When
+      sources give different counts for the same day, the log shows the range, and charts use the lower figure. The log
+      never feeds the stockpile headlines or the rebuild model.
     </p>
 
     <h2>Photos</h2>
@@ -146,6 +164,25 @@ const names = getDataset().munitionById;
           )
         </li>
       ))}
+    </ul>
+
+    <h2 id="data">Download the data</h2>
+    <p>The same data the site is built from, regenerated on every deploy:</p>
+    <ul>
+      <li>
+        <a href={href("/data/claims.csv")}>Every sourced claim (CSV)</a> or <a href={href("/data/claims.json")}>JSON</a>
+        : one row per figure, with its source, date, confidence and verbatim quote.
+      </li>
+      <li>
+        <a href={href("/data/headlines.json")}>Current headline figures (JSON)</a>: what each missile's page leads with.
+      </li>
+      <li>
+        <a href={href("/data/live-events.json")}>The live intercept log (JSON)</a>: unverified, kept apart from
+        everything above.
+      </li>
+      <li>
+        <a href={href("/feed.xml")}>RSS feed</a> of new sources as they're added.
+      </li>
     </ul>
 
     <h2>Corrections</h2>

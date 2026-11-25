@@ -12,7 +12,7 @@ import path from "node:path";
 import { fetchText } from "../fetch-text.ts";
 import { loadDataset, REPORTS_DIR, ROOT } from "../load-node.ts";
 import { describeClaim, SHORT_NAME } from "../../src/lib/describe.ts";
-import { extract, type Article } from "./extract.ts";
+import { extract, screen, MODEL, SCREEN_MODEL, type Article } from "./extract.ts";
 import { applyToFile } from "./inputs.ts";
 import { canonical } from "./urls.ts";
 import { checkQuotes, healthLines, quoteTargets } from "../quotes.ts";
@@ -135,6 +135,11 @@ async function main() {
       kind: item.kind,
     };
     try {
+      const check = await screen(article);
+      if (!check.relevant) {
+        skipped.push(`- [${item.title}](${item.url}): screened out (${check.reason})`);
+        continue;
+      }
       const result = await extract(article);
       const drops = result.dropped.map((d) => `  - dropped: "${d.quote.slice(0, 120)}" (${d.reason})`).join("\n");
       if (result.report) {
@@ -190,7 +195,7 @@ async function main() {
   writeFileSync(path.join(OUT_DIR, "new-reports.txt"), newIds.join("\n"));
   const section = (title: string, rows: string[]) => (rows.length ? `## ${title}\n\n${rows.join("\n")}\n\n` : "");
   const summary =
-    `Automated source check for ${today}. Claude drafted these; every quote below was found verbatim on the source page (except where marked). Review each claim before merging.\n\n` +
+    `Automated source check for ${today}. ${SCREEN_MODEL} screened the articles and ${MODEL} drafted these; every quote below was found verbatim on the source page (except where marked). Review each claim before merging.\n\n` +
     section(`Drafted reports (${drafted.length})`, drafted) +
     section("Contract announcements naming tracked missiles", leads) +
     section("Looked at, nothing to add", skipped) +

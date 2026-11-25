@@ -150,6 +150,11 @@ export interface ProjectionInput {
   rebuild?: { quantity: number; begin: string; perYear: number };
   /** A renewed high-intensity campaign. */
   war?: { start: string; days: number; perDay: number };
+  /**
+   * Ongoing lower-intensity firing from the estimate date on (no published
+   * counts exist, so this is a reader's assumption; default none).
+   */
+  ongoingPerMonth?: number;
   end: string;
 }
 
@@ -195,6 +200,7 @@ export function project(input: ProjectionInput): ProjectionResult {
   const war = input.war && input.war.days > 0 && input.war.perDay > 0 ? input.war : undefined;
   const warStart = war ? toDay(war.start) : Infinity;
   const warEnd = war ? warStart + war.days : -Infinity;
+  const ongoingDaily = input.ongoingPerMonth && input.ongoingPerMonth > 0 ? (input.ongoingPerMonth * 12) / 365.25 : 0;
 
   let low = input.start.low;
   let high = input.start.high;
@@ -211,8 +217,12 @@ export function project(input: ProjectionInput): ProjectionResult {
       rbLeft -= add;
       delivered += add;
     }
-    low += delivered;
-    high += delivered;
+    low = Math.max(0, low + delivered - ongoingDaily);
+    high = Math.max(0, high + delivered - ongoingDaily);
+    if (ongoingDaily > 0) {
+      if (low === 0 && !depleted.low) depleted.low = fromDay(d);
+      if (high === 0 && !depleted.high) depleted.high = fromDay(d);
+    }
 
     if (d >= warStart && d < warEnd) {
       const want = war!.perDay;

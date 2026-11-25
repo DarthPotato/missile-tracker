@@ -57,3 +57,16 @@ export function captionLead(caption: string): string {
   const lead = caption.match(/^.*?\b(?:19|20)\d{2}\.(?=\s|$)/)?.[0] ?? caption;
   return lead.length > 320 ? `${lead.slice(0, 317).trimEnd()}…` : lead;
 }
+
+/** Days between the date a number describes and `today`. */
+export function ageDays(asOf: string, today: string): number {
+  return Math.max(0, daysBetween(asOf, today));
+}
+
+/** Past this, a headline is flagged as stale. */
+export const STALE_DAYS = 60;
+
+/** "121 days old" */
+export function formatAge(days: number): string {
+  return days === 0 ? "today" : days === 1 ? "1 day old" : `${fmt(days)} days old`;
+}

@@ -15,7 +15,10 @@ concurrency: watch-sources
 
 jobs:
   watch:
-    runs-on: ubuntu-latest
+    # CSIS refuses requests from cloud servers (HTTP 403 since Nov 18, 2026).
+    # Register a self-hosted runner on a home machine and set the repository
+    # variable WATCH_RUNNER to its label (e.g. self-hosted) to run from there.
+    runs-on: ${{ vars.WATCH_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -41,6 +44,9 @@ jobs:
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
           # On by default; set the repository variable USE_BING_NEWS to 0 to turn it off.
           USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
+          # Haiku screens, a stronger model drafts the claims. Override with repo variables.
+          SCREEN_MODEL: ${{ vars.SCREEN_MODEL || 'claude-haiku-5-5' }}
+          EXTRACT_MODEL: ${{ vars.EXTRACT_MODEL || 'claude-opus-5-5' }}
 
       - name: Save watcher state
         if: always()
