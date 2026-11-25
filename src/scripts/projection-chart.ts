@@ -1,7 +1,7 @@
 // Interactive rebuild projection. The page embeds the sourced defaults as
 // JSON; this re-runs the same model the build uses whenever a control moves,
 // then redraws an SVG line/band chart with a crosshair tooltip.
-import { project, type ProjectionInput, type ProjectionResult } from "../lib/model";
+import { project, rebuildRate, type ProjectionInput, type ProjectionResult } from "../lib/model";
 import { formatDate, formatMonth } from "../lib/format";
 
 export interface ChartConfig {
@@ -11,7 +11,8 @@ export interface ChartConfig {
   start: ProjectionInput["start"];
   qualifier: string;
   deliveriesPerYear: { value: number; max: number };
-  rebuild?: { quantity: number; begin: string; perYear: number };
+  /** perYear is the default; lotPerYear and capacityPerYear let the U.S.-share control recompute it. */
+  rebuild?: { quantity: number; begin: string; perYear: number; lotPerYear: number; capacityPerYear?: number };
   burnPerDay?: number;
   csisOutlook?: string;
   end: string;
@@ -53,6 +54,9 @@ export function mountProjection(root: HTMLElement) {
   const rate = $<HTMLInputElement>("[name=rate]");
   const rateOut = $<HTMLOutputElement>("output[for=rate]");
   const rebuildBox = root.querySelector<HTMLInputElement>("[name=rebuild]");
+  const rebuildRateOut = root.querySelector<HTMLElement>(".rebuild-rate");
+  const share = root.querySelector<HTMLInputElement>("[name=usShare]");
+  const shareOut = root.querySelector<HTMLOutputElement>("output[for=usShare]");
   const warDays = $<HTMLInputElement>("[name=warDays]");
   const warDaysOut = $<HTMLOutputElement>("output[for=warDays]");
   const warRate = root.querySelector<HTMLInputElement>("[name=warRate]");
@@ -75,14 +79,21 @@ export function mountProjection(root: HTMLElement) {
       start: cfg.start,
       prewar: cfg.prewar,
       deliveriesPerYear: Number(rate.value),
-      rebuild: rebuildBox?.checked ? cfg.rebuild : undefined,
+      rebuild: rebuildBox?.checked && cfg.rebuild ? { ...cfg.rebuild, perYear: rebuildPerYear() } : undefined,
       war: days > 0 && perDay > 0 ? { start: addMonths(cfg.today, Number(warStart.value)), days, perDay } : undefined,
       ongoingPerMonth: ongoing ? Number(ongoing.value) : 0,
       end: cfg.end,
     };
   }
 
+  function rebuildPerYear(): number {
+    const r = cfg.rebuild!;
+    return share ? rebuildRate(r.lotPerYear, r.capacityPerYear, Number(share.value) / 100) : r.perYear;
+  }
+
   function update() {
+    if (share && shareOut) shareOut.value = `${share.value}%`;
+    if (rebuildRateOut && cfg.rebuild) rebuildRateOut.textContent = nf.format(rebuildPerYear());
     rateOut.value = `${nf.format(Number(rate.value))} / yr`;
     warDaysOut.value = Number(warDays.value) === 0 ? "Off" : `${warDays.value} days`;
     if (warRate && warRateOut) warRateOut.value = `${nf.format(Number(warRate.value))} / day`;
