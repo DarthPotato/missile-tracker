@@ -55,6 +55,12 @@ jobs:
           path: data/pipeline-state.json
           key: watch-state-v2-${{ github.run_id }}
 
+      # Save a Wayback Machine copy of each new source (and any older one that
+      # lacks one). The quote check reads it when the original refuses GitHub.
+      - name: Archive sources
+        continue-on-error: true
+        run: npm run archive-sources
+
       # Quote-check only today's drafts. Problems with older sources are listed
       # in the summary instead, so one dead page can't block new data.
       - name: Validate drafts

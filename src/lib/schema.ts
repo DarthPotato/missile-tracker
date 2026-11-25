@@ -92,6 +92,11 @@ export const Report = z
         outlet: z.string(),
         title: z.string(),
         url: z.url(),
+        /** A Wayback Machine snapshot of the page, kept in case the original changes or disappears. */
+        archiveUrl: z
+          .string()
+          .regex(/^https:\/\/web\.archive\.org\/web\/\d{14}\/https?:\/\/.+$/, "expected a Wayback snapshot address")
+          .optional(),
         published: isoDate,
         authors: z.array(z.string()).optional(),
         kind: SourceKind,

@@ -16,7 +16,8 @@
     "watch-sources": "tsx scripts/pipeline/watch.ts",
     "add-source": "tsx scripts/pipeline/add.ts",
     "add-photo": "tsx scripts/add-photo.ts",
-    "live-feed": "tsx scripts/live/run.ts"
+    "live-feed": "tsx scripts/live/run.ts",
+    "archive-sources": "tsx scripts/archive.ts"
   },
   "dependencies": {
     "astro": "^7.3.8",
