@@ -113,14 +113,41 @@ export function eventKey(e: Pick<LiveEvent, "date" | "theater" | "defender" | "t
   return [e.date, e.theater, e.defender.toLowerCase().replace(/[^a-z]+/g, "-"), e.threat].join("|");
 }
 
+/** Other names the sources use for a country, and the one the log keeps. */
+const DEFENDER_NAMES: [RegExp, string][] = [
+  [/^(the )?(united arab emirates|emirates|emirati( air defen[cs]es?)?|uae( air defen[cs]es?)?)$/i, "UAE"],
+  [/^(the )?(kingdom of saudi arabia|ksa|saudi)$/i, "Saudi Arabia"],
+  [/^(the )?(u\.?s\.?a?\.?|united states of america|america|us military|u\.s\. military)$/i, "United States"],
+  [/^(the )?(state of )?kuwait$/i, "Kuwait"],
+  [/^(the )?(state of )?qatar$/i, "Qatar"],
+  [/^(the )?(kingdom of )?bahrain$/i, "Bahrain"],
+  [/^(the )?israel(i military| defense forces|i air force)?$|^idf$/i, "Israel"],
+];
+
+/** One name per country, so reports from outlets that name it differently merge. */
+export function defenderName(name: string): string {
+  const n = name.trim();
+  return DEFENDER_NAMES.find(([re]) => re.test(n))?.[1] ?? n;
+}
+
+/** An event's id, from its key: "2026-03-21-gulf-uae-ballistic". */
+export function eventId(e: Pick<LiveEvent, "date" | "theater" | "defender" | "threat">): string {
+  return eventKey(e)
+    .replace(/\|/g, "-")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 /** Merge new events into the log: same day, theater, defender and threat = same event, more sources. */
 export function mergeEvents(existing: LiveEvent[], incoming: LiveEvent[]): LiveEvent[] {
-  const byKey = new Map(existing.map((e) => [eventKey(e), structuredClone(e)]));
-  for (const e of incoming) {
+  const byKey = new Map<string, LiveEvent>();
+  // Existing entries go through the same merge, so a country logged under an older name joins up.
+  for (const e of [...existing, ...incoming].map(renamed)) {
     const k = eventKey(e);
     const cur = byKey.get(k);
     if (!cur) {
-      byKey.set(k, structuredClone(e));
+      byKey.set(k, e);
       continue;
     }
     for (const s of e.sources) if (!cur.sources.some((x) => x.url === s.url)) cur.sources.push(s);
@@ -137,10 +164,13 @@ export function totalKey(t: Pick<RunningTotal, "asOf" | "theater" | "defender" |
 
 /** Merge new running totals into the list: same day, theater, defender and threat = same total, more sources. */
 export function mergeTotals(existing: RunningTotal[], incoming: RunningTotal[]): RunningTotal[] {
-  const byKey = new Map(existing.map((t) => [totalKey(t), structuredClone(t)]));
-  for (const t of incoming) {
+  const byKey = new Map<string, RunningTotal>();
+  for (const t0 of [...existing, ...incoming]) {
+    const defender = defenderName(t0.defender);
+    const t = { ...structuredClone(t0), defender };
+    if (defender !== t0.defender) t.id = `total-${eventId({ ...t, date: t.asOf })}`;
     const cur = byKey.get(totalKey(t));
-    if (!cur) byKey.set(totalKey(t), structuredClone(t));
+    if (!cur) byKey.set(totalKey(t), t);
     else for (const s of t.sources) if (!cur.sources.some((x) => x.url === s.url)) cur.sources.push(s);
   }
   return [...byKey.values()].sort((a, b) => b.asOf.localeCompare(a.asOf) || a.id.localeCompare(b.id));
@@ -174,6 +204,14 @@ export function latestTotals(list: RunningTotal[], theaters?: readonly Theater[]
 export function whoseTotal(t: RunningTotal): string {
   if (t.sources.some((s) => s.official)) return withThe(t.defender);
   return joinAnd([...new Set(t.sources.map((s) => withThe(s.countFrom ?? s.name)))]);
+}
+
+/** A copy of the event under the log's name for its country, with its id to match. */
+function renamed(e: LiveEvent): LiveEvent {
+  const defender = defenderName(e.defender);
+  const copy = structuredClone(e);
+  if (defender !== e.defender) Object.assign(copy, { defender, id: eventId({ ...e, defender }) });
+  return copy;
 }
 
 export interface CountRange {

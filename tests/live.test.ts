@@ -11,6 +11,7 @@ import { validate, type Item } from "../scripts/live/extract";
 import {
   LiveFile,
   dailySeries,
+  defenderName,
   eventCount,
   latestTotals,
   mergeEvents,
@@ -371,5 +372,51 @@ describe("running totals", () => {
   it("credits who the report names, and old files without totals still load", () => {
     expect(whoseTotal(t({}, 1))).toBe("Gulf News");
     expect(LiveFile.parse({ updated: null, events: [] }).totals).toEqual([]);
+  });
+});
+
+describe("country names", () => {
+  it("gives each country one name", () => {
+    expect(defenderName("United Arab Emirates")).toBe("UAE");
+    expect(defenderName("the UAE")).toBe("UAE");
+    expect(defenderName("KSA")).toBe("Saudi Arabia");
+    expect(defenderName("U.S.")).toBe("United States");
+    expect(defenderName("Saudi-led coalition")).toBe("Saudi-led coalition");
+    expect(defenderName("Ukraine")).toBe("Ukraine");
+  });
+  it("merges an event logged under an older name into the same day's report", () => {
+    const base = {
+      date: "2026-03-07",
+      theater: "gulf" as const,
+      threat: "drone" as const,
+      systems: [] as string[],
+      usInvolved: false,
+    };
+    const src = (url: string, n: number): LiveSource => ({
+      kind: "news",
+      name: url,
+      url: `https://${url}/a`,
+      posted: "2026-03-07",
+      official: false,
+      launched: null,
+      intercepted: n,
+      quote: "intercepted many drones",
+    });
+    const old: LiveEvent = {
+      ...base,
+      id: "2026-03-07-gulf-united-arab-emirates-drone",
+      defender: "United Arab Emirates",
+      sources: [src("qna.org.qa", 119)],
+    };
+    const fresh: LiveEvent = {
+      ...base,
+      id: "2026-03-07-gulf-uae-drone",
+      defender: "UAE",
+      sources: [src("gulfnews.com", 119)],
+    };
+    const merged = mergeEvents([old], [fresh]);
+    expect(merged).toHaveLength(1);
+    expect(merged[0].id).toBe("2026-03-07-gulf-uae-drone");
+    expect(merged[0].sources).toHaveLength(2);
   });
 });

@@ -1447,18 +1447,7 @@
           "launched": null,
           "intercepted": 1,
           "quote": "it intercepted an Iranian drone over its waters on Monday"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-31-gulf-united-arab-emirates-drone",
-      "date": "2026-08-31",
-      "theater": "gulf",
-      "defender": "United Arab Emirates",
-      "threat": "drone",
-      "systems": [],
-      "usInvolved": false,
-      "sources": [
+        },
         {
           "kind": "news",
           "name": "msn.com",
@@ -2524,10 +2513,10 @@
       ]
     },
     {
-      "id": "2026-03-12-gulf-united-arab-emirates-ballistic",
+      "id": "2026-03-12-gulf-uae-ballistic",
       "date": "2026-03-12",
       "theater": "gulf",
-      "defender": "United Arab Emirates",
+      "defender": "UAE",
       "threat": "ballistic",
       "systems": [],
       "usInvolved": false,
@@ -2546,10 +2535,10 @@
       ]
     },
     {
-      "id": "2026-03-12-gulf-united-arab-emirates-drone",
+      "id": "2026-03-12-gulf-uae-drone",
       "date": "2026-03-12",
       "theater": "gulf",
-      "defender": "United Arab Emirates",
+      "defender": "UAE",
       "threat": "drone",
       "systems": [],
       "usInvolved": false,
@@ -2641,10 +2630,10 @@
       ]
     },
     {
-      "id": "2026-03-07-gulf-united-arab-emirates-ballistic",
+      "id": "2026-03-07-gulf-uae-ballistic",
       "date": "2026-03-07",
       "theater": "gulf",
-      "defender": "United Arab Emirates",
+      "defender": "UAE",
       "threat": "ballistic",
       "systems": [],
       "usInvolved": false,
@@ -2663,10 +2652,10 @@
       ]
     },
     {
-      "id": "2026-03-07-gulf-united-arab-emirates-drone",
+      "id": "2026-03-07-gulf-uae-drone",
       "date": "2026-03-07",
       "theater": "gulf",
-      "defender": "United Arab Emirates",
+      "defender": "UAE",
       "threat": "drone",
       "systems": [],
       "usInvolved": false,
@@ -2880,9 +2869,11 @@
   "totals": [
     {
       "id": "total-2026-03-21-gulf-uae-ballistic",
+      "asOf": "2026-03-21",
       "theater": "gulf",
       "defender": "UAE",
       "threat": "ballistic",
+      "since": "the war began",
       "sources": [
         {
           "kind": "news",
@@ -2895,9 +2886,7 @@
           "countFrom": "UAE Ministry of Defence",
           "quote": "UAE air defences intercepted 341 ballistic missiles"
         }
-      ],
-      "asOf": "2026-03-21",
-      "since": "the war began"
+      ]
     }
   ]
 }

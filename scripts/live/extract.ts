@@ -4,7 +4,7 @@
 // event must pass the same zod schema the site reads.
 import Anthropic from "@anthropic-ai/sdk";
 import { containsQuote } from "../../src/lib/text.ts";
-import { LiveEvent, RunningTotal, THEATERS, eventKey, type LiveSource } from "../../src/lib/live.ts";
+import { LiveEvent, RunningTotal, THEATERS, defenderName, eventId, type LiveSource } from "../../src/lib/live.ts";
 
 export const MODEL = "claude-haiku-5-5";
 
@@ -74,7 +74,7 @@ Fields:
 - item: the number of the item the event comes from.
 - date: the day the attack happened (YYYY-MM-DD). Ukraine's Air Force morning post covers the previous night: use the date the attack began. If unclear, use the posting date.
 - theater: gulf (Iran, Iraq, Bahrain, Kuwait, Qatar, UAE, Saudi Arabia, Oman), israel, red-sea (including Yemen/Houthi launches at ships), ukraine, or other.
-- defender: who shot them down, in English ("United States", "Bahrain", "Israel", "Ukraine", "Saudi-led coalition"). If several countries are named, one event each.
+- defender: who shot them down, in English, using these names where they fit: "United States", "UAE", "Saudi Arabia", "Bahrain", "Kuwait", "Qatar", "Israel", "Ukraine", "Saudi-led coalition". If several countries are named, one event each.
 - threat: drone, cruise, ballistic, mixed (only when the source gives one combined number for drones and missiles) or unknown. If a post gives separate numbers for drones and missiles, log separate events.
 - launched / intercepted: integers exactly as stated, null if not stated. Never add up or estimate. "Shot down or suppressed" counts as intercepted.
 - systems: interceptor systems named (Patriot, THAAD, SM-6, Iron Dome...), else [].
@@ -108,13 +108,6 @@ export interface Result {
   dropped: { item: string; reason: string }[];
 }
 
-function slug(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 /**
  * Check one raw event against its item; returns a LiveEvent, a RunningTotal (it has
  * asOf in place of date) or the reason it was thrown out.
@@ -145,13 +138,13 @@ export function validate(raw: Raw, items: Item[]): LiveEvent | RunningTotal | st
     id: "",
     date: raw.date,
     theater: raw.theater,
-    defender: raw.defender.trim(),
+    defender: defenderName(raw.defender),
     threat: raw.threat,
     systems: raw.systems,
     usInvolved: raw.usInvolved,
     sources: [source],
   };
-  candidate.id = slug(eventKey(candidate as LiveEvent).replace(/\|/g, "-"));
+  candidate.id = eventId(candidate as LiveEvent);
   const issues = (e: { issues: { path: PropertyKey[]; message: string }[] }) =>
     e.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
   if (raw.runningTotal) {
