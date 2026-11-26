@@ -14,6 +14,7 @@ import {
   mergeEvents,
   reliability,
   totals,
+  whoseCounts,
   type LiveEvent,
   type LiveSource,
 } from "../src/lib/live";
@@ -233,6 +234,7 @@ describe("validate (live extraction)", () => {
     intercepted: 71,
     systems: [],
     usInvolved: false,
+    countFrom: null,
     quote: "Збито/подавлено 71 ворожий БпЛА",
   };
   it("accepts a quoted count", () => {
@@ -247,5 +249,41 @@ describe("validate (live extraction)", () => {
     expect(validate({ ...raw, date: "2026-11-24" }, items)).toMatch(/doesn't fit/);
     expect(validate({ ...raw, date: "2026-11-01" }, items)).toMatch(/doesn't fit/);
     expect(validate({ ...raw, item: 2 }, items)).toBe("no item 2");
+  });
+});
+
+describe("whoseCounts", () => {
+  const src = (over: Partial<LiveSource>): LiveSource => ({
+    kind: "news",
+    name: "Gulf News",
+    url: `https://example.com/${Math.random()}`,
+    posted: "2026-04-03",
+    official: false,
+    launched: 19,
+    intercepted: 19,
+    quote: "intercepted 19 ballistic missiles",
+    ...over,
+  });
+  const ev = (defender: string, sources: LiveSource[]): LiveEvent => ({
+    id: "x",
+    date: "2026-04-02",
+    theater: defender === "Israel" ? "israel" : "gulf",
+    defender,
+    threat: "ballistic",
+    systems: [],
+    usInvolved: false,
+    sources,
+  });
+  it("credits the government a report quotes, not the outlet", () => {
+    expect(whoseCounts([ev("UAE", [src({ countFrom: "UAE Ministry of Defence" })])])).toBe("UAE Ministry of Defence");
+  });
+  it("credits an official channel's count to the defender, and lists the most frequent first", () => {
+    const israel = ev("Israel", [src({ name: "IDF", official: true })]);
+    const us = ev("United States", [src({ name: "CENTCOM", official: true })]);
+    expect(whoseCounts([us, israel, { ...israel, id: "y" }])).toBe("Israel and the United States");
+  });
+  it("falls back to the outlet, and ignores sources without a launch count", () => {
+    const e = ev("UAE", [src({ name: "OSINTdefender" }), src({ name: "Reuters", launched: null })]);
+    expect(whoseCounts([e])).toBe("OSINTdefender");
   });
 });

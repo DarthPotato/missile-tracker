@@ -53,5 +53,11 @@
     "US fighter jet shot down Iran",
     "F-35 shot down Iran",
     "Houthis shoot down US fighter jet"
+  ],
+  "archiveQueries": [
+    "\"ballistic missiles\" intercepted (UAE OR Emirates OR Emirati) sourcelang:english",
+    "\"ballistic missiles\" (detected OR launched) \"Ministry of Defence\" sourcelang:english",
+    "\"missiles\" \"launched from Iran\" (Israel OR IDF) intercepted sourcelang:english",
+    "\"ballistic missiles\" intercepted (Qatar OR Bahrain OR Kuwait OR Saudi) Iran sourcelang:english"
   ]
 }
