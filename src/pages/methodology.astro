@@ -182,6 +182,15 @@ const names = getDataset().munitionById;
       aircraft of every kind lost or damaged by any cause, heads the page as the broadest measure of war damage.
     </p>
 
+    <h2 id="map">The map</h2>
+    <p>
+      The <a href={href("/map/")}>map</a> is drawn when the site builds, from the same data as the Live and Reaper
+      pages. Each report is placed by the place it names, matched against a short list of countries, cities, bases and
+      seas. Intercept reports rarely say where over a country, so they sit on the country that reported them. Anything
+      without a place we can match is listed under the map instead of guessed. Ukraine is left off. Borders are Natural
+      Earth's, via the world-atlas package.
+    </p>
+
     <h2>Photos</h2>
     <p>
       Every photo is an official U.S. military image from{" "}
