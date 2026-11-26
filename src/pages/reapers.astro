@@ -6,17 +6,18 @@ import {
   acknowledged,
   claimedTotal,
   fleetEstimate,
+  jetSummary,
   lossSeries,
   lossesBy,
   type SeriesPoint,
 } from "../lib/drones";
-import type { DroneFigure } from "../lib/schema";
+import type { DroneFigure, JetCause } from "../lib/schema";
 import { WAR_START } from "../lib/model";
 import { BUILD_DATE } from "../lib/scenario";
 import { fmt, formatDate } from "../lib/format";
 import { href } from "../lib/site";
 
-const { drones } = getDrones();
+const { drones, jets } = getDrones();
 const log = getDroneClaims();
 const claims = log.claims;
 
@@ -43,6 +44,15 @@ const sections = drones.map((d) => {
     log: claims.filter((c) => c.aircraft === d.id),
   };
 });
+
+const jetTotals = jetSummary(jets, claims);
+const jetLog = claims.filter((c) => c.aircraft === "jet");
+const JET_CAUSE: Record<JetCause, { label: string; kind: string }> = {
+  "shot-down": { label: "Shot down by the enemy", kind: "official" },
+  "friendly-fire": { label: "Friendly fire", kind: "press" },
+  damaged: { label: "Hit, but landed", kind: "press" },
+};
+const jetLosses = [...jets.losses].sort((a, b) => a.date.localeCompare(b.date));
 
 // Losses-over-time chart geometry.
 const W = 640;
@@ -71,16 +81,16 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
 ---
 
 <Base
-  title="Reaper losses"
-  description="How many U.S. MQ-9 Reaper and MQ-1 drones have been lost in the Iran war: what U.S. officials acknowledge, set against what Iran and the Houthis claim."
+  title="Reaper and jet losses"
+  description="How many U.S. MQ-9 Reaper and MQ-1 drones, and U.S. combat jets, have been lost in the Iran war: what U.S. officials acknowledge, set against what Iran and the Houthis claim."
 >
   <header class="rhead">
     <div class="label warn">U.S. figures and adversary claims, kept apart</div>
-    <h1>Reaper losses</h1>
+    <h1>Reaper and jet losses</h1>
     <p class="lede">
-      How many U.S. drones have been shot down. U.S. officials rarely give a count, so the page sets the few they have
-      given against the running tally Iran and the Houthis claim. Their claims are one-sided, though they often follow
-      up with video. None of this feeds the missile estimates.
+      How many U.S. drones, and the jets <a href="#jets">further down</a>, have been shot down. U.S. officials rarely
+      give a count, so the page sets the few they have given against the running tally Iran and the Houthis claim. Their
+      claims are one-sided, though they often follow up with video. None of this feeds the missile estimates.
     </p>
     <p class="small muted">
       Claims{" "}
@@ -254,6 +264,118 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
       </section>
     );
   })}
+
+  <section class="drone" id="jets">
+    <h2>Fighter and attack jets</h2>
+    <p class="muted small">U.S. Air Force, Navy and Marine Corps</p>
+    <p class="blurb">{jets.blurb}</p>
+
+    <div class="tiles">
+      <div class="card tile">
+        <div class="tile-label">Shot down by Iran, U.S. confirmed</div>
+        <div class="tile-value">{fmt(jetTotals.shotDown)}</div>
+        <div class="tile-note">Each one listed below</div>
+      </div>
+      <div class="card tile">
+        <div class="tile-label">Downed by friendly fire</div>
+        <div class="tile-value">{fmt(jetTotals.friendlyFire)}</div>
+        <div class="tile-note">Shot down by an ally's air defenses</div>
+      </div>
+      {jets.tallies.map((t) => (
+        <div class="card tile">
+          <div class="tile-label">{t.what}</div>
+          <div class="tile-value">{q(t.value, t.qualifier)}</div>
+          <div class="tile-note">
+            {t.by}, {formatDate(t.asOf)}
+          </div>
+        </div>
+      ))}
+      <div class="card tile claim">
+        <div class="tile-label">Claimed shot down since the feed began</div>
+        <div class="tile-value">{fmt(jetTotals.claimed)}</div>
+        <div class="tile-note">
+          {jetTotals.claimedTo
+            ? `Iranian and Houthi claims, to ${formatDate(jetTotals.claimedTo)}`
+            : "Iranian and Houthi claims, none logged yet"}
+        </div>
+      </div>
+    </div>
+    {jets.tallies.map((t) => t.note && <p class="small muted">{t.note}</p>)}
+
+    <h3>Every loss</h3>
+    <ul class="figs">
+      {jetLosses.map((l) => (
+        <li class="card fig">
+          <div class="fig-top">
+            <span class="small muted">
+              {formatDate(l.date)} · {l.by}
+              {l.place && ` · ${l.place}`}
+            </span>
+            <span class={`kind ${JET_CAUSE[l.cause].kind}`}>{JET_CAUSE[l.cause].label}</span>
+          </div>
+          <div>
+            <strong>
+              {l.count > 1 ? `${l.count} ${l.model}s` : `An ${l.model}`}
+              {l.cause === "damaged" ? " hit" : " lost"}
+            </strong>
+          </div>
+          {l.note && <p class="small muted note">{l.note}</p>}
+          <details>
+            <summary class="small">Source</summary>
+            <a href={l.source.url} rel="noopener">
+              {l.source.outlet}, {formatDate(l.source.published)}
+            </a>
+            <blockquote>“{l.source.quote}”</blockquote>
+          </details>
+        </li>
+      ))}
+    </ul>
+
+    <h3>Jet claims logged</h3>
+    {jetLog.length === 0 ? (
+      <p class="empty small muted">
+        None logged yet. The feed reads new posts every 6 hours and adds each claim of a U.S. jet shot down here.
+      </p>
+    ) : (
+      <ul class="figs">
+        {jetLog.map((cl) => (
+          <li class="card fig claimcard">
+            <div class="fig-top">
+              <span class="small muted">
+                {formatDate(cl.date)} · {cl.claimant}
+                {cl.place && ` · ${cl.place}`}
+              </span>
+              <span class={`kind ${cl.usConfirmed ? "official" : "adversary"}`}>
+                {cl.usConfirmed ? "U.S. confirmed" : "Claimed, unconfirmed"}
+              </span>
+            </div>
+            <div>
+              <strong>
+                {cl.count > 1 ? `${cl.count} ${cl.model ?? "jet"}s` : `An ${cl.model ?? "jet"}`} claimed shot down
+              </strong>
+              {cl.video && <span class="vid small">Video released</span>}
+            </div>
+            <details>
+              <summary class="small">
+                {cl.sources.length} source{cl.sources.length > 1 ? "s" : ""}
+              </summary>
+              {cl.sources.map((s) => (
+                <div class="src">
+                  <a href={s.url} rel="noopener nofollow">
+                    {s.name}
+                  </a>{" "}
+                  <span class="small muted">
+                    {s.kind === "telegram" ? "Telegram" : "News"} · {s.posted.slice(0, 10)}
+                  </span>
+                  <blockquote>“{s.quote}”</blockquote>
+                </div>
+              ))}
+            </details>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
 </Base>
 
 <style>

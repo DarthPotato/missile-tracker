@@ -7,7 +7,7 @@
 //    down, logged by the live feed without review. One-sided by nature; the
 //    page says so on every figure and never mixes them into the U.S. count.
 import { z } from "zod";
-import type { Drone, DroneFigure, DroneId } from "./schema";
+import type { Drone, DroneFigure, DroneId, DronesFile } from "./schema";
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD");
 
@@ -28,7 +28,10 @@ export const DroneClaim = z
     id: z.string().regex(/^[a-z0-9-]+$/),
     /** The day it was shot down, as claimed. */
     date: isoDate,
-    aircraft: z.enum(["mq9", "mq1"]),
+    /** mq9 or mq1 for drones; jet for any manned U.S. combat jet, named in `model`. */
+    aircraft: z.enum(["mq9", "mq1", "jet"]),
+    /** For a jet, the type as claimed: "F-35", "F-15E". */
+    model: z.string().optional(),
     /** Who says they shot it down: "IRGC", "Houthis", "Iranian Army". */
     claimant: z.string().min(2),
     /** Where, as claimed: "Strait of Hormuz", "Marib, Yemen". Empty when not given. */
@@ -54,8 +57,15 @@ export const DroneClaimsFile = z
 export type DroneClaimsFile = z.infer<typeof DroneClaimsFile>;
 
 /** Ties reports of the same claimed shoot-down together. */
-export function claimKey(c: Pick<DroneClaim, "date" | "aircraft" | "tally">): string {
+export function claimKey(c: Pick<DroneClaim, "date" | "aircraft" | "tally" | "model">): string {
+  if (c.aircraft === "jet") return `jet|${c.date}|${jetModel(c.model)}`;
   return c.tally !== null ? `${c.aircraft}|tally|${c.tally}` : `${c.aircraft}|${c.date}`;
+}
+
+/** "F-35A Lightning II", "f35", "F 35" -> "f-35": enough to tell one claimed jet type from another. */
+export function jetModel(model: string | undefined): string {
+  const m = (model ?? "").toLowerCase().match(/\b(f\/a|[fab])[\s-]?(\d{1,2})/);
+  return m ? `${m[1]}-${m[2]}` : "jet";
 }
 
 /** Merge new claims into the log: same aircraft and running total, or same aircraft and day, is one claim. */
@@ -65,7 +75,9 @@ export function mergeClaims(existing: DroneClaim[], incoming: DroneClaim[]): Dro
     // A report with a running total and one without, on the same day, are the same claim.
     const cur =
       out.find((x) => claimKey(x) === claimKey(c)) ??
-      out.find((x) => x.aircraft === c.aircraft && x.date === c.date && (x.tally === null || c.tally === null));
+      (c.aircraft === "jet"
+        ? undefined
+        : out.find((x) => x.aircraft === c.aircraft && x.date === c.date && (x.tally === null || c.tally === null)));
     if (!cur) {
       out.push(structuredClone(c));
       continue;
@@ -76,6 +88,7 @@ export function mergeClaims(existing: DroneClaim[], incoming: DroneClaim[]): Dro
     cur.video ||= c.video;
     cur.usConfirmed ||= c.usConfirmed;
     if (!cur.place && c.place) cur.place = c.place;
+    if (!cur.model && c.model) cur.model = c.model;
   }
   return out.sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
@@ -193,4 +206,30 @@ export function lossSeries(d: Drone, claims: DroneClaim[]): { us: SeriesPoint[];
   return { us, claimed };
 }
 
-export const DRONE_SHORT: Record<DroneId, string> = { mq9: "MQ-9", mq1: "MQ-1" };
+export const DRONE_SHORT: Record<DroneClaim["aircraft"], string> = { mq9: "MQ-9", mq1: "MQ-1", jet: "jet" };
+
+export interface JetSummary {
+  /** Shot down by enemy fire, as U.S. officials acknowledge. */
+  shotDown: number;
+  /** Downed by an ally's air defenses. */
+  friendlyFire: number;
+  /** Jets Iran or the Houthis claim, from the live log. */
+  claimed: number;
+  /** The newest logged claim, if any. */
+  claimedTo?: string;
+}
+
+/** The jet tiles: confirmed shoot-downs, friendly fire, and claims, never added together. */
+export function jetSummary(jets: DronesFile["jets"], claims: DroneClaim[]): JetSummary {
+  const sum = (cause: string) => jets.losses.filter((l) => l.cause === cause).reduce((n, l) => n + l.count, 0);
+  const log = claims.filter((c) => c.aircraft === "jet");
+  return {
+    shotDown: sum("shot-down"),
+    friendlyFire: sum("friendly-fire"),
+    claimed: log.reduce((n, c) => n + c.count, 0),
+    claimedTo: log
+      .map((c) => c.date)
+      .sort()
+      .at(-1),
+  };
+}

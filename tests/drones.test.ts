@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { getDataset, getDroneClaims, getDrones } from "../src/lib/data";
 import {
   acknowledged,
+  jetModel,
+  jetSummary,
   claimedTotal,
   fleetEstimate,
   lossSeries,
@@ -9,7 +11,7 @@ import {
   mergeClaims,
   type DroneClaim,
 } from "../src/lib/drones";
-import { mentionsUsDrone, validateClaim } from "../scripts/live/losses";
+import { mentionsUsAircraft, mentionsUsDrone, mentionsUsJet, validateClaim } from "../scripts/live/losses";
 import type { Item } from "../scripts/live/extract";
 import { DRONES, quoteTargets, strictIdsFromChanged } from "../scripts/quotes";
 import { parseChannelPage } from "../scripts/live/telegram";
@@ -50,7 +52,11 @@ describe("data/drones.json", () => {
 
   it("puts every figure in the quote check", () => {
     const t = quoteTargets(getDataset(), undefined, getDrones()).filter((x) => x.id === DRONES);
-    const n = drones.reduce((k, d) => k + (d.fleetBefore ? 1 : 0) + d.fleetAfter.length + d.losses.length, 0);
+    const { jets } = getDrones();
+    const n =
+      jets.losses.length +
+      jets.tallies.length +
+      drones.reduce((k, d) => k + (d.fleetBefore ? 1 : 0) + d.fleetAfter.length + d.losses.length, 0);
     expect(t).toHaveLength(n);
     expect(strictIdsFromChanged(["data/drones.json"], getDataset()).has(DRONES)).toBe(true);
   });
@@ -148,6 +154,7 @@ describe("validateClaim", () => {
     item: 1,
     date: "2026-11-20",
     aircraft: "mq9",
+    model: "",
     claimant: "IRGC",
     place: "Strait of Hormuz",
     count: 1,
@@ -173,5 +180,71 @@ describe("parseChannelPage video flag", () => {
   it("marks posts with a video attached", () => {
     const html = `<div class="tgme_widget_message_wrap"><div data-post="chan/5"><a class="tgme_widget_message_video_player"><video class="tgme_widget_message_video"></video></a><div class="tgme_widget_message_text js-message_text">MQ-9 down</div><time datetime="2026-11-20T09:00:00+00:00"></time></div></div>`;
     expect(parseChannelPage(html, "chan")[0].video).toBe(true);
+  });
+});
+
+describe("jets", () => {
+  const { jets } = getDrones();
+  it("counts two shot down by Iran and three by friendly fire, and leaves the damaged F-35 out", () => {
+    expect(jetSummary(jets, [])).toEqual({ shotDown: 2, friendlyFire: 3, claimed: 0, claimedTo: undefined });
+  });
+  it("adds logged jet claims, but not drone claims", () => {
+    const log = [
+      claim({ aircraft: "jet", model: "F-35", date: "2026-11-20" }),
+      claim({ aircraft: "jet", model: "F-15E", date: "2026-11-21", count: 2 }),
+      claim({}),
+    ];
+    expect(jetSummary(jets, log)).toMatchObject({ claimed: 3, claimedTo: "2026-11-21" });
+  });
+  it("tells claimed jet types apart, and merges the same type on the same day", () => {
+    expect(jetModel("F-35A Lightning II")).toBe("f-35");
+    expect(jetModel("f35")).toBe("f-35");
+    expect(jetModel("F/A-18")).toBe("f/a-18");
+    expect(jetModel("fighter jet")).toBe("jet");
+    const a = claim({ aircraft: "jet", model: "F-35A", date: "2026-11-20" });
+    const b = claim({
+      aircraft: "jet",
+      model: "F-35",
+      date: "2026-11-20",
+      sources: [{ ...a.sources[0], url: "https://t.me/a/9" }],
+    });
+    const c = claim({ aircraft: "jet", model: "F-16", date: "2026-11-20" });
+    expect(mergeClaims([a], [b, c])).toHaveLength(2);
+  });
+  it("finds jets in English, Arabic and Persian, without catching everyday numbers", () => {
+    expect(mentionsUsJet("Iran says it shot down a US F-35 over Isfahan")).toBe(true);
+    expect(mentionsUsJet("An F/A-18 was lost")).toBe(true);
+    expect(mentionsUsJet("إسقاط مقاتلة أمريكية إف 16")).toBe(true);
+    expect(mentionsUsJet("سرنگونی جنگنده آمریکایی")).toBe(true);
+    expect(mentionsUsJet("Bahrain intercepted 4 Shahed drones")).toBe(false);
+    expect(mentionsUsJet("prices rose by A 10 percent in Q3")).toBe(false);
+    expect(mentionsUsAircraft("MQ-9 down")).toBe(true);
+  });
+  it("keeps a jet claim only when its quote names a jet", () => {
+    const item: Item = {
+      kind: "telegram",
+      name: "Middle East Spectator",
+      url: "https://t.me/Middle_East_Spectator/1",
+      posted: "2026-11-20T09:00:00Z",
+      official: false,
+      text: "BREAKING: IRGC says its air defenses shot down a US F-35 fighter jet over Bushehr.",
+    };
+    const raw = {
+      item: 1,
+      date: "2026-11-20",
+      aircraft: "jet",
+      model: "F-35",
+      claimant: "IRGC",
+      place: "Bushehr",
+      count: 1,
+      tally: null,
+      video: false,
+      usConfirmed: false,
+      quote: "shot down a US F-35 fighter jet over Bushehr",
+    };
+    const c = validateClaim(raw, [item]) as DroneClaim;
+    expect(c.model).toBe("F-35");
+    expect(c.id).toBe("jet-2026-11-20-f-35");
+    expect(validateClaim({ ...raw, quote: "its air defenses shot down" }, [item])).toBe("quote doesn't name a jet");
   });
 });

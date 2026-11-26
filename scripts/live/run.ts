@@ -18,7 +18,7 @@ import { LiveFile, mergeEvents } from "../../src/lib/live.ts";
 import { parseRss, bingItem } from "../pipeline/feeds.ts";
 import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
-import { extractClaims, mentionsUsDrone } from "./losses.ts";
+import { extractClaims, mentionsUsAircraft } from "./losses.ts";
 import { DroneClaimsFile, mergeClaims } from "../../src/lib/drones.ts";
 
 const DIR = path.join(ROOT, "data", "live");
@@ -34,7 +34,7 @@ const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 interface Sources {
   telegram: { handle: string; name: string; official: boolean; dronesOnly?: boolean }[];
   newsQueries: string[];
-  /** Searches for U.S. drone shoot-down claims; only headlines naming an MQ-9 or MQ-1 are kept. */
+  /** Searches for U.S. drone shoot-down claims; only headlines naming an MQ-9, MQ-1 or U.S. jet are kept. */
   droneQueries?: string[];
 }
 interface State {
@@ -103,7 +103,7 @@ async function main() {
       // posts never reach the intercept extractor.
       const kept = ch.dronesOnly ? [] : posts.filter((p) => worthSending(p.text, ch.official));
       if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
-      const aboutDrones = posts.filter((p) => mentionsUsDrone(p.text));
+      const aboutDrones = posts.filter((p) => mentionsUsAircraft(p.text));
       for (const p of aboutDrones)
         droneItems.push({
           kind: "telegram",
@@ -130,7 +130,7 @@ async function main() {
           : ch.official
             ? `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} giving a number shot down (sent)`
             : `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
-        ...(aboutDrones.length ? [`  - ${aboutDrones.length} naming an MQ-9 or MQ-1`] : []),
+        ...(aboutDrones.length ? [`  - ${aboutDrones.length} naming an MQ-9, MQ-1 or U.S. jet`] : []),
       );
     } catch (e) {
       lines.push(`- Telegram ${ch.name}: failed (${(e as Error).message})`);
@@ -140,12 +140,12 @@ async function main() {
   const newsItems = await news(sources.newsQueries, seenNews);
   items.push(...newsItems);
   lines.push(`- News: ${newsItems.length} new headlines about intercepts`);
-  const droneNews = (await news(sources.droneQueries ?? [], seenNews, mentionsUsDrone)).filter(
+  const droneNews = (await news(sources.droneQueries ?? [], seenNews, mentionsUsAircraft)).filter(
     (d) => !newsItems.some((n) => n.url === d.url),
   );
   // Intercept headlines that name a Reaper count too.
-  droneItems.push(...droneNews, ...newsItems.filter((n) => mentionsUsDrone(n.text)));
-  lines.push(`- News: ${droneNews.length} new headlines naming an MQ-9 or MQ-1`);
+  droneItems.push(...droneNews, ...newsItems.filter((n) => mentionsUsAircraft(n.text)));
+  lines.push(`- News: ${droneNews.length} new headlines naming an MQ-9, MQ-1 or U.S. jet`);
 
   if (dryRun) {
     console.log(lines.join("\n"));

@@ -269,8 +269,38 @@ const DroneFigure = z
   .strict();
 export type DroneFigure = z.infer<typeof DroneFigure>;
 
+/** How a U.S. jet was lost: shot down by the enemy, downed by an ally's fire, or hit but brought home. */
+export const JetCause = z.enum(["shot-down", "friendly-fire", "damaged"]);
+export type JetCause = z.infer<typeof JetCause>;
+
+/** One reported U.S. jet loss, sourced like any other figure. */
+const JetLoss = z
+  .object({
+    date: isoDate,
+    /** "F-15E Strike Eagle" */
+    model: z.string(),
+    count: z.number().int().positive(),
+    cause: JetCause,
+    /** Who said so: "CENTCOM", "the Pentagon". */
+    by: z.string(),
+    place: z.string().optional(),
+    note: z.string().optional(),
+    source: SourcedFigure,
+  })
+  .strict();
+export type JetLoss = z.infer<typeof JetLoss>;
+
 export const DronesFile = z
   .object({
+    /** Manned U.S. jets. No fleet math: a few losses don't move a fleet of hundreds. */
+    jets: z
+      .object({
+        blurb: z.string(),
+        losses: z.array(JetLoss),
+        /** Broader counts, like a Congressional Research Service tally of everything lost or damaged. */
+        tallies: z.array(DroneFigure.extend({ kind: LossBy, what: z.string() })),
+      })
+      .strict(),
     drones: z
       .array(
         z

@@ -64,11 +64,11 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile, drones?
       });
   }
   if (drones) {
-    const figures = drones.drones.flatMap((d) => [
-      ...(d.fleetBefore ? [d.fleetBefore] : []),
-      ...d.fleetAfter,
-      ...d.losses,
-    ]);
+    const figures = [
+      ...drones.jets.losses,
+      ...drones.jets.tallies,
+      ...drones.drones.flatMap((d) => [...(d.fleetBefore ? [d.fleetBefore] : []), ...d.fleetAfter, ...d.losses]),
+    ];
     for (const { source: f } of figures)
       targets.push({
         id: DRONES,

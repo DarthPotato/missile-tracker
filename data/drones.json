@@ -1,4 +1,90 @@
 {
+  "jets": {
+    "blurb": "Fighters and attack jets the U.S. has lost to enemy fire, or to an ally's. Iran and the Houthis also claim jets now and then; the live feed logs those claims next to the confirmed losses.",
+    "losses": [
+      {
+        "date": "2026-03-02",
+        "model": "F-15E Strike Eagle",
+        "count": 3,
+        "cause": "friendly-fire",
+        "by": "CENTCOM",
+        "place": "Kuwait",
+        "note": "Shot down by mistake by Kuwaiti air defenses. All six crew ejected and were recovered.",
+        "source": {
+          "outlet": "Aviation A2Z",
+          "title": "Largest Air Force in the World Lost 42 Aircraft in 40-Day Iran War",
+          "url": "https://aviationa2z.com/index.php/2026/05/24/us-air-force-lost-42-aircraft-in-40-day-iran-war/",
+          "published": "2026-05-24",
+          "quote": "three F-15E Strike Eagles were shot down by friendly fire over Kuwait"
+        }
+      },
+      {
+        "date": "2026-03-19",
+        "model": "F-35A Lightning II",
+        "count": 1,
+        "cause": "damaged",
+        "by": "U.S. officials",
+        "place": "Over Iran",
+        "note": "Hit by Iranian fire and landed. Not counted as shot down. A later Congressional Research Service list calls it destroyed.",
+        "source": {
+          "outlet": "Aviation A2Z",
+          "title": "Largest Air Force in the World Lost 42 Aircraft in 40-Day Iran War",
+          "url": "https://aviationa2z.com/index.php/2026/05/24/us-air-force-lost-42-aircraft-in-40-day-iran-war/",
+          "published": "2026-05-24",
+          "quote": "Iran successfully damaged an F-35A Lightning II stealth fighter over Iranian airspace"
+        }
+      },
+      {
+        "date": "2026-04-03",
+        "model": "F-15E Strike Eagle",
+        "count": 1,
+        "cause": "shot-down",
+        "by": "U.S. officials",
+        "place": "Over Iran",
+        "note": "Iran says a mobile surface-to-air missile; U.S. analysts suspect a shoulder-fired one. Both crew were rescued.",
+        "source": {
+          "outlet": "Aviation A2Z",
+          "title": "Largest Air Force in the World Lost 42 Aircraft in 40-Day Iran War",
+          "url": "https://aviationa2z.com/index.php/2026/05/24/us-air-force-lost-42-aircraft-in-40-day-iran-war/",
+          "published": "2026-05-24",
+          "quote": "Iran shot down a USAF F-15E Strike Eagle on April 3 during combat operations over Iranian airspace"
+        }
+      },
+      {
+        "date": "2026-04-03",
+        "model": "A-10 Thunderbolt II",
+        "count": 1,
+        "cause": "shot-down",
+        "by": "U.S. officials",
+        "place": "Near the Strait of Hormuz",
+        "source": {
+          "outlet": "Aviation A2Z",
+          "title": "Largest Air Force in the World Lost 42 Aircraft in 40-Day Iran War",
+          "url": "https://aviationa2z.com/index.php/2026/05/24/us-air-force-lost-42-aircraft-in-40-day-iran-war/",
+          "published": "2026-05-24",
+          "quote": "a USAF A-10 Thunderbolt II close air support aircraft was shot down near the Strait of Hormuz"
+        }
+      }
+    ],
+    "tallies": [
+      {
+        "what": "Fighters and attack jets lost or damaged, any cause",
+        "asOf": "2026-10-07",
+        "value": 15,
+        "qualifier": "exact",
+        "by": "Congressional Research Service",
+        "kind": "official",
+        "note": "13 fighters and 2 ground-attack jets, counting jets wrecked on the ground by Iranian strikes and jets damaged but repaired. Not a shoot-down count.",
+        "source": {
+          "outlet": "Task & Purpose",
+          "title": "81 US military fighters, helicopters, and drones have been lost or damaged in the Iran war",
+          "url": "https://taskandpurpose.com/news/us-aircraft-drones-loss-damage-iran-war/",
+          "published": "2026-10-07",
+          "quote": "The list includes 49 drones, 13 fighter aircraft, seven refueling aircraft, seven helicopters, two ground attack aircraft"
+        }
+      }
+    ]
+  },
   "drones": [
     {
       "id": "mq9",
