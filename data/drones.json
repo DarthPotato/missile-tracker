@@ -1,4 +1,63 @@
 {
+  "warDamage": {
+    "by": "Congressional Research Service",
+    "asOf": "2026-10-06",
+    "total": 81,
+    "categories": [
+      {
+        "name": "Drones",
+        "value": 49
+      },
+      {
+        "name": "Fighters",
+        "value": 13
+      },
+      {
+        "name": "Refueling planes",
+        "value": 7
+      },
+      {
+        "name": "Helicopters",
+        "value": 7
+      },
+      {
+        "name": "Ground-attack jets",
+        "value": 2
+      },
+      {
+        "name": "Special operations planes",
+        "value": 2
+      },
+      {
+        "name": "Reconnaissance planes",
+        "value": 1
+      }
+    ],
+    "note": "Counts everything lost or damaged by any cause: shot down, hit on the ground by missile strikes, friendly fire, crashes, and aircraft damaged but repaired. The report draws on Pentagon and CENTCOM statements, an inspector general report and news reports.",
+    "sources": [
+      {
+        "outlet": "Task & Purpose",
+        "title": "81 US military fighters, helicopters, and drones have been lost or damaged in the Iran war",
+        "url": "https://taskandpurpose.com/news/us-aircraft-drones-loss-damage-iran-war/",
+        "published": "2026-10-07",
+        "quote": "81 fixed-wing or rotary-wing aircraft and uncrewed aircraft systems have been lost or damaged"
+      },
+      {
+        "outlet": "Task & Purpose",
+        "title": "81 US military fighters, helicopters, and drones have been lost or damaged in the Iran war",
+        "url": "https://taskandpurpose.com/news/us-aircraft-drones-loss-damage-iran-war/",
+        "published": "2026-10-07",
+        "quote": "The list includes 49 drones, 13 fighter aircraft, seven refueling aircraft, seven helicopters, two ground attack aircraft"
+      },
+      {
+        "outlet": "Task & Purpose",
+        "title": "81 US military fighters, helicopters, and drones have been lost or damaged in the Iran war",
+        "url": "https://taskandpurpose.com/news/us-aircraft-drones-loss-damage-iran-war/",
+        "published": "2026-10-07",
+        "quote": "two special operations aircraft, and a reconnaissance aircraft"
+      }
+    ]
+  },
   "jets": {
     "blurb": "Fighters and attack jets the U.S. has lost to enemy fire, or to an ally's. Iran and the Houthis also claim jets now and then; the live feed logs those claims next to the confirmed losses.",
     "losses": [

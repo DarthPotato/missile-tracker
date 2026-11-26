@@ -17,7 +17,8 @@ import { BUILD_DATE } from "../lib/scenario";
 import { fmt, formatDate } from "../lib/format";
 import { href } from "../lib/site";
 
-const { drones, jets } = getDrones();
+const { drones, jets, warDamage } = getDrones();
+const damageMax = Math.max(...warDamage.categories.map((c) => c.value));
 const log = getDroneClaims();
 const claims = log.claims;
 
@@ -88,9 +89,10 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
     <div class="label warn">U.S. figures and adversary claims, kept apart</div>
     <h1>Reaper and jet losses</h1>
     <p class="lede">
-      How many U.S. drones, and the jets <a href="#jets">further down</a>, have been shot down. U.S. officials rarely
-      give a count, so the page sets the few they have given against the running tally Iran and the Houthis claim. Their
-      claims are one-sided, though they often follow up with video. None of this feeds the missile estimates.
+      How many U.S. drones and <a href="#jets">jets</a> have been shot down, and <a href="#all">every aircraft</a> lost
+      or damaged in the war. U.S. officials rarely give a count, so the page sets the few they have given against the
+      running tally Iran and the Houthis claim. Their claims are one-sided, though they often follow up with video. None
+      of this feeds the missile estimates.
     </p>
     <p class="small muted">
       Claims{" "}
@@ -101,6 +103,44 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
       <a href={href("/methodology/#reapers")}>How this works</a>
     </p>
   </header>
+
+  <section class="drone" id="all">
+    <h2>Everything lost or damaged</h2>
+    <p class="muted small">
+      {warDamage.by}, {formatDate(warDamage.asOf)}
+    </p>
+    <div class="tiles">
+      <div class="card tile">
+        <div class="tile-label">U.S. aircraft lost or damaged, any cause</div>
+        <div class="tile-value">{fmt(warDamage.total)}</div>
+        <div class="tile-note">Crewed and uncrewed, in the air and on the ground</div>
+      </div>
+    </div>
+    <ul class="card bars">
+      {warDamage.categories.map((c) => (
+        <li>
+          <div class="bar-label">
+            <strong>{c.name}</strong>
+            {c.detail && <span class="small muted"> · {c.detail}</span>}
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style={`width:${(c.value / damageMax) * 100}%`} />
+            <span class="bar-value">{c.value}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+    {warDamage.note && <p class="small muted">{warDamage.note}</p>}
+    <details>
+      <summary class="small">Source</summary>
+      <a href={warDamage.sources[0].url} rel="noopener">
+        {warDamage.sources[0].outlet}, {formatDate(warDamage.sources[0].published)}
+      </a>
+      {warDamage.sources.map((src) => (
+        <blockquote>“{src.quote}”</blockquote>
+      ))}
+    </details>
+  </section>
 
   {sections.map(({ d, est, ack, claimed, figures, series, log: dlog }) => {
     const c = chart(series.us, series.claimed);
@@ -379,6 +419,33 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
 </Base>
 
 <style>
+  .bars {
+    list-style: none;
+    padding: 14px 16px;
+    margin: 14px 0;
+    display: grid;
+    gap: 10px;
+  }
+  .bar-label {
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .bar-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bar-fill {
+    height: 12px;
+    min-width: 4px;
+    border-radius: 3px;
+    background: var(--series-1);
+  }
+  .bar-value {
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
   .rhead {
     margin-top: 40px;
   }

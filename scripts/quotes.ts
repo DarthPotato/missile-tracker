@@ -65,6 +65,7 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile, drones?
   }
   if (drones) {
     const figures = [
+      ...drones.warDamage.sources.map((source) => ({ source })),
       ...drones.jets.losses,
       ...drones.jets.tallies,
       ...drones.drones.flatMap((d) => [...(d.fleetBefore ? [d.fleetBefore] : []), ...d.fleetAfter, ...d.losses]),
