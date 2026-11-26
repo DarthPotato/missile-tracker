@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { SITE, href } from "../lib/site";
+import { GOATCOUNTER, SITE, href } from "../lib/site";
 
 interface Props {
   title?: string;
@@ -45,6 +45,14 @@ const image = new URL(href(ogImage), Astro.site);
         if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
       } catch {}
     </script>
+    {GOATCOUNTER && (
+      <script
+        is:inline
+        async
+        data-goatcounter={`https://${GOATCOUNTER}.goatcounter.com/count`}
+        src="https://gc.zgo.at/count.js"
+      />
+    )}
   </head>
   <body>
     <header class="site-header">
@@ -85,6 +93,7 @@ const image = new URL(href(ogImage), Astro.site);
           <a href={href("/methodology/#data")}>Download the data</a> ·<a href={href("/feed.xml")}>RSS</a> ·{" "}
           <a href={SITE.repo}>Code on GitHub</a> ·<a href={`${SITE.repo}/issues/new`}>Report a correction</a>
         </p>
+        {GOATCOUNTER && <p class="small">Visits are counted with GoatCounter: no cookies and no personal data.</p>}
       </div>
     </footer>
     <script>
