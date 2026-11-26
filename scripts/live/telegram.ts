@@ -38,7 +38,7 @@ export function parseChannelPage(html: string, handle: string): Post[] {
 export interface FetchOptions {
   /** Stop after this many pages (about 20 posts each). */
   maxPages?: number;
-  /** Backfill: keep paging back until posts are older than this ISO date, ignoring maxPages' default. */
+  /** Backfill: keep paging back until posts are older than this ISO date (up to 4,000 pages, about 80,000 posts). */
   since?: string;
 }
 
@@ -49,7 +49,7 @@ export interface FetchOptions {
  */
 export async function fetchChannel(handle: string, afterId: number, opts: FetchOptions = {}): Promise<Post[]> {
   const { since } = opts;
-  const maxPages = opts.maxPages ?? (since ? 400 : 3);
+  const maxPages = opts.maxPages ?? (since ? 4000 : 3);
   const seen = new Map<number, Post>();
   let before: number | undefined;
   for (let page = 0; page < maxPages; page++) {

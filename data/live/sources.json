@@ -25,6 +25,13 @@
       "official": false,
       "dronesOnly": true,
       "note": "English channel aggregating Iran-focused military news, including IRGC and Houthi claims. Read for U.S. drone and jet shoot-down claims only, never for intercepts."
+    },
+    {
+      "handle": "tabzlive",
+      "name": "Tabz Live News",
+      "official": false,
+      "dronesOnly": true,
+      "note": "Busy conflict-news channel that relays Iranian and Houthi shoot-down claims. Read for U.S. drone and jet shoot-down claims only, never for intercepts."
     }
   ],
   "newsQueries": [

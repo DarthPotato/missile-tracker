@@ -11,6 +11,9 @@
 //   npm run live-feed -- --dry-run    fetch and filter only, no Claude calls, no writes
 //   BACKFILL_DAYS=30 npm run live-feed  also re-read the last 30 days of every
 //                                       Telegram channel (news feeds only go back a day or two)
+//   BACKFILL_SCOPE=claims                with BACKFILL_DAYS, look only for U.S. drone and jet
+//                                       shoot-down claims: no intercept extraction, so the
+//                                       only model calls are for posts naming an MQ-9, MQ-1 or jet
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { ROOT } from "../load-node.ts";
@@ -30,6 +33,7 @@ const OUT = path.join(ROOT, "pipeline-out");
 const BATCH = 15;
 const dryRun = process.argv.includes("--dry-run");
 const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
+const claimsOnly = backfillDays > 0 && process.env.BACKFILL_SCOPE === "claims";
 
 interface Sources {
   telegram: { handle: string; name: string; official: boolean; dronesOnly?: boolean }[];
@@ -93,7 +97,10 @@ async function main() {
   const items: Item[] = [];
   const newLast: Record<string, number> = { ...state.lastPost };
   const since = backfillDays > 0 ? new Date(Date.now() - backfillDays * 86_400_000).toISOString() : undefined;
-  if (since) lines.push(`- Backfill: re-reading Telegram back to ${since.slice(0, 10)}`);
+  if (since)
+    lines.push(
+      `- Backfill: re-reading Telegram back to ${since.slice(0, 10)}${claimsOnly ? ", for shoot-down claims only" : ""}`,
+    );
   for (const ch of sources.telegram) {
     try {
       const posts = since
@@ -101,8 +108,11 @@ async function main() {
         : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
       // A drones-only channel feeds the Reaper claim log and nothing else, so its
       // posts never reach the intercept extractor.
-      const kept = ch.dronesOnly ? [] : posts.filter((p) => worthSending(p.text, ch.official));
-      if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
+      // A claims-only backfill sends nothing to the intercept extractor, and leaves an
+      // intercept channel's bookmark alone so the next normal run still reads its new posts.
+      const kept = ch.dronesOnly || claimsOnly ? [] : posts.filter((p) => worthSending(p.text, ch.official));
+      if (posts.length && (ch.dronesOnly || !claimsOnly))
+        newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
       const aboutDrones = posts.filter((p) => mentionsUsAircraft(p.text));
       for (const p of aboutDrones)
         droneItems.push({
@@ -137,9 +147,9 @@ async function main() {
     }
   }
   const seenNews = new Set(state.seenNews);
-  const newsItems = await news(sources.newsQueries, seenNews);
+  const newsItems = claimsOnly ? [] : await news(sources.newsQueries, seenNews);
   items.push(...newsItems);
-  lines.push(`- News: ${newsItems.length} new headlines about intercepts`);
+  if (!claimsOnly) lines.push(`- News: ${newsItems.length} new headlines about intercepts`);
   const droneNews = (await news(sources.droneQueries ?? [], seenNews, mentionsUsAircraft)).filter(
     (d) => !newsItems.some((n) => n.url === d.url),
   );

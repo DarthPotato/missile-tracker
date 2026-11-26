@@ -7,7 +7,9 @@ name: Live feed
 # Turn it off by setting the repository variable LIVE_FEED to 0.
 # To fill in history, run it by hand with "backfill days" set (say 30): it
 # re-reads that many days of every Telegram channel. Events already logged are
-# merged, not duplicated.
+# merged, not duplicated. Set "backfill scope" to claims to look only for U.S.
+# drone and jet shoot-down claims: far fewer model calls, and the intercept
+# channels' bookmarks are left alone.
 on:
   schedule:
     - cron: "41 */6 * * *"
@@ -16,6 +18,11 @@ on:
       backfill_days:
         description: "Re-read this many days of Telegram history (0 = a normal run)"
         default: "0"
+      backfill_scope:
+        description: "What a backfill looks for"
+        type: choice
+        options: [all, claims]
+        default: all
 
 permissions:
   contents: write
@@ -30,8 +37,9 @@ jobs:
     # (A bare vars.LIVE_FEED != '0' skips when it is unset: GitHub compares null and '0' as numbers.)
     if: format('{0}', vars.LIVE_FEED) != '0'
     runs-on: ubuntu-latest
-    # A normal run takes a couple of minutes; a 30-day backfill can take half an hour.
-    timeout-minutes: 60
+    # A normal run takes a couple of minutes; a 30-day backfill can take half an hour,
+    # and a backfill to the start of the war (busy channels, ~1.5 s a page) up to two hours.
+    timeout-minutes: ${{ (inputs.backfill_days || '0') != '0' && 150 || 60 }}
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
@@ -47,6 +55,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
           BACKFILL_DAYS: ${{ inputs.backfill_days || '0' }}
+          BACKFILL_SCOPE: ${{ inputs.backfill_scope || 'all' }}
       - name: Show summary
         if: always()
         run: cat pipeline-out/live-summary.md >> "$GITHUB_STEP_SUMMARY" || true
