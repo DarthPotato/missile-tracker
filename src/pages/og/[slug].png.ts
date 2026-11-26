@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getDataset, getPerspective } from "../../lib/data";
-import { headline } from "../../lib/model";
+import { headline, sinceWarRate } from "../../lib/model";
 import { fmt, formatDate, formatPct, formatRange } from "../../lib/format";
 import { stockStatus } from "../../lib/status";
 import { formatBig, resolveAmounts } from "../../lib/perspective";
@@ -18,7 +18,7 @@ const STATUS_COLOR = { critical: C.critical, serious: C.serious, warning: C.warn
 
 function homeCard(): string {
   const ds = getDataset();
-  const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, m.deliveriesPerYear.value)! }));
+  const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, sinceWarRate(m))! }));
   const f = rows.find((r) => r.m.id === SITE.featured)!;
   const list = rows
     .map(({ m, h }, i) => {
@@ -41,7 +41,7 @@ function homeCard(): string {
 function missileCard(id: string): string {
   const ds = getDataset();
   const m = ds.munitionById.get(id as never)!;
-  const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
+  const h = headline(ds.reports, m.id, sinceWarRate(m))!;
   const status = stockStatus(h);
   return frame(`
   <text x="64" y="190" font-family="Inter" font-weight="600" font-size="24" letter-spacing="2" fill="${C.ink3}">${esc(m.fullName.toUpperCase().slice(0, 48))}</text>

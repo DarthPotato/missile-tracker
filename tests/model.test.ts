@@ -9,6 +9,7 @@ import {
   stockPoints,
   claimsFor,
   deliveredSinceWar,
+  sinceWarRate,
 } from "../src/lib/model";
 import { spreadPoints } from "../src/lib/spread";
 import { formatPct, formatRange } from "../src/lib/format";
@@ -99,10 +100,20 @@ describe("deliveries since the war began", () => {
     }
   });
 
+  it("matches CSIS's Patriot 'inventory today' bar, about 672-772", () => {
+    const m = ds.munitionById.get("patriot")!;
+    const h = headline(ds.reports, m.id, sinceWarRate(m))!;
+    expect(h.remaining).toEqual({ low: 633 + 39, high: 734 + 39 });
+  });
+
+  it("adds nothing for a missile CSIS gives no delivery figure for", () => {
+    for (const m of ds.munitions) if (!m.deliveredSinceWar) expect(sinceWarRate(m)).toBe(0);
+  });
+
   it("moves the headline's spread point by the same amount", () => {
     const m = ds.munitionById.get("patriot")!;
-    const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
-    const pt = spreadPoints(ds.reports, m.id, h, m.deliveriesPerYear.value).find((p) => p.headline)!;
+    const h = headline(ds.reports, m.id, sinceWarRate(m))!;
+    const pt = spreadPoints(ds.reports, m.id, h, sinceWarRate(m)).find((p) => p.headline)!;
     expect(pt.remaining).toEqual(h.remaining);
   });
 });

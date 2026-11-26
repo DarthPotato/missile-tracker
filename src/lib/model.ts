@@ -67,6 +67,19 @@ export function deliveredSinceWar(asOf: string, perYear: number): number {
 }
 
 /**
+ * The yearly delivery rate to credit prewar-minus-used figures with: what CSIS
+ * counts as delivered since the war began, spread over those days. Missiles
+ * without a CSIS figure get none, rather than a guess from procurement rates,
+ * which ran three times too high for Patriot.
+ */
+export function sinceWarRate(m: Pick<Munition, "deliveredSinceWar">): number {
+  const d = m.deliveredSinceWar;
+  if (!d) return 0;
+  const days = (Date.parse(d.asOf) - Date.parse(WAR_START)) / DAY_MS;
+  return days > 0 ? (d.value * 365.25) / days : 0;
+}
+
+/**
  * Every stock-left figure we can state without mixing sources: direct
  * "remaining" claims, plus prewar-minus-expended where one document gives both.
  */

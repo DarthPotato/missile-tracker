@@ -9,13 +9,13 @@ import { getLive } from "../lib/data";
 import { IRAN_THEATERS, daysAgo, filterEvents, totals } from "../lib/live";
 import { BUILD_DATE } from "../lib/scenario";
 import { getDataset } from "../lib/data";
-import { daysOfFire, headline, phase1BurnPerDay, project } from "../lib/model";
+import { daysOfFire, headline, phase1BurnPerDay, project, sinceWarRate } from "../lib/model";
 import { scenarioInput } from "../lib/scenario";
 import { fmt, formatDate, formatMonth, formatRange } from "../lib/format";
 import { SITE, href } from "../lib/site";
 
 const ds = getDataset();
-const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, m.deliveriesPerYear.value)! }));
+const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, sinceWarRate(m))! }));
 const airDefense = rows.filter((r) => r.m.role === "air-defense");
 const strike = rows.filter((r) => r.m.role === "strike");
 
