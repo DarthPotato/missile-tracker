@@ -18,6 +18,13 @@
       "official": false,
       "dronesOnly": true,
       "note": "Pro-Axis news channel that relays IRGC and Houthi shoot-down claims fast, often with video. Read for MQ-9 and MQ-1 claims only, never for intercepts."
+    },
+    {
+      "handle": "FotrosResistancee",
+      "name": "Fotros Resistance",
+      "official": false,
+      "dronesOnly": true,
+      "note": "English channel aggregating Iran-focused military news, including IRGC and Houthi claims. Read for U.S. drone and jet shoot-down claims only, never for intercepts."
     }
   ],
   "newsQueries": [
