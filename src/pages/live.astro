@@ -80,15 +80,24 @@ const range = (c?: CountRange) =>
             <div class="tile-label">Reported shot down, last 30 days</div>
             <div class="tile-value">{range(t30.intercepted)}</div>
           </div>
-          <div class="card tile">
-            <div class="tile-label">Reported launched, last 30 days</div>
-            <div class="tile-value">{anyLaunched ? range(tFired.launched) : "Not given"}</div>
-            <div class="tile-note">
-              {anyLaunched
-                ? `${range(tFired.intercepted)} of them shot down, in the ${fmt(fired30.length)} ${fired30.length === 1 ? "report" : "reports"} that say how many were launched`
-                : "these reports say how many were shot down, not how many were fired"}
+          {anyLaunched ? (
+            <div class="card tile">
+              <div class="tile-label">Reported launched, last 30 days</div>
+              <div class="tile-value">{range(tFired.launched)}</div>
+              <div class="tile-note">
+                {`${range(tFired.intercepted)} of them shot down, in the ${fmt(fired30.length)} ${fired30.length === 1 ? "report" : "reports"} that say how many were launched`}
+              </div>
             </div>
-          </div>
+          ) : (
+            // Most statements here give only the number shot down, so a launched tile would always read empty.
+            <div class="card tile">
+              <div class="tile-label">Attacks reported, last 30 days</div>
+              <div class="tile-value">{fmt(e30.length)}</div>
+              <div class="tile-note">
+                {`on ${fmt(new Set(e30.map((e) => e.date)).size)} ${new Set(e30.map((e) => e.date)).size === 1 ? "day" : "days"}; these reports don't say how many were fired`}
+              </div>
+            </div>
+          )}
           <div class="card tile">
             <div class="tile-label">Reported shot down, all logged</div>
             <div class="tile-value">{range(tAll.intercepted)}</div>
