@@ -1,0 +1,550 @@
+---
+import Base from "../layouts/Base.astro";
+import { getDroneClaims, getDrones } from "../lib/data";
+import {
+  DRONE_SHORT,
+  acknowledged,
+  claimedTotal,
+  fleetEstimate,
+  jetSummary,
+  lossSeries,
+  lossesBy,
+  type SeriesPoint,
+} from "../lib/drones";
+import type { DroneFigure, JetCause } from "../lib/schema";
+import { WAR_START } from "../lib/model";
+import { BUILD_DATE } from "../lib/scenario";
+import { fmt, formatDate } from "../lib/format";
+import { href } from "../lib/site";
+
+const { drones, jets } = getDrones();
+const log = getDroneClaims();
+const claims = log.claims;
+
+const Q: Record<DroneFigure["qualifier"], string> = { exact: "", about: "~", "at-least": "≥", "at-most": "≤" };
+const q = (v: number, qualifier: DroneFigure["qualifier"]) => `${Q[qualifier]}${fmt(v)}`;
+const KIND_LABEL = { official: "U.S. official", press: "Press, citing officials", adversary: "Claimed by adversary" };
+
+const sections = drones.map((d) => {
+  const est = fleetEstimate(d, claims);
+  const ack = acknowledged(d);
+  const claimed = claimedTotal(lossesBy(d, "adversary").at(-1), claims, d.id);
+  const figures = [
+    ...(d.fleetBefore ? [{ ...d.fleetBefore, kind: "official" as const, what: "Fleet before the war" }] : []),
+    ...d.fleetAfter.map((f) => ({ ...f, kind: "official" as const, what: "Fleet" })),
+    ...d.losses.map((l) => ({ ...l, what: l.adds ? "More lost" : "Lost" })),
+  ].sort((a, b) => a.asOf.localeCompare(b.asOf));
+  return {
+    d,
+    est,
+    ack,
+    claimed,
+    figures,
+    series: lossSeries(d, claims),
+    log: claims.filter((c) => c.aircraft === d.id),
+  };
+});
+
+const jetTotals = jetSummary(jets, claims);
+const jetLog = claims.filter((c) => c.aircraft === "jet");
+const JET_CAUSE: Record<JetCause, { label: string; kind: string }> = {
+  "shot-down": { label: "Shot down by the enemy", kind: "official" },
+  "friendly-fire": { label: "Friendly fire", kind: "press" },
+  damaged: { label: "Hit, but landed", kind: "press" },
+};
+const jetLosses = [...jets.losses].sort((a, b) => a.date.localeCompare(b.date));
+
+// Losses-over-time chart geometry.
+const W = 640;
+const H = 220;
+const PAD = { l: 40, r: 16, t: 14, b: 26 };
+const t0 = Date.parse(WAR_START);
+const t1 = Date.parse(BUILD_DATE);
+const xOf = (date: string) => PAD.l + ((Date.parse(date) - t0) / (t1 - t0)) * (W - PAD.l - PAD.r);
+function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
+  const max = Math.max(10, ...us.map((p) => p.value), ...claimed.map((p) => p.value)) * 1.15;
+  const yOf = (v: number) => H - PAD.b - (v / max) * (H - PAD.t - PAD.b);
+  // Step lines: a total holds until the next figure, then extends to today.
+  const steps = (pts: SeriesPoint[]) => {
+    if (!pts.length) return "";
+    let d = `M${xOf(pts[0].date)},${yOf(pts[0].value)}`;
+    for (const p of pts.slice(1)) d += ` H${xOf(p.date)} V${yOf(p.value)}`;
+    return d + ` H${xOf(BUILD_DATE)}`;
+  };
+  const step = max > 60 ? 20 : 10;
+  const ticks = Array.from({ length: Math.floor(max / step) + 1 }, (_, i) => i * step);
+  const months: string[] = [];
+  for (let m = new Date(t0); m.getTime() <= t1; m.setUTCMonth(m.getUTCMonth() + 2, 1))
+    months.push(m.toISOString().slice(0, 10));
+  return { yOf, usPath: steps(us), claimedPath: steps(claimed), ticks, months };
+}
+---
+
+<Base
+  title="Reaper and jet losses"
+  description="How many U.S. MQ-9 Reaper and MQ-1 drones, and U.S. combat jets, have been lost in the Iran war: what U.S. officials acknowledge, set against what Iran and the Houthis claim."
+>
+  <header class="rhead">
+    <div class="label warn">U.S. figures and adversary claims, kept apart</div>
+    <h1>Reaper and jet losses</h1>
+    <p class="lede">
+      How many U.S. drones, and the jets <a href="#jets">further down</a>, have been shot down. U.S. officials rarely
+      give a count, so the page sets the few they have given against the running tally Iran and the Houthis claim. Their
+      claims are one-sided, though they often follow up with video. None of this feeds the missile estimates.
+    </p>
+    <p class="small muted">
+      Claims{" "}
+      {log.updated
+        ? `last read ${formatDate(log.updated.slice(0, 10))}, ${log.updated.slice(11, 16)} UTC`
+        : "not read yet"}
+      from the same Telegram channels and news searches as the <a href={href("/live/")}>live log</a>.{" "}
+      <a href={href("/methodology/#reapers")}>How this works</a>
+    </p>
+  </header>
+
+  {sections.map(({ d, est, ack, claimed, figures, series, log: dlog }) => {
+    const c = chart(series.us, series.claimed);
+    return (
+      <section class="drone" id={d.id}>
+        <h2>{d.name}</h2>
+        <p class="muted small">{d.operator}</p>
+        <p class="blurb">{d.blurb}</p>
+
+        <div class="tiles">
+          {d.fleetBefore && (
+            <div class="card tile">
+              <div class="tile-label">Fleet before the war</div>
+              <div class="tile-value">{fmt(d.fleetBefore.value)}</div>
+              <div class="tile-note">{formatDate(d.fleetBefore.asOf)}, Air Force budget</div>
+            </div>
+          )}
+          {est.acknowledged && (
+            <div class="card tile">
+              <div class="tile-label">Left, by U.S. count</div>
+              <div class="tile-value">{q(est.acknowledged.value, est.acknowledged.qualifier)}</div>
+              <div class="tile-note">
+                Fleet less the {ack && q(ack.value, ack.qualifier)} U.S. officials acknowledge
+              </div>
+            </div>
+          )}
+          {!est.acknowledged && ack && (
+            <div class="card tile">
+              <div class="tile-label">Lost, by U.S. count</div>
+              <div class="tile-value">{q(ack.value, ack.qualifier)}</div>
+              <div class="tile-note">As of {formatDate(ack.asOf)}</div>
+            </div>
+          )}
+          {claimed && (
+            <div class="card tile claim">
+              <div class="tile-label">Claimed shot down</div>
+              <div class="tile-value">{fmt(claimed.value)}</div>
+              <div class="tile-note">Iranian and Houthi claims, to {formatDate(claimed.asOf)}</div>
+            </div>
+          )}
+          {est.ifClaimsTrue && (
+            <div class="card tile claim">
+              <div class="tile-label">Left, if every claim is true</div>
+              <div class="tile-value">{fmt(est.ifClaimsTrue.value)}</div>
+              <div class="tile-note">Claims also count drones the U.S. lost to crashes, or never lost</div>
+            </div>
+          )}
+        </div>
+        {d.fleetNote && <p class="small muted">{d.fleetNote}</p>}
+
+        <figure class="card chart">
+          <figcaption class="small">
+            Losses since the war began: <span class="key us">U.S. acknowledged</span>{" "}
+            <span class="key adv">claimed by Iran and the Houthis</span>
+          </figcaption>
+          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${d.name} losses over time`}>
+            {c.ticks.map((v) => (
+              <g>
+                <line x1={PAD.l} x2={W - PAD.r} y1={c.yOf(v)} y2={c.yOf(v)} class="grid" />
+                <text x={PAD.l - 6} y={c.yOf(v) + 4} text-anchor="end" class="axis">
+                  {v}
+                </text>
+              </g>
+            ))}
+            {c.months.map((m) => (
+              <text x={xOf(m)} y={H - 8} text-anchor="middle" class="axis">
+                {new Date(m).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })}
+              </text>
+            ))}
+            <path d={c.claimedPath} class="line adv" />
+            <path d={c.usPath} class="line us" />
+            {series.claimed.map((p) => (
+              <circle cx={xOf(p.date)} cy={c.yOf(p.value)} r="3.5" class="dot adv">
+                <title>{`${formatDate(p.date)}: ${p.value} claimed (${p.label})`}</title>
+              </circle>
+            ))}
+            {series.us.map((p) => (
+              <circle cx={xOf(p.date)} cy={c.yOf(p.value)} r="3.5" class="dot us">
+                <title>{`${formatDate(p.date)}: ${p.value} (${p.label})`}</title>
+              </circle>
+            ))}
+          </svg>
+        </figure>
+
+        <h3>Every figure</h3>
+        <ul class="figs">
+          {figures.map((f) => (
+            <li class="card fig">
+              <div class="fig-top">
+                <span class="small muted">
+                  {formatDate(f.asOf)} · {f.by}
+                </span>
+                <span class={`kind ${f.kind}`}>{KIND_LABEL[f.kind]}</span>
+              </div>
+              <div>
+                <strong>
+                  {f.what}: {q(f.value, f.qualifier)}
+                </strong>
+              </div>
+              {f.note && <p class="small muted note">{f.note}</p>}
+              <details>
+                <summary class="small">Source</summary>
+                <a href={f.source.url} rel="noopener">
+                  {f.source.outlet}, {formatDate(f.source.published)}
+                </a>
+                <blockquote>“{f.source.quote}”</blockquote>
+              </details>
+            </li>
+          ))}
+        </ul>
+
+        <h3>
+          Claims logged since{" "}
+          {lossesBy(d, "adversary").at(-1) ? formatDate(lossesBy(d, "adversary").at(-1)!.asOf) : "the war began"}
+        </h3>
+        {dlog.length === 0 ? (
+          <p class="empty small muted">
+            None logged yet. The feed reads new posts every 6 hours and adds each new {DRONE_SHORT[d.id]} claim here.
+          </p>
+        ) : (
+          <ul class="figs">
+            {dlog.map((cl) => (
+              <li class="card fig claimcard">
+                <div class="fig-top">
+                  <span class="small muted">
+                    {formatDate(cl.date)} · {cl.claimant}
+                    {cl.place && ` · ${cl.place}`}
+                  </span>
+                  <span class={`kind ${cl.usConfirmed ? "official" : "adversary"}`}>
+                    {cl.usConfirmed ? "U.S. confirmed" : "Claimed, unconfirmed"}
+                  </span>
+                </div>
+                <div>
+                  <strong>
+                    {cl.count > 1 ? `${cl.count} ${DRONE_SHORT[cl.aircraft]}s` : `An ${DRONE_SHORT[cl.aircraft]}`}{" "}
+                    claimed shot down
+                  </strong>
+                  {cl.tally !== null && <span class="muted small"> · their {cl.tally}th, by their count</span>}
+                  {cl.video && <span class="vid small">Video released</span>}
+                </div>
+                <details>
+                  <summary class="small">
+                    {cl.sources.length} source{cl.sources.length > 1 ? "s" : ""}
+                  </summary>
+                  {cl.sources.map((s) => (
+                    <div class="src">
+                      <a href={s.url} rel="noopener nofollow">
+                        {s.name}
+                      </a>{" "}
+                      <span class="small muted">
+                        {s.kind === "telegram" ? "Telegram" : "News"} · {s.posted.slice(0, 10)}
+                      </span>
+                      <blockquote>“{s.quote}”</blockquote>
+                    </div>
+                  ))}
+                </details>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    );
+  })}
+
+  <section class="drone" id="jets">
+    <h2>Fighter and attack jets</h2>
+    <p class="muted small">U.S. Air Force, Navy and Marine Corps</p>
+    <p class="blurb">{jets.blurb}</p>
+
+    <div class="tiles">
+      <div class="card tile">
+        <div class="tile-label">Shot down by Iran, U.S. confirmed</div>
+        <div class="tile-value">{fmt(jetTotals.shotDown)}</div>
+        <div class="tile-note">Each one listed below</div>
+      </div>
+      <div class="card tile">
+        <div class="tile-label">Downed by friendly fire</div>
+        <div class="tile-value">{fmt(jetTotals.friendlyFire)}</div>
+        <div class="tile-note">Shot down by an ally's air defenses</div>
+      </div>
+      {jets.tallies.map((t) => (
+        <div class="card tile">
+          <div class="tile-label">{t.what}</div>
+          <div class="tile-value">{q(t.value, t.qualifier)}</div>
+          <div class="tile-note">
+            {t.by}, {formatDate(t.asOf)}
+          </div>
+        </div>
+      ))}
+      <div class="card tile claim">
+        <div class="tile-label">Claimed shot down since the feed began</div>
+        <div class="tile-value">{fmt(jetTotals.claimed)}</div>
+        <div class="tile-note">
+          {jetTotals.claimedTo
+            ? `Iranian and Houthi claims, to ${formatDate(jetTotals.claimedTo)}`
+            : "Iranian and Houthi claims, none logged yet"}
+        </div>
+      </div>
+    </div>
+    {jets.tallies.map((t) => t.note && <p class="small muted">{t.note}</p>)}
+
+    <h3>Every loss</h3>
+    <ul class="figs">
+      {jetLosses.map((l) => (
+        <li class="card fig">
+          <div class="fig-top">
+            <span class="small muted">
+              {formatDate(l.date)} · {l.by}
+              {l.place && ` · ${l.place}`}
+            </span>
+            <span class={`kind ${JET_CAUSE[l.cause].kind}`}>{JET_CAUSE[l.cause].label}</span>
+          </div>
+          <div>
+            <strong>
+              {l.count > 1 ? `${l.count} ${l.model}s` : `An ${l.model}`}
+              {l.cause === "damaged" ? " hit" : " lost"}
+            </strong>
+          </div>
+          {l.note && <p class="small muted note">{l.note}</p>}
+          <details>
+            <summary class="small">Source</summary>
+            <a href={l.source.url} rel="noopener">
+              {l.source.outlet}, {formatDate(l.source.published)}
+            </a>
+            <blockquote>“{l.source.quote}”</blockquote>
+          </details>
+        </li>
+      ))}
+    </ul>
+
+    <h3>Jet claims logged</h3>
+    {jetLog.length === 0 ? (
+      <p class="empty small muted">
+        None logged yet. The feed reads new posts every 6 hours and adds each claim of a U.S. jet shot down here.
+      </p>
+    ) : (
+      <ul class="figs">
+        {jetLog.map((cl) => (
+          <li class="card fig claimcard">
+            <div class="fig-top">
+              <span class="small muted">
+                {formatDate(cl.date)} · {cl.claimant}
+                {cl.place && ` · ${cl.place}`}
+              </span>
+              <span class={`kind ${cl.usConfirmed ? "official" : "adversary"}`}>
+                {cl.usConfirmed ? "U.S. confirmed" : "Claimed, unconfirmed"}
+              </span>
+            </div>
+            <div>
+              <strong>
+                {cl.count > 1 ? `${cl.count} ${cl.model ?? "jet"}s` : `An ${cl.model ?? "jet"}`} claimed shot down
+              </strong>
+              {cl.video && <span class="vid small">Video released</span>}
+            </div>
+            <details>
+              <summary class="small">
+                {cl.sources.length} source{cl.sources.length > 1 ? "s" : ""}
+              </summary>
+              {cl.sources.map((s) => (
+                <div class="src">
+                  <a href={s.url} rel="noopener nofollow">
+                    {s.name}
+                  </a>{" "}
+                  <span class="small muted">
+                    {s.kind === "telegram" ? "Telegram" : "News"} · {s.posted.slice(0, 10)}
+                  </span>
+                  <blockquote>“{s.quote}”</blockquote>
+                </div>
+              ))}
+            </details>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</Base>
+
+<style>
+  .rhead {
+    margin-top: 40px;
+  }
+  .warn {
+    color: var(--serious);
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    letter-spacing: -0.025em;
+    margin: 10px 0;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0 0 8px;
+  }
+  .drone {
+    margin-top: 40px;
+  }
+  .drone h2 {
+    margin-bottom: 0;
+  }
+  .blurb {
+    max-width: 62ch;
+    color: var(--ink-2);
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .tile {
+    padding: 14px 16px;
+  }
+  .tile.claim {
+    border-style: dashed;
+  }
+  .tile-label {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .tile-value {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .tile-note {
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .chart {
+    padding: 12px 14px;
+    margin: 14px 0;
+  }
+  .chart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .grid {
+    stroke: var(--border);
+  }
+  .axis {
+    font-size: 11px;
+    fill: var(--ink-3);
+  }
+  .line {
+    fill: none;
+    stroke-width: 2.5;
+  }
+  .line.us,
+  .dot.us {
+    stroke: var(--series-1);
+  }
+  .line.adv,
+  .dot.adv {
+    stroke: var(--serious);
+  }
+  .line.adv {
+    stroke-dasharray: 5 4;
+  }
+  .dot {
+    fill: var(--surface, #fff);
+    stroke-width: 2;
+  }
+  .key::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 3px;
+    margin: 0 4px 3px 8px;
+    vertical-align: middle;
+  }
+  .key.us::before {
+    background: var(--series-1);
+  }
+  .key.adv::before {
+    background: var(--serious);
+  }
+  .figs {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .fig {
+    padding: 12px 14px;
+  }
+  .claimcard {
+    border-style: dashed;
+  }
+  .fig-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .note {
+    margin: 4px 0 0;
+  }
+  .kind {
+    font: 600 11px var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .kind::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--serious);
+  }
+  .kind.official::before {
+    background: var(--good);
+  }
+  .kind.press::before {
+    background: var(--warning);
+  }
+  .vid {
+    margin-left: 8px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--series-1);
+    color: var(--series-1);
+  }
+  details {
+    margin-top: 6px;
+  }
+  blockquote {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+    overflow-wrap: anywhere;
+  }
+  .src {
+    margin-top: 8px;
+  }
+  .empty {
+    padding: 16px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+</style>

@@ -16,7 +16,7 @@ import { extract, screen, MODEL, SCREEN_MODEL, type Article } from "./extract.ts
 import { applyToFile } from "./inputs.ts";
 import { canonical } from "./urls.ts";
 import { checkQuotes, healthLines, quoteTargets } from "../quotes.ts";
-import { PerspectiveFile } from "../../src/lib/schema.ts";
+import { DronesFile, PerspectiveFile } from "../../src/lib/schema.ts";
 import { bing, csis, gdelt, looksRelevant, nyt, type FeedItem } from "./feeds.ts";
 
 const STATE_FILE = path.join(ROOT, "data", "pipeline-state.json");
@@ -185,7 +185,8 @@ async function main() {
   const perspective = PerspectiveFile.parse(
     JSON.parse(readFileSync(path.join(ROOT, "data", "perspective.json"), "utf8")),
   );
-  const health = await checkQuotes(quoteTargets(ds, perspective), fetchText, {
+  const drones = DronesFile.parse(JSON.parse(readFileSync(path.join(ROOT, "data", "drones.json"), "utf8")));
+  const health = await checkQuotes(quoteTargets(ds, perspective, drones), fetchText, {
     strict: () => false,
     allowNoneReachable: true,
   });

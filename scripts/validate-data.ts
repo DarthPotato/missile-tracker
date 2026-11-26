@@ -3,7 +3,7 @@
 //                                        quote appears on the page verbatim
 //
 // Options for --quotes:
-//   --only <id,id,...>         check just these reports ("perspective" for that page)
+//   --only <id,id,...>         check just these reports ("perspective" or "drones" for those pages)
 //   --changed <path,path,...>  pull-request mode: sources tied to these changed files
 //                              must be reachable; others may be unreachable
 //   --allow-unreachable        escape hatch for known-flaky hosts or offline runs:
@@ -14,7 +14,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { DataError } from "../src/lib/dataset.ts";
-import { PerspectiveFile, PhotosFile } from "../src/lib/schema.ts";
+import { DronesFile, PerspectiveFile, PhotosFile } from "../src/lib/schema.ts";
 import { existsSync } from "node:fs";
 import { fetchText } from "./fetch-text.ts";
 import { loadDataset, ROOT } from "./load-node.ts";
@@ -43,6 +43,11 @@ async function main() {
     console.error(`perspective.json: ${p.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
     process.exit(1);
   }
+  const drones = DronesFile.safeParse(JSON.parse(readFileSync(path.join(ROOT, "data", "drones.json"), "utf8")));
+  if (!drones.success) {
+    console.error(`drones.json: ${drones.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+    process.exit(1);
+  }
   const photos = PhotosFile.safeParse(JSON.parse(readFileSync(path.join(ROOT, "data", "photos.json"), "utf8")));
   if (!photos.success) {
     console.error(`photos.json: ${photos.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
@@ -66,7 +71,7 @@ async function main() {
   const changed = listArg("changed");
   const allowUnreachable = process.argv.includes("--allow-unreachable");
 
-  let targets = quoteTargets(ds, p.data);
+  let targets = quoteTargets(ds, p.data, drones.data);
   if (only) targets = targets.filter((t) => only.includes(t.id));
   const strictIds = changed ? strictIdsFromChanged(changed, ds) : undefined;
   const strict = (id: string) => !allowUnreachable && (strictIds ? strictIds.has(id) : true);

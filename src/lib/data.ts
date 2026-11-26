@@ -4,9 +4,12 @@ import munitionsJson from "../../data/munitions.json";
 import perspectiveJson from "../../data/perspective.json";
 import photosJson from "../../data/photos.json";
 import liveJson from "../../data/live/events.json";
+import dronesJson from "../../data/drones.json";
+import droneClaimsJson from "../../data/live/drone-claims.json";
 import { LiveFile } from "./live";
+import { DroneClaimsFile } from "./drones";
 import type { ImageMetadata } from "astro";
-import { PerspectiveFile, PhotosFile, type MunitionId, type Photo } from "./schema";
+import { DronesFile, PerspectiveFile, PhotosFile, type MunitionId, type Photo } from "./schema";
 import { buildDataset, type Dataset } from "./dataset";
 
 const reportModules = import.meta.glob<{ default: unknown }>("../../data/reports/*.json", { eager: true });
@@ -51,4 +54,18 @@ let live: LiveFile | undefined;
 /** The unverified live intercept log (data/live/events.json). */
 export function getLive(): LiveFile {
   return (live ??= LiveFile.parse(liveJson));
+}
+
+let drones: DronesFile | undefined;
+
+/** Sourced fleet and loss figures for U.S. drones (data/drones.json). */
+export function getDrones(): DronesFile {
+  return (drones ??= DronesFile.parse(dronesJson));
+}
+
+let droneClaims: DroneClaimsFile | undefined;
+
+/** Iranian and Houthi drone shoot-down claims logged by the live feed (unverified). */
+export function getDroneClaims(): DroneClaimsFile {
+  return (droneClaims ??= DroneClaimsFile.parse(droneClaimsJson));
 }

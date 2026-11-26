@@ -8,6 +8,7 @@ export const GET: APIRoute = ({ site }) => {
     "/",
     "/live/",
     "/live/log/",
+    "/reapers/",
     "/perspective/",
     "/methodology/",
     ...getDataset().munitions.map((m) => `/missiles/${m.id}/`),
