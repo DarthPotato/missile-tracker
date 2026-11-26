@@ -79,11 +79,31 @@ export const LiveEvent = z
   .strict();
 export type LiveEvent = z.infer<typeof LiveEvent>;
 
+/**
+ * A government's count since some point ("since the war began"), as of one day.
+ * Kept apart from the daily events: adding it to them would count every earlier day again.
+ */
+export const RunningTotal = z
+  .object({
+    id: z.string().regex(/^[a-z0-9-]+$/),
+    /** The day the total is as of. */
+    asOf: isoDate,
+    theater: Theater,
+    defender: z.string().min(2),
+    threat: Threat,
+    /** What the total counts from, as it follows "since": "the war began", "March 1". */
+    since: z.string().min(2).max(60),
+    sources: z.array(LiveSource).min(1),
+  })
+  .strict();
+export type RunningTotal = z.infer<typeof RunningTotal>;
+
 export const LiveFile = z
   .object({
     /** ISO timestamp of the last successful pipeline run, null before the first. */
     updated: z.string().nullable(),
     events: z.array(LiveEvent),
+    totals: z.array(RunningTotal).default([]),
   })
   .strict();
 export type LiveFile = z.infer<typeof LiveFile>;
@@ -108,6 +128,52 @@ export function mergeEvents(existing: LiveEvent[], incoming: LiveEvent[]): LiveE
     cur.usInvolved ||= e.usInvolved;
   }
   return [...byKey.values()].sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+}
+
+/** Ties running totals reported by different outlets together. */
+export function totalKey(t: Pick<RunningTotal, "asOf" | "theater" | "defender" | "threat">): string {
+  return eventKey({ date: t.asOf, theater: t.theater, defender: t.defender, threat: t.threat });
+}
+
+/** Merge new running totals into the list: same day, theater, defender and threat = same total, more sources. */
+export function mergeTotals(existing: RunningTotal[], incoming: RunningTotal[]): RunningTotal[] {
+  const byKey = new Map(existing.map((t) => [totalKey(t), structuredClone(t)]));
+  for (const t of incoming) {
+    const cur = byKey.get(totalKey(t));
+    if (!cur) byKey.set(totalKey(t), structuredClone(t));
+    else for (const s of t.sources) if (!cur.sources.some((x) => x.url === s.url)) cur.sources.push(s);
+  }
+  return [...byKey.values()].sort((a, b) => b.asOf.localeCompare(a.asOf) || a.id.localeCompare(b.id));
+}
+
+/**
+ * A running total's count across its sources: official channels first, else the range
+ * the sources give. Never summed, since each source states the whole total.
+ */
+export function totalCount(t: RunningTotal, field: "launched" | "intercepted"): CountRange | undefined {
+  const official = t.sources.filter((s) => s.official && s[field] !== null);
+  const vals = (official.length ? official : t.sources).flatMap((s) => (s[field] === null ? [] : [s[field]]));
+  return vals.length ? { low: Math.min(...vals), high: Math.max(...vals) } : undefined;
+}
+
+/** The newest running total for each defender and threat in these theaters, newest first. */
+export function latestTotals(list: RunningTotal[], theaters?: readonly Theater[]): RunningTotal[] {
+  const seen = new Set<string>();
+  return [...list]
+    .sort((a, b) => b.asOf.localeCompare(a.asOf))
+    .filter((t) => {
+      if (theaters && !theaters.includes(t.theater)) return false;
+      const k = `${t.defender.toLowerCase()}|${t.threat}`;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+}
+
+/** Who a running total comes from: the defender for an official channel, else who the report credits. */
+export function whoseTotal(t: RunningTotal): string {
+  if (t.sources.some((s) => s.official)) return withThe(t.defender);
+  return joinAnd([...new Set(t.sources.map((s) => withThe(s.countFrom ?? s.name)))]);
 }
 
 export interface CountRange {
@@ -201,7 +267,7 @@ export function daysAgo(today: string, n: number): string {
 }
 
 /** "Israel", "the UAE", "the United States": a country as it reads after "per". */
-function withThe(name: string): string {
+export function withThe(name: string): string {
   return /^(united|uae|us\b|u\.s\.|philippines|netherlands)/i.test(name) ? `the ${name}` : name;
 }
 

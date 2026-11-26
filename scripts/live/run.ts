@@ -23,7 +23,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { ROOT } from "../load-node.ts";
-import { LiveFile, mergeEvents } from "../../src/lib/live.ts";
+import { LiveFile, mergeEvents, mergeTotals } from "../../src/lib/live.ts";
 import { parseRss, bingItem } from "../pipeline/feeds.ts";
 import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
@@ -227,16 +227,18 @@ async function main() {
   const dropped: string[] = [];
   const cited = new Set<string>();
   let events = log.events;
+  let runningTotals = log.totals;
   for (let i = 0; i < items.length; i += BATCH) {
     const batch = items.slice(i, i + BATCH);
     try {
       const res = await extractEvents(batch);
-      for (const e of res.events) for (const s of e.sources) cited.add(s.url);
+      for (const e of [...res.events, ...res.totals]) for (const s of e.sources) cited.add(s.url);
       const before = events.length;
       events = mergeEvents(events, res.events);
+      runningTotals = mergeTotals(runningTotals, res.totals);
       added += res.events.length;
       lines.push(
-        `- Batch ${i / BATCH + 1}: ${res.events.length} events (${events.length - before} new, rest merged as extra sources)`,
+        `- Batch ${i / BATCH + 1}: ${res.events.length} events (${events.length - before} new, rest merged as extra sources)${res.totals.length ? `, ${res.totals.length} running ${res.totals.length === 1 ? "total" : "totals"}` : ""}`,
       );
       dropped.push(...res.dropped.map((d) => `  - ${d.item}: ${d.reason}`));
     } catch (e) {
@@ -282,7 +284,11 @@ async function main() {
       JSON.stringify(DroneClaimsFile.parse({ updated: new Date().toISOString(), claims }), null, 2) + "\n",
     );
 
-  writeFileSync(EVENTS, JSON.stringify(LiveFile.parse({ updated: new Date().toISOString(), events }), null, 2) + "\n");
+  writeFileSync(
+    EVENTS,
+    JSON.stringify(LiveFile.parse({ updated: new Date().toISOString(), events, totals: runningTotals }), null, 2) +
+      "\n",
+  );
   for (const it of [...newsItems, ...droneNews, ...archived]) seenNews.add(it.url);
   writeFileSync(STATE, JSON.stringify({ lastPost: newLast, seenNews: [...seenNews].slice(-500) }, null, 2) + "\n");
 
