@@ -10,6 +10,13 @@ export function roundEstimate(n: number): number {
 
 export const fmt = (n: number) => nf.format(n);
 
+/** "an MQ-9", "an F-15E", "a KC-135", "a fighter jet": the article as the name is read aloud. */
+export function withArticle(name: string): string {
+  // Letters whose names start with a vowel sound (eff, em, ess) take "an" when spelled out.
+  const an = /^[AEFHILMNORSX](?=[-\d/A-Z])/.test(name) || /^[aeiou]/i.test(name);
+  return `${an ? "an" : "a"} ${name}`;
+}
+
 /** "759–827", "≤2,100", "~3,300", "≥40" */
 export function formatRange(r: Range, q: Qualifier, unit = ""): string {
   const lo = fmt(roundEstimate(r.low)) + unit;

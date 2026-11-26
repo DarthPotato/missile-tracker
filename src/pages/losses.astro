@@ -16,7 +16,7 @@ import {
 import type { DroneFigure, JetCause } from "../lib/schema";
 import { WAR_START } from "../lib/model";
 import { BUILD_DATE } from "../lib/scenario";
-import { fmt, formatDate } from "../lib/format";
+import { fmt, formatDate, withArticle } from "../lib/format";
 import { href } from "../lib/site";
 
 const { drones, jets, warDamage } = getDrones();
@@ -81,6 +81,8 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
     months.push(m.toISOString().slice(0, 10));
   return { yOf, usPath: steps(us), claimedPath: steps(claimed), ticks, months };
 }
+/** "An MQ-9", "A fighter jet": a claim or loss at the start of a line. */
+const An = (name: string) => withArticle(name).replace(/^a/, "A");
 ---
 
 <Base
@@ -285,8 +287,8 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
                 </div>
                 <div>
                   <strong>
-                    {cl.count > 1 ? `${cl.count} ${DRONE_SHORT[cl.aircraft]}s` : `An ${DRONE_SHORT[cl.aircraft]}`}{" "}
-                    claimed shot down
+                    {cl.count > 1 ? `${cl.count} ${DRONE_SHORT[cl.aircraft]}s` : An(DRONE_SHORT[cl.aircraft])} claimed
+                    shot down
                   </strong>
                   {cl.tally !== null && <span class="muted small"> · their {cl.tally}th, by their count</span>}
                   {cl.video && <span class="vid small">Video released</span>}
@@ -368,7 +370,7 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
             </div>
             <div>
               <strong>
-                {l.count > 1 ? `${l.count} ${l.model}s` : `An ${l.model}`}
+                {l.count > 1 ? `${l.count} ${l.model}s` : An(l.model)}
                 {l.cause === "damaged" ? " hit" : " lost"}
               </strong>
             </div>
@@ -405,7 +407,7 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
             </div>
             <div>
               <strong>
-                {cl.count > 1 ? `${cl.count} ${cl.model ?? "jet"}s` : `An ${cl.model ?? "jet"}`} claimed shot down
+                {cl.count > 1 ? `${cl.count} ${cl.model ?? "jet"}s` : An(cl.model ?? "jet")} claimed shot down
               </strong>
               {cl.video && <span class="vid small">Video released</span>}
             </div>

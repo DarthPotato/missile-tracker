@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getDataset, getDroneClaims, getDrones } from "../src/lib/data";
+import { withArticle } from "../src/lib/format";
 import {
   acknowledged,
   jetModel,
@@ -9,6 +10,7 @@ import {
   lossSeries,
   lossesBy,
   mergeClaims,
+  isAdversaryClaim,
   type DroneClaim,
 } from "../src/lib/drones";
 import { mentionsUsAircraft, mentionsUsDrone, mentionsUsJet, validateClaim } from "../scripts/live/losses";
@@ -274,5 +276,64 @@ describe("aircraftPhotoId", () => {
     expect(aircraftPhotoId("Special operations planes")).toBe("mc130j");
     expect(aircraftPhotoId("Reconnaissance planes")).toBe("rc135");
     expect(aircraftPhotoId("fighter jet")).toBeUndefined();
+  });
+});
+
+describe("claim log tidying", () => {
+  it("joins one claim relayed a day later at the same place, keeping the earlier day", () => {
+    const a = claim({ date: "2026-03-30", place: "Isfahan, central Iran", count: 2 });
+    const b = claim({
+      date: "2026-03-31",
+      place: "Isfahan, central Iran",
+      count: 2,
+      sources: [{ ...a.sources[0], url: "https://t.me/a/9" }],
+    });
+    const out = mergeClaims([], [b, a]);
+    expect(out).toHaveLength(1);
+    expect(out[0].date).toBe("2026-03-30");
+    expect(out[0].count).toBe(2);
+  });
+  it("keeps claims apart when the place differs, it's two days later, or the running counts differ", () => {
+    const a = claim({ date: "2026-11-21", place: "Strait of Hormuz" });
+    expect(mergeClaims([a], [claim({ date: "2026-11-22", place: "Qeshm Island" })])).toHaveLength(2);
+    expect(mergeClaims([a], [claim({ date: "2026-11-23", place: "Strait of Hormuz" })])).toHaveLength(2);
+    expect(
+      mergeClaims([claim({ ...a, tally: 19 })], [claim({ date: "2026-11-22", place: "Strait of Hormuz", tally: 20 })]),
+    ).toHaveLength(2);
+    expect(mergeClaims([claim({ place: "" })], [claim({ date: "2026-11-11", place: "" })])).toHaveLength(2);
+  });
+  it("tells claims from U.S. and press reports of a loss", () => {
+    for (const c of [
+      "IRGC",
+      "Iranian Army",
+      "Houthis",
+      "Iranian air defenses (per Tasnim)",
+      "Fars News",
+      "unspecified",
+    ])
+      expect(isAdversaryClaim({ claimant: c }), c).toBe(true);
+    for (const c of [
+      "CENTCOM",
+      "U.S. official",
+      "U.S. President Trump",
+      "New York Times",
+      "60 Minutes",
+      "Qatari forces (suspected friendly fire)",
+    ])
+      expect(isAdversaryClaim({ claimant: c }), c).toBe(false);
+  });
+});
+
+describe("withArticle", () => {
+  it("reads the name aloud", () => {
+    expect(["MQ-9", "F-15E", "A-10", "F/A-18", "fighter jet", "KC-135", "HH-60W"].map(withArticle)).toEqual([
+      "an MQ-9",
+      "an F-15E",
+      "an A-10",
+      "an F/A-18",
+      "a fighter jet",
+      "a KC-135",
+      "an HH-60W",
+    ]);
   });
 });

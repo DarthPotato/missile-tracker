@@ -26,7 +26,7 @@ import { parseRss, bingItem } from "../pipeline/feeds.ts";
 import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
 import { extractClaims, mentionsUsAircraft } from "./losses.ts";
-import { DroneClaimsFile, mergeClaims } from "../../src/lib/drones.ts";
+import { DroneClaimsFile, isAdversaryClaim, mergeClaims } from "../../src/lib/drones.ts";
 
 const DIR = path.join(ROOT, "data", "live");
 const EVENTS = path.join(DIR, "events.json");
@@ -237,7 +237,8 @@ async function main() {
         ]
       : []),
   );
-  let claims = claimLog.claims;
+  // Tidy the log as it's read: drop U.S. and press reports, join a claim logged on two days.
+  let claims = mergeClaims([], claimLog.claims.filter(isAdversaryClaim));
   let claimed = 0;
   for (let i = 0; i < droneItems.length; i += BATCH) {
     const batch = droneItems.slice(i, i + BATCH);
@@ -254,7 +255,7 @@ async function main() {
       lines.push(`- Drone batch ${i / BATCH + 1}: extraction failed (${(e as Error).message})`);
     }
   }
-  if (droneItems.length || !claimLog.updated)
+  if (droneItems.length || !claimLog.updated || claims.length !== claimLog.claims.length)
     writeFileSync(
       CLAIMS,
       JSON.stringify(DroneClaimsFile.parse({ updated: new Date().toISOString(), claims }), null, 2) + "\n",

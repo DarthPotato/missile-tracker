@@ -68,7 +68,28 @@ export function jetModel(model: string | undefined): string {
   return m ? `${m[1]}-${m[2]}` : "jet";
 }
 
-/** Merge new claims into the log: same aircraft and running total, or same aircraft and day, is one claim. */
+/** Who reports a U.S. loss rather than claiming one: U.S. officials, allies and the U.S. press. */
+const REPORTERS =
+  /(^|[^a-z])(u\.\s?s\.|united states|american|centcom|pentagon|white house|trump|times|news|post|journal|nbc|cbs|cnn|reuters|associated press|60 minutes|qatari|kuwaiti|saudi|emirati|israeli|friendly fire)([^a-z]|$)/i;
+/** Iran, its allies and their media, who do the claiming. */
+const CLAIMANTS = /iran|irgc|guard|houthi|yemen|ansar|resistance|hezbollah|tasnim|fars|irna|press tv|mehr/i;
+
+/**
+ * A shoot-down Iran or its allies claim, as opposed to a loss U.S. officials or
+ * the press report. Those are tracked by hand in data/drones.json, so counting
+ * them here too would count them twice.
+ */
+export function isAdversaryClaim(c: Pick<DroneClaim, "claimant">): boolean {
+  return CLAIMANTS.test(c.claimant) || !REPORTERS.test(c.claimant);
+}
+
+const DAY_MS = 86_400_000;
+const sameText = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
+/**
+ * Merge new claims into the log: same aircraft and running total, or same aircraft and day, is one claim.
+ * So is the same aircraft at the same named place a day apart, since relays often post a claim the next day.
+ */
 export function mergeClaims(existing: DroneClaim[], incoming: DroneClaim[]): DroneClaim[] {
   const out = existing.map((c) => structuredClone(c));
   for (const c of incoming) {
@@ -77,11 +98,21 @@ export function mergeClaims(existing: DroneClaim[], incoming: DroneClaim[]): Dro
       out.find((x) => claimKey(x) === claimKey(c)) ??
       (c.aircraft === "jet"
         ? undefined
-        : out.find((x) => x.aircraft === c.aircraft && x.date === c.date && (x.tally === null || c.tally === null)));
+        : out.find((x) => x.aircraft === c.aircraft && x.date === c.date && (x.tally === null || c.tally === null))) ??
+      out.find(
+        (x) =>
+          x.aircraft === c.aircraft &&
+          (c.aircraft !== "jet" || jetModel(x.model) === jetModel(c.model)) &&
+          !!c.place &&
+          sameText(x.place, c.place) &&
+          Math.abs(Date.parse(x.date) - Date.parse(c.date)) <= DAY_MS &&
+          (x.tally === null || c.tally === null || x.tally === c.tally),
+      );
     if (!cur) {
       out.push(structuredClone(c));
       continue;
     }
+    if (c.date < cur.date) cur.date = c.date;
     for (const s of c.sources) if (!cur.sources.some((x) => x.url === s.url)) cur.sources.push(s);
     cur.tally ??= c.tally;
     cur.count = Math.max(cur.count, c.count);
