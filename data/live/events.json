@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T19:46:17.830Z",
+  "updated": "2026-11-26T22:22:57.240Z",
   "events": [
     {
       "id": "2026-11-25-gulf-saudi-arabia-ballistic",
@@ -92,6 +92,28 @@
           "launched": null,
           "intercepted": 3,
           "quote": "The Saudi-led coalition has intercepted three Houthi missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-red-sea-saudi-led-coalition-drone",
+      "date": "2026-11-25",
+      "theater": "red-sea",
+      "defender": "Saudi-led coalition",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "theepochtimes.com",
+          "url": "https://www.theepochtimes.com/world/houthis-say-they-hit-saudi-ports-aramco-refinery-as-coalition-reports-drone-intercepts-6129825",
+          "posted": "2026-11-25T16:00:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "countFrom": "Saudi-led coalition in Yemen",
+          "quote": "the Saudi-led coalition in Yemen reported an intercepted drone near one port"
         }
       ]
     },
@@ -1708,6 +1730,164 @@
           "launched": null,
           "intercepted": 7,
           "quote": "Saudi Arabia intercepted seven ballistic missiles aimed at its Eastern Region"
+        },
+        {
+          "kind": "news",
+          "name": "gdnonline.com",
+          "url": "https://www.gdnonline.com:443/Details/1380716/Saudi-Defence-Ministry-18-drones,-seven-ballistic-missiles-intercepted-and-destroyed-in-the-past-few-hours",
+          "posted": "2026-04-07T09:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 7,
+          "countFrom": "Saudi Defence Ministry",
+          "quote": "seven ballistic missiles intercepted and destroyed"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-07-gulf-saudi-arabia-drone",
+      "date": "2026-04-07",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "gdnonline.com",
+          "url": "https://www.gdnonline.com:443/Details/1380716/Saudi-Defence-Ministry-18-drones,-seven-ballistic-missiles-intercepted-and-destroyed-in-the-past-few-hours",
+          "posted": "2026-04-07T09:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 18,
+          "countFrom": "Saudi Defence Ministry",
+          "quote": "18 drones , seven ballistic missiles intercepted and destroyed"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-06-gulf-uae-ballistic",
+      "date": "2026-04-06",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "rediff.com",
+          "url": "https://www.rediff.com/news/report/uae-intercepts-12-ballistic-missiles-2-cruise-missiles-19-uavs-from-iran/20260406.htm",
+          "posted": "2026-04-06T21:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "quote": "UAE intercepts 12 ballistic missiles"
+        },
+        {
+          "kind": "news",
+          "name": "news.webindia123.com",
+          "url": "https://news.webindia123.com/news/Articles/World/20260406/4436022.html",
+          "posted": "2026-04-06T19:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "quote": "UAE intercepts 12 ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-06-gulf-uae-cruise",
+      "date": "2026-04-06",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "rediff.com",
+          "url": "https://www.rediff.com/news/report/uae-intercepts-12-ballistic-missiles-2-cruise-missiles-19-uavs-from-iran/20260406.htm",
+          "posted": "2026-04-06T21:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "2 cruise missiles"
+        },
+        {
+          "kind": "news",
+          "name": "news.webindia123.com",
+          "url": "https://news.webindia123.com/news/Articles/World/20260406/4436022.html",
+          "posted": "2026-04-06T19:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "2 cruise missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-06-gulf-uae-drone",
+      "date": "2026-04-06",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "rediff.com",
+          "url": "https://www.rediff.com/news/report/uae-intercepts-12-ballistic-missiles-2-cruise-missiles-19-uavs-from-iran/20260406.htm",
+          "posted": "2026-04-06T21:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 19,
+          "quote": "19 UAVs from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-04-gulf-uae-ballistic",
+      "date": "2026-04-04",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "thenationalnews.com",
+          "url": "https://www.thenationalnews.com/news/uae/2026/04/04/two-dubai-buildings-hit-by-falling-debris-after-iran-strikes-intercepted/",
+          "posted": "2026-04-04T15:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 23,
+          "quote": "UAE intercepts 23 ballistic missiles and 56 drones launched by Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-04-gulf-uae-drone",
+      "date": "2026-04-04",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "thenationalnews.com",
+          "url": "https://www.thenationalnews.com/news/uae/2026/04/04/two-dubai-buildings-hit-by-falling-debris-after-iran-strikes-intercepted/",
+          "posted": "2026-04-04T15:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 56,
+          "quote": "UAE intercepts 23 ballistic missiles and 56 drones launched by Iran"
         }
       ]
     },
@@ -1743,6 +1923,90 @@
       ]
     },
     {
+      "id": "2026-04-02-gulf-uae-ballistic",
+      "date": "2026-04-02",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-intercepts-19-ballistic-missiles-and-26-drones-on-thursday/",
+          "posted": "2026-04-02T12:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 19,
+          "quote": "UAE intercepts 19 ballistic missiles and 26 drones on Thursday"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-02-gulf-uae-drone",
+      "date": "2026-04-02",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-intercepts-19-ballistic-missiles-and-26-drones-on-thursday/",
+          "posted": "2026-04-02T12:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 26,
+          "quote": "UAE intercepts 19 ballistic missiles and 26 drones on Thursday"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-01-gulf-uae-ballistic",
+      "date": "2026-04-01",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-intercepts-5-ballistic-missiles-and-35-drones-on-wednesday/",
+          "posted": "2026-04-01T12:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 5,
+          "quote": "UAE intercepts 5 ballistic missiles and 35 drones on Wednesday"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-01-gulf-uae-drone",
+      "date": "2026-04-01",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-intercepts-5-ballistic-missiles-and-35-drones-on-wednesday/",
+          "posted": "2026-04-01T12:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 35,
+          "quote": "UAE intercepts 5 ballistic missiles and 35 drones on Wednesday"
+        }
+      ]
+    },
+    {
       "id": "2026-03-26-gulf-united-states-unknown",
       "date": "2026-03-26",
       "theater": "gulf",
@@ -1760,6 +2024,196 @@
           "launched": 100,
           "intercepted": null,
           "quote": "Iran launched 100 missiles at a significant target, but the U.S. successfully intercepted all of them"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-24-gulf-uae-ballistic",
+      "date": "2026-03-24",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "thehindubusinessline.com",
+          "url": "https://www.thehindubusinessline.com/news/world/uae-air-defences-engage-7-ballistic-missiles-16-uavs-launched-from-iran-ministry-of-defence/article70778200.ece",
+          "posted": "2026-03-24T05:00:00Z",
+          "official": false,
+          "launched": 7,
+          "intercepted": null,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences engage 7 ballistic missiles , 16 UAVs launched from Iran"
+        },
+        {
+          "kind": "news",
+          "name": "aninews.in",
+          "url": "https://aninews.in/news/world/middle-east/uae-air-defences-engage-7-ballistic-missiles-16-uavs-launched-from-iran-ministry-of-defence20260324040543/",
+          "posted": "2026-03-24T03:00:00Z",
+          "official": false,
+          "launched": 7,
+          "intercepted": null,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences engage 7 ballistic missiles , 16 UAVs launched from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-24-gulf-uae-drone",
+      "date": "2026-03-24",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "sana.sy",
+          "url": "https://sana.sy/en/international/2305088/",
+          "posted": "2026-03-24T17:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 17,
+          "quote": "UAE air defenses intercept five Iranian missiles , 17 drones"
+        },
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-air-defences-intercept-5-missiles-17-drones-on-tuesday/",
+          "posted": "2026-03-24T14:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 17,
+          "quote": "UAE air defences intercept 5 missiles , 17 drones on Tuesday"
+        },
+        {
+          "kind": "news",
+          "name": "thehindubusinessline.com",
+          "url": "https://www.thehindubusinessline.com/news/world/uae-air-defences-engage-7-ballistic-missiles-16-uavs-launched-from-iran-ministry-of-defence/article70778200.ece",
+          "posted": "2026-03-24T05:00:00Z",
+          "official": false,
+          "launched": 16,
+          "intercepted": null,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences engage 7 ballistic missiles , 16 UAVs launched from Iran"
+        },
+        {
+          "kind": "news",
+          "name": "aninews.in",
+          "url": "https://aninews.in/news/world/middle-east/uae-air-defences-engage-7-ballistic-missiles-16-uavs-launched-from-iran-ministry-of-defence20260324040543/",
+          "posted": "2026-03-24T03:00:00Z",
+          "official": false,
+          "launched": 16,
+          "intercepted": null,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences engage 7 ballistic missiles , 16 UAVs launched from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-24-gulf-uae-unknown",
+      "date": "2026-03-24",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "sana.sy",
+          "url": "https://sana.sy/en/international/2305088/",
+          "posted": "2026-03-24T17:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 5,
+          "quote": "UAE air defenses intercept five Iranian missiles , 17 drones"
+        },
+        {
+          "kind": "news",
+          "name": "tag911.ae",
+          "url": "https://www.tag911.ae/news/local-news/uae-air-defences-intercept-5-missiles-17-drones-on-tuesday/",
+          "posted": "2026-03-24T14:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 5,
+          "quote": "UAE air defences intercept 5 missiles , 17 drones on Tuesday"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-23-gulf-uae-ballistic",
+      "date": "2026-03-23",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "timesofindia.indiatimes.com",
+          "url": "https://timesofindia.indiatimes.com/world/middle-east/uae-intercepts-7-ballistic-missiles-16-drones-on-march-23-as-air-defence-systems-stay-on-high-alert/articleshow/129750352.cms",
+          "posted": "2026-03-23T12:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 7,
+          "quote": "UAE intercepts 7 ballistic missiles , 16 drones on March 23"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-23-gulf-uae-drone",
+      "date": "2026-03-23",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "en.apa.az",
+          "url": "https://en.apa.az/asia/uae-intercepts-7-iranian-missiles-16-drones-497976",
+          "posted": "2026-03-23T13:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 16,
+          "quote": "UAE intercepts 7 Iranian missiles , 16 drones"
+        },
+        {
+          "kind": "news",
+          "name": "timesofindia.indiatimes.com",
+          "url": "https://timesofindia.indiatimes.com/world/middle-east/uae-intercepts-7-ballistic-missiles-16-drones-on-march-23-as-air-defence-systems-stay-on-high-alert/articleshow/129750352.cms",
+          "posted": "2026-03-23T12:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 16,
+          "quote": "UAE intercepts 7 ballistic missiles , 16 drones on March 23"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-23-gulf-uae-unknown",
+      "date": "2026-03-23",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "en.apa.az",
+          "url": "https://en.apa.az/asia/uae-intercepts-7-iranian-missiles-16-drones-497976",
+          "posted": "2026-03-23T13:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 7,
+          "quote": "UAE intercepts 7 Iranian missiles , 16 drones"
         }
       ]
     },
@@ -1782,6 +2236,311 @@
           "intercepted": null,
           "countFrom": "Saudi Ministry of Defense",
           "quote": "Two ballistic missiles were launched"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-22-gulf-uae-ballistic",
+      "date": "2026-03-22",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "aninews.in",
+          "url": "https://aninews.in/news/world/middle-east/uae-air-defences-intercepts-25-uavs-4-ballistic-missiles-in-latest-iranian-attack20260322232705/",
+          "posted": "2026-03-22T19:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "4 ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-22-gulf-uae-drone",
+      "date": "2026-03-22",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "aninews.in",
+          "url": "https://aninews.in/news/world/middle-east/uae-air-defences-intercepts-25-uavs-4-ballistic-missiles-in-latest-iranian-attack20260322232705/",
+          "posted": "2026-03-22T19:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 25,
+          "quote": "Air Defences intercepts 25 UAVs"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-21-gulf-uae-ballistic",
+      "date": "2026-03-21",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "news.webindia123.com",
+          "url": "https://news.webindia123.com/news/Articles/World/20260321/4430033.html",
+          "posted": "2026-03-21T18:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 341,
+          "quote": "UAE air defences intercepted 341 ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-20-gulf-saudi-arabia-drone",
+      "date": "2026-03-20",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "english.aawsat.com",
+          "url": "https://english.aawsat.com/gulf/5253541-second-fire-hits-kuwait%E2%80%99s-mina-al-ahmadi-refinery-saudi-downs-29-drones",
+          "posted": "2026-03-20T18:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 29,
+          "quote": "Saudi Downs 29 Drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-gulf-states-unspecified-ballistic",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "Gulf states (unspecified)",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "english.aawsat.com",
+          "url": "https://english.aawsat.com/gulf/5251442-gulf-defenses-destroy-12-ballistic-missiles-50-drones-3-soldiers-wounded-kuwait",
+          "posted": "2026-03-15T07:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "quote": "Gulf Defenses Destroy 12 Ballistic Missiles , 50 Drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-gulf-states-unspecified-drone",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "Gulf states (unspecified)",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "english.aawsat.com",
+          "url": "https://english.aawsat.com/gulf/5251442-gulf-defenses-destroy-12-ballistic-missiles-50-drones-3-soldiers-wounded-kuwait",
+          "posted": "2026-03-15T07:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 50,
+          "quote": "Gulf Defenses Destroy 12 Ballistic Missiles , 50 Drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-kuwait-drone",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "Kuwait",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "themedialine.org",
+          "url": "https://themedialine.org/headlines/2-wounded-by-iran-strikes-in-israel-saudis-shoot-down-6-iranian-missiles-kuwait-destroys-5-drones/",
+          "posted": "2026-03-15T12:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 5,
+          "quote": "Kuwait Destroys 5 Drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-saudi-arabia-unknown",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "themedialine.org",
+          "url": "https://themedialine.org/headlines/2-wounded-by-iran-strikes-in-israel-saudis-shoot-down-6-iranian-missiles-kuwait-destroys-5-drones/",
+          "posted": "2026-03-15T12:45:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 6,
+          "quote": "Saudis Shoot Down 6 Iranian Missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-uae-ballistic",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "middleeasteye.net",
+          "url": "https://www.middleeasteye.net/live-blog/live-blog-update/uae-intercepts-four-ballistic-missiles-six-drones",
+          "posted": "2026-03-15T15:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "UAE intercepts four ballistic missiles , six drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-15-gulf-uae-drone",
+      "date": "2026-03-15",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "middleeasteye.net",
+          "url": "https://www.middleeasteye.net/live-blog/live-blog-update/uae-intercepts-four-ballistic-missiles-six-drones",
+          "posted": "2026-03-15T15:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 6,
+          "quote": "UAE intercepts four ballistic missiles , six drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-13-gulf-uae-ballistic",
+      "date": "2026-03-13",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "english.news.cn",
+          "url": "https://english.news.cn/20260313/cd7a69e7257d465e8bd5c453f8020a5e/c.html",
+          "posted": "2026-03-13T01:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 10,
+          "quote": "UAE intercepts 10 ballistic missiles , 26 drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-13-gulf-uae-drone",
+      "date": "2026-03-13",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "hindustantimes.com",
+          "url": "https://www.hindustantimes.com/world-news/dubai-abu-dhabi-uae-news-live-updates-us-iran-war-israel-drone-missile-attack-flights-strikes-qatar-oman-kuwait-bahrain-101773362773015.html",
+          "posted": "2026-03-13T02:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 26,
+          "quote": "UAE intercepts 10 missiles , 26 drones"
+        },
+        {
+          "kind": "news",
+          "name": "english.news.cn",
+          "url": "https://english.news.cn/20260313/cd7a69e7257d465e8bd5c453f8020a5e/c.html",
+          "posted": "2026-03-13T01:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 26,
+          "quote": "UAE intercepts 10 ballistic missiles , 26 drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-13-gulf-uae-unknown",
+      "date": "2026-03-13",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "hindustantimes.com",
+          "url": "https://www.hindustantimes.com/world-news/dubai-abu-dhabi-uae-news-live-updates-us-iran-war-israel-drone-missile-attack-flights-strikes-qatar-oman-kuwait-bahrain-101773362773015.html",
+          "posted": "2026-03-13T02:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 10,
+          "quote": "UAE intercepts 10 missiles , 26 drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-12-gulf-qatar-ballistic",
+      "date": "2026-03-12",
+      "theater": "gulf",
+      "defender": "Qatar",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "qatar-tribune.com",
+          "url": "https://www.qatar-tribune.com/article/223947/latest-news/qatar-armed-forces-successfully-intercepted-drones-cruise-missile-2-ballistic-missiles-mod",
+          "posted": "2026-03-12T21:00:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "countFrom": "MoD",
+          "quote": "2 ballistic missiles"
         }
       ]
     },
@@ -1868,6 +2627,37 @@
           "launched": null,
           "intercepted": 17,
           "quote": "UAE intercepts 12 ballistic missiles , 17 UAVs"
+        },
+        {
+          "kind": "news",
+          "name": "gulfnews.com",
+          "url": "https://gulfnews.com/uae/uae-intercepts-12-iranian-missiles-17-drones-in-todays-attack-1.500468502",
+          "posted": "2026-03-09T16:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 17,
+          "quote": "17 drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-09-gulf-uae-unknown",
+      "date": "2026-03-09",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "gulfnews.com",
+          "url": "https://gulfnews.com/uae/uae-intercepts-12-iranian-missiles-17-drones-in-todays-attack-1.500468502",
+          "posted": "2026-03-09T16:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "quote": "UAE intercepts 12 Iranian missiles"
         }
       ]
     },
@@ -1996,6 +2786,72 @@
           "launched": null,
           "intercepted": 2,
           "quote": "two Iranian jets were shot down"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-03-gulf-uae-ballistic",
+      "date": "2026-03-03",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "chimpreports.com",
+          "url": "https://chimpreports.com/uae-says-it-intercepted-12-ballistic-missiles-123-drones-as-iran-attacks-escalate/",
+          "posted": "2026-03-03T21:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "countFrom": "UAE",
+          "quote": "UAE Says It Intercepted 12 Ballistic Missiles , 123 Drones"
+        },
+        {
+          "kind": "news",
+          "name": "emirates247.com",
+          "url": "https://www.emirates247.com/uae/uae-air-defences-intercept-12-ballistic-missiles-123-drones-ministry-of-defence-2026-03-03-1.744484",
+          "posted": "2026-03-03T18:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 12,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences intercept 12 ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-03-gulf-uae-drone",
+      "date": "2026-03-03",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "chimpreports.com",
+          "url": "https://chimpreports.com/uae-says-it-intercepted-12-ballistic-missiles-123-drones-as-iran-attacks-escalate/",
+          "posted": "2026-03-03T21:15:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 123,
+          "countFrom": "UAE",
+          "quote": "UAE Says It Intercepted 12 Ballistic Missiles , 123 Drones"
+        },
+        {
+          "kind": "news",
+          "name": "emirates247.com",
+          "url": "https://www.emirates247.com/uae/uae-air-defences-intercept-12-ballistic-missiles-123-drones-ministry-of-defence-2026-03-03-1.744484",
+          "posted": "2026-03-03T18:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 123,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "123 drones"
         }
       ]
     },

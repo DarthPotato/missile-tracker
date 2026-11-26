@@ -1,6 +1,26 @@
 {
-  "updated": "2026-11-26T19:46:17.825Z",
+  "updated": "2026-11-26T22:22:57.236Z",
   "claims": [
+    {
+      "id": "mq1-2026-11-26",
+      "date": "2026-11-26",
+      "aircraft": "mq1",
+      "claimant": "Iran",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24869",
+          "posted": "2026-11-26T19:02:21+00:00",
+          "quote": "images of the reconstruction of 1 of the MQ-1C drones Iran shot down"
+        }
+      ]
+    },
     {
       "id": "mq9-2026-11-24",
       "date": "2026-11-24",
@@ -443,6 +463,13 @@
           "url": "https://t.me/tabzlive/110956",
           "posted": "2026-11-14T15:32:50+00:00",
           "quote": "shot down a U.S. MQ-1 drone over Qeshm Island"
+        },
+        {
+          "kind": "news",
+          "name": "hindustantimes.com",
+          "url": "https://www.hindustantimes.com/world-news/irans-irgc-claims-it-shot-down-us-mq-1-predator-drone-over-qeshm-island-101794659260137.html",
+          "posted": "2026-11-14T05:20:00.000Z",
+          "quote": "IRGC claimed that it had shot down a US MQ-1 Predator drone over Qeshm Island"
         }
       ]
     },
