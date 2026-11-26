@@ -21,7 +21,7 @@ const { munition: m, headline: h } = Astro.props;
 const basis = h.basis.at(-1)!;
 const newest = h.newer[0];
 const pic = getPhoto(m.id);
-const spread = recentSpread(spreadPoints(getDataset().reports, m.id, h));
+const spread = recentSpread(spreadPoints(getDataset().reports, m.id, h, m.deliveriesPerYear.value));
 // Only worth a line when sources actually disagree beyond the headline's own range.
 const showSpread = spread && spread.n > 1 && (spread.low < h.remaining.low - 1 || spread.high > h.remaining.high + 1);
 ---

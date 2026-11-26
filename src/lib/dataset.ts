@@ -70,7 +70,7 @@ export function buildDataset(munitionsJson: unknown, reportFiles: { file: string
   // instead of crashing the build on an undefined value later.
   if (!problems.length) {
     for (const mu of munitions) {
-      if (!headline(reports, mu.id)) {
+      if (!headline(reports, mu.id, mu.deliveriesPerYear.value)) {
         problems.push(
           `${mu.id}: no usable headline (needs a "remaining" claim, or prewar + expended from one report, with prewar > 0)`,
         );

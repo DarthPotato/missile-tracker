@@ -68,7 +68,7 @@ export function toCsv<T extends Record<string, string | number | null>>(
 /** The site's current headline figure per missile, with the sources behind it. */
 export function headlineRows(ds: Dataset) {
   return ds.munitions.map((m) => {
-    const h = headline(ds.reports, m.id)!;
+    const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
     return {
       munition: m.id,
       name: m.name,
@@ -77,6 +77,7 @@ export function headlineRows(ds: Dataset) {
       remaining_high: h.remaining.high,
       qualifier: h.qualifier,
       method: h.method,
+      delivered_since_war: h.delivered ?? 0,
       prewar: h.prewar,
       pct_left_low: Math.round(h.pctLeft.low * 10) / 10,
       pct_left_high: Math.round(h.pctLeft.high * 10) / 10,
