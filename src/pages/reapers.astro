@@ -1,9 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
-import { getDroneClaims, getDrones } from "../lib/data";
+import MissilePhoto from "../components/MissilePhoto.astro";
+import { getAircraftPhoto, getDroneClaims, getDrones } from "../lib/data";
 import {
   DRONE_SHORT,
   acknowledged,
+  aircraftPhotoId,
   claimedTotal,
   fleetEstimate,
   jetSummary,
@@ -117,18 +119,22 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
       </div>
     </div>
     <ul class="card bars">
-      {warDamage.categories.map((c) => (
-        <li>
-          <div class="bar-label">
-            <strong>{c.name}</strong>
-            {c.detail && <span class="small muted"> · {c.detail}</span>}
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style={`width:${(c.value / damageMax) * 100}%`} />
-            <span class="bar-value">{c.value}</span>
-          </div>
-        </li>
-      ))}
+      {warDamage.categories.map((c) => {
+        const pic = getAircraftPhoto(aircraftPhotoId(c.name));
+        return (
+          <li class:list={{ pic: pic }}>
+            {pic && <MissilePhoto {...pic} class="bar-thumb" sizes="64px" />}
+            <div class="bar-label">
+              <strong>{c.name}</strong>
+              {c.detail && <span class="small muted"> · {c.detail}</span>}
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style={`width:${(c.value / damageMax) * 100}%`} />
+              <span class="bar-value">{c.value}</span>
+            </div>
+          </li>
+        );
+      })}
     </ul>
     {warDamage.note && <p class="small muted">{warDamage.note}</p>}
     <details>
@@ -149,6 +155,10 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
         <h2>{d.name}</h2>
         <p class="muted small">{d.operator}</p>
         <p class="blurb">{d.blurb}</p>
+        {(() => {
+          const pic = getAircraftPhoto(aircraftPhotoId(d.id));
+          return pic && <MissilePhoto {...pic} caption class="hero" sizes="(min-width: 1180px) 1120px, 100vw" />;
+        })()}
 
         <div class="tiles">
           {d.fleetBefore && (
@@ -344,31 +354,35 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
 
     <h3>Every loss</h3>
     <ul class="figs">
-      {jetLosses.map((l) => (
-        <li class="card fig">
-          <div class="fig-top">
-            <span class="small muted">
-              {formatDate(l.date)} · {l.by}
-              {l.place && ` · ${l.place}`}
-            </span>
-            <span class={`kind ${JET_CAUSE[l.cause].kind}`}>{JET_CAUSE[l.cause].label}</span>
-          </div>
-          <div>
-            <strong>
-              {l.count > 1 ? `${l.count} ${l.model}s` : `An ${l.model}`}
-              {l.cause === "damaged" ? " hit" : " lost"}
-            </strong>
-          </div>
-          {l.note && <p class="small muted note">{l.note}</p>}
-          <details>
-            <summary class="small">Source</summary>
-            <a href={l.source.url} rel="noopener">
-              {l.source.outlet}, {formatDate(l.source.published)}
-            </a>
-            <blockquote>“{l.source.quote}”</blockquote>
-          </details>
-        </li>
-      ))}
+      {jetLosses.map((l) => {
+        const pic = getAircraftPhoto(aircraftPhotoId(l.model));
+        return (
+          <li class="card fig">
+            {pic && <MissilePhoto {...pic} class="loss-thumb" sizes="(min-width: 700px) 340px, 100vw" />}
+            <div class="fig-top">
+              <span class="small muted">
+                {formatDate(l.date)} · {l.by}
+                {l.place && ` · ${l.place}`}
+              </span>
+              <span class={`kind ${JET_CAUSE[l.cause].kind}`}>{JET_CAUSE[l.cause].label}</span>
+            </div>
+            <div>
+              <strong>
+                {l.count > 1 ? `${l.count} ${l.model}s` : `An ${l.model}`}
+                {l.cause === "damaged" ? " hit" : " lost"}
+              </strong>
+            </div>
+            {l.note && <p class="small muted note">{l.note}</p>}
+            <details>
+              <summary class="small">Source</summary>
+              <a href={l.source.url} rel="noopener">
+                {l.source.outlet}, {formatDate(l.source.published)}
+              </a>
+              <blockquote>“{l.source.quote}”</blockquote>
+            </details>
+          </li>
+        );
+      })}
     </ul>
 
     <h3>Jet claims logged</h3>
@@ -419,6 +433,35 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
 </Base>
 
 <style>
+  .bars li.pic {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    column-gap: 12px;
+    align-items: center;
+  }
+  .bars li.pic > :global(.bar-thumb) {
+    grid-row: span 2;
+    width: 64px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--wash);
+  }
+  .bars li.pic .bar-track {
+    grid-column: 2;
+  }
+  .drone :global(.hero) {
+    margin: 16px 0;
+  }
+  .fig :global(.loss-thumb) {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background: var(--wash);
+  }
   .bars {
     list-style: none;
     padding: 14px 16px;

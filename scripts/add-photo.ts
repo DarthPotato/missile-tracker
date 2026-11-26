@@ -1,11 +1,12 @@
-// Add or replace a missile's photo from a DVIDS image page:
-//   npm run add-photo -- <munition-id> <dvids-image-url> ["alt text"]
+// Add or replace a missile's or an aircraft's photo from a DVIDS image page:
+//   npm run add-photo -- <munition-id|aircraft-id> <dvids-image-url> ["alt text"]
 // Downloads DVIDS's 2,000px public preview (no login needed) to
-// src/assets/photos/<munition>.jpg and records caption, credit and date in
-// data/photos.json. Refuses anything not marked public domain.
-import { readFileSync, writeFileSync } from "node:fs";
+// src/assets/photos/<munition>.jpg (aircraft: src/assets/photos/aircraft/<id>.jpg)
+// and records caption, credit and date in data/photos.json (aircraft:
+// data/aircraft-photos.json). Refuses anything not marked public domain.
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { MUNITION_IDS, PhotosFile, type MunitionId } from "../src/lib/schema.ts";
+import { AIRCRAFT_IDS, AircraftPhotosFile, MUNITION_IDS, PhotosFile } from "../src/lib/schema.ts";
 import { htmlToText } from "../src/lib/text.ts";
 import { ROOT } from "./load-node.ts";
 
@@ -78,8 +79,11 @@ export function parseDvidsPage(html: string, pageUrl: string): DvidsPhoto {
 
 async function main() {
   const [munition, pageUrl, altArg] = process.argv.slice(2);
-  if (!(MUNITION_IDS as readonly string[]).includes(munition) || !pageUrl) {
-    console.error(`usage: npm run add-photo -- <${MUNITION_IDS.join("|")}> <dvids-image-url> ["alt text"]`);
+  const aircraft = (AIRCRAFT_IDS as readonly string[]).includes(munition);
+  if (!(aircraft || (MUNITION_IDS as readonly string[]).includes(munition)) || !pageUrl) {
+    console.error(
+      `usage: npm run add-photo -- <${[...MUNITION_IDS, ...AIRCRAFT_IDS].join("|")}> <dvids-image-url> ["alt text"]`,
+    );
     process.exit(2);
   }
   const html = await (await fetch(pageUrl, { headers: { "user-agent": UA } })).text();
@@ -90,12 +94,14 @@ async function main() {
   if (!img.ok || !(img.headers.get("content-type") ?? "").includes("image/jpeg")) {
     throw new Error(`couldn't download ${p.imageUrl} (HTTP ${img.status})`);
   }
-  const out = path.join(ROOT, "src", "assets", "photos", `${munition}.jpg`);
+  const out = path.join(ROOT, "src", "assets", "photos", ...(aircraft ? ["aircraft"] : []), `${munition}.jpg`);
+  mkdirSync(path.dirname(out), { recursive: true });
   writeFileSync(out, Buffer.from(await img.arrayBuffer()));
 
-  const file = path.join(ROOT, "data", "photos.json");
-  const photos = PhotosFile.parse(JSON.parse(readFileSync(file, "utf8")));
-  photos[munition as MunitionId] = {
+  const Schema = aircraft ? AircraftPhotosFile : PhotosFile;
+  const file = path.join(ROOT, "data", aircraft ? "aircraft-photos.json" : "photos.json");
+  const photos: Record<string, unknown> = Schema.parse(JSON.parse(readFileSync(file, "utf8")));
+  photos[munition] = {
     dvidsId: p.dvidsId,
     sourceUrl: `https://www.dvidshub.net/image/${p.dvidsId}`,
     alt: altArg ?? p.caption.split(/(?<=\.)\s/)[0],
@@ -104,7 +110,7 @@ async function main() {
     taken: p.taken,
     license: "public-domain",
   };
-  writeFileSync(file, `${JSON.stringify(PhotosFile.parse(photos), null, 2)}\n`);
+  writeFileSync(file, `${JSON.stringify(Schema.parse(photos), null, 2)}\n`);
   console.log(
     `${munition}: ${p.credit}, ${p.taken}\n  ${p.caption.slice(0, 120)}…\n  saved ${path.relative(ROOT, out)}`,
   );

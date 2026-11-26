@@ -7,7 +7,7 @@
 //    down, logged by the live feed without review. One-sided by nature; the
 //    page says so on every figure and never mixes them into the U.S. count.
 import { z } from "zod";
-import type { Drone, DroneFigure, DroneId, DronesFile } from "./schema";
+import type { AircraftId, Drone, DroneFigure, DroneId, DronesFile } from "./schema";
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD");
 
@@ -232,4 +232,22 @@ export function jetSummary(jets: DronesFile["jets"], claims: DroneClaim[]): JetS
       .sort()
       .at(-1),
   };
+}
+
+/**
+ * Which aircraft photo stands for a drone, a jet model or a CRS damage
+ * category ("F-15E", "Refueling planes", "mq1"). Undefined when none fits.
+ */
+export function aircraftPhotoId(what: string): AircraftId | undefined {
+  const w = what.toLowerCase();
+  if (/mq-?9|reaper|^drones?$/.test(w)) return "mq9";
+  if (/mq-?1|gray eagle|grey eagle|predator/.test(w)) return "mq1c";
+  if (/f-?15|^fighters?$/.test(w)) return "f15e";
+  if (/f-?35/.test(w)) return "f35a";
+  if (/a-?10|ground-attack/.test(w)) return "a10";
+  if (/kc-?135|refuel|tanker/.test(w)) return "kc135";
+  if (/helicopter|hh-?60|black ?hawk/.test(w)) return "hh60w";
+  if (/mc-?130|special op/.test(w)) return "mc130j";
+  if (/rc-?135|reconnaissance|rivet joint/.test(w)) return "rc135";
+  return undefined;
 }

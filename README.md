@@ -147,6 +147,8 @@ npm run add-photo -- patriot https://www.dvidshub.net/image/9979640/... "Short a
 
 It saves the 2000px preview (no DVIDS login needed) to `src/assets/photos/`, records the caption, credit and date in `data/photos.json`, and refuses images not marked public domain. If the crop cuts off the missile, set `focus` in `data/photos.json` (0 = top, 100 = bottom). The site resizes the photos at build time.
 
+The Reaper and jet losses page uses the same command with an aircraft ID (`mq9`, `mq1c`, `f15e`, `f35a`, `a10`, `kc135`, `hh60w`, `mc130j`, `rc135`). Those land in `src/assets/photos/aircraft/` and `data/aircraft-photos.json`. A drone gets a full-width photo, each confirmed jet loss a card photo, and each CRS damage category a small thumbnail; a type with no photo simply shows none.
+
 ### Downloads and feeds
 
 Every deploy publishes `/data/claims.csv` and `/data/claims.json` (every claim with its quote), `/data/headlines.json` (each missile's headline figure and the reports behind it), `/data/live-events.json` (the unverified log), and `/feed.xml` (RSS of new sources). They're linked from the methodology page and the footer.
