@@ -53,6 +53,8 @@ export const LiveSource = z
     official: z.boolean(),
     launched: z.number().int().nonnegative().nullable(),
     intercepted: z.number().int().nonnegative().nullable(),
+    /** Who the post says the numbers come from ("UAE Ministry of Defence"), when it isn't the channel's own count. */
+    countFrom: z.string().min(2).max(80).optional(),
     /** Verbatim from the post or headline; checked by the pipeline. */
     quote: z.string().min(8),
   })
@@ -196,4 +198,29 @@ export function dailySeries(
 
 export function daysAgo(today: string, n: number): string {
   return new Date(Date.parse(`${today}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
+}
+
+/** "Israel", "the UAE", "the United States": a country as it reads after "per". */
+function withThe(name: string): string {
+  return /^(united|uae|us\b|u\.s\.|philippines|netherlands)/i.test(name) ? `the ${name}` : name;
+}
+
+/** "a", "a and b", "a, b and c". */
+function joinAnd(names: string[]): string {
+  return names.length < 2 ? (names[0] ?? "") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+}
+
+/**
+ * Who the launch counts in these events come from, most first. A count an official
+ * channel gave is that government's own figure, so it's put down to the defender;
+ * otherwise to whoever the report says gave it, or the outlet or channel itself.
+ */
+export function whoseCounts(events: LiveEvent[]): string {
+  const n = new Map<string, number>();
+  for (const e of events) {
+    const giving = e.sources.filter((s) => s.launched !== null);
+    const names = giving.some((s) => s.official) ? [withThe(e.defender)] : giving.map((s) => s.countFrom ?? s.name);
+    for (const name of new Set(names)) n.set(name, (n.get(name) ?? 0) + 1);
+  }
+  return joinAnd([...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([k]) => k));
 }

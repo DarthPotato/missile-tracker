@@ -28,12 +28,12 @@ on:
   workflow_dispatch:
     inputs:
       backfill_days:
-        description: "Re-read this many days of Telegram history (0 = a normal run)"
+        description: "Re-read this many days of history: Telegram, or the news archive with scope news (0 = a normal run)"
         default: "0"
       backfill_scope:
         description: "What a backfill looks for"
         type: choice
-        options: [all, claims]
+        options: [all, claims, news]
         default: all
       backfill_channels:
         description: "Backfill only these Telegram handles, comma-separated (empty = all)"

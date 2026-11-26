@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import LiveChart from "../components/LiveChart.astro";
 import LiveEventCard from "../components/LiveEventCard.astro";
 import { getLive } from "../lib/data";
-import { IRAN_THEATERS, daysAgo, eventCount, filterEvents, totals, type CountRange } from "../lib/live";
+import { IRAN_THEATERS, daysAgo, eventCount, filterEvents, totals, whoseCounts, type CountRange } from "../lib/live";
 import { BUILD_DATE } from "../lib/scenario";
 import { fmt, formatDate } from "../lib/format";
 import { href } from "../lib/site";
@@ -65,6 +65,8 @@ const range = (c?: CountRange) =>
     const fired30 = e30.filter((e) => eventCount(e, "launched"));
     const tFired = totals(fired30);
     const anyLaunched = fired30.length > 0;
+    // Launch counts nearly always come from the defending government itself, which has reasons to shade them.
+    const claimedBy = whoseCounts(fired30);
     // Events are newest first, so the last one is where this theater's log begins.
     const first = g.events.at(-1)?.date;
     const tAll = totals(g.events);
@@ -85,7 +87,7 @@ const range = (c?: CountRange) =>
               <div class="tile-label">Reported launched, last 30 days</div>
               <div class="tile-value">{range(tFired.launched)}</div>
               <div class="tile-note">
-                {`${range(tFired.intercepted)} of them shot down, in the ${fmt(fired30.length)} ${fired30.length === 1 ? "report" : "reports"} that say how many were launched`}
+                {`Per ${claimedBy}, which can't be checked. ${range(tFired.intercepted)} of them shot down, in the ${fmt(fired30.length)} ${fired30.length === 1 ? "report" : "reports"} that say how many were launched.`}
               </div>
             </div>
           ) : (

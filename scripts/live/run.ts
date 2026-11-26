@@ -14,6 +14,8 @@
 //   BACKFILL_SCOPE=claims                with BACKFILL_DAYS, look only for U.S. drone and jet
 //                                       shoot-down claims: no intercept extraction, so the
 //                                       only model calls are for posts naming an MQ-9, MQ-1 or jet
+//   BACKFILL_SCOPE=news                  with BACKFILL_DAYS, search the GDELT news archive back that far
+//                                       for archiveQueries (Telegram gets a normal run)
 //   BACKFILL_CHANNELS=a,b                with BACKFILL_DAYS, re-read only these channel handles
 //   BACKFILL_READ_MINUTES=180            with BACKFILL_DAYS, stop reading Telegram after this long
 //                                       (shared out between the channels) and log what was read,
@@ -26,6 +28,7 @@ import { parseRss, bingItem } from "../pipeline/feeds.ts";
 import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
 import { extractClaims, mentionsUsAircraft } from "./losses.ts";
+import { archiveNews } from "./news-archive.ts";
 import { DroneClaimsFile, isAdversaryClaim, mergeClaims } from "../../src/lib/drones.ts";
 
 const DIR = path.join(ROOT, "data", "live");
@@ -38,6 +41,7 @@ const BATCH = 15;
 const dryRun = process.argv.includes("--dry-run");
 const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 const claimsOnly = backfillDays > 0 && process.env.BACKFILL_SCOPE === "claims";
+const newsOnly = backfillDays > 0 && process.env.BACKFILL_SCOPE === "news";
 const backfillChannels = (process.env.BACKFILL_CHANNELS ?? "")
   .split(",")
   .map((h) => h.trim().toLowerCase())
@@ -49,6 +53,8 @@ interface Sources {
   newsQueries: string[];
   /** Searches for U.S. drone shoot-down claims; only headlines naming an MQ-9, MQ-1 or U.S. jet are kept. */
   droneQueries?: string[];
+  /** Searches of the GDELT news archive, for a news backfill: launch counts governments gave. */
+  archiveQueries?: string[];
 }
 interface State {
   lastPost: Record<string, number>;
@@ -108,12 +114,14 @@ async function main() {
   const since = backfillDays > 0 ? new Date(Date.now() - backfillDays * 86_400_000).toISOString() : undefined;
   if (since)
     lines.push(
-      `- Backfill: re-reading Telegram back to ${since.slice(0, 10)}${claimsOnly ? ", for shoot-down claims only" : ""}`,
+      newsOnly
+        ? `- Backfill: searching the news archive back to ${since.slice(0, 10)}`
+        : `- Backfill: re-reading Telegram back to ${since.slice(0, 10)}${claimsOnly ? ", for shoot-down claims only" : ""}`,
     );
   // A backfill can be told to re-read only some channels; the rest get a normal run.
   const channels = sources.telegram;
   const backfilling = (h: string) =>
-    since !== undefined && (!backfillChannels.length || backfillChannels.includes(h.toLowerCase()));
+    since !== undefined && !newsOnly && (!backfillChannels.length || backfillChannels.includes(h.toLowerCase()));
   if (since && backfillChannels.length) {
     const unknown = backfillChannels.filter((h) => !channels.some((c) => c.handle.toLowerCase() === h));
     if (unknown.length) lines.push(`- Backfill: no channel called ${unknown.join(", ")} in sources.json`);
@@ -192,6 +200,17 @@ async function main() {
   // Intercept headlines that name a Reaper count too.
   droneItems.push(...droneNews, ...newsItems.filter((n) => mentionsUsAircraft(n.text)));
   lines.push(`- News: ${droneNews.length} new headlines naming an MQ-9, MQ-1 or U.S. jet`);
+  const archived: Item[] = [];
+  if (newsOnly && since) {
+    const known = new Set([...seenNews, ...items.map((i) => i.url), ...droneNews.map((d) => d.url)]);
+    const got = await archiveNews(sources.archiveQueries ?? sources.newsQueries, since, known);
+    archived.push(...got.items);
+    items.push(...got.items);
+    droneItems.push(...got.items.filter((n) => mentionsUsAircraft(n.text)));
+    lines.push(
+      `- News archive: ${got.items.length} past headlines about intercepts${got.failed ? `, ${got.failed} searches failed` : ""}`,
+    );
+  }
 
   if (dryRun) {
     console.log(lines.join("\n"));
@@ -262,7 +281,7 @@ async function main() {
     );
 
   writeFileSync(EVENTS, JSON.stringify(LiveFile.parse({ updated: new Date().toISOString(), events }), null, 2) + "\n");
-  for (const it of [...newsItems, ...droneNews]) seenNews.add(it.url);
+  for (const it of [...newsItems, ...droneNews, ...archived]) seenNews.add(it.url);
   writeFileSync(STATE, JSON.stringify({ lastPost: newLast, seenNews: [...seenNews].slice(-500) }, null, 2) + "\n");
 
   mkdirSync(OUT, { recursive: true });
