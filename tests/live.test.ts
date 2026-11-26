@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchChannel, parseChannelPage, looksLikeIntercept, looksLikeTally } from "../scripts/live/telegram";
+import {
+  fetchChannel,
+  parseChannelPage,
+  looksLikeIntercept,
+  looksLikeTally,
+  worthSending,
+} from "../scripts/live/telegram";
 import { validate, type Item } from "../scripts/live/extract";
 import {
   dailySeries,
@@ -42,6 +48,19 @@ describe("looksLikeTally", () => {
     expect(looksLikeTally("Bahrain intercepted 4 drones")).toBe(true);
     expect(looksLikeTally("Група ударних БпЛА курсом на Конотоп")).toBe(false);
     expect(looksLikeTally("drones were shot down over the city")).toBe(false);
+  });
+});
+
+describe("worthSending", () => {
+  const alert = "Група ударних БпЛА на Сумщині, курсом на Конотоп";
+  const tally = "протиповітряною обороною збито/подавлено 88 ворожих БпЛА";
+  it("sends only tallies from an official channel", () => {
+    expect(worthSending(alert, true)).toBe(false);
+    expect(worthSending(tally, true)).toBe(true);
+  });
+  it("keeps the looser filter for other channels", () => {
+    expect(worthSending("Saudi air defenses intercept three Houthi drones", false)).toBe(true);
+    expect(worthSending("Weather update", false)).toBe(false);
   });
 });
 

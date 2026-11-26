@@ -14,7 +14,7 @@ import path from "node:path";
 import { ROOT } from "../load-node.ts";
 import { LiveFile, mergeEvents } from "../../src/lib/live.ts";
 import { parseRss, bingItem } from "../pipeline/feeds.ts";
-import { fetchChannel, looksLikeIntercept, looksLikeTally } from "./telegram.ts";
+import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
 
 const DIR = path.join(ROOT, "data", "live");
@@ -86,7 +86,7 @@ async function main() {
       const posts = since
         ? await fetchChannel(ch.handle, 0, { since })
         : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
-      const kept = posts.filter((p) => looksLikeIntercept(p.text));
+      const kept = posts.filter((p) => worthSending(p.text, ch.official));
       if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
       for (const p of kept)
         items.push({
@@ -99,7 +99,9 @@ async function main() {
         });
       const tallies = kept.filter((p) => looksLikeTally(p.text)).length;
       lines.push(
-        `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
+        ch.official
+          ? `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} giving a number shot down (sent)`
+          : `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
       );
     } catch (e) {
       lines.push(`- Telegram ${ch.name}: failed (${(e as Error).message})`);

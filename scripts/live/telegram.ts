@@ -76,3 +76,14 @@ export function looksLikeIntercept(text: string): boolean {
 export function looksLikeTally(text: string): boolean {
   return /(збито|подавлено|shot down|intercepted|downed)/i.test(text) && /\d/.test(text);
 }
+
+/**
+ * Whether a post is worth a model call. An official channel like Ukraine's Air
+ * Force posts dozens of live threat alerts a day ("drones heading for Sumy")
+ * and one morning tally; only posts that give a number shot down can become an
+ * event, so official channels send just those. Other channels often write
+ * counts as words ("three drones"), so they keep the looser filter.
+ */
+export function worthSending(text: string, official: boolean): boolean {
+  return looksLikeIntercept(text) && (!official || looksLikeTally(text));
+}
