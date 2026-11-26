@@ -19,7 +19,9 @@ concurrency: live-feed
 
 jobs:
   update:
-    if: vars.LIVE_FEED != '0'
+    # format() turns an unset variable into '', so the feed runs unless LIVE_FEED is exactly 0.
+    # (A bare vars.LIVE_FEED != '0' skips when it is unset: GitHub compares null and '0' as numbers.)
+    if: format('{0}', vars.LIVE_FEED) != '0'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
