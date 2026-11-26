@@ -78,8 +78,12 @@ const range = (c?: CountRange) =>
           </div>
           <div class="card tile">
             <div class="tile-label">Reported launched, last 30 days</div>
-            <div class="tile-value">{anyLaunched ? range(t30.launched) : "–"}</div>
-            <div class="tile-note">where the source gives a number</div>
+            <div class="tile-value">{anyLaunched ? range(t30.launched) : "Not given"}</div>
+            <div class="tile-note">
+              {anyLaunched
+                ? "where the source gives a number"
+                : "these reports say how many were shot down, not how many were fired"}
+            </div>
           </div>
           <div class="card tile">
             <div class="tile-label">Reported shot down, all logged</div>
