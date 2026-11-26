@@ -54,7 +54,7 @@ As of October 14, 2026: 9 source documents and 45 claims (30 estimate, 11 report
 
 Every number on the home page and the missile pages is computed at build time from `data/reports/`. Nothing on the page is typed in. For each missile:
 
-1. **Collect every stock count we can state without mixing sources:** a direct "N left" claim, or prewar minus used when _the same document_ gives both.
+1. **Collect every stock count we can state without mixing sources:** a direct "N left" claim, or prewar minus used when _the same document_ gives both, plus deliveries since February 28 at the missile's recent yearly rate.
 2. **The newest one wins,** by the date the number describes (not the publication date). A newer reported figure beats an older estimate, and an official figure gets no special priority: newest concrete number first.
 3. **Ties on date** go to the more specific figure: a range or exact number beats "about", which beats "at most" or "at least".
 4. **The % left** uses the same document's prewar figure, or the most recent earlier one if it doesn't give one.
