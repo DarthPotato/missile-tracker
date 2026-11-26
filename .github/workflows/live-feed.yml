@@ -9,7 +9,11 @@ name: Live feed
 # re-reads that many days of every Telegram channel. Events already logged are
 # merged, not duplicated. Set "backfill scope" to claims to look only for U.S.
 # drone and jet shoot-down claims: far fewer model calls, and the intercept
-# channels' bookmarks are left alone.
+# channels' bookmarks are left alone. "Backfill channels" limits it to some
+# channel handles (comma-separated); the others get a normal run. A backfill
+# reads Telegram for at most three hours, shared between its channels, then
+# logs and saves what it read: Ukraine's Air Force alone posts ~300 times a day,
+# so reading months of it can use up a whole run.
 #
 # GitHub starts this repository's scheduled runs hours late and can drop them
 # under load, so a plain 6-hour schedule can leave long gaps. Instead the
@@ -31,6 +35,9 @@ on:
         type: choice
         options: [all, claims]
         default: all
+      backfill_channels:
+        description: "Backfill only these Telegram handles, comma-separated (empty = all)"
+        default: ""
 
 permissions:
   contents: write
@@ -67,15 +74,19 @@ jobs:
     needs: gate
     if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
-    # A normal run takes a couple of minutes; a 30-day backfill can take half an hour,
-    # and a backfill to the start of the war (busy channels, ~1.5 s a page) up to two hours.
-    timeout-minutes: ${{ (inputs.backfill_days || '0') != '0' && 150 || 60 }}
+    # A normal run takes a couple of minutes. A backfill reads Telegram for up to
+    # BACKFILL_READ_MINUTES, then needs time for the model calls and the commit.
+    timeout-minutes: ${{ (inputs.backfill_days || '0') != '0' && 330 || 60 }}
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # full history, so the commit can be rebased onto a newer main
+          fetch-depth: 0
+      # The feed's data always comes from main and goes back to main, even when the
+      # run is started from another branch, so a run only ever changes data/live/.
+      - name: Start from main's data
+        run: git checkout origin/main -- data/live/
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -88,23 +99,29 @@ jobs:
           USE_BING_NEWS: ${{ vars.USE_BING_NEWS || '1' }}
           BACKFILL_DAYS: ${{ inputs.backfill_days || '0' }}
           BACKFILL_SCOPE: ${{ inputs.backfill_scope || 'all' }}
+          BACKFILL_CHANNELS: ${{ inputs.backfill_channels || '' }}
+          BACKFILL_READ_MINUTES: 180
       - name: Show summary
         if: always()
         run: cat pipeline-out/live-summary.md >> "$GITHUB_STEP_SUMMARY" || true
       - name: Commit
         id: commit
         run: |
-          git add data/live/events.json data/live/state.json data/live/drone-claims.json
-          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          files="data/live/events.json data/live/state.json data/live/drone-claims.json"
+          mkdir -p "$RUNNER_TEMP/live" && cp $files "$RUNNER_TEMP/live/"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Live feed update"
-          # main may have moved while the run read Telegram (a backfill takes hours), and a
-          # plain push would then be refused and the run's results lost. Rebase onto the
-          # latest main and push, trying a few times in case someone merges meanwhile.
+          # Commit just the data, on top of the latest main: main may have moved while the
+          # run read Telegram (a backfill takes hours), and a run started from another
+          # branch must not push that branch's code. Try a few times in case someone merges.
           for i in 1 2 3 4 5; do
-            git pull --rebase origin main && git push origin HEAD:main && pushed=1 && break
-            git rebase --abort 2>/dev/null || true
+            git fetch -q origin main
+            git checkout -q -f -B live-update origin/main
+            cp "$RUNNER_TEMP"/live/*.json data/live/
+            git add $files
+            if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+            git commit -q -m "Live feed update"
+            git push origin HEAD:main && pushed=1 && break
             sleep $((i * 10))
           done
           [ "${pushed:-}" = 1 ] || { echo "Could not push the update to main"; exit 1; }

@@ -111,6 +111,13 @@ describe("fetchChannel", () => {
     expect(posts.map((p) => p.id)).toEqual([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
     expect(calls).toHaveLength(2);
   });
+
+  it("stops a backfill at its deadline and keeps what it read", async () => {
+    stub();
+    const posts = (await run(fetchChannel("kpszsu", 0, { since: "2026-11-01", deadline: 0 }))) as { id: number }[];
+    expect(posts.map((p) => p.id)).toEqual([21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
+    expect(calls).toHaveLength(1);
+  });
 });
 
 const src = (over: Partial<LiveSource> = {}): LiveSource => ({
@@ -158,6 +165,28 @@ describe("eventCount and reliability", () => {
     const e = ev({ sources: [src(), src({ official: false, name: "Other", url: "u2", intercepted: 90 })] });
     expect(eventCount(e, "intercepted")).toEqual({ low: 71, high: 71 });
     expect(reliability(e)).toBe("official");
+  });
+  it("adds up an official channel's separate posts on the same day", () => {
+    // Ukraine's Air Force: the daytime wave in the evening, the overnight one next morning.
+    const e = ev({
+      sources: [
+        src({ url: "u1", launched: 168, intercepted: 122 }),
+        src({ url: "u2", launched: 433, intercepted: 371 }),
+        src({ official: false, name: "Other", url: "u3", intercepted: 90 }),
+      ],
+    });
+    expect(eventCount(e, "intercepted")).toEqual({ low: 493, high: 493 });
+    expect(eventCount(e, "launched")).toEqual({ low: 601, high: 601 });
+  });
+  it("gives no launched count when an official post leaves it out", () => {
+    const e = ev({
+      sources: [
+        src({ url: "u1", launched: 326, intercepted: 274 }),
+        src({ url: "u2", launched: null, intercepted: 154 }),
+      ],
+    });
+    expect(eventCount(e, "intercepted")).toEqual({ low: 428, high: 428 });
+    expect(eventCount(e, "launched")).toBeUndefined();
   });
   it("gives the range across unofficial sources", () => {
     const e = ev({

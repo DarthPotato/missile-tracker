@@ -42,7 +42,7 @@ export interface Headline extends StockPoint {
 export const SPECIFICITY: Record<Qualifier, number> = { range: 3, exact: 3, about: 2, "at-most": 1, "at-least": 1 };
 
 /** Flip a qualifier when a number is subtracted from a fixed total. */
-function invert(q: Qualifier): Qualifier {
+export function invert(q: Qualifier): Qualifier {
   return q === "at-least" ? "at-most" : q === "at-most" ? "at-least" : q;
 }
 
@@ -52,7 +52,7 @@ export function claimsFor(reports: Report[], id: MunitionId): ClaimRef[] {
   );
 }
 
-const mid = (r: Range) => (r.low + r.high) / 2;
+export const mid = (r: Range) => (r.low + r.high) / 2;
 
 const DAY_MS = 86_400_000;
 
@@ -121,13 +121,12 @@ function rankPoint(a: StockPoint, b: StockPoint): number {
   );
 }
 
-/** The prewar baseline that goes with a stock point: same document if it has one, else the latest earlier one. */
-function prewarFor(point: StockPoint, refs: ClaimRef[]): ClaimRef | undefined {
-  const source = point.basis.at(-1)!.report;
-  const same = refs.find((r) => r.report === source && r.claim.metric === "prewar");
+/** The prewar figure from the same report as a claim, else the latest one published on or before it. */
+export function prewarBaseline(ref: ClaimRef, refs: ClaimRef[]): ClaimRef | undefined {
+  const same = refs.find((r) => r.report === ref.report && r.claim.metric === "prewar");
   if (same) return same;
   return refs
-    .filter((r) => r.claim.metric === "prewar" && r.report.source.published <= source.source.published)
+    .filter((r) => r.claim.metric === "prewar" && r.report.source.published <= ref.report.source.published)
     .sort((a, b) => b.report.source.published.localeCompare(a.report.source.published))[0];
 }
 
@@ -140,7 +139,7 @@ export function headline(reports: Report[], id: MunitionId, deliveriesPerYear = 
   const refs = claimsFor(reports, id);
   const best = stockPoints(refs, deliveriesPerYear).sort(rankPoint)[0];
   if (!best) return undefined;
-  const prewarRef = prewarFor(best, refs);
+  const prewarRef = prewarBaseline(best.basis.at(-1)!, refs);
   if (!prewarRef) return undefined;
   const prewar = mid({ low: prewarRef.claim.low!, high: prewarRef.claim.high! });
   // A zero baseline would make "% left" infinite; treat it as no usable headline.
@@ -154,6 +153,19 @@ export function headline(reports: Report[], id: MunitionId, deliveriesPerYear = 
     prewarRef,
     pctLeft: { low: (best.remaining.low / prewar) * 100, high: (best.remaining.high / prewar) * 100 },
     newer,
+  };
+}
+
+/**
+ * Share of the prewar stock fired, in percent. A prewar-minus-used estimate
+ * adds deliveries back into what's left, so take them out again: otherwise
+ * deliveries would read as missiles not fired.
+ */
+export function usedPct(h: Pick<Headline, "prewar" | "remaining" | "delivered">): Range {
+  const d = h.delivered ?? 0;
+  return {
+    low: ((h.prewar - (h.remaining.high - d)) / h.prewar) * 100,
+    high: ((h.prewar - (h.remaining.low - d)) / h.prewar) * 100,
   };
 }
 
@@ -203,9 +215,8 @@ export interface ProjectionResult {
   shortfall: number;
 }
 
-const DAY = 86_400_000;
-const toDay = (iso: string) => Math.round(Date.parse(`${iso.length === 7 ? `${iso}-01` : iso}T00:00:00Z`) / DAY);
-const fromDay = (d: number) => new Date(d * DAY).toISOString().slice(0, 10);
+const toDay = (iso: string) => Math.round(Date.parse(`${iso.length === 7 ? `${iso}-01` : iso}T00:00:00Z`) / DAY_MS);
+const fromDay = (d: number) => new Date(d * DAY_MS).toISOString().slice(0, 10);
 
 /**
  * Delivery rate for the rebuild buy: a full lot in `lotMonths`, capped by the
@@ -277,8 +288,8 @@ export function project(input: ProjectionInput): ProjectionResult {
     }
 
     const date = fromDay(d);
-    // Recovery only counts once any scenario war is over.
-    if (d >= warEnd || !war) {
+    // Recovery only counts once any scenario war is over (warEnd is -Infinity with no war).
+    if (d >= warEnd) {
       if (!recovered.low && low >= input.prewar) recovered.low = date;
       if (!recovered.high && high >= input.prewar) recovered.high = date;
     }

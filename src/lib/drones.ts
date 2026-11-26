@@ -1,4 +1,4 @@
-// U.S. drone losses: the Reaper page.
+// U.S. aircraft losses: the Losses page.
 //
 // Two kinds of data, kept apart on purpose:
 //  - data/drones.json: fleet sizes and loss counts from U.S. officials and the

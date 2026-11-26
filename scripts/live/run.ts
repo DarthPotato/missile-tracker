@@ -14,6 +14,10 @@
 //   BACKFILL_SCOPE=claims                with BACKFILL_DAYS, look only for U.S. drone and jet
 //                                       shoot-down claims: no intercept extraction, so the
 //                                       only model calls are for posts naming an MQ-9, MQ-1 or jet
+//   BACKFILL_CHANNELS=a,b                with BACKFILL_DAYS, re-read only these channel handles
+//   BACKFILL_READ_MINUTES=180            with BACKFILL_DAYS, stop reading Telegram after this long
+//                                       (shared out between the channels) and log what was read,
+//                                       so a long backfill still reaches the model and gets saved
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { ROOT } from "../load-node.ts";
@@ -34,6 +38,11 @@ const BATCH = 15;
 const dryRun = process.argv.includes("--dry-run");
 const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 const claimsOnly = backfillDays > 0 && process.env.BACKFILL_SCOPE === "claims";
+const backfillChannels = (process.env.BACKFILL_CHANNELS ?? "")
+  .split(",")
+  .map((h) => h.trim().toLowerCase())
+  .filter(Boolean);
+const readMinutes = Number(process.env.BACKFILL_READ_MINUTES || 180);
 
 interface Sources {
   telegram: { handle: string; name: string; official: boolean; dronesOnly?: boolean }[];
@@ -101,17 +110,44 @@ async function main() {
     lines.push(
       `- Backfill: re-reading Telegram back to ${since.slice(0, 10)}${claimsOnly ? ", for shoot-down claims only" : ""}`,
     );
-  for (const ch of sources.telegram) {
+  // A backfill can be told to re-read only some channels; the rest get a normal run.
+  const channels = sources.telegram;
+  const backfilling = (h: string) =>
+    since !== undefined && (!backfillChannels.length || backfillChannels.includes(h.toLowerCase()));
+  if (since && backfillChannels.length) {
+    const unknown = backfillChannels.filter((h) => !channels.some((c) => c.handle.toLowerCase() === h));
+    if (unknown.length) lines.push(`- Backfill: no channel called ${unknown.join(", ")} in sources.json`);
+  }
+  // Busy channels post hundreds of times a day, and paging back months can take hours. Share a
+  // reading budget between the channels being backfilled, so the run still gets to the model and saves.
+  const readUntil = Date.now() + readMinutes * 60_000;
+  let toBackfill = channels.filter((c) => backfilling(c.handle)).length;
+  for (const ch of channels) {
     try {
-      const posts = since
-        ? await fetchChannel(ch.handle, 0, { since })
+      const back = backfilling(ch.handle);
+      const deadline = back ? Date.now() + (readUntil - Date.now()) / Math.max(1, toBackfill) : undefined;
+      if (back) toBackfill--;
+      const posts = back
+        ? await fetchChannel(ch.handle, 0, {
+            since,
+            deadline,
+            onProgress: (pages, oldest) => console.log(`${ch.handle}: ${pages} pages, back to ${oldest.slice(0, 10)}`),
+          })
         : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
+      if (back) {
+        const reached = posts[0]?.posted.slice(0, 10);
+        const short = reached !== undefined && reached > since!.slice(0, 10);
+        console.log(`${ch.handle}: ${posts.length} posts back to ${reached ?? "none"}`);
+        if (short && deadline !== undefined && Date.now() >= deadline)
+          lines.push(`- Telegram ${ch.name}: ran out of reading time, got back to ${reached}`);
+      }
       // A drones-only channel feeds the Reaper claim log and nothing else, so its
       // posts never reach the intercept extractor.
       // A claims-only backfill sends nothing to the intercept extractor, and leaves an
       // intercept channel's bookmark alone so the next normal run still reads its new posts.
-      const kept = ch.dronesOnly || claimsOnly ? [] : posts.filter((p) => worthSending(p.text, ch.official));
-      if (posts.length && (ch.dronesOnly || !claimsOnly))
+      const claimsOnlyHere = claimsOnly && back;
+      const kept = ch.dronesOnly || claimsOnlyHere ? [] : posts.filter((p) => worthSending(p.text, ch.official));
+      if (posts.length && (ch.dronesOnly || !claimsOnlyHere))
         newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
       const aboutDrones = posts.filter((p) => mentionsUsAircraft(p.text));
       for (const p of aboutDrones)

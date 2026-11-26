@@ -8,7 +8,7 @@ export const GET: APIRoute = ({ site }) => {
     "/",
     "/live/",
     "/live/log/",
-    "/reapers/",
+    "/losses/",
     "/map/",
     "/perspective/",
     "/methodology/",

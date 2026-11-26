@@ -116,14 +116,25 @@ export interface CountRange {
 /**
  * An event's count across its sources. Official channels win when they give a
  * number; otherwise the range of what the sources say.
+ *
+ * An official channel posts each wave once, so its separate posts on one event
+ * add up: Ukraine's Air Force reports a daytime attack in the evening and the
+ * overnight one the next morning, and both can carry the same date. Different
+ * channels reporting the same attack are compared as a range instead.
  */
 export function eventCount(e: LiveEvent, field: "launched" | "intercepted"): CountRange | undefined {
-  const all = e.sources.filter((s) => s[field] !== null);
-  const official = all.filter((s) => s.official);
-  const use = official.length ? official : all;
-  if (!use.length) return undefined;
-  const vals = use.map((s) => s[field]!);
-  return { low: Math.min(...vals), high: Math.max(...vals) };
+  const official = e.sources.filter((s) => s.official);
+  if (official.some((s) => s[field] !== null)) {
+    const byChannel = new Map<string, LiveSource[]>();
+    for (const s of official) byChannel.set(s.name, [...(byChannel.get(s.name) ?? []), s]);
+    // A channel whose posts don't all give the figure would add up to too little; leave it out.
+    const sums = [...byChannel.values()]
+      .filter((posts) => posts.every((s) => s[field] !== null))
+      .map((posts) => posts.reduce((n, s) => n + s[field]!, 0));
+    return sums.length ? { low: Math.min(...sums), high: Math.max(...sums) } : undefined;
+  }
+  const vals = e.sources.flatMap((s) => (s[field] === null ? [] : [s[field]]));
+  return vals.length ? { low: Math.min(...vals), high: Math.max(...vals) } : undefined;
 }
 
 export type Reliability = "official" | "corroborated" | "single";
