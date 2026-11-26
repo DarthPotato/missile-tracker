@@ -1,1 +1,3219 @@
-{ "updated": null, "claims": [] }
+{
+  "updated": "2026-11-26T12:17:20.080Z",
+  "claims": [
+    {
+      "id": "mq9-2026-11-24",
+      "date": "2026-11-24",
+      "aircraft": "mq9",
+      "claimant": "Iranian Army",
+      "place": "eastern Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38271",
+          "posted": "2026-11-24T20:04:29+00:00",
+          "quote": "The Iranian Army announces that an American MQ-9 ‘Reaper’ drone was shot down today"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111687",
+          "posted": "2026-11-24T19:42:11+00:00",
+          "quote": "one U.S. Air Force MQ-9A Reaper UCAV was intercepted above the eastern Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111693",
+          "posted": "2026-11-24T20:35:29+00:00",
+          "quote": "a U.S. Air Force MQ-9A Reaper UCAV was intercepted above the western Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-tally-20",
+      "date": "2026-11-22",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "east of the Strait of Hormoz",
+      "count": 1,
+      "tally": 20,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24832",
+          "posted": "2026-11-22T11:10:58+00:00",
+          "quote": "Iranian air defenses shot down their 20th American MQ-1 drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24837",
+          "posted": "2026-11-22T16:58:21+00:00",
+          "quote": "Iranian air defenses shot down their 20th American MQ-1 drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111621",
+          "posted": "2026-11-22T14:35:34+00:00",
+          "quote": "intercepted a U.S. Army MQ-1C Gray Eagle UCAV equipped with an extended range kit east of the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111635",
+          "posted": "2026-11-22T17:01:57+00:00",
+          "quote": "intercepted a U.S. Army MQ-1C Gray Eagle UCAV equipped with an extended range kit east of the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-21",
+      "date": "2026-11-21",
+      "aircraft": "mq1",
+      "claimant": "Iran",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38227",
+          "posted": "2026-11-21T14:03:09+00:00",
+          "quote": "1x MQ-1 ‘Grey Eagle’"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24818",
+          "posted": "2026-11-21T21:25:57+00:00",
+          "quote": "3rd footage shows the interception of the US MQ-9 & MQ-1 drone from earlier this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111546",
+          "posted": "2026-11-21T15:36:10+00:00",
+          "quote": "Iran's IRGC announced intercepting a U.S. Army MQ-1C Gray Eagle UCAV above the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111595",
+          "posted": "2026-11-21T21:11:22+00:00",
+          "quote": "interception of one U.S. Air Force MQ-9A Reaper UCAV and one U.S. Army MQ-1C Gray Eagle UCAV"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-11-21",
+      "date": "2026-11-21",
+      "aircraft": "mq9",
+      "claimant": "Iran",
+      "place": "west of the Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38227",
+          "posted": "2026-11-21T14:03:09+00:00",
+          "quote": "1x MQ-9 ‘Reaper’"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24818",
+          "posted": "2026-11-21T21:25:57+00:00",
+          "quote": "3rd footage shows the interception of the US MQ-9 & MQ-1 drone from earlier this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111524",
+          "posted": "2026-11-21T11:54:31+00:00",
+          "quote": "The IRGC also claimed its advanced air defense system downed a U.S. MQ-9 drone west of the strait."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111595",
+          "posted": "2026-11-21T21:11:22+00:00",
+          "quote": "interception of one U.S. Air Force MQ-9A Reaper UCAV and one U.S. Army MQ-1C Gray Eagle UCAV"
+        }
+      ]
+    },
+    {
+      "id": "mq9-tally-58",
+      "date": "2026-11-20",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Strait of Hormoz",
+      "count": 1,
+      "tally": 58,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24795",
+          "posted": "2026-11-21T10:15:01+00:00",
+          "quote": "Iranian air defenses shot down their 58th American MQ-9 drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24796",
+          "posted": "2026-11-21T10:21:46+00:00",
+          "quote": "Iranian air defenses shot down their 58th American MQ-9 drone"
+        },
+        {
+          "kind": "news",
+          "name": "freepresskashmir.news",
+          "url": "https://freepresskashmir.news/2026/11/21/iran-claims-it-shot-down-us-mq-9-drone-over-strait-of-hormuz/",
+          "posted": "2026-11-21T01:55:00.000Z",
+          "quote": "its forces shot down a US MQ-9 Reaper drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "news",
+          "name": "freepressjournal.in",
+          "url": "https://www.freepressjournal.in/world/iran-claims-58th-us-mq-9-reaper-drone-shootdown-over-strait-of-hormuz-using-new-advanced-air-defence-system-amid-rising-tensions-video",
+          "posted": "2026-11-20T22:58:00.000Z",
+          "quote": "Iran's IRGC claims it shot down a US MQ-9 Reaper drone over the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-18",
+      "date": "2026-11-18",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38200",
+          "posted": "2026-11-18T13:33:05+00:00",
+          "quote": "Iran’s air defenses shot down an American MQ-1 ‘Grey Eagle’ drone"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-11-18",
+      "date": "2026-11-18",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "eastern part of the Strait of Hormoz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38201",
+          "posted": "2026-11-18T13:33:09+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-9 ‘Reaper’ drone with an anti-drone UAV"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24749",
+          "posted": "2026-11-18T10:47:29+00:00",
+          "quote": "Iranian air defenses shot down a US MQ-9 drone"
+        }
+      ]
+    },
+    {
+      "id": "mq1-tally-18",
+      "date": "2026-11-17",
+      "aircraft": "mq1",
+      "claimant": "Iran's air defenses",
+      "place": "Qeshm Island, south Iran",
+      "count": 1,
+      "tally": 18,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24713",
+          "posted": "2026-11-17T10:37:47+00:00",
+          "quote": "Iran’s air defenses just shot down an American MQ-1 drone in the southern part of Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24738",
+          "posted": "2026-11-17T16:15:16+00:00",
+          "quote": "Iran’s air defenses just shot down an American MQ-1 drone in the southern part of Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111213",
+          "posted": "2026-11-17T16:14:38+00:00",
+          "quote": "shot down a U.S. MQ-1 drone south of Qeshm Island"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-11-16-f-15",
+      "date": "2026-11-16",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "Iranian air defenses",
+      "place": "central Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24687",
+          "posted": "2026-11-16T17:31:08+00:00",
+          "quote": "Iranian air defenses shooting down the US F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24688",
+          "posted": "2026-11-16T17:38:55+00:00",
+          "quote": "Iranian air defenses shooting down the US F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24689",
+          "posted": "2026-11-16T17:42:14+00:00",
+          "quote": "The IRGC aerospace air defense operator who shot down the F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24690",
+          "posted": "2026-11-16T17:50:54+00:00",
+          "quote": "The IRGC aerospace air defense operator who shot down the F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111121",
+          "posted": "2026-11-16T17:56:31+00:00",
+          "quote": "showing the downing of the U.S. Air Force F-15E fighter jet"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-16",
+      "date": "2026-11-16",
+      "aircraft": "mq1",
+      "claimant": "Iranian Army",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38156",
+          "posted": "2026-11-16T16:42:57+00:00",
+          "quote": "Iran’s Army downed an American MQ-1 ‘Grey Eagle’ drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/111110",
+          "posted": "2026-11-16T16:18:20+00:00",
+          "quote": "announces the interception of a U.S. Army MQ-1C Gray Eagle UCAV above the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-14",
+      "date": "2026-11-14",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "Qeshm Island",
+      "count": 1,
+      "tally": 17,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38116",
+          "posted": "2026-11-14T15:19:50+00:00",
+          "quote": "Iran’s air defenses downed an American MQ-1 ‘Grey Eagle’ drone above Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/110943",
+          "posted": "2026-11-14T11:54:00+00:00",
+          "quote": "shot down a U.S. MQ-1 drone over Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/110956",
+          "posted": "2026-11-14T15:32:50+00:00",
+          "quote": "shot down a U.S. MQ-1 drone over Qeshm Island"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-13",
+      "date": "2026-11-13",
+      "aircraft": "mq1",
+      "claimant": "Iranian Army",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38111",
+          "posted": "2026-11-13T14:08:06+00:00",
+          "quote": "Iran’s Army downed an American MQ-1 ‘Grey Eagle’ this morning in the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/110841",
+          "posted": "2026-11-13T14:50:18+00:00",
+          "quote": "intercepting a U.S. Army MQ-1C Gray Eagle UCAV above Kuhestak"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-06",
+      "date": "2026-11-06",
+      "aircraft": "mq1",
+      "claimant": "IRGC",
+      "place": "Qeshm Island",
+      "count": 1,
+      "tally": 16,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38014",
+          "posted": "2026-11-06T14:24:46+00:00",
+          "quote": "The IRGC shot down another American MQ-1 ‘Grey Eagle’ drone over Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38015",
+          "posted": "2026-11-06T14:28:35+00:00",
+          "quote": "The IRGC shot down another American MQ-1 ‘Grey Eagle’ drone over Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24481",
+          "posted": "2026-11-06T14:45:13+00:00",
+          "quote": "Iran’s air defenses shot down a US MQ-1 drone off the coast of Iran’s Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/110214",
+          "posted": "2026-11-06T15:00:02+00:00",
+          "quote": "shooting down a U.S. Army MQ-1C Gray Eagle UCAV equipped with an extended range kit at Qeshm Island, Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-11-06",
+      "date": "2026-11-06",
+      "aircraft": "mq9",
+      "claimant": "Iranian Army",
+      "place": "Qeshm Island",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/38024",
+          "posted": "2026-11-06T23:00:08+00:00",
+          "quote": "The Iranian Army announces that an American MQ-9 ‘Reaper’ drone was shot down over Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24493",
+          "posted": "2026-11-06T22:31:52+00:00",
+          "quote": "Incoming reports Iranian air defenses shot down a USAF MQ-9 drone."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-11-04",
+      "date": "2026-11-04",
+      "aircraft": "mq1",
+      "claimant": "IRGC",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": 15,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/37999",
+          "posted": "2026-11-04T14:34:19+00:00",
+          "quote": "The IRGC has shot down an American MQ-1 ‘Grey Eagle’ drone in the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24454",
+          "posted": "2026-11-04T14:10:38+00:00",
+          "quote": "Iran’s air defenses shot down its 15th American MQ-1 drone above Qeshm Island"
+        }
+      ]
+    },
+    {
+      "id": "mq9-tally-56",
+      "date": "2026-11-04",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Strait of Hormoz",
+      "count": 1,
+      "tally": 56,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24453",
+          "posted": "2026-11-04T09:57:53+00:00",
+          "quote": "Iran shot down its 56th MQ-9 drone over the Strait of Hormoz at 4:30 AM"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-11-02",
+      "date": "2026-11-02",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/37994",
+          "posted": "2026-11-03T16:49:28+00:00",
+          "quote": "The IRGC released footage of shooting down an American MQ-9 drone in the Strait of Hormuz last night"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24421",
+          "posted": "2026-11-02T21:09:58+00:00",
+          "quote": "A MQ-9 drone, over the eastern side of the Strait of Hormoz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-10-29",
+      "date": "2026-10-29",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": 14,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/37972",
+          "posted": "2026-10-29T12:19:14+00:00",
+          "quote": "Iran’s air defenses have shot down an American MQ-1C ‘Gray Eagle’ drone above the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/109532",
+          "posted": "2026-10-29T13:57:20+00:00",
+          "quote": "IRGC also announced an MQ-1C was shot down off the coast of Sirik, Iran, early this morning."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-10-20",
+      "date": "2026-10-20",
+      "aircraft": "mq1",
+      "claimant": "Initial reports",
+      "place": "Iranian airspace",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24223",
+          "posted": "2026-10-20T07:46:12+00:00",
+          "quote": "Initial reports Iran shot down a US MQ-1 drone in Iranian airspace."
+        }
+      ]
+    },
+    {
+      "id": "mq9-tally-54",
+      "date": "2026-10-20",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": 54,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/37851",
+          "posted": "2026-10-20T03:30:34+00:00",
+          "quote": "the downing of an American MQ-9 ‘Reaper’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/108660",
+          "posted": "2026-10-20T03:15:49+00:00",
+          "quote": "The IRGC announced the downing of an American MQ-9 drone over the Strait of Hormuz."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-10-19",
+      "date": "2026-10-19",
+      "aircraft": "mq1",
+      "claimant": "Initial reports",
+      "place": "Iranian airspace",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/24222",
+          "posted": "2026-10-19T22:02:48+00:00",
+          "quote": "Initial reports Iran shot down a US MQ-1 drone in Iranian airspace."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-09-21",
+      "date": "2026-09-21",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36940",
+          "posted": "2026-09-21T11:26:58+00:00",
+          "quote": "Iran’s air defenses have shot down another U.S. MQ-1C ‘Gray Eagle’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36942",
+          "posted": "2026-09-21T11:36:57+00:00",
+          "quote": "Iran’s air defenses have shot down another U.S. MQ-1C ‘Gray Eagle’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36948",
+          "posted": "2026-09-21T13:11:11+00:00",
+          "quote": "Iran’s air defenses have shot down another U.S. MQ-1C ‘Gray Eagle’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23896",
+          "posted": "2026-09-21T08:41:13+00:00",
+          "quote": "Iran’s IRGC shot down an American MQ-1 drone over the Strait of Hormoz this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23898",
+          "posted": "2026-09-21T12:52:37+00:00",
+          "quote": "Iran’s IRGC shot down an American MQ-1 drone over the Strait of Hormoz this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/104303",
+          "posted": "2026-09-21T04:03:51+00:00",
+          "quote": "announces shooting down an American MQ-1 UCAV above the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/104322",
+          "posted": "2026-09-21T12:51:43+00:00",
+          "quote": "announces shooting down an American MQ-1 UCAV above the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-09-17",
+      "date": "2026-09-17",
+      "aircraft": "mq1",
+      "claimant": "Iranian forces",
+      "place": "",
+      "count": 2,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103763",
+          "posted": "2026-09-17T17:19:54+00:00",
+          "quote": "Iranian forces have brought down at least two U.S. MQ-1 unmanned aircraft in recent days"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-17",
+      "date": "2026-09-17",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Qeshm",
+      "count": 1,
+      "tally": 53,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36842",
+          "posted": "2026-09-17T12:17:32+00:00",
+          "quote": "Iranian air defenses have shot down an American MQ-9 ‘Reaper’ drone above Qeshm"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23837",
+          "posted": "2026-09-17T13:57:48+00:00",
+          "quote": "Iran’s air defenses shot down its 53rd American MQ-9 this morning"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103696",
+          "posted": "2026-09-17T12:18:41+00:00",
+          "quote": "a U.S. MQ-9 Reaper drone was shot down by Iranian air defenses over Qeshm Island"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-16",
+      "date": "2026-09-16",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Qeshm Island",
+      "count": 1,
+      "tally": 52,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36798",
+          "posted": "2026-09-16T09:28:31+00:00",
+          "quote": "Iran’s air defenses have shot down an American MQ-9 ‘Reaper’ drone above Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23817",
+          "posted": "2026-09-16T06:40:07+00:00",
+          "quote": "Iran’s IRGC shot down its 52nd American MQ-9 drone above Qeshm Island"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103547",
+          "posted": "2026-09-16T10:12:07+00:00",
+          "quote": "a U.S. MQ-9 Reaper drone was shot down by Iranian air defences over Qeshm Island"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-09-15-f-15",
+      "date": "2026-09-15",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "60 Minutes",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23795",
+          "posted": "2026-09-15T09:23:34+00:00",
+          "quote": "the downing of a US F-15 by an Iranian surface-to-air missile during the US-Israeli war on Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-09-15",
+      "date": "2026-09-15",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": 4,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36776",
+          "posted": "2026-09-15T10:47:42+00:00",
+          "quote": "Iran’s air defenses have shot down another U.S. MQ-1C ‘Gray Eagle’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36788",
+          "posted": "2026-09-15T14:41:40+00:00",
+          "quote": "Iran has downed another American MQ-1C drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23804",
+          "posted": "2026-09-15T14:41:40+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-1 drone over the sky of the Strait of Hormoz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103402",
+          "posted": "2026-09-15T03:13:17+00:00",
+          "quote": "shooting down a U.S. Army MQ-1C Gray Eagle UCAV over the western part of the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103409",
+          "posted": "2026-09-15T10:47:09+00:00",
+          "quote": "shot down a U.S. Army MQ-1C Gray Eagle UCAV over the eastern part of the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq1-tally-3",
+      "date": "2026-09-15",
+      "aircraft": "mq1",
+      "claimant": "IRGC",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": 3,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103444",
+          "posted": "2026-09-15T14:38:49+00:00",
+          "quote": "shot down another U.S. Army MQ-1C Gray Eagle UCAV over the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-09-14-f-15",
+      "date": "2026-09-14",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "U.S. Air Force",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103379",
+          "posted": "2026-09-14T23:27:43+00:00",
+          "quote": "shot-down F-15E Strike Eagle pilot"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-09-14",
+      "date": "2026-09-14",
+      "aircraft": "mq1",
+      "claimant": "Iran",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36749",
+          "posted": "2026-09-14T11:35:27+00:00",
+          "quote": "Iran shot down an American MQ-1C ‘Gray Eagle’ drone in the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23787",
+          "posted": "2026-09-14T10:18:51+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-1 drone over the sky of the Strait of Hormoz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/103280",
+          "posted": "2026-09-14T11:47:10+00:00",
+          "quote": "Iran's IRGC announced the downing of a U.S. MQ-1 drone over the Strait of Hormuz."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-09-08",
+      "date": "2026-09-08",
+      "aircraft": "mq1",
+      "claimant": "Iranian air defenses",
+      "place": "Strait of Hormuz near Bandar Abbas",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36408",
+          "posted": "2026-09-08T12:53:14+00:00",
+          "quote": "Iran’s air defenses shot down an American MQ-1C ‘Gray Eagle’ in the Strait of Hormuz near Bandar Abbas"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36410",
+          "posted": "2026-09-08T13:28:55+00:00",
+          "quote": "Iran’s air defenses shot down an American MQ-1C ‘Gray Eagle’ in the Strait of Hormuz near Bandar Abbas"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36423",
+          "posted": "2026-09-08T15:51:21+00:00",
+          "quote": "Iran’s air defenses shot down an American MQ-1C ‘Gray Eagle’ in the Strait of Hormuz near Bandar Abbas"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36425",
+          "posted": "2026-09-08T16:02:03+00:00",
+          "quote": "Iran’s air defenses shot down a second American MQ-1C ‘Gray Eagle’ drone above the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36431",
+          "posted": "2026-09-08T17:28:30+00:00",
+          "quote": "Iran has released footage of downing an American MQ-1 ‘Gray Eagle’ drone in Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23682",
+          "posted": "2026-09-08T14:12:45+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-1 drone in southeastern Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23688",
+          "posted": "2026-09-08T17:51:16+00:00",
+          "quote": "Iran published footage showing moments when the American MQ-1 drone was shot down by Iranian air defenses over the Strait of Hormoz area."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/102324",
+          "posted": "2026-09-08T13:01:37+00:00",
+          "quote": "Iran's Army claims to have shot down a U.S. MQ-1 drone over the Strait of Hormuz."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/102382",
+          "posted": "2026-09-08T16:57:52+00:00",
+          "quote": "Iran's Army claims to have shot down a U.S. MQ-1 drone over the Strait of Hormuz."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/102387",
+          "posted": "2026-09-08T17:16:54+00:00",
+          "quote": "Iran's IRGC announced the downing of a U.S. MQ-1 drone over the Strait of Hormuz"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-08",
+      "date": "2026-09-08",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/20179",
+          "posted": "2026-09-08T18:19:15+00:00",
+          "quote": "Iran's Islamic Revolutionary Guard Corps (IRGC) claimed that its air defense forces shot down a U.S. MQ-9 Reaper drone on September 8, 2026."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-03",
+      "date": "2026-09-03",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Khomeyn, Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/101493",
+          "posted": "2026-09-03T02:07:57+00:00",
+          "quote": "announces shooting down a U.S. Air Force MQ-9A Reaper UCAV"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-02",
+      "date": "2026-09-02",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Khomein",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23608",
+          "posted": "2026-09-02T21:14:27+00:00",
+          "quote": "the downed MQ-9 drone, which was shot down by the IRGC's air defense system in Khomein"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-09-01",
+      "date": "2026-09-01",
+      "aircraft": "mq9",
+      "claimant": "Iran",
+      "place": "Khomeyn, Iran",
+      "count": 1,
+      "tally": 50,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36194",
+          "posted": "2026-09-01T19:15:37+00:00",
+          "quote": "Iran downed an American MQ-9 ‘Reaper’ drone with its new air defense systems"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23569",
+          "posted": "2026-09-01T19:14:41+00:00",
+          "quote": "they shot down the 50th MQ-9 drone using a new air defense system."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/101212",
+          "posted": "2026-09-01T19:14:32+00:00",
+          "quote": "Iran's IRGC announces shooting down a U.S. Air Force MQ-9A Reaper UCAV with a new air defense system above Iran."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-08-31",
+      "date": "2026-08-31",
+      "aircraft": "mq9",
+      "claimant": "Iran’s air defenses",
+      "place": "Persian Gulf",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36133",
+          "posted": "2026-08-31T12:35:22+00:00",
+          "quote": "Iran’s air defenses have shot down an American MQ-9 ‘Reaper’ drone in the Persian Gulf"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/36150",
+          "posted": "2026-08-31T16:34:09+00:00",
+          "quote": "IRGC air defenses shot down a second American MQ-9 ‘Reaper’ drone in the Gulf of Oman"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23538",
+          "posted": "2026-08-31T07:29:02+00:00",
+          "quote": "Iran shot down a USAF MQ-9A Reaper drone over the Strait of Hormoz, early this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23546",
+          "posted": "2026-08-31T16:45:29+00:00",
+          "quote": "Iranian Air Defenses shot down an American MQ-9 drone in the Strait of Hormoz."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/100884",
+          "posted": "2026-08-31T05:06:59+00:00",
+          "quote": "Iran's IRGC announced shooting down a MQ-9A Reaper UCAV above the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/100959",
+          "posted": "2026-08-31T16:30:06+00:00",
+          "quote": "Iran's IRGC announced moments ago its air defenses shot down a U.S. Air Force MQ-9A Reaper UCAV in the Gulf of Oman."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-08-14-f-15",
+      "date": "2026-08-14",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "Iranian state media",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/98758",
+          "posted": "2026-08-14T13:14:26+00:00",
+          "quote": "the USAF F-15E Strike Eagle tail 00-3000, which was shot down early in April during the war"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-08-14",
+      "date": "2026-08-14",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Hormozgan Province, Iran’s southern coast",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/35900",
+          "posted": "2026-08-14T13:30:59+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-9 ‘Reaper’ drone near Hormozgan Province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23417",
+          "posted": "2026-08-14T11:37:47+00:00",
+          "quote": "Iran shot down yet another American MQ-9 drone over Hormozgan Province, southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/98747",
+          "posted": "2026-08-14T11:31:59+00:00",
+          "quote": "an MQ-9A Reaper drone was detected and shot down over Hormozgan Province"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-08-03",
+      "date": "2026-08-03",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/35691",
+          "posted": "2026-08-03T11:20:36+00:00",
+          "quote": "the IRGC Air Defense Forces shot down an American MQ-9 ‘Reaper’ drone over the Strait of Hormuz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23392",
+          "posted": "2026-08-03T09:06:35+00:00",
+          "quote": "Iranian Air Defenses shot down an American MQ-9 drone over the Strait of Hormoz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/97117",
+          "posted": "2026-08-03T11:29:33+00:00",
+          "quote": "Iran's IRGC says it shot down an MQ-9 Reaper drone over the Strait of Hormuz earlier today"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-26",
+      "date": "2026-07-26",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Andimeshk",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/95741",
+          "posted": "2026-07-26T11:38:49+00:00",
+          "quote": "July 26: MQ-9 drone over Andimeshk."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-25",
+      "date": "2026-07-25",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "southern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/95741",
+          "posted": "2026-07-26T11:38:49+00:00",
+          "quote": "July 25: MQ-9 drone in southern Iran."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-20",
+      "date": "2026-07-20",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Islamabad-e-Gharb, Kermanshah province",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23209",
+          "posted": "2026-07-20T08:06:28+00:00",
+          "quote": "Shot down a MQ-9 drone over Islamabad-e-Gharb (“the western Islamabad”) in Kermanshah province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94675",
+          "posted": "2026-07-20T01:37:18+00:00",
+          "quote": "IRGC announces shooting down a U.S. Air Force MQ-9A Reaper UCAV above Eslamabad-e-Gharb, Kermanshah Province, Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-19",
+      "date": "2026-07-19",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Bushehr, southern Iran",
+      "count": 2,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/35189",
+          "posted": "2026-07-19T14:13:13+00:00",
+          "quote": "Iranian air defenses have downed two American MQ-9 Reaper drones"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23171",
+          "posted": "2026-07-19T08:43:37+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-9 drone over Bushehr, southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23172",
+          "posted": "2026-07-19T08:46:28+00:00",
+          "quote": "Iranian air defenses shot down yet another American MQ-9 drone over Ahvaz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23173",
+          "posted": "2026-07-19T09:05:18+00:00",
+          "quote": "Iran shot down a MQ-9 drone over Ahvaz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23175",
+          "posted": "2026-07-19T10:08:47+00:00",
+          "quote": "Footage shows the wreckage of the shot down MQ-9 drone by Iranian air defenses, this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23176",
+          "posted": "2026-07-19T10:17:17+00:00",
+          "quote": "Footage shows the wreckage of the shot down MQ-9 drone by Iranian air defenses, this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23177",
+          "posted": "2026-07-19T10:22:53+00:00",
+          "quote": "Footage shows the wreckage of the shot down MQ-9 drone by Iranian air defenses, this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94528",
+          "posted": "2026-07-19T07:42:54+00:00",
+          "quote": "Iran’s IRGC says air defenses shot down a U.S. MQ-9 Reaper UCAV over Ahvaz, southwestern Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94534",
+          "posted": "2026-07-19T08:42:27+00:00",
+          "quote": "footage showing their fighters downing an American MQ-9 UCAV over Asaluyeh, southern Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94543",
+          "posted": "2026-07-19T10:02:57+00:00",
+          "quote": "Iranian air defense downed an American MQ-9 Reaper UCAV in Dehloran County"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94578",
+          "posted": "2026-07-19T14:19:25+00:00",
+          "quote": "Iran's Army downed an American MQ-9 UCAV in Hamadan, western Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-17",
+      "date": "2026-07-17",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Bushehr, southern Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23112",
+          "posted": "2026-07-17T21:39:29+00:00",
+          "quote": "Iranian air defenses shot down an American MQ-9 drone over Bushehr, southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94309",
+          "posted": "2026-07-17T21:39:33+00:00",
+          "quote": "IRGC announces shooting down a U.S. Air Force MQ-9A Reaper UCAV above Bushehr, Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-16",
+      "date": "2026-07-16",
+      "aircraft": "mq9",
+      "claimant": "Iran",
+      "place": "Andimeshk, Khuzestan Province",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/34976",
+          "posted": "2026-07-16T00:49:20+00:00",
+          "quote": "Iran shot down an American MQ-9 ‘Reaper’ drone above Andimeshk, Khuzestan Province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23041",
+          "posted": "2026-07-16T09:03:14+00:00",
+          "quote": "IRGC shot down an American MQ-9A Reaper UCAV above Andimeshk in Khouzestan province, Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/94033",
+          "posted": "2026-07-16T00:30:11+00:00",
+          "quote": "IRGC air defenses shot down a U.S. Air Force MQ-9A Reaper UCAV above Andimeshk, Khuzestan Province, Iran."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-07-13",
+      "date": "2026-07-13",
+      "aircraft": "mq1",
+      "claimant": "Iran",
+      "place": "Strait of Hormoz",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/23009",
+          "posted": "2026-07-13T20:20:09+00:00",
+          "quote": "Iran just shot down an American MQ-1 drone over the Strait of Hormoz."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/93515",
+          "posted": "2026-07-13T20:23:31+00:00",
+          "quote": "IRGC air defenses have shot down a MQ-1 Predator/MQ-1C Gray Eagle UCAV above the Strait of Hormuz."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-07-08",
+      "date": "2026-07-08",
+      "aircraft": "mq9",
+      "claimant": "Iran",
+      "place": "Khormoj, Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/34372",
+          "posted": "2026-07-08T12:26:36+00:00",
+          "quote": "Iran downed an American MQ-9 drone earlier today"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22755",
+          "posted": "2026-07-08T06:56:08+00:00",
+          "quote": "Iran also shot down a MQ-9 drone that was attempting to prevent the operation."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22771",
+          "posted": "2026-07-08T08:20:14+00:00",
+          "quote": "Iran also shot down a MQ-9 drone that was"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22779",
+          "posted": "2026-07-08T10:19:16+00:00",
+          "quote": "Iran also shot down a MQ-9 drone that was"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/92435",
+          "posted": "2026-07-08T03:11:47+00:00",
+          "quote": "IRGC announces shooting down a U.S. Air Force MQ-9A Reaper UCAV above Khormoj, Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/92441",
+          "posted": "2026-07-08T03:49:27+00:00",
+          "quote": "IRGC announces shooting down a MQ-9A Reaper UCAV reportedly attempting to interfere with the operation."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/92491",
+          "posted": "2026-07-08T10:21:30+00:00",
+          "quote": "Iran's IRGC said it shot down an American MQ-9 Reaper drone over Khormuj, Bushehr province, this morning."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/92628",
+          "posted": "2026-07-08T19:50:28+00:00",
+          "quote": "Iran's IRGC said it shot down an American MQ-9 Reaper drone over Khormuj, Bushehr province, this morning"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-06-17-f-15",
+      "date": "2026-06-17",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "Iranian pilots",
+      "place": "",
+      "count": 3,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/33666",
+          "posted": "2026-06-17T18:26:50+00:00",
+          "quote": "the 3 American F-15s that were coming for a counterattack toward our Iran, the Kuwaitis mistook them for targets & shot them down."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22265",
+          "posted": "2026-06-17T18:04:07+00:00",
+          "quote": "the 3 American F-15s that were coming for a counterattack toward our Iran, the Kuwaitis mistook them for targets & shot them down."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-06-13-f-15",
+      "date": "2026-06-13",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "Iran",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22110",
+          "posted": "2026-06-13T08:17:27+00:00",
+          "quote": "the F-15 Iran shot down"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-06-10",
+      "date": "2026-06-10",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/22016",
+          "posted": "2026-06-10T07:21:45+00:00",
+          "quote": "The IRGC also downed a MQ-9 drone"
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-06-01",
+      "date": "2026-06-01",
+      "aircraft": "mq1",
+      "claimant": "Iran",
+      "place": "Qeshm Island",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19086",
+          "posted": "2026-06-01T06:28:06+00:00",
+          "quote": "CENTCOM stated that today's strikes were executed in response to Iran downing an MQ-1 drone."
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32662",
+          "posted": "2026-06-01T13:54:29+00:00",
+          "quote": "Iran released footage showing the downing of an American MQ-1C ‘Grey Eagle’ drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21783",
+          "posted": "2026-06-01T06:35:38+00:00",
+          "quote": "CENTCOM had earlier announced that it hit radar sites at Qeshm Island after Iran shot down a US MQ-1 drone."
+        }
+      ]
+    },
+    {
+      "id": "mq1-2026-05-31",
+      "date": "2026-05-31",
+      "aircraft": "mq1",
+      "claimant": "IRGC",
+      "place": "airspace over Iran's territorial waters",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32623",
+          "posted": "2026-05-31T01:12:08+00:00",
+          "quote": "The IRGC announces it shot down an MQ-1 ‘Predator’ drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85944",
+          "posted": "2026-05-31T00:59:38+00:00",
+          "quote": "A U.S. MQ-1 Predator drone attempted to carry out a \"hostile operation\" early this morning by entering the airspace over Iran's territorial waters and was subsequently downed by the IRGC's air defense"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-31",
+      "date": "2026-05-31",
+      "aircraft": "mq9",
+      "claimant": "Houthis",
+      "place": "Yemen",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19075",
+          "posted": "2026-05-31T11:34:52+00:00",
+          "quote": "The Houthis recently claimed to have shot down another American MQ-9 Reaper drone over Yemen."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-05-30-f-15",
+      "date": "2026-05-30",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "NBC News",
+      "place": "southwestern Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85844",
+          "posted": "2026-05-30T13:10:35+00:00",
+          "quote": "The F-15E Strike Eagle that was shot down over southwestern Iran last month was likely hit by a Chinese-made shoulder-fired missile (MANPAD)"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-29",
+      "date": "2026-05-29",
+      "aircraft": "mq9",
+      "claimant": "Yemen",
+      "place": "Marib Governorate, Yemen",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32566",
+          "posted": "2026-05-29T13:07:10+00:00",
+          "quote": "Yemen shot down an American MQ-9 ‘Reaper’ drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85730",
+          "posted": "2026-05-29T11:07:20+00:00",
+          "quote": "Yemeni Houthi forces claim to have shot down a US MQ-9 Reaper drone near the Marib Governorate"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-28",
+      "date": "2026-05-28",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21753",
+          "posted": "2026-05-28T20:12:40+00:00",
+          "quote": "interception of an American MQ-9 drone by Iranian air defenses"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-26",
+      "date": "2026-05-26",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Persian Gulf",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21731",
+          "posted": "2026-05-26T19:14:36+00:00",
+          "quote": "IRGC confirms it shot down a MQ-9 drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85272",
+          "posted": "2026-05-26T08:10:41+00:00",
+          "quote": "The IRGC says it downed a U.S. MQ-9 drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85341",
+          "posted": "2026-05-26T17:52:43+00:00",
+          "quote": "Iranian claims that an American MQ-9 Reaper drone had been shot down"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/85353",
+          "posted": "2026-05-26T18:58:45+00:00",
+          "quote": "Iranian air defense downing an American MQ-9 Reaper drone over the Persian Gulf"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-25",
+      "date": "2026-05-25",
+      "aircraft": "mq9",
+      "claimant": "unspecified",
+      "place": "Bandar Abbas",
+      "count": 2,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32406",
+          "posted": "2026-05-25T22:18:28+00:00",
+          "quote": "Multiple American drones (possibly MQ-9 ‘Reaper’) were shot down about an hour ago near Bandar Abbas"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32447",
+          "posted": "2026-05-26T19:19:07+00:00",
+          "quote": "the downing of an American MQ-9 ‘Reaper’ drone near Bandar Abbas"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21721",
+          "posted": "2026-05-26T07:39:35+00:00",
+          "quote": "Iran shot down one or more MQ-9 drones"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21732",
+          "posted": "2026-05-26T19:21:26+00:00",
+          "quote": "published footage showing the successful interception of an American MQ-9 drone, yesterday"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-24",
+      "date": "2026-05-24",
+      "aircraft": "mq9",
+      "claimant": "IRGC and Iranian Army",
+      "place": "Strait of Hormoz",
+      "count": 3,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21717",
+          "posted": "2026-05-25T22:12:13+00:00",
+          "quote": "2 MQ-9 drones were shot down by the IRGC & one by the Army's air defense."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-17",
+      "date": "2026-05-17",
+      "aircraft": "mq9",
+      "claimant": "Yemeni air defenses",
+      "place": "Marib Governorate, Yemen",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/32162",
+          "posted": "2026-05-17T20:29:33+00:00",
+          "quote": "Yemeni air defenses shot down an American MQ-9 ‘Reaper’ drone above Marib Governorate"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21647",
+          "posted": "2026-05-17T19:46:41+00:00",
+          "quote": "Yemeni air defenses shot down an American MQ-9 drone in Safer, Marib."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-05-06",
+      "date": "2026-05-06",
+      "aircraft": "mq9",
+      "claimant": "Meshkat (Iranian think tank)",
+      "place": "Strait of Hormoz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/21452",
+          "posted": "2026-05-06T13:53:29+00:00",
+          "quote": "Iran shot down a hostile MQ-9 Reaper drone during a joint UAE-US operation near the Strait of Hormoz, this week."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-12-f-15",
+      "date": "2026-04-12",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "unnamed",
+      "place": "Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/79574",
+          "posted": "2026-04-12T15:58:56+00:00",
+          "quote": "The downed F-15E weapon systems officer"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-04-07",
+      "date": "2026-04-07",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Malard, Tehran province",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20969",
+          "posted": "2026-04-07T21:12:51+00:00",
+          "quote": "Iran’s IRGC says it shot down a MQ-9 drone above Malard, Tehran province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78814",
+          "posted": "2026-04-07T21:15:42+00:00",
+          "quote": "air defenses downed a U.S. MQ-9 Reaper drone"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-06-f-15",
+      "date": "2026-04-06",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "U.S. President Trump",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78470",
+          "posted": "2026-04-06T15:17:36+00:00",
+          "quote": "the downed F-15E crew"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78472",
+          "posted": "2026-04-06T15:23:37+00:00",
+          "quote": "the downed F-15E"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-04-06",
+      "date": "2026-04-06",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Qeshm, southern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20944",
+          "posted": "2026-04-07T08:24:29+00:00",
+          "quote": "MQ-9 drone shot down by Iranian air defenses last night in Qeshm, southern Iran."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-05-f-15",
+      "date": "2026-04-05",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "unspecified",
+      "place": "Kohgiluyeh",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18433",
+          "posted": "2026-04-05T05:52:46+00:00",
+          "quote": "One crew member of the downed American F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20922",
+          "posted": "2026-04-05T18:49:00+00:00",
+          "quote": "Kohgiluyeh (where the F-15 was shot down)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78259",
+          "posted": "2026-04-05T16:11:17+00:00",
+          "quote": "The F-15E jet was brought down by a shoulder-fired missile"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-04-05",
+      "date": "2026-04-05",
+      "aircraft": "mq9",
+      "claimant": "IRGC & Army",
+      "place": "",
+      "count": 2,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20892",
+          "posted": "2026-04-05T09:58:11+00:00",
+          "quote": "announced in statements the destruction of 2 MQ-9 and Hermes 900 drones"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-04-f-15",
+      "date": "2026-04-04",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "unspecified",
+      "place": "western Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18417",
+          "posted": "2026-04-04T05:33:14+00:00",
+          "quote": "following the interception of the F-15E fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18419",
+          "posted": "2026-04-04T09:07:01+00:00",
+          "quote": "F-15E jet that was shot down over Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78115",
+          "posted": "2026-04-04T22:12:02+00:00",
+          "quote": "second pilot of the downed F-15E"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-03-a-10",
+      "date": "2026-04-03",
+      "aircraft": "jet",
+      "model": "A-10",
+      "claimant": "New York Times",
+      "place": "Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30174",
+          "posted": "2026-04-03T18:49:29+00:00",
+          "quote": "A second American plane, an A-10 ‘Warthog’, was also downed by Iran today"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30175",
+          "posted": "2026-04-03T18:50:55+00:00",
+          "quote": "A second American plane, an A-10 ‘Warthog’, was also downed by Iran today"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30181",
+          "posted": "2026-04-03T21:08:18+00:00",
+          "quote": "The IRGC Aerospace Force has released footage showing Iranian air defense downing the American A-10 ‘Warthog’"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30182",
+          "posted": "2026-04-03T21:22:08+00:00",
+          "quote": "The IRGC Aerospace Force has released footage showing Iranian air defense downing the American A-10 ‘Warthog’"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20831",
+          "posted": "2026-04-03T19:09:38+00:00",
+          "quote": "A-10 (Crashed in the strait of Hormuz)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20838",
+          "posted": "2026-04-04T07:23:10+00:00",
+          "quote": "Official sources either claim a MQ-9 or a 2nd A-10 plane hit."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-03-f-15",
+      "date": "2026-04-03",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "Iran",
+      "place": "Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30135",
+          "posted": "2026-04-03T10:57:16+00:00",
+          "quote": "Iran has shot down an F-15E ‘Strike Eagle’"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30153",
+          "posted": "2026-04-03T12:54:09+00:00",
+          "quote": "an American F-15E fighter jet was shot down in Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/30171",
+          "posted": "2026-04-03T18:26:18+00:00",
+          "quote": "the air defenses of the IRGC targeted and destroyed an F-15E fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20813",
+          "posted": "2026-04-03T12:59:21+00:00",
+          "quote": "Iran shot down an American F-15"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20831",
+          "posted": "2026-04-03T19:09:38+00:00",
+          "quote": "F-15 (crashed inside Iran)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77771",
+          "posted": "2026-04-03T12:05:53+00:00",
+          "quote": "Iranian air defenses have downed a U.S. F-15E fighter jet in southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77773",
+          "posted": "2026-04-03T12:08:35+00:00",
+          "quote": "Iranian air defenses have downed a U.S. F-15E fighter jet in southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77797",
+          "posted": "2026-04-03T12:57:19+00:00",
+          "quote": "Axios confirms that Iran has shot down a U.S. fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77798",
+          "posted": "2026-04-03T12:59:43+00:00",
+          "quote": "Axios confirms that Iran has shot down a U.S. fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77825",
+          "posted": "2026-04-03T14:34:59+00:00",
+          "quote": "Axios confirms that Iran has shot down a U.S. fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77894",
+          "posted": "2026-04-03T18:56:21+00:00",
+          "quote": "F-15E fighter jet shot down by Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77910",
+          "posted": "2026-04-03T20:42:11+00:00",
+          "quote": "F-15E fighter jet shot down by Iran"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-03-jet",
+      "date": "2026-04-03",
+      "aircraft": "jet",
+      "model": "fighter jet",
+      "claimant": "unspecified",
+      "place": "central Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18411",
+          "posted": "2026-04-03T16:20:44+00:00",
+          "quote": "A U.S. fighter jet was shot down over central Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20800",
+          "posted": "2026-04-03T10:59:39+00:00",
+          "quote": "Iranian media published images of the remains of an American fighter jet that was intercepted by Iranian air defenses."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77844",
+          "posted": "2026-04-03T15:31:50+00:00",
+          "quote": "the downed U.S. fighter jet in Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-04-03",
+      "date": "2026-04-03",
+      "aircraft": "mq9",
+      "claimant": "Iranian Army",
+      "place": "Strait of Hormuz",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20838",
+          "posted": "2026-04-04T07:23:10+00:00",
+          "quote": "Official sources either claim a MQ-9 or a 2nd A-10 plane hit."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-02-f-15",
+      "date": "2026-04-02",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "CENTCOM",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/78275",
+          "posted": "2026-04-05T17:05:02+00:00",
+          "quote": "after their F-15E fighter jet was shot down April 2 during a combat mission."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-04-02-jet",
+      "date": "2026-04-02",
+      "aircraft": "jet",
+      "model": "fighter jet",
+      "claimant": "Iran",
+      "place": "between Hengam Island and Qeshm Island",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20776",
+          "posted": "2026-04-02T20:06:21+00:00",
+          "quote": "BREAKING: Iran shot down an American fighter jet."
+        }
+      ]
+    },
+    {
+      "id": "mq9-tally-16",
+      "date": "2026-04-02",
+      "aircraft": "mq9",
+      "claimant": "Iran",
+      "place": "Isfahan",
+      "count": 2,
+      "tally": 16,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18390",
+          "posted": "2026-04-02T16:37:42+00:00",
+          "quote": "Iran used its 9th day surface-to-air missile (SAM) system to shoot down two MQ-9 Reaper drones over Isfahan"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-04-01",
+      "date": "2026-04-01",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Khomein, central Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77561",
+          "posted": "2026-04-01T19:11:13+00:00",
+          "quote": "Iran's IRGC says a U.S. MQ-9 Reaper drone has been shot down by air defenses over Khomein, central Iran."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-31",
+      "date": "2026-03-31",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Isfahan, central Iran",
+      "count": 2,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77189",
+          "posted": "2026-03-31T10:41:24+00:00",
+          "quote": "air defenses have downed two U.S. MQ-9 Reaper drones over Isfahan"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-30",
+      "date": "2026-03-30",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Isfahan, central Iran",
+      "count": 2,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/77110",
+          "posted": "2026-03-30T20:00:29+00:00",
+          "quote": "air defenses have downed two U.S. MQ-9 Reaper drones over Isfahan"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-29",
+      "date": "2026-03-29",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "east of the Strait of Hormuz, southern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20675",
+          "posted": "2026-03-29T14:54:30+00:00",
+          "quote": "Iran’s IRGC has announced it successfully shot down an American MQ-9 drone in the east of the Strait of Hormuz, southern Iran."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-26-f-a-18",
+      "date": "2026-03-26",
+      "aircraft": "jet",
+      "model": "F/A-18",
+      "claimant": "IRGC",
+      "place": "Chabahar, southeastern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/76351",
+          "posted": "2026-03-26T03:08:05+00:00",
+          "quote": "the U.S. Navy F/A-18 Super Hornet fighter jet was shot down near Chabahar in southeastern Iran"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-25-f-a-18",
+      "date": "2026-03-25",
+      "aircraft": "jet",
+      "model": "F/A-18",
+      "claimant": "IRGC",
+      "place": "Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/76336",
+          "posted": "2026-03-25T17:15:40+00:00",
+          "quote": "The IRGC has released footage of a U.S. F/A-18 Super Hornet being hit by Iranian air defense"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/76337",
+          "posted": "2026-03-25T17:32:06+00:00",
+          "quote": "The IRGC has released footage of a U.S. F/A-18 Super Hornet being hit by Iranian air defense"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/76339",
+          "posted": "2026-03-25T18:19:22+00:00",
+          "quote": "The IRGC has released footage of a U.S. F/A-18 Super Hornet being hit by Iranian air defense"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-21-f-16",
+      "date": "2026-03-21",
+      "aircraft": "jet",
+      "model": "F-16",
+      "claimant": "IRGC",
+      "place": "central Iran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/75797",
+          "posted": "2026-03-21T12:04:18+00:00",
+          "quote": "Iranian air defenses in central Iran successfully hit an F-16 fighter jet"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-21",
+      "date": "2026-03-21",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Bushehr, Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/20555",
+          "posted": "2026-03-21T23:19:39+00:00",
+          "quote": "Footage shows the crash of an American MQ-9 drone after it was shot down by Iranian air defenses above Bushehr, Iran."
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-20-f-35",
+      "date": "2026-03-20",
+      "aircraft": "jet",
+      "model": "F-35",
+      "claimant": "IRGC",
+      "place": "central Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/75661",
+          "posted": "2026-03-20T14:55:09+00:00",
+          "quote": "released footage reportedly showing a U.S. F-35 jet being hit over central Iran"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-19-f-35",
+      "date": "2026-03-19",
+      "aircraft": "jet",
+      "model": "F-35",
+      "claimant": "IRGC",
+      "place": "central Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/75472",
+          "posted": "2026-03-19T16:24:51+00:00",
+          "quote": "Iran’s IRGC released footage reportedly showing a U.S. F-35 jet being hit over central Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-14",
+      "date": "2026-03-14",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "Bandar Abbas, southern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/74232",
+          "posted": "2026-03-14T02:33:30+00:00",
+          "quote": "wreckage of a U.S. MQ-9 Reaper drone that was shot down by Iranian air defenses in Bandar Abbas"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-13",
+      "date": "2026-03-13",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Firouzabad, Fars province",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19928",
+          "posted": "2026-03-13T17:09:50+00:00",
+          "quote": "shot down an armed American MQ-9 drone in Firouzabad, Fars province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19934",
+          "posted": "2026-03-13T18:25:40+00:00",
+          "quote": "shot down another American drone—reportedly a MQ-9–in the sky of Bandar Abbas, southern Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19969",
+          "posted": "2026-03-13T23:40:53+00:00",
+          "quote": "shot down another American drone—reportedly a MQ-9–in the sky of Bandar Abbas, southern Iran"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-11-f-15",
+      "date": "2026-03-11",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "IRGC",
+      "place": "south of Tehran",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/73626",
+          "posted": "2026-03-11T18:05:20+00:00",
+          "quote": "An IRGC leader has claimed that a U.S. F-15 was shot down today south of Tehran."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-11",
+      "date": "2026-03-11",
+      "aircraft": "mq9",
+      "claimant": "Iranian Army",
+      "place": "Kerman, Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19760",
+          "posted": "2026-03-11T18:05:26+00:00",
+          "quote": "successful interception of an American MQ-9 drone with Iranian air defenses above Kerman, Iran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-10",
+      "date": "2026-03-10",
+      "aircraft": "mq9",
+      "claimant": "Iraqi resistance",
+      "place": "Basra, Iraq",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19652",
+          "posted": "2026-03-10T02:39:54+00:00",
+          "quote": "reportedly shot down an American MQ-9 drone above Basra, Iraq"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/73479",
+          "posted": "2026-03-10T18:39:57+00:00",
+          "quote": "their fighters downed a U.S. MQ-9 Reaper drone over the Basra Governorate at dawn today"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-09",
+      "date": "2026-03-09",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "Jam and Khormoj counties, Bushehr province",
+      "count": 2,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19602",
+          "posted": "2026-03-09T18:49:20+00:00",
+          "quote": "showing the successful interception of 2 American MQ-9 drones in the sky of Jam and Khormoj counties, Bushehr province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19604",
+          "posted": "2026-03-09T18:57:29+00:00",
+          "quote": "showing the successful interception of 2 American MQ-9 drones in the sky of Jam and Khormoj counties, Bushehr province"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19605",
+          "posted": "2026-03-09T19:05:11+00:00",
+          "quote": "successful interception of 2 American MQ-9 drones"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-07",
+      "date": "2026-03-07",
+      "aircraft": "mq9",
+      "claimant": "Iranian air defenses",
+      "place": "shores of Hormozgan",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19364",
+          "posted": "2026-03-07T08:47:31+00:00",
+          "quote": "Images of the wreckage of an American MQ-9 drone that was shot down by the Iranian air defenses before it could fire its missiles, on the shores of Hormozgan."
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-06",
+      "date": "2026-03-06",
+      "aircraft": "mq9",
+      "claimant": "Qatari forces (suspected friendly fire)",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/72258",
+          "posted": "2026-03-06T00:32:33+00:00",
+          "quote": "an MQ-9 Reaper was shot down by suspected friendly fire from Qatari forces"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-05-f-15",
+      "date": "2026-03-05",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "IRGC",
+      "place": "South-Western Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29813",
+          "posted": "2026-03-05T12:43:40+00:00",
+          "quote": "The IRGC claims to have downed an American F-15E fighter jet"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/72016",
+          "posted": "2026-03-05T11:39:08+00:00",
+          "quote": "A F-15 fighter jet was targeted and destroyed by Iranian air defenses in Alborz mountains, northern Iran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/72024",
+          "posted": "2026-03-05T11:56:24+00:00",
+          "quote": "A F-15 fighter jet was targeted and destroyed by Iranian air defenses in Alborz mountains, northern Iran"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-05-jet",
+      "date": "2026-03-05",
+      "aircraft": "jet",
+      "model": "fighter jet",
+      "claimant": "Iran",
+      "place": "over Tehran, north of the Lavasan mountains",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19170",
+          "posted": "2026-03-05T10:47:36+00:00",
+          "quote": "Iran shot down an Israeli/US fighter jet over Tehran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19227",
+          "posted": "2026-03-05T20:41:00+00:00",
+          "quote": "an American fighter jet was intercepted above Iraq by Iranian air defenses and footage was released showing a pilot having ejected"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19230",
+          "posted": "2026-03-05T20:43:24+00:00",
+          "quote": "an American fighter jet was intercepted above Iraq by Iranian air defenses and footage was released showing a pilot having ejected"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19231",
+          "posted": "2026-03-05T20:45:20+00:00",
+          "quote": "an American fighter jet was intercepted above Iraq by Iranian air defenses and footage was released showing a pilot having ejected"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19254",
+          "posted": "2026-03-05T22:37:50+00:00",
+          "quote": "an American fighter jet was intercepted above Iraq by Iranian air defenses and footage was released showing a pilot having ejected"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-05",
+      "date": "2026-03-05",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "western & southwestern Iran",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19198",
+          "posted": "2026-03-05T14:43:31+00:00",
+          "quote": "The IRGC says it downed 3 Israeli Hermes drones & 1 American MQ-9 drone in western & southwestern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19270",
+          "posted": "2026-03-06T10:28:59+00:00",
+          "quote": "wreckage of an intercepted American MQ-9 drone, shot down by Iran’s air defenses (Artesh), in Lorestan Province"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-04-f-15",
+      "date": "2026-03-04",
+      "aircraft": "jet",
+      "model": "F-15E",
+      "claimant": "Iranian air defenses",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19148",
+          "posted": "2026-03-05T04:54:28+00:00",
+          "quote": "Preliminary reports of a US F-15E being shot down by Iranian air defenses on Wednesday."
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19188",
+          "posted": "2026-03-05T12:16:14+00:00",
+          "quote": "Preliminary reports of a US F-15E being shot down by Iranian air defenses on Wednesday"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-04-jet",
+      "date": "2026-03-04",
+      "aircraft": "jet",
+      "model": "fighter jet",
+      "claimant": "Iran",
+      "place": "over Tehran, north of the Lavasan mountains",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19037",
+          "posted": "2026-03-04T09:21:02+00:00",
+          "quote": "Iran shot down an Israeli/US fighter jet over Tehran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19038",
+          "posted": "2026-03-04T09:23:27+00:00",
+          "quote": "Iran shot down an Israeli/US fighter jet over Tehran"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19045",
+          "posted": "2026-03-04T10:02:59+00:00",
+          "quote": "Iran shot down an Israeli/US fighter jet over Tehran"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-04",
+      "date": "2026-03-04",
+      "aircraft": "mq9",
+      "claimant": "Islamic Resistance in Iraq",
+      "place": "Salahuddeen Governorate",
+      "count": 1,
+      "tally": 4,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29747",
+          "posted": "2026-03-04T22:26:39+00:00",
+          "quote": "the downing of an American MQ-9 'Reaper' drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/19129",
+          "posted": "2026-03-04T22:47:37+00:00",
+          "quote": "Iraqi Resistance Group shot down an American MQ-9 drone in the skies of Salah al-Din province."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/71658",
+          "posted": "2026-03-04T11:19:27+00:00",
+          "quote": "air defenses shot down two Israeli Hermes drones and one U.S. MQ-9 Reaper drone"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-03-f-15",
+      "date": "2026-03-03",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "Iranian air defenses (per Tasnim)",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29647",
+          "posted": "2026-03-03T21:54:15+00:00",
+          "quote": "An American F-15 was shot down by Iranian air defenses"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/71500",
+          "posted": "2026-03-03T21:49:27+00:00",
+          "quote": "Iranian air defenses shot down a U.S. Air Force F-15"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-03",
+      "date": "2026-03-03",
+      "aircraft": "mq9",
+      "claimant": "Iranian Army",
+      "place": "",
+      "count": 1,
+      "tally": null,
+      "video": false,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/71298",
+          "posted": "2026-03-03T14:02:49+00:00",
+          "quote": "The military says MQ-9, Heron, Hermes, and Orbiter models were shot down"
+        }
+      ]
+    },
+    {
+      "id": "jet-2026-03-02-f-15",
+      "date": "2026-03-02",
+      "aircraft": "jet",
+      "model": "F-15",
+      "claimant": "U.S. official",
+      "place": "Kuwait",
+      "count": 3,
+      "tally": null,
+      "video": true,
+      "usConfirmed": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29389",
+          "posted": "2026-03-02T06:34:27+00:00",
+          "quote": "A U.S. official confirms an American F-15 jet was downed in Kuwait"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29397",
+          "posted": "2026-03-02T08:13:29+00:00",
+          "quote": "the downing of an American F-15 fighter jet by Iranian air defenses on the Kuwait-Iraqi border"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/18721",
+          "posted": "2026-03-02T06:36:03+00:00",
+          "quote": "A U.S. official confirms an American F-15 jet was downed in Kuwait"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70760",
+          "posted": "2026-03-02T11:12:06+00:00",
+          "quote": "CENTCOM says 3 F-15E Strike Eagles were shot down due to an apparent friendly fire incident"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70764",
+          "posted": "2026-03-02T11:28:51+00:00",
+          "quote": "CENTCOM says 3 F-15E Strike Eagles were shot down"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-02",
+      "date": "2026-03-02",
+      "aircraft": "mq9",
+      "claimant": "Iranian Armed Forces",
+      "place": "Tabriz, Tehran, Isfahan, Khorramabad, Bushehr",
+      "count": 1,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29458",
+          "posted": "2026-03-02T19:33:38+00:00",
+          "quote": "7 advanced enemy drones were downed today, including MQ-9 Reaper"
+        },
+        {
+          "kind": "telegram",
+          "name": "Fotros Resistance",
+          "url": "https://t.me/FotrosResistancee/18833",
+          "posted": "2026-03-02T19:05:48+00:00",
+          "quote": "The drones included MQ-9, Heron, Hermes, and Orbiter types, and were targeted and downed in Tabriz"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70733",
+          "posted": "2026-03-02T04:04:28+00:00",
+          "quote": "Iranian air defenses have downed an American MQ-9 Reaper drone over Isfahan"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70996",
+          "posted": "2026-03-02T20:05:46+00:00",
+          "quote": "The military says MQ-9, Heron, Hermes, and Orbiter models were shot down"
+        }
+      ]
+    },
+    {
+      "id": "mq9-2026-03-01",
+      "date": "2026-03-01",
+      "aircraft": "mq9",
+      "claimant": "IRGC",
+      "place": "southern Iran",
+      "count": 2,
+      "tally": null,
+      "video": true,
+      "usConfirmed": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17576",
+          "posted": "2026-03-01T21:48:58+00:00",
+          "quote": "Iran's Islamic Revolutionary Guard Corps announced that it shot down a U.S. MQ-9 Reaper drone using a defense system in southern Iran."
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29231",
+          "posted": "2026-03-01T13:46:14+00:00",
+          "quote": "Iran downs an American MQ-9 'Reaper' drone"
+        },
+        {
+          "kind": "telegram",
+          "name": "Middle East Spectator",
+          "url": "https://t.me/Middle_East_Spectator/29306",
+          "posted": "2026-03-01T20:19:23+00:00",
+          "quote": "2 MQ-9 Reapers downed today"
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70395",
+          "posted": "2026-03-01T13:48:04+00:00",
+          "quote": "Iran says it downed an American MQ-9 Reaper drone in their airspace."
+        },
+        {
+          "kind": "telegram",
+          "name": "Tabz Live News",
+          "url": "https://t.me/tabzlive/70449",
+          "posted": "2026-03-01T16:05:03+00:00",
+          "quote": "Iran says it downed an American MQ-9 Reaper drone in their airspace."
+        }
+      ]
+    }
+  ]
+}

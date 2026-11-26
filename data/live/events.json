@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T04:58:34.497Z",
+  "updated": "2026-11-26T12:17:20.084Z",
   "events": [
     {
       "id": "2026-11-25-gulf-saudi-arabia-ballistic",
@@ -19,6 +19,27 @@
           "launched": null,
           "intercepted": 2,
           "quote": "intercepted two ballistic missiles heading for Riyadh"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-11-25",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tribune.com.pk",
+          "url": "https://tribune.com.pk/story/2642423/saudi-led-coalition-intercepts-2-houthi-ballistic-missiles-launched-toward-riyadh",
+          "posted": "2026-11-25T21:31:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "Saudi-led coalition intercepts 2 Houthi ballistic missiles launched toward Riyadh"
         }
       ]
     },
@@ -50,6 +71,48 @@
           "launched": null,
           "intercepted": 1,
           "quote": "intercepted and destroyed a drone launched by"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-gulf-saudi-led-coalition-unknown",
+      "date": "2026-11-25",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "indiatvnews.com",
+          "url": "https://www.indiatvnews.com/news/world/saudi-arabia-intercepts-houthi-missiles-riyadh-yemen-conflict-2026-11-26-1060417",
+          "posted": "2026-11-25T22:35:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 3,
+          "quote": "The Saudi-led coalition has intercepted three Houthi missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-ukraine-ukraine-drone",
+      "date": "2026-11-25",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/99285",
+          "posted": "2026-11-26T06:10:07+00:00",
+          "official": true,
+          "launched": 113,
+          "intercepted": 87,
+          "quote": "протиповітряною обороною збито/подавлено 87 ворожих БпЛА типу Shahed"
         }
       ]
     },
@@ -125,6 +188,27 @@
           "launched": 153,
           "intercepted": 134,
           "quote": "збито/подавлено 134 ворожі БпЛА типу Shahed (42 із них – реактивні), Гербера та дронів інших типів"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-11-21",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "timesofisrael.com",
+          "url": "https://www.timesofisrael.com/liveblog_entry/saudi-led-coalition-says-it-intercepted-houthi-ballistic-missile-targeting-western-region/",
+          "posted": "2026-11-21T16:19:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "says it intercepted and destroyed a ballistic missile"
         }
       ]
     },
@@ -481,6 +565,16 @@
           "launched": null,
           "intercepted": 2,
           "quote": "it shot down two Iranian drones heading towards Bahrain"
+        },
+        {
+          "kind": "news",
+          "name": "bostonherald.com",
+          "url": "https://www.bostonherald.com/2026/11/13/us-iran-war-attack-drones-us-radar-strike/",
+          "posted": "2026-11-13T01:13:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "The U.S. military said it intercepted two Iranian attack drones headed toward Bahrain"
         }
       ]
     },
@@ -1186,6 +1280,79 @@
       ]
     },
     {
+      "id": "2026-09-09-other-jordan-unknown",
+      "date": "2026-09-09",
+      "theater": "other",
+      "defender": "Jordan",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/20187",
+          "posted": "2026-09-09T04:36:26+00:00",
+          "official": false,
+          "launched": 20,
+          "intercepted": null,
+          "quote": "Iran launched 20 missiles at US military bases in Jordan"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-08-gulf-iran-drone",
+      "date": "2026-09-08",
+      "theater": "gulf",
+      "defender": "Iran",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/20179",
+          "posted": "2026-09-08T18:19:15+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "shot down a U.S. MQ-9 Reaper drone"
+        }
+      ]
+    },
+    {
+      "id": "2026-08-31-gulf-uae-drone",
+      "date": "2026-08-31",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-in/news/other/uae-intercepts-iranian-drone-amid-rising-tensions-what-s-next-for-the-region/ar-AA2bhdsZ",
+          "posted": "2026-08-31T06:46:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "the United Arab Emirates announced the interception of an Iranian drone over its territorial waters on Monday"
+        },
+        {
+          "kind": "news",
+          "name": "yahoo.com",
+          "url": "https://www.yahoo.com/news/articles/uae-intercepts-iranian-drone-over-183552329.html",
+          "posted": "2026-08-31T11:35:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "it intercepted an Iranian drone over its waters on Monday"
+        }
+      ]
+    },
+    {
       "id": "2026-08-31-gulf-united-arab-emirates-drone",
       "date": "2026-08-31",
       "theater": "gulf",
@@ -1213,6 +1380,289 @@
           "launched": null,
           "intercepted": 1,
           "quote": "An Iranian drone was intercepted early Monday"
+        }
+      ]
+    },
+    {
+      "id": "2026-08-19-gulf-uae-ballistic",
+      "date": "2026-08-19",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19898",
+          "posted": "2026-08-19T03:27:36+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "The UAE's air defences successfully detected and intercepted two ballistic missiles launched from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-30-israel-unstated-ballistic",
+      "date": "2026-07-30",
+      "theater": "israel",
+      "defender": "unstated",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19640",
+          "posted": "2026-07-30T05:19:10+00:00",
+          "official": false,
+          "launched": 3,
+          "intercepted": null,
+          "quote": "Iran launched at least 3 ballistic missiles from Khomeyn and Yazd, targeting Israeli territory"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-26-red-sea-yemeni-armed-forces-drone",
+      "date": "2026-07-26",
+      "theater": "red-sea",
+      "defender": "Yemeni Armed Forces",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19608",
+          "posted": "2026-07-26T16:21:07+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "they shot down a Turkish Bayraktar Akıncı drone"
+        }
+      ]
+    },
+    {
+      "id": "2026-06-26-ukraine-russia-drone",
+      "date": "2026-06-26",
+      "theater": "ukraine",
+      "defender": "Russia",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/19331",
+          "posted": "2026-06-26T17:41:11+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 660,
+          "quote": "660 Ukrainian drones intercepted and destroyed overnight into June 26, 2026"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-07-gulf-saudi-arabia-ballistic",
+      "date": "2026-04-07",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18480",
+          "posted": "2026-04-07T17:58:44+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 7,
+          "quote": "Saudi Arabia intercepted seven ballistic missiles aimed at its Eastern Region"
+        }
+      ]
+    },
+    {
+      "id": "2026-04-02-gulf-iran-drone",
+      "date": "2026-04-02",
+      "theater": "gulf",
+      "defender": "Iran",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18390",
+          "posted": "2026-04-02T16:37:42+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "shoot down two MQ-9 Reaper drones over Isfahan"
+        },
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18393",
+          "posted": "2026-04-02T16:59:08+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "Iranian forces reportedly shot down a Saudi/UAE Wing Loong 2 UAV"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-26-gulf-united-states-unknown",
+      "date": "2026-03-26",
+      "theater": "gulf",
+      "defender": "United States",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": true,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/18257",
+          "posted": "2026-03-26T06:41:25+00:00",
+          "official": false,
+          "launched": 100,
+          "intercepted": null,
+          "quote": "Iran launched 100 missiles at a significant target, but the U.S. successfully intercepted all of them"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-06-gulf-saudi-arabia-ballistic",
+      "date": "2026-03-06",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17769",
+          "posted": "2026-03-06T05:36:30+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 3,
+          "quote": "intercepted and destroyed three ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-03-gulf-bahrain-drone",
+      "date": "2026-03-03",
+      "theater": "gulf",
+      "defender": "Bahrain",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17656",
+          "posted": "2026-03-03T13:43:31+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 91,
+          "quote": "successfully intercepted and destroyed 73 missiles and 91 drones launched from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-03-gulf-bahrain-unknown",
+      "date": "2026-03-03",
+      "theater": "gulf",
+      "defender": "Bahrain",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17656",
+          "posted": "2026-03-03T13:43:31+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 73,
+          "quote": "successfully intercepted and destroyed 73 missiles and 91 drones launched from Iran"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-03-gulf-qatar-unknown",
+      "date": "2026-03-03",
+      "theater": "gulf",
+      "defender": "Qatar",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17648",
+          "posted": "2026-03-03T12:35:07+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "two Iranian jets were shot down"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-02-gulf-qatar-ballistic",
+      "date": "2026-03-02",
+      "theater": "gulf",
+      "defender": "Qatar",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17610",
+          "posted": "2026-03-02T16:04:33+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 7,
+          "quote": "seven ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-02-gulf-qatar-drone",
+      "date": "2026-03-02",
+      "theater": "gulf",
+      "defender": "Qatar",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "OSINTdefender",
+          "url": "https://t.me/OSINTdefender/17610",
+          "posted": "2026-03-02T16:04:33+00:00",
+          "official": false,
+          "launched": null,
+          "intercepted": 5,
+          "quote": "five drones"
         }
       ]
     }
