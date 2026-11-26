@@ -144,6 +144,12 @@ export const Munition = z
     unitCostM: Param,
     /** Recent U.S. deliveries per year (five-year average of procurement). */
     deliveriesPerYear: Param,
+    /**
+     * Missiles delivered between the start of the war and `asOf`, as CSIS
+     * counts them in its "inventory today" bars. Added to prewar-minus-used
+     * figures; missiles without it get none added.
+     */
+    deliveredSinceWar: Param.extend({ asOf: isoDate }).optional(),
     /** Announced production capacity, all customers. Caps the model's slider. */
     announcedCapacityPerYear: Param.optional(),
     /** Missiles requested in the FY2027 budget - the big rebuild buy. */
