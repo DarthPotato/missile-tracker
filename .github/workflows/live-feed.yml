@@ -1,6 +1,6 @@
 name: Live feed
 
-# Every 6 hours: read the Telegram channels and news queries in
+# About every 6 hours: read the Telegram channels and news queries in
 # data/live/sources.json, log intercept counts with Claude Haiku, commit
 # data/live/ and redeploy. Published without review by design: the site labels
 # these figures unverified and keeps them out of the stockpile numbers.
@@ -10,9 +10,17 @@ name: Live feed
 # merged, not duplicated. Set "backfill scope" to claims to look only for U.S.
 # drone and jet shoot-down claims: far fewer model calls, and the intercept
 # channels' bookmarks are left alone.
+#
+# GitHub starts this repository's scheduled runs hours late and can drop them
+# under load, so a plain 6-hour schedule can leave long gaps. Instead the
+# schedule ticks every hour, and the gate job lets a tick through only when the
+# last update (the "updated" time in data/live/events.json, written on every run)
+# is at least MIN_GAP_MINUTES old. Late or dropped ticks then cost at most an
+# hour, two delayed ticks arriving together still make one run, and the model
+# is called about as often as before. Runs started by hand always go through.
 on:
   schedule:
-    - cron: "41 */6 * * *"
+    - cron: "41 * * * *"
   workflow_dispatch:
     inputs:
       backfill_days:
@@ -32,10 +40,32 @@ permissions:
 concurrency: live-feed
 
 jobs:
-  update:
+  gate:
     # format() turns an unset variable into '', so the feed runs unless LIVE_FEED is exactly 0.
     # (A bare vars.LIVE_FEED != '0' skips when it is unset: GitHub compares null and '0' as numbers.)
     if: format('{0}', vars.LIVE_FEED) != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          MIN_GAP_MINUTES: 330
+        run: |
+          if [ "$EVENT" != "schedule" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          updated=$(gh api "repos/${{ github.repository }}/contents/data/live/events.json?ref=main" \
+            -H "Accept: application/vnd.github.raw" | jq -r '.updated // empty') || updated=""
+          if [ -z "$updated" ]; then echo "No last-update time found, running."; echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          age=$(( ( $(date -u +%s) - $(date -u -d "$updated" +%s) ) / 60 ))
+          echo "Last update $updated, $age minutes ago (running after $MIN_GAP_MINUTES)."
+          if [ "$age" -ge "$MIN_GAP_MINUTES" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; else echo "run=false" >> "$GITHUB_OUTPUT"; fi
+
+  update:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     # A normal run takes a couple of minutes; a 30-day backfill can take half an hour,
     # and a backfill to the start of the war (busy channels, ~1.5 s a page) up to two hours.

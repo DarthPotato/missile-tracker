@@ -112,12 +112,14 @@ Run it locally without spending API credits: `npm run watch-sources -- --dry-run
 
 ### Automatic: the live intercept log
 
-`.github/workflows/live-feed.yml` runs every 6 hours and fills the `/live/` page with drones and missiles reported shot down:
+`.github/workflows/live-feed.yml` runs about every 6 hours and fills the `/live/` page with drones and missiles reported shot down:
 
 1. Reads the public web previews of the Telegram channels in `data/live/sources.json` (`t.me/s/<channel>`, no account or API key), plus the Bing News queries listed there.
 2. Keeps posts that look like intercept reports, and sends them in batches to Claude Haiku, which logs counts per day, theater, defender and threat type.
 3. Throws out any event whose quote isn't in the post word for word, with no count, more intercepted than launched, or a date that doesn't fit the post.
 4. Merges reports of the same event from different channels, commits `data/live/events.json` to `main` and redeploys.
+
+GitHub starts scheduled runs hours late and sometimes drops them, so the schedule ticks hourly and a small gate job skips each tick unless the `updated` time in `data/live/events.json` is at least 5½ hours old. A missed tick costs an hour rather than six, and the model is still called about four times a day.
 
 **Unlike the daily watch, this publishes without review, by design.** It's meant to be current, so the page labels every figure as unverified, shows each event's sources and quotes, rates it Official channel / Multiple sources / Single source, and none of it feeds the stockpile estimates. The log keeps everything it has logged, so it builds a history; the [full log](https://missiletracker.info/live/log/) lists it by month.
 
