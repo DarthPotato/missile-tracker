@@ -100,7 +100,7 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
       Claims{" "}
       {log.updated
         ? `last read ${formatDate(log.updated.slice(0, 10))}, ${log.updated.slice(11, 16)} UTC`
-        : "not read yet"}
+        : "not read yet"}{" "}
       from the same Telegram channels and news searches as the <a href={href("/live/")}>live log</a>.{" "}
       <a href={href("/methodology/#reapers")}>How this works</a>
     </p>
