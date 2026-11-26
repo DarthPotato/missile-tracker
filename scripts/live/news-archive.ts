@@ -9,8 +9,13 @@ import type { Item } from "./extract.ts";
 import { looksLikeIntercept } from "./telegram.ts";
 
 const API = "https://api.gdeltproject.org/api/v2/doc/doc";
-/** GDELT asks for no more than one request every five seconds. */
-const GAP_MS = 5_500;
+/**
+ * GDELT asks for no more than one request every five seconds, and counts by IP. A
+ * GitHub runner shares its address with other jobs, so leave more room than that
+ * and back off when it says no.
+ */
+const GAP_MS = 8_000;
+const RETRY_MS = [20_000, 40_000, 80_000];
 const WEEK_MS = 7 * 86_400_000;
 
 interface GdeltArticle {
@@ -50,32 +55,51 @@ export async function archiveNews(
   since: string,
   seen: Set<string>,
   log: (msg: string) => void = console.log,
-): Promise<{ items: Item[]; failed: number }> {
+  opts: { budgetMinutes?: number; wait?: (ms: number) => Promise<void>; get?: typeof fetch } = {},
+): Promise<{ items: Item[]; failed: number; skipped: number }> {
+  const wait = opts.wait ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  const get = opts.get ?? fetch;
+  const until = Date.now() + (opts.budgetMinutes ?? 120) * 60_000;
   const items: Item[] = [];
   let failed = 0;
+  let skipped = 0;
   const start = Date.parse(since);
+  /** One search, tried again after a rate limit or a dropped connection. */
+  const search = async (url: string): Promise<unknown> => {
+    for (let attempt = 0; ; attempt++) {
+      try {
+        const res = await get(url);
+        if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}`), { final: true });
+        const body = await res.text();
+        // GDELT answers a bad query with plain text, not JSON.
+        return body.trim().startsWith("{") ? JSON.parse(body) : {};
+      } catch (e) {
+        if ((e as { final?: boolean }).final || attempt >= RETRY_MS.length) throw e;
+        await wait(RETRY_MS[attempt]);
+      }
+    }
+  };
   for (const q of queries) {
     for (let from = start; from < Date.now(); from += WEEK_MS) {
+      if (Date.now() > until) {
+        skipped++;
+        continue;
+      }
       const to = Math.min(from + WEEK_MS, Date.now());
       const url =
         `${API}?query=${encodeURIComponent(q)}&mode=artlist&format=json&maxrecords=250&sort=datedesc` +
         `&startdatetime=${stamp(from)}&enddatetime=${stamp(to)}`;
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const body = await res.text();
-        // GDELT answers a bad query or a rate limit with plain text, not JSON.
-        const got = archiveItems(body.trim().startsWith("{") ? JSON.parse(body) : {}, seen).filter(
-          (it) => !items.some((o) => o.url === it.url),
-        );
+        const got = archiveItems(await search(url), seen).filter((it) => !items.some((o) => o.url === it.url));
         items.push(...got);
         log(`archive "${q}" ${new Date(from).toISOString().slice(0, 10)}: ${got.length} headlines`);
       } catch (e) {
         failed++;
         log(`archive "${q}" ${new Date(from).toISOString().slice(0, 10)}: failed (${(e as Error).message})`);
       }
-      await new Promise((r) => setTimeout(r, GAP_MS));
+      await wait(GAP_MS);
     }
   }
-  return { items, failed };
+  return { items, failed, skipped };
 }
