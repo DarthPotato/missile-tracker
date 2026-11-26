@@ -1,1 +1,255 @@
-{ "updated": null, "events": [] }
+{
+  "updated": "2026-11-26T04:21:21.100Z",
+  "events": [
+    {
+      "id": "2026-11-25-gulf-saudi-arabia-ballistic",
+      "date": "2026-11-25",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "letemps.ch",
+          "url": "https://www.letemps.ch/en/world/live-middle-east-fresh-strikes-in-yemen-as-houthi-missiles-target-riyadh",
+          "posted": "2026-11-25T16:00:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "intercepted two ballistic missiles heading for Riyadh"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-gulf-saudi-led-coalition-drone",
+      "date": "2026-11-25",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "tribune.com.pk",
+          "url": "https://tribune.com.pk/story/2642373/saudi-oil-refinery-targeted-as-houthi-attacks-escalate",
+          "posted": "2026-11-25T16:00:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "reported intercepting four drones"
+        },
+        {
+          "kind": "news",
+          "name": "timesofisrael.com",
+          "url": "https://www.timesofisrael.com/liveblog_entry/saudis-say-they-intercepted-houthi-drone-near-key-port-in-jeddah/",
+          "posted": "2026-11-25T12:01:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "intercepted and destroyed a drone launched by"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-gulf-saudi-arabia-ballistic",
+      "date": "2026-11-20",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "yahoo.com",
+          "url": "https://www.yahoo.com/news/world/articles/saudi-arabia-says-intercepted-three-023339671.html",
+          "posted": "2026-11-20T18:33:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 3,
+          "quote": "Saudi Arabia's air defences have intercepted and destroyed three ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-11-14",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-ae/news/middleeast/saudi-coalition-says-intercepted-two-ballistic-missiles-fired-towards-riyadh/ar-AA2hshDD",
+          "posted": "2026-11-14T19:21:49.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "Saudi coalition says intercepted two ballistic missiles fired towards Riyadh"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-gulf-united-states-unknown",
+      "date": "2026-11-14",
+      "theater": "gulf",
+      "defender": "United States",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": true,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-us/news/other/iran-claims-us-radar-was-destroyed-in-bahrain-centcom-says-two-drones-were-intercepted-before-reaching-target/ar-AA2hr0bm",
+          "posted": "2026-11-14T10:38:47.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "CENTCOM said American forces intercepted two Iranian attack munitions"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-gulf-united-states-drone",
+      "date": "2026-11-13",
+      "theater": "gulf",
+      "defender": "United States",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": true,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "orlandosentinel.com",
+          "url": "https://www.orlandosentinel.com/2026/11/13/us-iran-war-attack-drones-us-radar-strike/",
+          "posted": "2026-11-13T06:12:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "US military downs 2 Iranian attack drones"
+        },
+        {
+          "kind": "news",
+          "name": "dailytimes.com.pk",
+          "url": "https://dailytimes.com.pk/1581231/centcom-says-it-shot-down-two-iranian-drones-heading-towards-bahrain/",
+          "posted": "2026-11-14T01:04:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "shot down two one-way attack drones"
+        },
+        {
+          "kind": "news",
+          "name": "tribune.com.pk",
+          "url": "https://tribune.com.pk/story/2640082/centcom-calls-israeli-media-report-of-possible-iran-war-resumption-pure-speculation",
+          "posted": "2026-11-13T07:26:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "it shot down two Iranian drones heading towards Bahrain"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-24-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-10-24",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "thedailystar.net",
+          "url": "https://www.thedailystar.net/news/world/middle-east/news/saudi-led-coalition-intercepts-ballistic-missile-launched-towards-riyadh-4306141",
+          "posted": "2026-10-24T01:36:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "intercepted a ballistic missile launched towards Riyadh"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-01-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-10-01",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "ndtv.com",
+          "url": "https://www.ndtv.com/world-news/saudi-coalition-says-intercepted-houthi-missiles-drones-12127925",
+          "posted": "2026-10-01T14:18:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "intercepted two ballistic missiles and four drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-01-gulf-saudi-led-coalition-drone",
+      "date": "2026-10-01",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "ndtv.com",
+          "url": "https://www.ndtv.com/world-news/saudi-coalition-says-intercepted-houthi-missiles-drones-12127925",
+          "posted": "2026-10-01T14:18:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "intercepted two ballistic missiles and four drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-08-31-gulf-united-arab-emirates-drone",
+      "date": "2026-08-31",
+      "theater": "gulf",
+      "defender": "United Arab Emirates",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-au/news/other/uae-intercepts-iranian-drone-over-its-territorial-waters/ar-AA2biFVA",
+          "posted": "2026-08-31T13:22:55.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "intercepted an Iranian drone"
+        },
+        {
+          "kind": "news",
+          "name": "vindy.com",
+          "url": "https://www.vindy.com/news/national-news/2026/09/uae-intercepts-an-iranian-drone/",
+          "posted": "2026-08-31T17:00:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "An Iranian drone was intercepted early Monday"
+        }
+      ]
+    }
+  ]
+}
