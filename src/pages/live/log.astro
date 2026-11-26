@@ -1,0 +1,81 @@
+---
+// Every event the live feed has logged, newest month first.
+import Base from "../../layouts/Base.astro";
+import LiveEventCard from "../../components/LiveEventCard.astro";
+import { getLive } from "../../lib/data";
+import { totals } from "../../lib/live";
+import { fmt } from "../../lib/format";
+import { href } from "../../lib/site";
+
+const live = getLive();
+const months = new Map<string, typeof live.events>();
+for (const e of live.events) {
+  const m = e.date.slice(0, 7);
+  months.set(m, [...(months.get(m) ?? []), e]);
+}
+const monthName = (m: string) =>
+  new Date(`${m}-01T00:00:00Z`).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+---
+
+<Base
+  title="Full intercept log"
+  description="Every drone and missile interception the live feed has logged, by month. Unverified."
+>
+  <header class="lhead">
+    <div class="label warn">Unverified</div>
+    <h1>Full intercept log</h1>
+    <p class="lede">
+      Every event the <a href={href("/live/")}>live feed</a> has logged, newest first. Read automatically from public
+      Telegram channels and news headlines and not checked by a person.
+    </p>
+    <p class="small muted">
+      <a href={href("/data/live-events.json")}>Download all of it as JSON</a>
+    </p>
+  </header>
+
+  {live.events.length === 0 && <p class="muted">The feed hasn't logged anything yet.</p>}
+  {[...months].map(([m, events]) => {
+    const t = totals(events);
+    return (
+      <section id={m}>
+        <div class="section-head">
+          <h2>{monthName(m)}</h2>
+          <span class="small muted">
+            {fmt(events.length)} event{events.length === 1 ? "" : "s"} · {fmt(t.intercepted.low)} reported shot down
+          </span>
+        </div>
+        <ol class="events">
+          {events.map((e) => (
+            <LiveEventCard event={e} />
+          ))}
+        </ol>
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .lhead {
+    margin-top: 40px;
+  }
+  .warn {
+    color: var(--serious);
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    letter-spacing: -0.025em;
+    margin: 10px 0;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0 0 8px;
+  }
+  .events {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+</style>

@@ -119,10 +119,11 @@ Run it locally without spending API credits: `npm run watch-sources -- --dry-run
 3. Throws out any event whose quote isn't in the post word for word, with no count, more intercepted than launched, or a date that doesn't fit the post.
 4. Merges reports of the same event from different channels, commits `data/live/events.json` to `main` and redeploys.
 
-**Unlike the daily watch, this publishes without review, by design.** It's meant to be current, so the page labels every figure as unverified, shows each event's sources and quotes, rates it Official channel / Multiple sources / Single source, and none of it feeds the stockpile estimates. The log keeps 180 days.
+**Unlike the daily watch, this publishes without review, by design.** It's meant to be current, so the page labels every figure as unverified, shows each event's sources and quotes, rates it Official channel / Multiple sources / Single source, and none of it feeds the stockpile estimates. The log keeps everything it has logged, so it builds a history; the [full log](https://missiletracker.info/live/log/) lists it by month.
 
 - Add or remove channels in `data/live/sources.json` (`official: true` only for a government's own channel).
 - Turn it off by setting the repository variable `LIVE_FEED` to `0`.
+- Fill in history: run the Live feed workflow by hand with **backfill days** set (say `30`). It re-reads that many days of every Telegram channel; events already logged are merged, not duplicated. News feeds only reach back a day or two.
 - Cost: a few cents a day at Haiku prices (a handful of batched calls per run).
 - Try it locally without API calls or writes: `npm run live-feed -- --dry-run`.
 
