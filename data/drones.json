@@ -1,0 +1,141 @@
+{
+  "drones": [
+    {
+      "id": "mq9",
+      "name": "MQ-9 Reaper",
+      "operator": "U.S. Air Force",
+      "blurb": "The Air Force's armed surveillance drone, flown over Iran and Yemen throughout the war. Its production line is closed, so every loss comes out of a fleet that can't be refilled quickly.",
+      "fleetBefore": {
+        "asOf": "2025-10-01",
+        "value": 165,
+        "qualifier": "exact",
+        "by": "Air Force budget documents, start of fiscal 2026",
+        "note": "Air & Space Forces Magazine reported 182 for the same date; nothing public explains the gap. We use the budget figure.",
+        "source": {
+          "outlet": "The War Zone",
+          "title": "USAF Scrambling To Buy What Few MQ-9 Reapers It Can Find After Epic Fury Losses",
+          "url": "https://www.twz.com/air/usaf-scrambling-to-buy-what-few-mq-9-reapers-it-can-find-after-epic-fury-losses",
+          "published": "2026-06-05",
+          "quote": "had 165 Reapers in inventory"
+        }
+      },
+      "fleetAfter": [
+        {
+          "asOf": "2026-05-12",
+          "value": 135,
+          "qualifier": "about",
+          "by": "Lt. Gen. David Tabor, to the Senate Armed Services Committee",
+          "source": {
+            "outlet": "Air Force Times",
+            "title": "Air Force MQ-9 fleet drops to 135 aircraft after Iran combat losses",
+            "url": "https://www.airforcetimes.com/news/pentagon-congress/2026/05/13/air-force-mq-9-fleet-drops-to-135-aircraft-after-iran-combat-losses/",
+            "published": "2026-05-13",
+            "quote": "has fallen to roughly 135 aircraft"
+          }
+        }
+      ],
+      "losses": [
+        {
+          "kind": "official",
+          "asOf": "2026-06-30",
+          "value": 30,
+          "qualifier": "at-most",
+          "by": "Pentagon Lead Inspector General, quarterly report to Congress",
+          "note": "From all causes, February 28 through June 30.",
+          "source": {
+            "outlet": "MiGFlug Afterburner",
+            "title": "Iran War Losses: The Pentagon and CBO Finally Publish the Numbers",
+            "url": "https://migflug.com/afterburner/iran-war-us-aircraft-losses-pentagon-cbo-reports-2026/",
+            "published": "2026-09-23",
+            "quote": "as many as 30 were destroyed in various circumstances through the end of June"
+          }
+        },
+        {
+          "kind": "press",
+          "asOf": "2026-08-15",
+          "value": 45,
+          "qualifier": "at-least",
+          "by": "Three U.S. officials, to the Washington Post",
+          "note": "From all causes: shoot-downs, crashes, Houthi fire over Yemen and aircraft destroyed on the ground. The Air Force hasn't published its own count. Dated mid-August; the Post's report gives the month only.",
+          "source": {
+            "outlet": "Military Times",
+            "title": "Heavy losses of MQ-9 Reaper to factor in future plans to divest, replace aircraft",
+            "url": "https://www.militarytimes.com/news/pentagon-congress/2026/09/28/heavy-losses-of-mq-9-reaper-to-factor-in-future-plans-to-divest-replace-aircraft/",
+            "published": "2026-09-28",
+            "quote": "Washington Post analysis that claims the force lost 45 aircraft"
+          }
+        },
+        {
+          "kind": "adversary",
+          "asOf": "2026-11-04",
+          "value": 56,
+          "qualifier": "exact",
+          "by": "Iran's Revolutionary Guards",
+          "note": "The Guards' own running count, unconfirmed by the U.S.",
+          "source": {
+            "outlet": "The Firebrand Project",
+            "title": "The Billion Dollar Losses CENTCOM is Hiding Are Striking",
+            "url": "https://thefirebrandproject.substack.com/p/the-billion-dollar-losses-centcom",
+            "published": "2026-11-06",
+            "quote": "claimed to have shot down their 56th American MQ-9 Reaper"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mq1",
+      "name": "MQ-1 Gray Eagle",
+      "operator": "U.S. Army",
+      "blurb": "The Air Force retired its MQ-1 Predators years ago, so an \"MQ-1\" lost over the Gulf is almost certainly the Army's MQ-1C Gray Eagle. CENTCOM hasn't said which variant.",
+      "fleetAfter": [],
+      "fleetNote": "The Army doesn't publish how many Gray Eagles it has, so there's no stock-left figure, only losses.",
+      "losses": [
+        {
+          "kind": "official",
+          "asOf": "2026-05-31",
+          "value": 1,
+          "qualifier": "exact",
+          "by": "U.S. Central Command",
+          "source": {
+            "outlet": "The War Zone",
+            "title": "USAF Scrambling To Buy What Few MQ-9 Reapers It Can Find After Epic Fury Losses",
+            "url": "https://www.twz.com/air/usaf-scrambling-to-buy-what-few-mq-9-reapers-it-can-find-after-epic-fury-losses",
+            "published": "2026-06-05",
+            "quote": "acknowledged the loss of an “MQ-1” drone to Iranian fire"
+          }
+        },
+        {
+          "kind": "press",
+          "asOf": "2026-09-15",
+          "value": 2,
+          "adds": true,
+          "qualifier": "at-least",
+          "by": "U.S. officials, to CBS News",
+          "note": "Downed in the days before CBS's September report, on top of the one CENTCOM acknowledged in May. Dated mid-September.",
+          "source": {
+            "outlet": "The Firebrand Project",
+            "title": "The Billion Dollar Losses CENTCOM is Hiding Are Striking",
+            "url": "https://thefirebrandproject.substack.com/p/the-billion-dollar-losses-centcom",
+            "published": "2026-11-06",
+            "quote": "Iranian forces in recent days have brought down at least two American MQ-1 unmanned aircraft"
+          }
+        },
+        {
+          "kind": "adversary",
+          "asOf": "2026-11-06",
+          "value": 16,
+          "qualifier": "exact",
+          "by": "Iran's Revolutionary Guards",
+          "note": "The Guards' own running count, unconfirmed by the U.S.",
+          "source": {
+            "outlet": "The Firebrand Project",
+            "title": "The Billion Dollar Losses CENTCOM is Hiding Are Striking",
+            "url": "https://thefirebrandproject.substack.com/p/the-billion-dollar-losses-centcom",
+            "published": "2026-11-06",
+            "quote": "the downing of the 16th US MQ-1 drone"
+          }
+        }
+      ]
+    }
+  ]
+}

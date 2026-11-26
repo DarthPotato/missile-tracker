@@ -3,7 +3,7 @@
 // daily watcher both use it; tests drive it with a fake fetcher.
 import type { Dataset } from "../src/lib/dataset.ts";
 import { sourcedParams } from "../src/lib/dataset.ts";
-import type { PerspectiveFile } from "../src/lib/schema.ts";
+import type { DronesFile, PerspectiveFile } from "../src/lib/schema.ts";
 import { containsQuote } from "../src/lib/text.ts";
 import { rawSnapshot } from "./archive.ts";
 
@@ -29,8 +29,9 @@ export interface QuoteResult {
 }
 
 export const PERSPECTIVE = "perspective";
+export const DRONES = "drones";
 
-export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteTarget[] {
+export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile, drones?: DronesFile): QuoteTarget[] {
   const targets: QuoteTarget[] = ds.reports.map((r) => ({
     id: r.id,
     url: r.source.url,
@@ -62,6 +63,21 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteT
         manual: f.quoteCheck === "manual",
       });
   }
+  if (drones) {
+    const figures = drones.drones.flatMap((d) => [
+      ...(d.fleetBefore ? [d.fleetBefore] : []),
+      ...d.fleetAfter,
+      ...d.losses,
+    ]);
+    for (const { source: f } of figures)
+      targets.push({
+        id: DRONES,
+        url: f.url,
+        archiveUrl: f.archiveUrl,
+        quotes: [f.quote],
+        manual: f.quoteCheck === "manual",
+      });
+  }
   return targets;
 }
 
@@ -76,6 +92,7 @@ export function strictIdsFromChanged(paths: string[], ds: Dataset): Set<string> 
     const file = p.split("/").pop() ?? "";
     if (p.includes("data/reports/") && file.endsWith(".json")) ids.add(file.slice(0, -5));
     if (file === "perspective.json") ids.add(PERSPECTIVE);
+    if (file === "drones.json") ids.add(DRONES);
     if (file === "munitions.json") for (const m of ds.munitions) for (const s of sourcedParams(m)) ids.add(s.reportId);
   }
   return ids;

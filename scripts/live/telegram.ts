@@ -10,6 +10,8 @@ export interface Post {
   /** ISO timestamp from the post's <time datetime>. */
   posted: string;
   text: string;
+  /** A video is attached to the post. */
+  video: boolean;
 }
 
 const UA = "Mozilla/5.0 (compatible; missile-tracker/0.1; +https://github.com/DarthPotato/missile-tracker) live-feed";
@@ -27,7 +29,8 @@ export function parseChannelPage(html: string, handle: string): Post[] {
     const text = htmlToText(body[1]);
     if (!text) continue;
     const id = Number(post[2]);
-    posts.push({ handle, id, url: `https://t.me/${handle}/${id}`, posted: time[1], text });
+    const video = /tgme_widget_message_(video|roundvideo)/.test(chunk);
+    posts.push({ handle, id, url: `https://t.me/${handle}/${id}`, posted: time[1], text, video });
   }
   return posts.sort((a, b) => a.id - b.id);
 }

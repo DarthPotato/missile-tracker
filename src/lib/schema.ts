@@ -233,6 +233,63 @@ export const PerspectiveFile = z
 export type PerspectiveFile = z.infer<typeof PerspectiveFile>;
 
 // ---------------------------------------------------------------------------
+// U.S. drone losses (data/drones.json): the Reaper page's sourced figures.
+// Fleet sizes and loss counts from U.S. officials and the press, plus the
+// running tally Iran and the Houthis claim. Quote-checked like everything else;
+// the live claim log (data/live/drone-claims.json) adds to the claimed tally.
+// ---------------------------------------------------------------------------
+
+export const DRONE_IDS = ["mq9", "mq1"] as const;
+export const DroneId = z.enum(DRONE_IDS);
+export type DroneId = z.infer<typeof DroneId>;
+
+/** Who a loss figure comes from: U.S. officials, press reporting, or the side claiming the kill. */
+export const LossBy = z.enum(["official", "press", "adversary"]);
+export type LossBy = z.infer<typeof LossBy>;
+
+const DroneFigure = z
+  .object({
+    /** The day the figure applies to. */
+    asOf: isoDate,
+    value: z.number().int().nonnegative(),
+    qualifier: z.enum(["exact", "about", "at-least", "at-most"]),
+    /** Who stated it, in a few words: "Lt. Gen. David Tabor, to the Senate". */
+    by: z.string(),
+    note: z.string().optional(),
+    /** A loss count that comes on top of the earlier ones, not a new running total. */
+    adds: z.boolean().optional(),
+    source: SourcedFigure,
+  })
+  .strict();
+export type DroneFigure = z.infer<typeof DroneFigure>;
+
+export const DronesFile = z
+  .object({
+    drones: z
+      .array(
+        z
+          .object({
+            id: DroneId,
+            name: z.string(),
+            operator: z.string(),
+            blurb: z.string(),
+            /** Fleet size before the war, at the start of the fiscal year. Optional: the Army doesn't publish its Gray Eagle fleet. */
+            fleetBefore: DroneFigure.optional(),
+            /** Later official fleet counts. */
+            fleetAfter: z.array(DroneFigure),
+            losses: z.array(DroneFigure.extend({ kind: LossBy })),
+            /** Why there's no fleet figure, when there isn't one. */
+            fleetNote: z.string().optional(),
+          })
+          .strict(),
+      )
+      .length(DRONE_IDS.length),
+  })
+  .strict();
+export type DronesFile = z.infer<typeof DronesFile>;
+export type Drone = DronesFile["drones"][number];
+
+// ---------------------------------------------------------------------------
 // Photos: one public-domain DVIDS image per missile, stored at
 // src/assets/photos/<id>.jpg and credited wherever it appears.
 // ---------------------------------------------------------------------------

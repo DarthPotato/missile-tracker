@@ -15,6 +15,8 @@ export interface Item {
   posted: string;
   official: boolean;
   text: string;
+  /** The Telegram post has a video attached. */
+  video?: boolean;
 }
 
 const SCHEMA = {

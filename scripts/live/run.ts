@@ -1,6 +1,8 @@
 // Live intercept feed. Several times a day: read the Telegram channels and news
 // queries in data/live/sources.json, have Claude Haiku log intercept counts,
 // throw out anything not quoted verbatim, merge into data/live/events.json.
+// Posts that name a U.S. MQ-9 or MQ-1 also go through a second pass that logs
+// shoot-down claims into data/live/drone-claims.json.
 //
 // Unlike the stockpile watch, this publishes without a review step: the site
 // labels every figure as unverified and keeps it out of the vetted numbers.
@@ -16,9 +18,12 @@ import { LiveFile, mergeEvents } from "../../src/lib/live.ts";
 import { parseRss, bingItem } from "../pipeline/feeds.ts";
 import { fetchChannel, looksLikeIntercept, looksLikeTally, worthSending } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
+import { extractClaims, mentionsUsDrone } from "./losses.ts";
+import { DroneClaimsFile, mergeClaims } from "../../src/lib/drones.ts";
 
 const DIR = path.join(ROOT, "data", "live");
 const EVENTS = path.join(DIR, "events.json");
+const CLAIMS = path.join(DIR, "drone-claims.json");
 const STATE = path.join(DIR, "state.json");
 const OUT = path.join(ROOT, "pipeline-out");
 // The log keeps everything: it's the history. No rolling window.
@@ -29,6 +34,8 @@ const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 interface Sources {
   telegram: { handle: string; name: string; official: boolean }[];
   newsQueries: string[];
+  /** Searches for U.S. drone shoot-down claims; only headlines naming an MQ-9 or MQ-1 are kept. */
+  droneQueries?: string[];
 }
 interface State {
   lastPost: Record<string, number>;
@@ -38,7 +45,11 @@ interface State {
 const read = <T>(file: string, fallback: T): T =>
   existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : fallback;
 
-async function news(queries: string[], seen: Set<string>): Promise<Item[]> {
+async function news(
+  queries: string[],
+  seen: Set<string>,
+  keep: (text: string) => boolean = looksLikeIntercept,
+): Promise<Item[]> {
   if (process.env.USE_BING_NEWS !== "1") return [];
   const out: Item[] = [];
   for (const q of queries) {
@@ -50,7 +61,7 @@ async function news(queries: string[], seen: Set<string>): Promise<Item[]> {
         if (!item || seen.has(item.url) || out.some((o) => o.url === item.url)) continue;
         // Headline plus the feed's snippet: enough for a count, no page fetch needed.
         const text = [raw.title, raw.description?.replace(/<[^>]+>/g, " ")].filter(Boolean).join("\n");
-        if (!looksLikeIntercept(text)) continue;
+        if (!keep(text)) continue;
         out.push({
           kind: "news",
           name: item.outlet,
@@ -75,6 +86,8 @@ async function main() {
   const sources = read<Sources>(path.join(DIR, "sources.json"), { telegram: [], newsQueries: [] });
   const state = read<State>(STATE, { lastPost: {}, seenNews: [] });
   const log = LiveFile.parse(read(EVENTS, { updated: null, events: [] }));
+  const claimLog = DroneClaimsFile.parse(read(CLAIMS, { updated: null, claims: [] }));
+  const droneItems: Item[] = [];
   const lines: string[] = [];
 
   const items: Item[] = [];
@@ -88,6 +101,17 @@ async function main() {
         : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
       const kept = posts.filter((p) => worthSending(p.text, ch.official));
       if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
+      const aboutDrones = posts.filter((p) => mentionsUsDrone(p.text));
+      for (const p of aboutDrones)
+        droneItems.push({
+          kind: "telegram",
+          name: ch.name,
+          url: p.url,
+          posted: p.posted,
+          official: ch.official,
+          text: p.text,
+          video: p.video,
+        });
       for (const p of kept)
         items.push({
           kind: "telegram",
@@ -102,6 +126,7 @@ async function main() {
         ch.official
           ? `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} giving a number shot down (sent)`
           : `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
+        ...(aboutDrones.length ? [`  - ${aboutDrones.length} naming an MQ-9 or MQ-1`] : []),
       );
     } catch (e) {
       lines.push(`- Telegram ${ch.name}: failed (${(e as Error).message})`);
@@ -111,11 +136,19 @@ async function main() {
   const newsItems = await news(sources.newsQueries, seenNews);
   items.push(...newsItems);
   lines.push(`- News: ${newsItems.length} new headlines about intercepts`);
+  const droneNews = (await news(sources.droneQueries ?? [], seenNews, mentionsUsDrone)).filter(
+    (d) => !newsItems.some((n) => n.url === d.url),
+  );
+  // Intercept headlines that name a Reaper count too.
+  droneItems.push(...droneNews, ...newsItems.filter((n) => mentionsUsDrone(n.text)));
+  lines.push(`- News: ${droneNews.length} new headlines naming an MQ-9 or MQ-1`);
 
   if (dryRun) {
     console.log(lines.join("\n"));
     for (const it of items)
       console.log(`  ${it.kind} ${it.name} ${it.posted} ${it.text.slice(0, 100).replace(/\n/g, " ")}`);
+    for (const it of droneItems)
+      console.log(`  drone ${it.kind} ${it.name} ${it.posted} ${it.text.slice(0, 100).replace(/\n/g, " ")}`);
     return;
   }
 
@@ -154,13 +187,36 @@ async function main() {
         ]
       : []),
   );
+  let claims = claimLog.claims;
+  let claimed = 0;
+  for (let i = 0; i < droneItems.length; i += BATCH) {
+    const batch = droneItems.slice(i, i + BATCH);
+    try {
+      const res = await extractClaims(batch);
+      const before = claims.length;
+      claims = mergeClaims(claims, res.claims);
+      claimed += res.claims.length;
+      lines.push(
+        `- Drone batch ${i / BATCH + 1}: ${res.claims.length} shoot-down claims (${claims.length - before} new, rest merged as extra sources)`,
+      );
+      dropped.push(...res.dropped.map((d) => `  - ${d.item}: ${d.reason}`));
+    } catch (e) {
+      lines.push(`- Drone batch ${i / BATCH + 1}: extraction failed (${(e as Error).message})`);
+    }
+  }
+  if (droneItems.length || !claimLog.updated)
+    writeFileSync(
+      CLAIMS,
+      JSON.stringify(DroneClaimsFile.parse({ updated: new Date().toISOString(), claims }), null, 2) + "\n",
+    );
+
   writeFileSync(EVENTS, JSON.stringify(LiveFile.parse({ updated: new Date().toISOString(), events }), null, 2) + "\n");
-  for (const it of newsItems) seenNews.add(it.url);
+  for (const it of [...newsItems, ...droneNews]) seenNews.add(it.url);
   writeFileSync(STATE, JSON.stringify({ lastPost: newLast, seenNews: [...seenNews].slice(-500) }, null, 2) + "\n");
 
   mkdirSync(OUT, { recursive: true });
   const summary = [
-    `Live feed run ${new Date().toISOString()}: ${added} events logged`,
+    `Live feed run ${new Date().toISOString()}: ${added} events logged, ${claimed} drone shoot-down claims`,
     "",
     ...lines,
     ...(dropped.length ? ["", "Thrown out:", ...dropped] : []),

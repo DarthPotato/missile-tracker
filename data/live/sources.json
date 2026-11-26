@@ -20,5 +20,11 @@
     "intercepted ballistic missiles Iran",
     "Houthi drones intercepted Red Sea",
     "UAE intercepts drones"
+  ],
+  "droneQueries": [
+    "MQ-9 Reaper shot down",
+    "IRGC downs US drone MQ-9",
+    "Houthis shoot down MQ-9",
+    "MQ-1 drone shot down Iran"
   ]
 }
