@@ -125,7 +125,7 @@ GitHub starts scheduled runs hours late and sometimes drops them, so the schedul
 
 - Add or remove channels in `data/live/sources.json` (`official: true` only for a government's own channel).
 - Turn it off by setting the repository variable `LIVE_FEED` to `0`.
-- Fill in history: run the Live feed workflow by hand with **backfill days** set (say `30`). It re-reads that many days of every Telegram channel; events already logged are merged, not duplicated. News feeds only reach back a day or two.
+- Fill in history: run the Live feed workflow by hand with **backfill days** set (say `30`). It re-reads that many days of every Telegram channel; events already logged are merged, not duplicated. News feeds only reach back a day or two. **Backfill channels** limits it to some channel handles. A backfill reads Telegram for at most three hours, shared between its channels, then logs and saves what it read; the run log says how far back each channel got. A run started from another branch still reads and writes main's data, and only the data is pushed.
 - Cost: a few cents a day at Haiku prices (a handful of batched calls per run).
 - Try it locally without API calls or writes: `npm run live-feed -- --dry-run`.
 
