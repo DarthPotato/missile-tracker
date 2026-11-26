@@ -5,6 +5,7 @@
 import { THREAT_LABEL, type LiveEvent } from "./live";
 import type { DroneClaim } from "./drones";
 import type { DronesFile } from "./schema";
+import { withArticle } from "./format";
 
 export type LonLat = [number, number];
 
@@ -135,7 +136,7 @@ export function mapData(events: LiveEvent[], jets: DronesFile["jets"], claims: D
   }
   for (const c of [...claims].sort((a, b) => b.date.localeCompare(a.date))) {
     const what = c.aircraft === "jet" ? (c.model ?? "jet") : c.aircraft === "mq9" ? "MQ-9" : "MQ-1";
-    const line = `${c.date}: ${c.claimant} claims ${c.count > 1 ? `${c.count} ${what}s` : `an ${what}`}`;
+    const line = `${c.date}: ${c.claimant} claims ${c.count > 1 ? `${c.count} ${what}s` : withArticle(what)}`;
     const place = locate(c.place);
     if (place) add(marks, "claim", place, c.count, line);
     else unplaced.push(line);

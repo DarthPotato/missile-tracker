@@ -8,7 +8,7 @@ import liveJson from "../../data/live/events.json";
 import dronesJson from "../../data/drones.json";
 import droneClaimsJson from "../../data/live/drone-claims.json";
 import { LiveFile } from "./live";
-import { DroneClaimsFile } from "./drones";
+import { DroneClaimsFile, isAdversaryClaim, mergeClaims } from "./drones";
 import type { ImageMetadata } from "astro";
 import {
   AircraftPhotosFile,
@@ -76,7 +76,12 @@ let droneClaims: DroneClaimsFile | undefined;
 
 /** Iranian and Houthi drone shoot-down claims logged by the live feed (unverified). */
 export function getDroneClaims(): DroneClaimsFile {
-  return (droneClaims ??= DroneClaimsFile.parse(droneClaimsJson));
+  if (!droneClaims) {
+    const file = DroneClaimsFile.parse(droneClaimsJson);
+    // Older log entries may hold U.S. or press reports, or one claim logged on two days; tidy both here.
+    droneClaims = { ...file, claims: mergeClaims([], file.claims.filter(isAdversaryClaim)) };
+  }
+  return droneClaims;
 }
 
 const aircraftFiles = import.meta.glob<{ default: ImageMetadata }>("../assets/photos/aircraft/*.jpg", { eager: true });

@@ -5,7 +5,7 @@
 // one-sided until U.S. officials say otherwise.
 import Anthropic from "@anthropic-ai/sdk";
 import { containsQuote } from "../../src/lib/text.ts";
-import { DroneClaim, claimKey, type ClaimSource } from "../../src/lib/drones.ts";
+import { DroneClaim, claimKey, isAdversaryClaim, type ClaimSource } from "../../src/lib/drones.ts";
 import { MODEL, type Item } from "./extract.ts";
 
 const SCHEMA = {
@@ -60,7 +60,9 @@ Fields:
 - date: the day it was shot down (YYYY-MM-DD). If unclear, use the posting date.
 - aircraft: mq9 (MQ-9, Reaper, "إم كيو 9", "ام‌کیو ۹"), mq1 (MQ-1, Predator, Gray Eagle), or jet (a manned U.S. combat jet).
 - model: for a jet, its type as stated ("F-35", "F-15E", "A-10"), or "fighter jet" if the type isn't named. For a drone, "".
-- claimant: who says they shot it down, in English: "IRGC", "Iranian Army", "Houthis", or as named. If the U.S. itself announces the loss, "CENTCOM" or the U.S. body named.
+- claimant: who says they shot it down, in English: "IRGC", "Iranian Army", "Houthis", or as named.
+
+Log only claims made by the side that says it did the shooting (Iran, its forces and media, the Houthis, Iraqi groups). Skip items where U.S. officials, allies or the press report a U.S. loss with no such claim in the item: those are tracked separately by hand.
 - place: where, as stated ("Strait of Hormuz", "Marib, Yemen"), else "".
 - count: how many aircraft of that type this claim covers, usually 1.
 - tally: the claimant's running total if stated ("the 57th" -> 57), else null.
@@ -120,6 +122,7 @@ export function validateClaim(raw: Raw, items: Item[]): DroneClaim | string {
   if (raw.aircraft === "jet" ? !mentionsUsJet(raw.quote) : !mentionsUsDrone(raw.quote))
     return raw.aircraft === "jet" ? "quote doesn't name a jet" : "quote doesn't name an MQ-9 or MQ-1";
   if (!(raw.count >= 1 && raw.count <= 10)) return `count ${raw.count} out of range`;
+  if (!isAdversaryClaim(raw)) return `reported by ${raw.claimant}, not claimed by Iran or its allies`;
   const posted = item.posted.slice(0, 10);
   const gap = (Date.parse(posted) - Date.parse(raw.date)) / 86_400_000;
   if (!(gap >= 0 && gap <= 3)) return `date ${raw.date} doesn't fit a post from ${posted}`;
