@@ -2,7 +2,8 @@
 import Base from "../layouts/Base.astro";
 import ConfidenceTag from "../components/ConfidenceTag.astro";
 import { SITE, href } from "../lib/site";
-import { getAllPhotos, getDataset } from "../lib/data";
+import { getAllAircraftPhotos, getAllPhotos, getDataset } from "../lib/data";
+import { AIRCRAFT_NAMES } from "../lib/schema";
 
 const names = getDataset().munitionById;
 ---
@@ -197,12 +198,21 @@ const names = getDataset().munitionById;
       <a href="https://www.dvidshub.net/" rel="noopener">
         DVIDS
       </a>
-      , in the public domain. They show the missile, not necessarily a launch from this war.
+      , in the public domain. They show the missile or aircraft type, not necessarily this war.
     </p>
     <ul class="photos">
       {getAllPhotos().map(([id, p]) => (
         <li>
           <strong>{names.get(id)!.name}</strong>: {p.credit}, {p.taken.slice(0, 4)} (
+          <a href={p.sourceUrl} rel="noopener">
+            DVIDS {p.dvidsId}
+          </a>
+          )
+        </li>
+      ))}
+      {getAllAircraftPhotos().map(([id, p]) => (
+        <li>
+          <strong>{AIRCRAFT_NAMES[id]}</strong>: {p.credit}, {p.taken.slice(0, 4)} (
           <a href={p.sourceUrl} rel="noopener">
             DVIDS {p.dvidsId}
           </a>

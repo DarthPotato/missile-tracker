@@ -358,7 +358,7 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
         const pic = getAircraftPhoto(aircraftPhotoId(l.model));
         return (
           <li class="card fig">
-            {pic && <MissilePhoto {...pic} class="loss-thumb" sizes="(min-width: 700px) 340px, 100vw" />}
+            {pic && <MissilePhoto {...pic} class="loss-thumb" sizes="(min-width: 1180px) 1100px, 100vw" />}
             <div class="fig-top">
               <span class="small muted">
                 {formatDate(l.date)} · {l.by}

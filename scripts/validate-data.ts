@@ -14,7 +14,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { DataError } from "../src/lib/dataset.ts";
-import { DronesFile, PerspectiveFile, PhotosFile } from "../src/lib/schema.ts";
+import { AircraftPhotosFile, DronesFile, PerspectiveFile, PhotosFile } from "../src/lib/schema.ts";
 import { existsSync } from "node:fs";
 import { fetchText } from "./fetch-text.ts";
 import { loadDataset, ROOT } from "./load-node.ts";
@@ -48,21 +48,28 @@ async function main() {
     console.error(`drones.json: ${drones.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
     process.exit(1);
   }
-  const photos = PhotosFile.safeParse(JSON.parse(readFileSync(path.join(ROOT, "data", "photos.json"), "utf8")));
-  if (!photos.success) {
-    console.error(`photos.json: ${photos.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
-    process.exit(1);
-  }
-  const missingPhotos = Object.keys(photos.data).filter(
-    (id) => !existsSync(path.join(ROOT, "src", "assets", "photos", `${id}.jpg`)),
-  );
-  if (missingPhotos.length) {
-    console.error(`photos.json: no image file for ${missingPhotos.join(", ")} in src/assets/photos/`);
-    process.exit(1);
+  let photoCount = 0;
+  for (const [file, Schema, dir] of [
+    ["photos.json", PhotosFile, ["photos"]],
+    ["aircraft-photos.json", AircraftPhotosFile, ["photos", "aircraft"]],
+  ] as const) {
+    const photos = Schema.safeParse(JSON.parse(readFileSync(path.join(ROOT, "data", file), "utf8")));
+    if (!photos.success) {
+      console.error(`${file}: ${photos.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+      process.exit(1);
+    }
+    const missing = Object.keys(photos.data).filter(
+      (id) => !existsSync(path.join(ROOT, "src", "assets", ...dir, `${id}.jpg`)),
+    );
+    if (missing.length) {
+      console.error(`${file}: no image file for ${missing.join(", ")} in src/assets/${dir.join("/")}/`);
+      process.exit(1);
+    }
+    photoCount += Object.keys(photos.data).length;
   }
   const claims = ds.reports.reduce((n, r) => n + r.claims.length, 0);
   console.log(
-    `ok: ${ds.munitions.length} munitions, ${ds.reports.length} reports, ${claims} claims, ${Object.keys(photos.data).length} photos`,
+    `ok: ${ds.munitions.length} munitions, ${ds.reports.length} reports, ${claims} claims, ${photoCount} photos`,
   );
 
   if (!process.argv.includes("--quotes")) return;
