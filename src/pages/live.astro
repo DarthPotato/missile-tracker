@@ -61,7 +61,10 @@ const range = (c?: CountRange) =>
   {groups.map((g) => {
     const e30 = filterEvents(g.events, since30);
     const t30 = totals(e30);
-    const anyLaunched = e30.some((e) => eventCount(e, "launched"));
+    // Launched only counts where a report gives it, so set it against what those same reports say was shot down.
+    const fired30 = e30.filter((e) => eventCount(e, "launched"));
+    const tFired = totals(fired30);
+    const anyLaunched = fired30.length > 0;
     // Events are newest first, so the last one is where this theater's log begins.
     const first = g.events.at(-1)?.date;
     const tAll = totals(g.events);
@@ -79,10 +82,10 @@ const range = (c?: CountRange) =>
           </div>
           <div class="card tile">
             <div class="tile-label">Reported launched, last 30 days</div>
-            <div class="tile-value">{anyLaunched ? range(t30.launched) : "Not given"}</div>
+            <div class="tile-value">{anyLaunched ? range(tFired.launched) : "Not given"}</div>
             <div class="tile-note">
               {anyLaunched
-                ? "where the source gives a number"
+                ? `${range(tFired.intercepted)} of them shot down, in the ${fmt(fired30.length)} ${fired30.length === 1 ? "report" : "reports"} that say how many were launched`
                 : "these reports say how many were shot down, not how many were fired"}
             </div>
           </div>
