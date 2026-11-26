@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T16:51:17.591Z",
+  "updated": "2026-11-26T19:46:17.825Z",
   "claims": [
     {
       "id": "mq9-2026-11-24",
@@ -595,7 +595,7 @@
       "claimant": "IRGC",
       "place": "Strait of Hormuz",
       "count": 1,
-      "tally": null,
+      "tally": 55,
       "video": true,
       "usConfirmed": false,
       "sources": [
@@ -612,6 +612,13 @@
           "url": "https://t.me/FotrosResistancee/24421",
           "posted": "2026-11-02T21:09:58+00:00",
           "quote": "A MQ-9 drone, over the eastern side of the Strait of Hormoz"
+        },
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-in/news/other/3-us-drones-shot-down-near-strait-of-hormuz-irans-irgc/ar-AA2gCqjT",
+          "posted": "2026-11-02T16:16:00.000Z",
+          "quote": "including the 55th MQ-9"
         }
       ]
     },
