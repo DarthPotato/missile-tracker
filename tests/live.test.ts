@@ -159,6 +159,28 @@ describe("eventCount and reliability", () => {
     expect(eventCount(e, "intercepted")).toEqual({ low: 71, high: 71 });
     expect(reliability(e)).toBe("official");
   });
+  it("adds up an official channel's separate posts on the same day", () => {
+    // Ukraine's Air Force: the daytime wave in the evening, the overnight one next morning.
+    const e = ev({
+      sources: [
+        src({ url: "u1", launched: 168, intercepted: 122 }),
+        src({ url: "u2", launched: 433, intercepted: 371 }),
+        src({ official: false, name: "Other", url: "u3", intercepted: 90 }),
+      ],
+    });
+    expect(eventCount(e, "intercepted")).toEqual({ low: 493, high: 493 });
+    expect(eventCount(e, "launched")).toEqual({ low: 601, high: 601 });
+  });
+  it("gives no launched count when an official post leaves it out", () => {
+    const e = ev({
+      sources: [
+        src({ url: "u1", launched: 326, intercepted: 274 }),
+        src({ url: "u2", launched: null, intercepted: 154 }),
+      ],
+    });
+    expect(eventCount(e, "intercepted")).toEqual({ low: 428, high: 428 });
+    expect(eventCount(e, "launched")).toBeUndefined();
+  });
   it("gives the range across unofficial sources", () => {
     const e = ev({
       sources: [
