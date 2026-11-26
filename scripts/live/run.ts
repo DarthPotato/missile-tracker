@@ -203,12 +203,14 @@ async function main() {
   const archived: Item[] = [];
   if (newsOnly && since) {
     const known = new Set([...seenNews, ...items.map((i) => i.url), ...droneNews.map((d) => d.url)]);
-    const got = await archiveNews(sources.archiveQueries ?? sources.newsQueries, since, known);
+    const got = await archiveNews(sources.archiveQueries ?? sources.newsQueries, since, known, console.log, {
+      budgetMinutes: Number(process.env.ARCHIVE_MINUTES || 120),
+    });
     archived.push(...got.items);
     items.push(...got.items);
     droneItems.push(...got.items.filter((n) => mentionsUsAircraft(n.text)));
     lines.push(
-      `- News archive: ${got.items.length} past headlines about intercepts${got.failed ? `, ${got.failed} searches failed` : ""}`,
+      `- News archive: ${got.items.length} past headlines about intercepts${got.failed ? `, ${got.failed} searches failed` : ""}${got.skipped ? `, ${got.skipped} skipped for time` : ""}`,
     );
   }
 
