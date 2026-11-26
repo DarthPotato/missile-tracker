@@ -32,7 +32,7 @@ const dryRun = process.argv.includes("--dry-run");
 const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 
 interface Sources {
-  telegram: { handle: string; name: string; official: boolean }[];
+  telegram: { handle: string; name: string; official: boolean; dronesOnly?: boolean }[];
   newsQueries: string[];
   /** Searches for U.S. drone shoot-down claims; only headlines naming an MQ-9 or MQ-1 are kept. */
   droneQueries?: string[];
@@ -99,7 +99,9 @@ async function main() {
       const posts = since
         ? await fetchChannel(ch.handle, 0, { since })
         : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
-      const kept = posts.filter((p) => worthSending(p.text, ch.official));
+      // A drones-only channel feeds the Reaper claim log and nothing else, so its
+      // posts never reach the intercept extractor.
+      const kept = ch.dronesOnly ? [] : posts.filter((p) => worthSending(p.text, ch.official));
       if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
       const aboutDrones = posts.filter((p) => mentionsUsDrone(p.text));
       for (const p of aboutDrones)
@@ -123,9 +125,11 @@ async function main() {
         });
       const tallies = kept.filter((p) => looksLikeTally(p.text)).length;
       lines.push(
-        ch.official
-          ? `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} giving a number shot down (sent)`
-          : `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
+        ch.dronesOnly
+          ? `- Telegram ${ch.name}: ${posts.length} new posts (read for drone claims only)`
+          : ch.official
+            ? `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} giving a number shot down (sent)`
+            : `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
         ...(aboutDrones.length ? [`  - ${aboutDrones.length} naming an MQ-9 or MQ-1`] : []),
       );
     } catch (e) {
