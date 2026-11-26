@@ -26,6 +26,8 @@ export interface StockPoint {
   remaining: Range;
   qualifier: Qualifier;
   method: "direct" | "prewar-minus-expended";
+  /** Deliveries since the war began, added to a prewar-minus-expended figure. */
+  delivered?: number;
   basis: ClaimRef[];
 }
 
@@ -52,11 +54,23 @@ export function claimsFor(reports: Report[], id: MunitionId): ClaimRef[] {
 
 const mid = (r: Range) => (r.low + r.high) / 2;
 
+const DAY_MS = 86_400_000;
+
+/**
+ * Missiles delivered between the start of the war and `asOf` at a steady
+ * yearly rate. A prewar count minus what was used leaves these out, though
+ * they're in the stockpile too.
+ */
+export function deliveredSinceWar(asOf: string, perYear: number): number {
+  const days = (Date.parse(asOf) - Date.parse(WAR_START)) / DAY_MS;
+  return days > 0 && perYear > 0 ? Math.round((perYear * days) / 365.25) : 0;
+}
+
 /**
  * Every stock-left figure we can state without mixing sources: direct
  * "remaining" claims, plus prewar-minus-expended where one document gives both.
  */
-export function stockPoints(refs: ClaimRef[]): StockPoint[] {
+export function stockPoints(refs: ClaimRef[], deliveriesPerYear = 0): StockPoint[] {
   const points: StockPoint[] = [];
   for (const ref of refs) {
     const { claim, report } = ref;
@@ -72,11 +86,13 @@ export function stockPoints(refs: ClaimRef[]): StockPoint[] {
       const prewar = report.claims.find((c) => c.munition === claim.munition && c.metric === "prewar");
       if (!prewar) continue;
       const p = mid({ low: prewar.low!, high: prewar.high! });
+      const delivered = deliveredSinceWar(claim.asOf, deliveriesPerYear);
       points.push({
         asOf: claim.asOf,
-        remaining: { low: Math.max(0, p - claim.high!), high: Math.max(0, p - claim.low!) },
+        remaining: { low: Math.max(0, p - claim.high!) + delivered, high: Math.max(0, p - claim.low!) + delivered },
         qualifier: invert(claim.qualifier!),
         method: "prewar-minus-expended",
+        delivered,
         basis: [{ report, claim: prewar }, ref],
       });
     }
@@ -107,9 +123,9 @@ function prewarFor(point: StockPoint, refs: ClaimRef[]): ClaimRef | undefined {
  * ties. Claims we can't turn into a count (CNN's percentages on an unstated
  * baseline, "virtually all") are surfaced as `newer` rather than mixed in.
  */
-export function headline(reports: Report[], id: MunitionId): Headline | undefined {
+export function headline(reports: Report[], id: MunitionId, deliveriesPerYear = 0): Headline | undefined {
   const refs = claimsFor(reports, id);
-  const best = stockPoints(refs).sort(rankPoint)[0];
+  const best = stockPoints(refs, deliveriesPerYear).sort(rankPoint)[0];
   if (!best) return undefined;
   const prewarRef = prewarFor(best, refs);
   if (!prewarRef) return undefined;

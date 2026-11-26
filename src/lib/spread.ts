@@ -11,7 +11,7 @@
 // Converted points never feed the headline (model.ts keeps them out); they
 // only appear here, drawn differently and labelled with the baseline used.
 import type { Confidence, Qualifier } from "./schema";
-import { claimsFor, stockPoints, type ClaimRef, type Headline, type Range } from "./model";
+import { claimsFor, deliveredSinceWar, stockPoints, type ClaimRef, type Headline, type Range } from "./model";
 import type { Report, MunitionId } from "./schema";
 
 export interface SpreadPoint {
@@ -47,11 +47,11 @@ function baselineFor(ref: ClaimRef, refs: ClaimRef[]): ClaimRef | undefined {
     .sort((a, b) => b.report.source.published.localeCompare(a.report.source.published))[0];
 }
 
-export function spreadPoints(reports: Report[], id: MunitionId, h?: Headline): SpreadPoint[] {
+export function spreadPoints(reports: Report[], id: MunitionId, h?: Headline, deliveriesPerYear = 0): SpreadPoint[] {
   const refs = claimsFor(reports, id);
   const headBasis = h?.basis.at(-1)?.claim;
 
-  const counted: SpreadPoint[] = stockPoints(refs).map((p) => {
+  const counted: SpreadPoint[] = stockPoints(refs, deliveriesPerYear).map((p) => {
     const last = p.basis.at(-1)!;
     return {
       asOf: p.asOf,
@@ -72,7 +72,8 @@ export function spreadPoints(reports: Report[], id: MunitionId, h?: Headline): S
     const base = baselineFor(ref, refs);
     if (!base) return [];
     const prewar = mid({ low: base.claim.low!, high: base.claim.high! });
-    const left = (pct: number) => Math.max(0, prewar * (1 - pct / 100));
+    const delivered = deliveredSinceWar(ref.claim.asOf, deliveriesPerYear);
+    const left = (pct: number) => Math.max(0, prewar * (1 - pct / 100)) + delivered;
     return [
       {
         asOf: ref.claim.asOf,

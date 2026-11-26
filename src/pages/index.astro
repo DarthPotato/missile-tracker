@@ -15,7 +15,7 @@ import { fmt, formatDate, formatMonth, formatRange } from "../lib/format";
 import { SITE, href } from "../lib/site";
 
 const ds = getDataset();
-const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id)! }));
+const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, m.deliveriesPerYear.value)! }));
 const airDefense = rows.filter((r) => r.m.role === "air-defense");
 const strike = rows.filter((r) => r.m.role === "strike");
 

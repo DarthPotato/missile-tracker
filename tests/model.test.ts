@@ -8,7 +8,9 @@ import {
   project,
   stockPoints,
   claimsFor,
+  deliveredSinceWar,
 } from "../src/lib/model";
+import { spreadPoints } from "../src/lib/spread";
 import { formatPct, formatRange } from "../src/lib/format";
 import type { MunitionId } from "../src/lib/schema";
 
@@ -71,6 +73,37 @@ describe("headline", () => {
         if (p.method === "prewar-minus-expended") expect(p.basis[0].report).toBe(p.basis[1].report);
       }
     }
+  });
+});
+
+describe("deliveries since the war began", () => {
+  it("counts days from February 28 at the yearly rate", () => {
+    expect(deliveredSinceWar("2026-02-28", 183)).toBe(0);
+    expect(deliveredSinceWar("2026-01-01", 183)).toBe(0);
+    expect(deliveredSinceWar("2026-11-03", 0)).toBe(0);
+    // 248 days at 183 a year.
+    expect(deliveredSinceWar("2026-11-03", 183)).toBe(124);
+  });
+
+  it("adds them to a prewar-minus-expended headline", () => {
+    const h = headline(ds.reports, "patriot", 183)!;
+    expect(h.delivered).toBe(124);
+    expect(h.remaining).toEqual({ low: 633 + 124, high: 734 + 124 });
+  });
+
+  it("leaves a direct 'this many left' claim alone", () => {
+    for (const m of ds.munitions) {
+      for (const p of stockPoints(claimsFor(ds.reports, m.id), m.deliveriesPerYear.value)) {
+        if (p.method === "direct") expect(p.delivered).toBeUndefined();
+      }
+    }
+  });
+
+  it("moves the headline's spread point by the same amount", () => {
+    const m = ds.munitionById.get("patriot")!;
+    const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
+    const pt = spreadPoints(ds.reports, m.id, h, m.deliveriesPerYear.value).find((p) => p.headline)!;
+    expect(pt.remaining).toEqual(h.remaining);
   });
 });
 

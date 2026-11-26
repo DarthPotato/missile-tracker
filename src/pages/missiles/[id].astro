@@ -22,7 +22,7 @@ export function getStaticPaths() {
 
 const ds = getDataset();
 const m = ds.munitionById.get(Astro.params.id as Munition["id"])!;
-const h = headline(ds.reports, m.id)!;
+const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
 const basis = h.basis.at(-1)!;
 const burn = phase1BurnPerDay(ds.reports, m.id);
 const days = burn ? daysOfFire(h.remaining, burn) : undefined;
@@ -110,7 +110,12 @@ const others = ds.munitions.filter((x) => x.id !== m.id);
         <a href={basis.report.source.url} rel="noopener">
           {basis.report.source.outlet}, {formatDate(basis.report.source.published)}
         </a>
-        {h.method === "prewar-minus-expended" && <span class="muted">(prewar minus reported use)</span>}
+        {h.method === "prewar-minus-expended" && (
+          <span class="muted">
+            (prewar minus reported use
+            {h.delivered ? `, plus about ${h.delivered.toLocaleString("en-US")} delivered since the war began` : ""})
+          </span>
+        )}
       </div>
     </div>
   </header>

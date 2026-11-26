@@ -22,7 +22,7 @@ const ds = getDataset();
 
 const burn = phase1BurnPerDay(ds.reports, m.id);
 const rebuildPerYear = defaultRebuildPerYear(m);
-const history = stockPoints(claimsFor(ds.reports, m.id)).map((p) => ({
+const history = stockPoints(claimsFor(ds.reports, m.id), m.deliveriesPerYear.value).map((p) => ({
   date: p.asOf,
   low: p.remaining.low,
   high: p.remaining.high,

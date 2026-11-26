@@ -15,7 +15,7 @@ interface Props {
   headline: Headline;
 }
 const { munition: m, headline: h } = Astro.props;
-const points = spreadPoints(getDataset().reports, m.id, h);
+const points = spreadPoints(getDataset().reports, m.id, h, m.deliveriesPerYear.value);
 const spread = recentSpread(points);
 
 // Layout (viewBox units; the SVG scales to its container).

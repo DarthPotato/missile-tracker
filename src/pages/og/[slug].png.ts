@@ -18,7 +18,7 @@ const STATUS_COLOR = { critical: C.critical, serious: C.serious, warning: C.warn
 
 function homeCard(): string {
   const ds = getDataset();
-  const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id)! }));
+  const rows = ds.munitions.map((m) => ({ m, h: headline(ds.reports, m.id, m.deliveriesPerYear.value)! }));
   const f = rows.find((r) => r.m.id === SITE.featured)!;
   const list = rows
     .map(({ m, h }, i) => {
@@ -41,7 +41,7 @@ function homeCard(): string {
 function missileCard(id: string): string {
   const ds = getDataset();
   const m = ds.munitionById.get(id as never)!;
-  const h = headline(ds.reports, m.id)!;
+  const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
   const status = stockStatus(h);
   return frame(`
   <text x="64" y="190" font-family="Inter" font-weight="600" font-size="24" letter-spacing="2" fill="${C.ink3}">${esc(m.fullName.toUpperCase().slice(0, 48))}</text>
