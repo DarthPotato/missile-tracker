@@ -1,0 +1,258 @@
+---
+// A static map of the Middle East: where intercepts were reported, where U.S.
+// jets were lost, and where Iran and the Houthis claim shoot-downs. Drawn at
+// build time from the same data as the Live and Reaper pages; no map tiles,
+// no scripts, no tracking.
+import Base from "../layouts/Base.astro";
+import { geoMercator, geoPath, geoBounds } from "d3-geo";
+import { feature } from "topojson-client";
+import type { Topology, GeometryCollection } from "topojson-specification";
+import world from "world-atlas/countries-50m.json";
+import { getDroneClaims, getDrones, getLive } from "../lib/data";
+import { mapData, type Mark, type MarkKind } from "../lib/places";
+import { formatDate } from "../lib/format";
+import { href } from "../lib/site";
+
+const live = getLive();
+const { jets } = getDrones();
+const { marks, unplaced } = mapData(live.events, jets, getDroneClaims().claims);
+
+const W = 760;
+const H = 620;
+// The region: the eastern Mediterranean to the Gulf of Oman, Turkey's south coast to Yemen.
+const WEST = 31,
+  EAST = 62,
+  SOUTH = 11,
+  NORTH = 39;
+// Fit the corners, not a polygon: d3 reads a polygon's winding as which side is inside.
+const projection = geoMercator().fitExtent(
+  [
+    [0, 0],
+    [W, H],
+  ],
+  {
+    type: "MultiPoint",
+    coordinates: [
+      [WEST, SOUTH],
+      [EAST, NORTH],
+    ],
+  },
+);
+const path = geoPath(projection).digits(1);
+const topo = world as unknown as Topology<{ countries: GeometryCollection<{ name: string }> }>;
+const countries = feature(topo, topo.objects.countries).features.filter((f) => {
+  const [[w, s], [e, n]] = geoBounds(f);
+  return e > WEST - 5 && w < EAST + 5 && n > SOUTH - 5 && s < NORTH + 5;
+});
+const LABELS: [string, [number, number]][] = [
+  ["IRAN", [57.2, 31.2]],
+  ["IRAQ", [43.0, 33.4]],
+  ["SAUDI ARABIA", [43.8, 21.6]],
+  ["YEMEN", [47.0, 15.9]],
+  ["OMAN", [56.5, 20.5]],
+  ["SYRIA", [38.6, 35.2]],
+  ["JORDAN", [36.8, 30.6]],
+  ["EGYPT", [32.6, 26.0]],
+];
+
+const KIND: Record<MarkKind, { label: string; cls: string }> = {
+  intercept: { label: "Intercepts reported", cls: "m-int" },
+  "jet-lost": { label: "U.S. jets lost, confirmed", cls: "m-lost" },
+  claim: { label: "Shoot-downs claimed by Iran or the Houthis", cls: "m-claim" },
+};
+const radius = (m: Mark) => 5 + Math.sqrt(Math.max(1, m.count)) * 3;
+const order: MarkKind[] = ["intercept", "claim", "jet-lost"];
+const sorted = [...marks].sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || b.count - a.count);
+---
+
+<Base
+  title="Map"
+  description="Where intercepts were reported in the Gulf and the Red Sea, where U.S. jets were lost, and where Iran and the Houthis claim to have shot down U.S. aircraft."
+>
+  <header class="mhead">
+    <div class="label">Middle East</div>
+    <h1>Where it happened</h1>
+    <p class="lede">
+      Intercepts the <a href={href("/live/")}>live log</a> picked up, the U.S. jets lost, and the shoot-downs Iran and
+      the Houthis claim, placed where the reports say. Intercepts sit on the country that reported them, since most
+      reports don't say where over it.
+    </p>
+    <p class="small muted">
+      Live data {live.updated ? `last read ${formatDate(live.updated.slice(0, 10))}` : "not read yet"}. Ukraine is left
+      off this map.
+    </p>
+  </header>
+
+  <figure class="card map">
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      role="img"
+      aria-label="Map of the Middle East with reported intercepts and aircraft losses"
+    >
+      <rect width={W} height={H} class="sea" />
+      {countries.map((f) => (
+        <path d={path(f) ?? ""} class="land" />
+      ))}
+      {LABELS.map(([name, at]) => {
+        const [x, y] = projection(at)!;
+        return (
+          <text x={x} y={y} text-anchor="middle" class="clabel">
+            {name}
+          </text>
+        );
+      })}
+      {sorted.map((m) => {
+        const [x, y] = projection(m.at)!;
+        return (
+          <g class={`mark ${KIND[m.kind].cls}`}>
+            <circle cx={x} cy={y} r={radius(m)} />
+            <title>{`${m.place}\n${m.lines.join("\n")}`}</title>
+          </g>
+        );
+      })}
+    </svg>
+    <figcaption class="legend small">
+      {order.map((k) => (
+        <span>
+          <i class={`sw ${KIND[k].cls}`} /> {KIND[k].label}
+        </span>
+      ))}
+      <span class="muted">Bigger circle, more aircraft or intercepts.</span>
+    </figcaption>
+  </figure>
+
+  {order.map((k) => {
+    const list = sorted.filter((m) => m.kind === k);
+    return (
+      <section class="list">
+        <h2>
+          <i class={`sw ${KIND[k].cls}`} /> {KIND[k].label}
+        </h2>
+        {list.length === 0 ? (
+          <p class="small muted">
+            {k === "claim"
+              ? "None with a place yet. The feed logs new claims every 6 hours."
+              : "None with a place yet."}
+          </p>
+        ) : (
+          <ul>
+            {list.map((m) => (
+              <li>
+                <strong>{m.place}</strong>
+                <ul class="small">
+                  {m.lines.map((l) => (
+                    <li>{l}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    );
+  })}
+
+  {unplaced.length > 0 && (
+    <section class="list">
+      <h2>No place given</h2>
+      <p class="small muted">Reported without a place we can pin, so not on the map.</p>
+      <ul class="small">
+        {unplaced.map((l) => (
+          <li>{l}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <p class="small muted">
+    More on each: <a href={href("/live/")}>Live</a> for intercepts, <a href={href("/reapers/")}>Reapers</a> for losses
+    and claims. <a href={href("/methodology/#map")}>How the map works</a>
+  </p>
+</Base>
+
+<style>
+  .mhead {
+    margin-top: 40px;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    letter-spacing: -0.025em;
+    margin: 10px 0;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0 0 8px;
+  }
+  .map {
+    padding: 10px;
+    margin: 18px 0;
+  }
+  .map svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
+  }
+  .sea {
+    fill: var(--wash);
+  }
+  .land {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 0.8;
+  }
+  .clabel {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--ink-3);
+    pointer-events: none;
+  }
+  .mark circle {
+    fill-opacity: 0.55;
+    stroke-width: 1.5;
+  }
+  .m-int circle {
+    fill: var(--series-1);
+    stroke: var(--series-1);
+  }
+  .m-lost circle {
+    fill: var(--critical);
+    stroke: var(--critical);
+  }
+  .m-claim circle {
+    fill: var(--warning);
+    stroke: var(--warning);
+    stroke-dasharray: 3 2;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    padding: 8px 4px 2px;
+  }
+  .sw {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    vertical-align: -1px;
+  }
+  .sw.m-int {
+    background: var(--series-1);
+  }
+  .sw.m-lost {
+    background: var(--critical);
+  }
+  .sw.m-claim {
+    background: var(--warning);
+  }
+  .list h2 {
+    font-size: 18px;
+    margin: 22px 0 6px;
+  }
+  .list ul {
+    margin: 4px 0;
+  }
+</style>
