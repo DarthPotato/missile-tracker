@@ -11,7 +11,16 @@
 // Converted points never feed the headline (model.ts keeps them out); they
 // only appear here, drawn differently and labelled with the baseline used.
 import type { Confidence, Qualifier } from "./schema";
-import { claimsFor, deliveredSinceWar, stockPoints, type ClaimRef, type Headline, type Range } from "./model";
+import {
+  claimsFor,
+  deliveredSinceWar,
+  invert,
+  mid,
+  prewarBaseline,
+  stockPoints,
+  type Headline,
+  type Range,
+} from "./model";
 import type { Report, MunitionId } from "./schema";
 
 export interface SpreadPoint {
@@ -29,22 +38,6 @@ export interface SpreadPoint {
   baseline?: { value: number; outlet: string; published: string };
   /** True for the point the headline uses. */
   headline: boolean;
-}
-
-const mid = (r: Range) => (r.low + r.high) / 2;
-
-/** Flip at-least/at-most when a share used becomes a share left. */
-function invert(q: Qualifier): Qualifier {
-  return q === "at-least" ? "at-most" : q === "at-most" ? "at-least" : q;
-}
-
-/** The prewar figure from the same report, else the latest one published on or before it. */
-function baselineFor(ref: ClaimRef, refs: ClaimRef[]): ClaimRef | undefined {
-  const same = refs.find((r) => r.report === ref.report && r.claim.metric === "prewar");
-  if (same) return same;
-  return refs
-    .filter((r) => r.claim.metric === "prewar" && r.report.source.published <= ref.report.source.published)
-    .sort((a, b) => b.report.source.published.localeCompare(a.report.source.published))[0];
 }
 
 export function spreadPoints(reports: Report[], id: MunitionId, h?: Headline, deliveriesPerYear = 0): SpreadPoint[] {
@@ -69,7 +62,7 @@ export function spreadPoints(reports: Report[], id: MunitionId, h?: Headline, de
 
   const converted: SpreadPoint[] = refs.flatMap((ref) => {
     if (ref.claim.metric !== "pct_expended") return [];
-    const base = baselineFor(ref, refs);
+    const base = prewarBaseline(ref, refs);
     if (!base) return [];
     const prewar = mid({ low: base.claim.low!, high: base.claim.high! });
     const delivered = deliveredSinceWar(ref.claim.asOf, deliveriesPerYear);
