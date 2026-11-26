@@ -1,4 +1,4 @@
-import { headline } from "./model";
+import { headline, sinceWarRate } from "./model";
 import { MunitionsFile, Report, type Munition, type MunitionId, type Report as ReportT } from "./schema";
 
 export interface Dataset {
@@ -70,7 +70,7 @@ export function buildDataset(munitionsJson: unknown, reportFiles: { file: string
   // instead of crashing the build on an undefined value later.
   if (!problems.length) {
     for (const mu of munitions) {
-      if (!headline(reports, mu.id, mu.deliveriesPerYear.value)) {
+      if (!headline(reports, mu.id, sinceWarRate(mu))) {
         problems.push(
           `${mu.id}: no usable headline (needs a "remaining" claim, or prewar + expended from one report, with prewar > 0)`,
         );

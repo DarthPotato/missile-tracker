@@ -2,7 +2,7 @@
 // Every source's stock-left figure for one missile, plotted on one time axis.
 // Static SVG rendered at build time: no JavaScript needed to read it.
 import type { Headline } from "../lib/model";
-import { WAR_START, CEASEFIRE } from "../lib/model";
+import { WAR_START, CEASEFIRE, sinceWarRate } from "../lib/model";
 import { spreadPoints, recentSpread, type SpreadPoint } from "../lib/spread";
 import { getDataset } from "../lib/data";
 import { BUILD_DATE } from "../lib/scenario";
@@ -15,7 +15,7 @@ interface Props {
   headline: Headline;
 }
 const { munition: m, headline: h } = Astro.props;
-const points = spreadPoints(getDataset().reports, m.id, h, m.deliveriesPerYear.value);
+const points = spreadPoints(getDataset().reports, m.id, h, sinceWarRate(m));
 const spread = recentSpread(points);
 
 // Layout (viewBox units; the SVG scales to its container).

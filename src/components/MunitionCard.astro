@@ -1,6 +1,6 @@
 ---
 import type { Munition } from "../lib/schema";
-import type { Headline } from "../lib/model";
+import { sinceWarRate, type Headline } from "../lib/model";
 import { fmt, formatDate, formatPct, formatRange } from "../lib/format";
 import { describeClaim } from "../lib/describe";
 import { stockStatus } from "../lib/status";
@@ -21,7 +21,7 @@ const { munition: m, headline: h } = Astro.props;
 const basis = h.basis.at(-1)!;
 const newest = h.newer[0];
 const pic = getPhoto(m.id);
-const spread = recentSpread(spreadPoints(getDataset().reports, m.id, h, m.deliveriesPerYear.value));
+const spread = recentSpread(spreadPoints(getDataset().reports, m.id, h, sinceWarRate(m)));
 // Only worth a line when sources actually disagree beyond the headline's own range.
 const showSpread = spread && spread.n > 1 && (spread.low < h.remaining.low - 1 || spread.high > h.remaining.high + 1);
 ---

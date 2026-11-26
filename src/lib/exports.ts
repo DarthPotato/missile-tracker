@@ -1,7 +1,7 @@
 // Flat views of the dataset for the download endpoints (CSV/JSON) and the
 // RSS feed. Pure functions so tests can check them without a build.
 import type { Dataset } from "./dataset";
-import { headline } from "./model";
+import { headline, sinceWarRate } from "./model";
 
 export const CLAIM_COLUMNS = [
   "report_id",
@@ -68,7 +68,7 @@ export function toCsv<T extends Record<string, string | number | null>>(
 /** The site's current headline figure per missile, with the sources behind it. */
 export function headlineRows(ds: Dataset) {
   return ds.munitions.map((m) => {
-    const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
+    const h = headline(ds.reports, m.id, sinceWarRate(m))!;
     return {
       munition: m.id,
       name: m.name,

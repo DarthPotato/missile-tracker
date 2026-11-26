@@ -9,7 +9,7 @@ import MissilePhoto from "../../components/MissilePhoto.astro";
 import EstimateSpread from "../../components/EstimateSpread.astro";
 import AgeTag from "../../components/AgeTag.astro";
 import { getDataset, getPhoto } from "../../lib/data";
-import { claimsFor, headline, phase1BurnPerDay, daysOfFire } from "../../lib/model";
+import { claimsFor, headline, phase1BurnPerDay, daysOfFire, sinceWarRate } from "../../lib/model";
 import { describeClaim, METRIC_LABEL } from "../../lib/describe";
 import { fmt, formatDate, formatMonth, formatPct, formatRange } from "../../lib/format";
 import { stockStatus } from "../../lib/status";
@@ -22,7 +22,7 @@ export function getStaticPaths() {
 
 const ds = getDataset();
 const m = ds.munitionById.get(Astro.params.id as Munition["id"])!;
-const h = headline(ds.reports, m.id, m.deliveriesPerYear.value)!;
+const h = headline(ds.reports, m.id, sinceWarRate(m))!;
 const basis = h.basis.at(-1)!;
 const burn = phase1BurnPerDay(ds.reports, m.id);
 const days = burn ? daysOfFire(h.remaining, burn) : undefined;
