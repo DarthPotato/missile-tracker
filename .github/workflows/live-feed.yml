@@ -74,6 +74,8 @@ jobs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history, so the commit can be rebased onto a newer main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -97,7 +99,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Live feed update"
-          git push
+          # main may have moved while the run read Telegram (a backfill takes hours), and a
+          # plain push would then be refused and the run's results lost. Rebase onto the
+          # latest main and push, trying a few times in case someone merges meanwhile.
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push origin HEAD:main && pushed=1 && break
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 10))
+          done
+          [ "${pushed:-}" = 1 ] || { echo "Could not push the update to main"; exit 1; }
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
   # Pushes made with GITHUB_TOKEN don't trigger other workflows, so deploy here.
