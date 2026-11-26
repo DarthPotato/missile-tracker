@@ -54,6 +54,7 @@ describe("data/drones.json", () => {
     const t = quoteTargets(getDataset(), undefined, getDrones()).filter((x) => x.id === DRONES);
     const { jets } = getDrones();
     const n =
+      getDrones().warDamage.sources.length +
       jets.losses.length +
       jets.tallies.length +
       drones.reduce((k, d) => k + (d.fleetBefore ? 1 : 0) + d.fleetAfter.length + d.losses.length, 0);
@@ -246,5 +247,13 @@ describe("jets", () => {
     expect(c.model).toBe("F-35");
     expect(c.id).toBe("jet-2026-11-20-f-35");
     expect(validateClaim({ ...raw, quote: "its air defenses shot down" }, [item])).toBe("quote doesn't name a jet");
+  });
+});
+
+describe("war damage", () => {
+  it("adds up to the 81 aircraft the Congressional Research Service counts", () => {
+    const w = getDrones().warDamage;
+    expect(w.total).toBe(81);
+    expect(w.categories.reduce((n, c) => n + c.value, 0)).toBe(81);
   });
 });

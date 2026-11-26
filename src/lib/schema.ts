@@ -290,8 +290,37 @@ const JetLoss = z
   .strict();
 export type JetLoss = z.infer<typeof JetLoss>;
 
+/**
+ * Every U.S. aircraft lost or damaged, by any cause, in one official tally (the
+ * Congressional Research Service's). Broader than a shoot-down count: it takes
+ * in aircraft wrecked on the ground, crashes, friendly fire and damage repaired.
+ */
+const WarDamage = z
+  .object({
+    by: z.string(),
+    asOf: isoDate,
+    total: z.number().int().positive(),
+    categories: z.array(
+      z
+        .object({
+          name: z.string(),
+          value: z.number().int().positive(),
+          /** Types named in the reporting: "45 MQ-9, 3 MQ-1, 1 MQ-4C". */
+          detail: z.string().optional(),
+        })
+        .strict(),
+    ),
+    note: z.string().optional(),
+    sources: z.array(SourcedFigure).min(1),
+  })
+  .strict()
+  .refine((w) => w.categories.reduce((n, c) => n + c.value, 0) === w.total, {
+    message: "categories must add up to the total",
+  });
+
 export const DronesFile = z
   .object({
+    warDamage: WarDamage,
     /** Manned U.S. jets. No fleet math: a few losses don't move a fleet of hundreds. */
     jets: z
       .object({
