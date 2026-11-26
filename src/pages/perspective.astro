@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getDataset, getPerspective } from "../lib/data";
-import { formatBig, resolveAmounts } from "../lib/perspective";
+import { formatBig, formatDuration, resolveAmounts } from "../lib/perspective";
 import { formatDollars } from "../lib/blocks";
 import { formatDate } from "../lib/format";
 import { href } from "../lib/site";
@@ -41,8 +41,37 @@ const amounts = resolveAmounts(p, getDataset());
     {amounts.map((a, i) => (
       <section class="set" data-set={a.id} hidden={i !== 0}>
         <p class="equals">
-          <strong>{formatDollars(a.value)}</strong> could instead pay for:
+          <strong>{formatDollars(a.value)}</strong> would run the whole national program for:
         </p>
+        <figure class="runs">
+          <ol class="bars" aria-label={`How long ${formatDollars(a.value)} would run each program`}>
+            {(() => {
+              const most = Math.max(...p.programs.map((g) => a.value / g.annualCost));
+              return p.programs.map((g) => {
+                const share = a.value / g.annualCost / most;
+                const span = formatDuration(a.value, g.annualCost);
+                return (
+                  <li title={`${formatDollars(a.value)} ÷ ${formatDollars(g.annualCost)} a year = ${span}`}>
+                    <div class="bar-head">
+                      <span class="bar-name">{g.name}</span>
+                      <span class="bar-val">{span}</span>
+                    </div>
+                    <div class="track">
+                      <div class="fill" style={`width: ${Math.max(share * 100, 0.6).toFixed(2)}%`}></div>
+                    </div>
+                    <div class="small muted">
+                      {g.costNote} ·{" "}
+                      <a href={g.source.url} rel="noopener">
+                        {g.source.outlet}
+                      </a>
+                    </div>
+                  </li>
+                );
+              });
+            })()}
+          </ol>
+        </figure>
+        <p class="equals">Or, one at a time:</p>
         <div class="cards">
           {p.comparisons.map((c) => (
             <div class="card cmp">
@@ -80,12 +109,16 @@ const amounts = resolveAmounts(p, getDataset());
         don't trade dollar for dollar, and defense and social spending come from different parts of the budget.
       </li>
       <li>
-        The war cost is the Pentagon Inspector General's estimate through June 30, before fighting resumed in July. The
-        full cost is higher.
+        The bars divide the amount by what each program cost the federal government in a year. A program's cost includes
+        everything it pays for, not one item.
       </li>
       <li>
-        "The seven missiles on this site" uses CSIS's midpoint estimates of how many were fired by the April 8
-        ceasefire. See the <a href={href("/methodology/")}>methodology</a>.
+        The war cost is the Pentagon's estimate to Congress through October 16. It leaves out damage to U.S. bases and
+        equipment from Iranian attacks, which the Pentagon is still assessing, so the full cost is higher.
+      </li>
+      <li>
+        "The seven missiles on this site" uses CSIS's November estimates of how many of each were fired through November
+        3, at FY2027 unit costs. See the <a href={href("/methodology/")}>methodology</a>.
       </li>
     </ul>
   </article>
@@ -168,6 +201,47 @@ const amounts = resolveAmounts(p, getDataset());
   .equals {
     font-size: 18px;
     margin: 0 0 12px;
+  }
+  .runs {
+    margin: 0 0 28px;
+  }
+  .bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+    max-width: 720px;
+  }
+  .bars li {
+    margin: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .bar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .bar-name {
+    font-weight: 600;
+  }
+  .bar-val {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .track {
+    height: 14px;
+    border-left: 1px solid var(--axis);
+  }
+  .fill {
+    height: 100%;
+    background: var(--series-1);
+    border-radius: 0 4px 4px 0;
   }
   .cards {
     display: grid;

@@ -30,6 +30,11 @@ const tags = [...new Set(claims.map((c) => c.confidence))];
         {r.source.title}
       </a>
     </h3>
+    {r.source.archiveUrl && (
+      <a class="archived small" href={r.source.archiveUrl} rel="noopener">
+        Archived copy
+      </a>
+    )}
     <p class="summary">{r.summary}</p>
     {claims.length > 0 && (
       <details>
@@ -57,6 +62,9 @@ const tags = [...new Set(claims.map((c) => c.confidence))];
 </article>
 
 <style>
+  .archived {
+    color: var(--ink-3);
+  }
   .entry {
     display: grid;
     grid-template-columns: 120px 1fr;

@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { getDataset } from "../src/lib/data";
-import { defaultRebuildPerYear, headline, phase1BurnPerDay, project, stockPoints, claimsFor } from "../src/lib/model";
+import {
+  defaultRebuildPerYear,
+  headline,
+  rebuildRate,
+  phase1BurnPerDay,
+  project,
+  stockPoints,
+  claimsFor,
+} from "../src/lib/model";
 import { formatPct, formatRange } from "../src/lib/format";
 import type { MunitionId } from "../src/lib/schema";
 
@@ -168,5 +176,22 @@ describe("calibration against CSIS's stated rebuild timelines", () => {
   });
   it("Patriot needs 3+ years from May 2026 (CSIS)", () => {
     expect(recovery("patriot").low! >= "2029-05").toBe(true);
+  });
+});
+
+describe("U.S. share of new production", () => {
+  it("scales the capacity cap, not the lot rate", () => {
+    expect(rebuildRate(2957, 2000)).toBe(2000);
+    expect(rebuildRate(2957, 2000, 0.5)).toBe(1000);
+    // The lot rate still binds when it's below the U.S. share of capacity.
+    expect(rebuildRate(785, 1000, 0.9)).toBe(785);
+    expect(rebuildRate(785, 1000, 0.5)).toBe(500);
+  });
+  it("leaves munitions with no announced capacity alone", () => {
+    expect(rebuildRate(257, undefined, 0.3)).toBe(257);
+  });
+  it("halves Patriot's rebuild rate at a 50% share", () => {
+    const m = ds.munitions.find((x) => x.id === "patriot")!;
+    expect(defaultRebuildPerYear(m, 0.5)).toBe(defaultRebuildPerYear(m)! / 2);
   });
 });

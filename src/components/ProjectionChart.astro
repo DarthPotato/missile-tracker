@@ -1,6 +1,13 @@
 ---
 import type { Munition } from "../lib/schema";
-import { defaultRebuildPerYear, phase1BurnPerDay, stockPoints, claimsFor, type Headline } from "../lib/model";
+import {
+  defaultRebuildPerYear,
+  lotPerYear,
+  phase1BurnPerDay,
+  stockPoints,
+  claimsFor,
+  type Headline,
+} from "../lib/model";
 import { BUILD_DATE, PROJECTION_END } from "../lib/scenario";
 import { fmt, formatDate, formatMonth } from "../lib/format";
 import { getDataset } from "../lib/data";
@@ -33,7 +40,13 @@ const config: ChartConfig = {
   deliveriesPerYear: { value: m.deliveriesPerYear.value, max: rateMax },
   rebuild:
     rebuildPerYear && m.fy27Request && m.fy27DeliveriesBegin
-      ? { quantity: m.fy27Request.value, begin: m.fy27DeliveriesBegin.value, perYear: rebuildPerYear }
+      ? {
+          quantity: m.fy27Request.value,
+          begin: m.fy27DeliveriesBegin.value,
+          perYear: rebuildPerYear,
+          lotPerYear: lotPerYear(m)!,
+          capacityPerYear: m.announcedCapacityPerYear?.value,
+        }
       : undefined,
   burnPerDay: burn,
   csisOutlook: m.rebuildOutlook?.text,
@@ -60,8 +73,20 @@ const ongoingMax = burn ? Math.max(10, Math.round((burn * 30) / 3 / 5) * 5) : Ma
         <input type="checkbox" name="rebuild" checked />
         <span>
           Count the FY2027 rebuild order: {fmt(config.rebuild.quantity)} missiles from{" "}
-          {formatMonth(config.rebuild.begin)}, ~{fmt(config.rebuild.perYear)}/yr
+          {formatMonth(config.rebuild.begin)}, ~<span class="rebuild-rate">{fmt(config.rebuild.perYear)}</span>/yr
         </span>
+      </label>
+    )}
+    {config.rebuild?.capacityPerYear !== undefined && (
+      <label>
+        <span class="ctl-label">
+          U.S. share of new production
+          <span class="hint">
+            The {fmt(config.rebuild.capacityPerYear)}/yr capacity target covers every buyer, allies included
+          </span>
+        </span>
+        <input type="range" name="usShare" min="10" max="100" step="5" value="100" />
+        <output for="usShare">100%</output>
       </label>
     )}
     <label>
@@ -124,9 +149,8 @@ const ongoingMax = burn ? Math.max(10, Math.round((burn * 30) / 3 / 5) * 5) : Ma
   </div>
   <p class="small muted">
     Starts from the newest estimate ({formatDate(h.asOf)}) and assumes no firing after it unless you set "Firing since
-    the estimate" or add a renewed war. Fighting has continued at lower intensity since July 8, but nobody has published
-    counts, so treat projections from older estimates as optimistic. The sliders are saved in the page's address, so you
-    can share a scenario as a link.
+    the estimate" or add a renewed war. Firing after the estimate date isn't counted, so a projection from an older
+    estimate is optimistic. The sliders are saved in the page's address, so you can share a scenario as a link.
     {burn && ` The default firing rate is the opening campaign's average: ~${Math.round(burn)} a day over 39 days.`}
   </p>
   <details>
@@ -166,6 +190,11 @@ const ongoingMax = burn ? Math.max(10, Math.round((burn * 30) / 3 / 5) * 5) : Ma
   }
   .ctl-label {
     color: var(--ink-2);
+  }
+  .hint {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-3);
   }
   .controls output {
     font-weight: 600;

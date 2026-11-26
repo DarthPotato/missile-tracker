@@ -124,6 +124,11 @@ describe("quoteTargets / strictIdsFromChanged", () => {
     expect(t.length).toBeGreaterThan(0);
   });
 
+  it("gives a perspective figure its archived copy, so a blocked original can still be checked", () => {
+    const t = quoteTargets(ds, getPerspective()).find((x) => x.quotes.includes("Total federal cost of $38.1 billion"))!;
+    expect(t.archiveUrl).toMatch(/^https:\/\/web\.archive\.org\/web\/\d{14}\//);
+  });
+
   it("maps changed files to the sources that must be reachable", () => {
     const ids = strictIdsFromChanged(
       ["data/reports/2026-07-27-csis-renewed-war.json", "data/perspective.json", "README.md"],

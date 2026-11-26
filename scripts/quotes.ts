@@ -5,12 +5,15 @@ import type { Dataset } from "../src/lib/dataset.ts";
 import { sourcedParams } from "../src/lib/dataset.ts";
 import type { PerspectiveFile } from "../src/lib/schema.ts";
 import { containsQuote } from "../src/lib/text.ts";
+import { rawSnapshot } from "./archive.ts";
 
 /** One source page and every quote this repo attributes to it. */
 export interface QuoteTarget {
   /** A report id, or "perspective" for the perspective page's figures. */
   id: string;
   url: string;
+  /** Wayback snapshot to read when the original can't be fetched. */
+  archiveUrl?: string;
   quotes: string[];
   manual: boolean;
 }
@@ -19,6 +22,8 @@ export interface QuoteResult {
   found: number;
   missing: { id: string; quote: string }[];
   unreachable: { id: string; url: string; error: string; strict: boolean }[];
+  /** Sources checked against their archived copy because the original couldn't be fetched. */
+  viaArchive: string[];
   manual: string[];
   ok: boolean;
 }
@@ -29,6 +34,7 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteT
   const targets: QuoteTarget[] = ds.reports.map((r) => ({
     id: r.id,
     url: r.source.url,
+    archiveUrl: r.source.archiveUrl,
     manual: r.quoteCheck === "manual",
     quotes: [
       ...new Set([
@@ -45,9 +51,16 @@ export function quoteTargets(ds: Dataset, perspective?: PerspectiveFile): QuoteT
     const figures = [
       ...perspective.amounts.flatMap((a) => (a.source ? [a.source] : [])),
       ...perspective.comparisons.map((c) => c.source),
+      ...perspective.programs.map((g) => g.source),
     ];
     for (const f of figures)
-      targets.push({ id: PERSPECTIVE, url: f.url, quotes: [f.quote], manual: f.quoteCheck === "manual" });
+      targets.push({
+        id: PERSPECTIVE,
+        url: f.url,
+        archiveUrl: f.archiveUrl,
+        quotes: [f.quote],
+        manual: f.quoteCheck === "manual",
+      });
   }
   return targets;
 }
@@ -86,7 +99,7 @@ export async function checkQuotes(
   opts: CheckOptions = {},
 ): Promise<QuoteResult> {
   const strict = opts.strict ?? (() => true);
-  const result: QuoteResult = { found: 0, missing: [], unreachable: [], manual: [], ok: true };
+  const result: QuoteResult = { found: 0, missing: [], unreachable: [], viaArchive: [], manual: [], ok: true };
   const pages = new Map<string, Promise<string>>();
   let attempted = 0;
   let reached = 0;
@@ -102,8 +115,17 @@ export async function checkQuotes(
     try {
       text = await pages.get(t.url)!;
     } catch (e) {
-      result.unreachable.push({ id: t.id, url: t.url, error: (e as Error).message, strict: strict(t.id) });
-      continue;
+      // The original is down or refuses us: read the archived copy instead.
+      const archived = t.archiveUrl ? rawSnapshot(t.archiveUrl) : undefined;
+      if (archived && !pages.has(archived)) pages.set(archived, fetchText(archived));
+      try {
+        if (!archived) throw e;
+        text = await pages.get(archived)!;
+        result.viaArchive.push(t.id);
+      } catch {
+        result.unreachable.push({ id: t.id, url: t.url, error: (e as Error).message, strict: strict(t.id) });
+        continue;
+      }
     }
     reached++;
     for (const q of t.quotes) {
@@ -121,7 +143,8 @@ export async function checkQuotes(
 
 /** "quotes: 41 found, 0 missing, 3 sources unreachable, 1 manual" */
 export function summarize(r: QuoteResult): string {
-  return `quotes: ${r.found} found, ${r.missing.length} missing, ${r.unreachable.length} sources unreachable, ${r.manual.length} manual`;
+  const archived = r.viaArchive.length ? `, ${r.viaArchive.length} read from archived copies` : "";
+  return `quotes: ${r.found} found, ${r.missing.length} missing, ${r.unreachable.length} sources unreachable${archived}, ${r.manual.length} manual`;
 }
 
 /** Markdown bullets for sources already on the site that no longer check out. */

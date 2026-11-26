@@ -23,6 +23,10 @@ export const ClaimTarget = z.union([MunitionId, z.literal("all")]);
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD");
 const isoMonth = z.string().regex(/^\d{4}-\d{2}$/, "expected YYYY-MM");
+/** A Wayback Machine snapshot of a page, kept in case the original changes, disappears or refuses CI. */
+const ArchiveUrl = z
+  .string()
+  .regex(/^https:\/\/web\.archive\.org\/web\/\d{14}\/https?:\/\/.+$/, "expected a Wayback snapshot address");
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "expected a lowercase-hyphenated slug");
 
 /**
@@ -92,6 +96,8 @@ export const Report = z
         outlet: z.string(),
         title: z.string(),
         url: z.url(),
+        /** A Wayback Machine snapshot of the page, kept in case the original changes or disappears. */
+        archiveUrl: ArchiveUrl.optional(),
         published: isoDate,
         authors: z.array(z.string()).optional(),
         kind: SourceKind,
@@ -147,7 +153,10 @@ export const Munition = z
     /** Months to deliver a full production lot once deliveries start. */
     lotMonths: Param,
     /** The analysts' own stated return-to-prewar timing, shown beside our model's. */
-    rebuildOutlook: z.object({ text: z.string(), reportId: slug, quote: z.string() }).strict().optional(),
+    rebuildOutlook: z
+      .object({ text: z.string(), reportId: slug, quote: z.string(), note: z.string().optional() })
+      .strict()
+      .optional(),
   })
   .strict();
 export type Munition = z.infer<typeof Munition>;
@@ -165,6 +174,7 @@ const SourcedFigure = z
     outlet: z.string(),
     title: z.string(),
     url: z.url(),
+    archiveUrl: ArchiveUrl.optional(),
     published: isoDate,
     quote: z.string().min(12),
     quoteCheck: z.enum(["auto", "manual"]).default("auto"),
@@ -181,7 +191,7 @@ export const PerspectiveFile = z
           label: z.string(),
           /** USD. Omit for amounts computed from the tracker's own data. */
           value: z.number().positive().optional(),
-          computed: z.enum(["missiles-fired-by-ceasefire"]).optional(),
+          computed: z.enum(["missiles-fired-to-date"]).optional(),
           source: SourcedFigure.optional(),
           note: z.string().optional(),
         })
@@ -198,6 +208,23 @@ export const PerspectiveFile = z
           unitCost: z.number().positive(),
           costNote: z.string(),
           source: SourcedFigure,
+        })
+        .strict(),
+    ),
+    /** Whole national programs, by what one year of each costs: the chart's "how long would it pay for". */
+    programs: z.array(
+      z
+        .object({
+          id: slug,
+          /** "every school lunch the federal government pays for" */
+          name: z.string(),
+          annualCost: z.number().positive(),
+          /** "FY2025 federal spending" */
+          costNote: z.string(),
+          source: SourcedFigure.extend({
+            /** Some reports print only a month. */
+            published: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/, "expected YYYY-MM or YYYY-MM-DD"),
+          }),
         })
         .strict(),
     ),

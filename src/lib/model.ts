@@ -37,7 +37,7 @@ export interface Headline extends StockPoint {
   newer: ClaimRef[];
 }
 
-const SPECIFICITY: Record<Qualifier, number> = { range: 3, exact: 3, about: 2, "at-most": 1, "at-least": 1 };
+export const SPECIFICITY: Record<Qualifier, number> = { range: 3, exact: 3, about: 2, "at-most": 1, "at-least": 1 };
 
 /** Flip a qualifier when a number is subtracted from a fixed total. */
 function invert(q: Qualifier): Qualifier {
@@ -178,11 +178,25 @@ const DAY = 86_400_000;
 const toDay = (iso: string) => Math.round(Date.parse(`${iso.length === 7 ? `${iso}-01` : iso}T00:00:00Z`) / DAY);
 const fromDay = (d: number) => new Date(d * DAY).toISOString().slice(0, 10);
 
+/**
+ * Delivery rate for the rebuild buy: a full lot in `lotMonths`, capped by the
+ * share of announced capacity the U.S. gets. Announced capacity covers every
+ * buyer, so `usShare` (0-1) scales the cap; 1 assumes the U.S. gets all of it.
+ */
+export function rebuildRate(lotPerYear: number, capacityPerYear: number | undefined, usShare = 1): number {
+  const cap = capacityPerYear === undefined ? Infinity : capacityPerYear * Math.min(1, Math.max(0, usShare));
+  return Math.round(Math.min(lotPerYear, cap));
+}
+
+/** A full FY2027 lot delivered over `lotMonths`, as a yearly rate, before any capacity cap. */
+export function lotPerYear(m: Munition): number | undefined {
+  return m.fy27Request ? (m.fy27Request.value * 12) / m.lotMonths.value : undefined;
+}
+
 /** Default delivery rate for the rebuild buy: a full lot in `lotMonths`, capped by announced capacity. */
-export function defaultRebuildPerYear(m: Munition): number | undefined {
-  if (!m.fy27Request) return undefined;
-  const lotRate = (m.fy27Request.value * 12) / m.lotMonths.value;
-  return Math.round(Math.min(lotRate, m.announcedCapacityPerYear?.value ?? Infinity));
+export function defaultRebuildPerYear(m: Munition, usShare = 1): number | undefined {
+  const lot = lotPerYear(m);
+  return lot === undefined ? undefined : rebuildRate(lot, m.announcedCapacityPerYear?.value, usShare);
 }
 
 /**
