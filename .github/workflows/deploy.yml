@@ -40,6 +40,9 @@ jobs:
           # project URL, set SITE_URL=https://<owner>.github.io and BASE_PATH=/<repo>/.
           SITE_URL: ${{ vars.SITE_URL || 'https://missiletracker.info' }}
           BASE_PATH: ${{ vars.BASE_PATH || '/' }}
+          # Visit counts: set the repository variable GOATCOUNTER_CODE to your
+          # GoatCounter site code to turn them on. Unset = no analytics.
+          PUBLIC_GOATCOUNTER: ${{ vars.GOATCOUNTER_CODE }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -157,6 +157,14 @@ Every deploy publishes `/data/claims.csv` and `/data/claims.json` (every claim w
 
 The site is served at **https://missiletracker.info**. The custom domain is set under Settings → Pages, with DNS pointing at GitHub Pages as described in [GitHub's custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site). With Actions deploys no `CNAME` file is needed in the repo.
 
+## Visit counts
+
+Off by default. The site can count visits with [GoatCounter](https://www.goatcounter.com/), which sets no cookies and stores no personal data, so no consent banner is needed.
+
+1. Sign up at goatcounter.com and pick a site code, for example `missiletracker` (the dashboard is then at `missiletracker.goatcounter.com`).
+2. In the repo, add the Actions variable `GOATCOUNTER_CODE` with that code.
+3. Re-run the Deploy workflow. Every page then loads GoatCounter's script, and the footer says visits are counted.
+
 ## Corrections
 
 Open an issue with the source link. Every number traces back to a file in `data/reports/`, so fixes are one-file pull requests.
