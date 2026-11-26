@@ -379,3 +379,22 @@ export type Photo = z.infer<typeof Photo>;
 
 export const PhotosFile = z.partialRecord(MunitionId, Photo);
 export type PhotosFile = z.infer<typeof PhotosFile>;
+
+// Aircraft photos for the Reaper and jet losses page, one per type lost or
+// damaged in the war: data/aircraft-photos.json, src/assets/photos/aircraft/<id>.jpg.
+export const AIRCRAFT_IDS = ["mq9", "mq1c", "f15e", "f35a", "a10", "kc135", "hh60w", "mc130j", "rc135"] as const;
+export const AircraftId = z.enum(AIRCRAFT_IDS);
+export type AircraftId = z.infer<typeof AircraftId>;
+export const AIRCRAFT_NAMES: Record<AircraftId, string> = {
+  mq9: "MQ-9 Reaper",
+  mq1c: "MQ-1C Gray Eagle",
+  f15e: "F-15E Strike Eagle",
+  f35a: "F-35A Lightning II",
+  a10: "A-10 Thunderbolt II",
+  kc135: "KC-135 Stratotanker",
+  hh60w: "HH-60W Jolly Green II",
+  mc130j: "MC-130J Commando II",
+  rc135: "RC-135 Rivet Joint",
+};
+export const AircraftPhotosFile = z.partialRecord(AircraftId, Photo);
+export type AircraftPhotosFile = z.infer<typeof AircraftPhotosFile>;

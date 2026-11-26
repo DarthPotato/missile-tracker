@@ -257,3 +257,22 @@ describe("war damage", () => {
     expect(w.categories.reduce((n, c) => n + c.value, 0)).toBe(81);
   });
 });
+
+describe("aircraftPhotoId", () => {
+  it("matches drones, jet models and CRS categories to a photo", async () => {
+    const { aircraftPhotoId } = await import("../src/lib/drones");
+    expect(aircraftPhotoId("mq9")).toBe("mq9");
+    expect(aircraftPhotoId("mq1")).toBe("mq1c");
+    expect(aircraftPhotoId("F-15E")).toBe("f15e");
+    expect(aircraftPhotoId("F-35A")).toBe("f35a");
+    expect(aircraftPhotoId("A-10")).toBe("a10");
+    expect(aircraftPhotoId("Drones")).toBe("mq9");
+    expect(aircraftPhotoId("Fighters")).toBe("f15e");
+    expect(aircraftPhotoId("Refueling planes")).toBe("kc135");
+    expect(aircraftPhotoId("Helicopters")).toBe("hh60w");
+    expect(aircraftPhotoId("Ground-attack jets")).toBe("a10");
+    expect(aircraftPhotoId("Special operations planes")).toBe("mc130j");
+    expect(aircraftPhotoId("Reconnaissance planes")).toBe("rc135");
+    expect(aircraftPhotoId("fighter jet")).toBeUndefined();
+  });
+});

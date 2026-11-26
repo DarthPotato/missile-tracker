@@ -63,6 +63,17 @@ describe("captionLead", () => {
     for (const lead of Object.values(leads)) expect(lead).toMatch(/\d{4}\.$/);
   });
 
+  it("ends on the first full stop after the year when the date isn't last", () => {
+    expect(
+      captionLead(
+        "An MQ-1C Gray Eagle takes-off from Ladd Army Airfield April 12, 2016 at Fort Wainwright, Alaska. The Gray Eagle is new. (U.S. Army photo)",
+      ),
+    ).toBe("An MQ-1C Gray Eagle takes-off from Ladd Army Airfield April 12, 2016 at Fort Wainwright, Alaska.");
+    expect(captionLead("A KC-135 trained at Cannon Air Force Base N.M., June 21, 2021. More text.")).toBe(
+      "A KC-135 trained at Cannon Air Force Base N.M., June 21, 2021.",
+    );
+  });
+
   it("falls back to a trimmed caption when there is no dated sentence", () => {
     expect(captionLead("No date here")).toBe("No date here");
     expect(captionLead("x".repeat(400))).toHaveLength(318);
