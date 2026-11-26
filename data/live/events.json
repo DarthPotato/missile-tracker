@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T04:21:21.100Z",
+  "updated": "2026-11-26T04:58:34.497Z",
   "events": [
     {
       "id": "2026-11-25-gulf-saudi-arabia-ballistic",
@@ -54,6 +54,102 @@
       ]
     },
     {
+      "id": "2026-11-24-ukraine-ukraine-drone",
+      "date": "2026-11-24",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/99065",
+          "posted": "2026-11-25T06:01:10+00:00",
+          "official": true,
+          "launched": 112,
+          "intercepted": 88,
+          "quote": "протиповітряною обороною збито/подавлено 88 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-ukraine-ukraine-drone",
+      "date": "2026-11-23",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/98867",
+          "posted": "2026-11-24T06:19:56+00:00",
+          "official": true,
+          "launched": 96,
+          "intercepted": 73,
+          "quote": "станом на 08:00 протиповітряною обороною збито/подавлено 73 ворожі БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-ukraine-ukraine-drone",
+      "date": "2026-11-22",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [
+        "Mirage 2000 aircraft gun"
+      ],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/98425",
+          "posted": "2026-11-22T11:13:17+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "Збиття реактивного БпЛА авіаційною гарматою винищувача Mirage 2000."
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/98624",
+          "posted": "2026-11-23T06:02:02+00:00",
+          "official": true,
+          "launched": 153,
+          "intercepted": 134,
+          "quote": "збито/подавлено 134 ворожі БпЛА типу Shahed (42 із них – реактивні), Гербера та дронів інших типів"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-ukraine-ukraine-drone",
+      "date": "2026-11-21",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/98362",
+          "posted": "2026-11-22T06:00:36+00:00",
+          "official": true,
+          "launched": 186,
+          "intercepted": 161,
+          "quote": "збито/подавлено 161 ворожий БпЛА типу Shahed (56 із них – реактивні), Гербера, дрон інших типів"
+        }
+      ]
+    },
+    {
       "id": "2026-11-20-gulf-saudi-arabia-ballistic",
       "date": "2026-11-20",
       "theater": "gulf",
@@ -71,6 +167,216 @@
           "launched": null,
           "intercepted": 3,
           "quote": "Saudi Arabia's air defences have intercepted and destroyed three ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-ukraine-ukraine-ballistic",
+      "date": "2026-11-20",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97974",
+          "posted": "2026-11-21T06:33:53+00:00",
+          "official": true,
+          "launched": 3,
+          "intercepted": null,
+          "quote": "трьома балістичними ракетами Іскандер-М/KN-23/С-400"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-ukraine-ukraine-drone",
+      "date": "2026-11-20",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97974",
+          "posted": "2026-11-21T06:33:53+00:00",
+          "official": true,
+          "launched": 148,
+          "intercepted": 117,
+          "quote": "збито/подавлено 117 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-ukraine-ukraine-ballistic",
+      "date": "2026-11-19",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97713",
+          "posted": "2026-11-20T08:45:56+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 3,
+          "quote": "3 балістичні ракети Іскандер-М/С-400/Циркон"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-ukraine-ukraine-cruise",
+      "date": "2026-11-19",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97713",
+          "posted": "2026-11-20T08:45:56+00:00",
+          "official": true,
+          "launched": 84,
+          "intercepted": 79,
+          "quote": "79 крилатих ракет Х-101, Калібр"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-ukraine-ukraine-drone",
+      "date": "2026-11-19",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97713",
+          "posted": "2026-11-20T08:45:56+00:00",
+          "official": true,
+          "launched": 404,
+          "intercepted": 380,
+          "quote": "380 ворожих БпЛА типу Shahed (102 із них – реактивні), Гербера та дронів інших типів"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-ukraine-ukraine-drone",
+      "date": "2026-11-18",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97342",
+          "posted": "2026-11-19T06:07:21+00:00",
+          "official": true,
+          "launched": 98,
+          "intercepted": 69,
+          "quote": "збито/подавлено 69 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-ukraine-ukraine-drone",
+      "date": "2026-11-17",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/97092",
+          "posted": "2026-11-18T06:00:27+00:00",
+          "official": true,
+          "launched": 141,
+          "intercepted": 126,
+          "quote": "збито/подавлено 126 ворожих БпЛА типу Shahed (59 із них - реактивні), Гербера, дронів інших типів"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-ukraine-ukraine-mixed",
+      "date": "2026-11-16",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "mixed",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/96916",
+          "posted": "2026-11-17T11:25:18+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 211,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 211 ВОРОЖИХ ЦІЛЕЙ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-gulf-saudi-led-coalition-drone",
+      "date": "2026-11-15",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "aa.com.tr",
+          "url": "https://www.aa.com.tr/en/middle-east/saudi-led-coalition-says-it-intercepted-4-drones-over-mecca-medina-amid-escalation-with-houthis/4125851",
+          "posted": "2026-11-15T09:27:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "Saudi-led coalition says it intercepted 4 drones over Mecca, Medina"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-ukraine-ukraine-drone",
+      "date": "2026-11-15",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/96507",
+          "posted": "2026-11-16T06:00:16+00:00",
+          "official": true,
+          "launched": 158,
+          "intercepted": 131,
+          "quote": "збито/подавлено 131 ворожий БпЛА типу Shahed"
         }
       ]
     },
@@ -117,6 +423,27 @@
       ]
     },
     {
+      "id": "2026-11-14-ukraine-ukraine-drone",
+      "date": "2026-11-14",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/96207",
+          "posted": "2026-11-15T06:01:50+00:00",
+          "official": true,
+          "launched": 132,
+          "intercepted": 106,
+          "quote": "За попередніми даними, станом на 08:00, протиповітряною обороною збито/подавлено 106 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
       "id": "2026-11-13-gulf-united-states-drone",
       "date": "2026-11-13",
       "theater": "gulf",
@@ -154,6 +481,644 @@
           "launched": null,
           "intercepted": 2,
           "quote": "it shot down two Iranian drones heading towards Bahrain"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-ukraine-ukraine-drone",
+      "date": "2026-11-13",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95898",
+          "posted": "2026-11-14T05:39:14+00:00",
+          "official": true,
+          "launched": 96,
+          "intercepted": 81,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 81 ВОРОЖУ ЦІЛЬ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-ukraine-ukraine-drone",
+      "date": "2026-11-12",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95558",
+          "posted": "2026-11-12T16:58:11+00:00",
+          "official": true,
+          "launched": 143,
+          "intercepted": 124,
+          "quote": "протиповітряною обороною збито/подавлено 124 БпЛА"
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95714",
+          "posted": "2026-11-13T05:34:59+00:00",
+          "official": true,
+          "launched": 117,
+          "intercepted": 80,
+          "quote": "збито/подавлено 80 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-ukraine-ukraine-unknown",
+      "date": "2026-11-12",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95558",
+          "posted": "2026-11-12T16:58:11+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "дві S8000 Бандероль/Дань-Т"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-ukraine-ukraine-mixed",
+      "date": "2026-11-11",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "mixed",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95391",
+          "posted": "2026-11-12T06:01:10+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 94,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 94 ВОРОЖІ ЦІЛІ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-ukraine-ukraine-drone",
+      "date": "2026-11-10",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94898",
+          "posted": "2026-11-10T18:10:27+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 124,
+          "quote": "збито/подавлено 124 БпЛА (73 із них - реактивні)"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-ukraine-ukraine-mixed",
+      "date": "2026-11-10",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "mixed",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/95044",
+          "posted": "2026-11-11T06:01:01+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 144,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 144 ВОРОЖІ ЦІЛІ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-ukraine-ukraine-unknown",
+      "date": "2026-11-10",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94898",
+          "posted": "2026-11-10T18:10:27+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 14,
+          "quote": "збито/подавлено 124 БпЛА (73 із них - реактивні) та 14 Бандероль/Дань-Т"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-ukraine-ukraine-ballistic",
+      "date": "2026-11-09",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94783",
+          "posted": "2026-11-10T05:33:31+00:00",
+          "official": true,
+          "launched": 1,
+          "intercepted": null,
+          "quote": "атакував однією балістичною ракетою Іскандер-М"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-ukraine-ukraine-drone",
+      "date": "2026-11-09",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94783",
+          "posted": "2026-11-10T05:33:31+00:00",
+          "official": true,
+          "launched": 162,
+          "intercepted": 135,
+          "quote": "збито/подавлено 135 ворожих БпЛА типу Shahed (70 із них - реактивні)"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-ukraine-ukraine-drone",
+      "date": "2026-11-08",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94425",
+          "posted": "2026-11-09T06:00:29+00:00",
+          "official": true,
+          "launched": 317,
+          "intercepted": 276,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 276 ВОРОЖИХ ЦІЛЕЙ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-07-ukraine-ukraine-cruise",
+      "date": "2026-11-07",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94139",
+          "posted": "2026-11-08T06:00:18+00:00",
+          "official": true,
+          "launched": 3,
+          "intercepted": null,
+          "quote": "противник атакував трьома керованими авіаційними ракетами Х-59/69"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-07-ukraine-ukraine-drone",
+      "date": "2026-11-07",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/94139",
+          "posted": "2026-11-08T06:00:18+00:00",
+          "official": true,
+          "launched": 164,
+          "intercepted": 137,
+          "quote": "протиповітряною обороною збито/подавлено 137 ворожих БпЛА типу Shahed (88 із них - реактивні)"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-ukraine-ukraine-drone",
+      "date": "2026-11-06",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/93936",
+          "posted": "2026-11-07T07:01:38+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 149,
+          "quote": "149 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-ukraine-ukraine-unknown",
+      "date": "2026-11-06",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/93936",
+          "posted": "2026-11-07T07:01:38+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 4,
+          "quote": "збито/подавлено 4 ракети Іскандер-М/Циркон/KN-23/С-400"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-ukraine-ukraine-drone",
+      "date": "2026-11-05",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/93571",
+          "posted": "2026-11-06T06:02:21+00:00",
+          "official": true,
+          "launched": 227,
+          "intercepted": 196,
+          "quote": "За попередніми даними, станом на 08:00, протиповітряною обороною збито/подавлено 196 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-ukraine-ukraine-drone",
+      "date": "2026-11-04",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/93213",
+          "posted": "2026-11-05T06:01:42+00:00",
+          "official": true,
+          "launched": 128,
+          "intercepted": 105,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 105 ВОРОЖИХ ЦІЛЕЙ"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-03-ukraine-ukraine-drone",
+      "date": "2026-11-03",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92838",
+          "posted": "2026-11-03T17:30:06+00:00",
+          "official": true,
+          "launched": 81,
+          "intercepted": 62,
+          "quote": "За попередніми даними, протягом вказаного періоду, протиповітряною обороною збито/подавлено 62 БпЛА (56 із них - реактивні)."
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92980",
+          "posted": "2026-11-04T06:02:49+00:00",
+          "official": true,
+          "launched": 310,
+          "intercepted": 272,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 272 ВОРОЖІ БПЛА"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-ukraine-ukraine-ballistic",
+      "date": "2026-11-02",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92751",
+          "posted": "2026-11-03T07:27:11+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 3,
+          "quote": "3 балістичні ракети Іскандер-М/KN-23/Циркон"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-ukraine-ukraine-cruise",
+      "date": "2026-11-02",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92751",
+          "posted": "2026-11-03T07:27:11+00:00",
+          "official": true,
+          "launched": 59,
+          "intercepted": 49,
+          "quote": "49 крилатих ракет Х-101/Х-59/Х-69/Іскандер-К"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-ukraine-ukraine-drone",
+      "date": "2026-11-02",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92472",
+          "posted": "2026-11-02T17:35:19+00:00",
+          "official": true,
+          "launched": 171,
+          "intercepted": 139,
+          "quote": "збито/подавлено 139 БпЛА (78 із них - реактивні)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92751",
+          "posted": "2026-11-03T07:27:11+00:00",
+          "official": true,
+          "launched": 289,
+          "intercepted": 257,
+          "quote": "257 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-ukraine-ukraine-unknown",
+      "date": "2026-11-02",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92472",
+          "posted": "2026-11-02T17:35:19+00:00",
+          "official": true,
+          "launched": 10,
+          "intercepted": 8,
+          "quote": "вісім S8000 Бандероль/Дань-Т"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01-ukraine-ukraine-drone",
+      "date": "2026-11-01",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92135",
+          "posted": "2026-11-01T17:16:49+00:00",
+          "official": true,
+          "launched": 326,
+          "intercepted": 274,
+          "quote": "збито/подавлено 274 БпЛА (46 із них - реактивні)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92274",
+          "posted": "2026-11-02T05:44:52+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 154,
+          "quote": "ЗБИТО/ПОДАВЛЕНО 154 ВОРОЖИХ БПЛА"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-01-ukraine-ukraine-unknown",
+      "date": "2026-11-01",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92135",
+          "posted": "2026-11-01T17:16:49+00:00",
+          "official": true,
+          "launched": 6,
+          "intercepted": 6,
+          "quote": "шість S8000 Бандероль/Дань-Т"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-31-ukraine-ukraine-drone",
+      "date": "2026-10-31",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/91865",
+          "posted": "2026-10-31T18:04:01+00:00",
+          "official": true,
+          "launched": 168,
+          "intercepted": 122,
+          "quote": "протиповітряною обороною збито/подавлено 122 БпЛА (37 із них - реактивні)"
+        },
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/92012",
+          "posted": "2026-11-01T05:30:22+00:00",
+          "official": true,
+          "launched": 433,
+          "intercepted": 371,
+          "quote": "протиповітряною обороною збито/подавлено 371 ворожий БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-31-ukraine-ukraine-unknown",
+      "date": "2026-10-31",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "unknown",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/91865",
+          "posted": "2026-10-31T18:04:01+00:00",
+          "official": true,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "два S8000 Бандероль/Дань-Т"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-ukraine-ukraine-drone",
+      "date": "2026-10-30",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/91663",
+          "posted": "2026-10-31T06:30:41+00:00",
+          "official": true,
+          "launched": 134,
+          "intercepted": 105,
+          "quote": "протиповітряною обороною збито/подавлено 105 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-ukraine-ukraine-cruise",
+      "date": "2026-10-29",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/91428",
+          "posted": "2026-10-30T05:31:55+00:00",
+          "official": true,
+          "launched": 4,
+          "intercepted": 3,
+          "quote": "3 керовані авіаційні ракети Х-59/69"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-ukraine-ukraine-drone",
+      "date": "2026-10-29",
+      "theater": "ukraine",
+      "defender": "Ukraine",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "telegram",
+          "name": "Ukrainian Air Force",
+          "url": "https://t.me/kpszsu/91428",
+          "posted": "2026-10-30T05:31:55+00:00",
+          "official": true,
+          "launched": 113,
+          "intercepted": 96,
+          "quote": "96 ворожих БпЛА типу Shahed (71 із них - реактивний)"
         }
       ]
     },
