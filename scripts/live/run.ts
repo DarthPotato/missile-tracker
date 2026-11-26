@@ -7,22 +7,24 @@
 //
 //   npm run live-feed                 normal run (needs ANTHROPIC_API_KEY)
 //   npm run live-feed -- --dry-run    fetch and filter only, no Claude calls, no writes
+//   BACKFILL_DAYS=30 npm run live-feed  also re-read the last 30 days of every
+//                                       Telegram channel (news feeds only go back a day or two)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { ROOT } from "../load-node.ts";
 import { LiveFile, mergeEvents } from "../../src/lib/live.ts";
 import { parseRss, bingItem } from "../pipeline/feeds.ts";
-import { fetchChannel, looksLikeIntercept } from "./telegram.ts";
+import { fetchChannel, looksLikeIntercept, looksLikeTally } from "./telegram.ts";
 import { extractEvents, type Item } from "./extract.ts";
 
 const DIR = path.join(ROOT, "data", "live");
 const EVENTS = path.join(DIR, "events.json");
 const STATE = path.join(DIR, "state.json");
 const OUT = path.join(ROOT, "pipeline-out");
-/** Keep the log to a rolling window so the file stays small. */
-const KEEP_DAYS = 180;
+// The log keeps everything: it's the history. No rolling window.
 const BATCH = 15;
 const dryRun = process.argv.includes("--dry-run");
+const backfillDays = Number(process.env.BACKFILL_DAYS || 0);
 
 interface Sources {
   telegram: { handle: string; name: string; official: boolean }[];
@@ -77,11 +79,15 @@ async function main() {
 
   const items: Item[] = [];
   const newLast: Record<string, number> = { ...state.lastPost };
+  const since = backfillDays > 0 ? new Date(Date.now() - backfillDays * 86_400_000).toISOString() : undefined;
+  if (since) lines.push(`- Backfill: re-reading Telegram back to ${since.slice(0, 10)}`);
   for (const ch of sources.telegram) {
     try {
-      const posts = await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
+      const posts = since
+        ? await fetchChannel(ch.handle, 0, { since })
+        : await fetchChannel(ch.handle, state.lastPost[ch.handle] ?? 0);
       const kept = posts.filter((p) => looksLikeIntercept(p.text));
-      if (posts.length) newLast[ch.handle] = posts.at(-1)!.id;
+      if (posts.length) newLast[ch.handle] = Math.max(newLast[ch.handle] ?? 0, posts.at(-1)!.id);
       for (const p of kept)
         items.push({
           kind: "telegram",
@@ -91,7 +97,10 @@ async function main() {
           official: ch.official,
           text: p.text,
         });
-      lines.push(`- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts`);
+      const tallies = kept.filter((p) => looksLikeTally(p.text)).length;
+      lines.push(
+        `- Telegram ${ch.name}: ${posts.length} new posts, ${kept.length} about intercepts, ${tallies} giving a number shot down`,
+      );
     } catch (e) {
       lines.push(`- Telegram ${ch.name}: failed (${(e as Error).message})`);
     }
@@ -110,11 +119,13 @@ async function main() {
 
   let added = 0;
   const dropped: string[] = [];
+  const cited = new Set<string>();
   let events = log.events;
   for (let i = 0; i < items.length; i += BATCH) {
     const batch = items.slice(i, i + BATCH);
     try {
       const res = await extractEvents(batch);
+      for (const e of res.events) for (const s of e.sources) cited.add(s.url);
       const before = events.length;
       events = mergeEvents(events, res.events);
       added += res.events.length;
@@ -127,8 +138,20 @@ async function main() {
     }
   }
 
-  const cutoff = new Date(Date.now() - KEEP_DAYS * 86_400_000).toISOString().slice(0, 10);
-  events = events.filter((e) => e.date >= cutoff);
+  // Official posts that state a number shot down should always become an event.
+  // List the ones that didn't, so a miss shows up in the run summary.
+  const missed = items.filter((it) => it.official && looksLikeTally(it.text) && !cited.has(it.url));
+  const bySource = new Map<string, number>();
+  for (const it of items) if (cited.has(it.url)) bySource.set(it.name, (bySource.get(it.name) ?? 0) + 1);
+  lines.push(
+    `- Items that produced events: ${[...bySource].map(([n, c]) => `${n} ${c}`).join(", ") || "none"}`,
+    ...(missed.length
+      ? [
+          `- Official posts giving a number that produced no event (${missed.length}):`,
+          ...missed.map((m) => `  - ${m.url}`),
+        ]
+      : []),
+  );
   writeFileSync(EVENTS, JSON.stringify(LiveFile.parse({ updated: new Date().toISOString(), events }), null, 2) + "\n");
   for (const it of newsItems) seenNews.add(it.url);
   writeFileSync(STATE, JSON.stringify({ lastPost: newLast, seenNews: [...seenNews].slice(-500) }, null, 2) + "\n");

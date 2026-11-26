@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
-import { parseChannelPage, looksLikeIntercept } from "../scripts/live/telegram";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetchChannel, parseChannelPage, looksLikeIntercept, looksLikeTally } from "../scripts/live/telegram";
 import { validate, type Item } from "../scripts/live/extract";
 import {
   dailySeries,
@@ -33,6 +33,64 @@ describe("looksLikeIntercept", () => {
     expect(looksLikeIntercept("Bahrain says it intercepted 4 drones")).toBe(true);
     expect(looksLikeIntercept("збито 71 БпЛА")).toBe(true);
     expect(looksLikeIntercept("Weather update for Kyiv")).toBe(false);
+  });
+});
+
+describe("looksLikeTally", () => {
+  it("wants a shot-down word and a number", () => {
+    expect(looksLikeTally("збито/подавлено 71 ворожий БпЛА")).toBe(true);
+    expect(looksLikeTally("Bahrain intercepted 4 drones")).toBe(true);
+    expect(looksLikeTally("Група ударних БпЛА курсом на Конотоп")).toBe(false);
+    expect(looksLikeTally("drones were shot down over the city")).toBe(false);
+  });
+});
+
+describe("fetchChannel", () => {
+  // Three pages of ten posts, one a day, newest page first, like t.me/s/<handle>?before=<id>.
+  const post = (id: number) => {
+    const day = String(id).padStart(2, "0");
+    return `<div class="tgme_widget_message_wrap"><div data-post="kpszsu/${id}"><div class="tgme_widget_message_text">збито ${id}</div><time datetime="2026-11-${day}T07:00:00+00:00"></time></div></div>`;
+  };
+  const page = (ids: number[]) => ids.map(post).join("");
+  const pages: Record<string, string> = {
+    "": page([21, 22, 23, 24, 25, 26, 27, 28, 29, 30]),
+    "?before=21": page([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
+    "?before=11": page([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+  };
+  const calls: string[] = [];
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.useRealTimers();
+    calls.length = 0;
+  });
+  const stub = () => {
+    vi.useFakeTimers();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        calls.push(url);
+        const q = url.split("kpszsu")[1];
+        return new Response(pages[q] ?? "", { status: 200 });
+      }),
+    );
+  };
+  const run = async (p: Promise<unknown>) => {
+    await vi.runAllTimersAsync();
+    return p;
+  };
+
+  it("stops at the last post it has already read", async () => {
+    stub();
+    const posts = (await run(fetchChannel("kpszsu", 25))) as { id: number }[];
+    expect(posts.map((p) => p.id)).toEqual([26, 27, 28, 29, 30]);
+    expect(calls).toHaveLength(1);
+  });
+
+  it("backfills back to a date, past the usual three pages' worth of reading", async () => {
+    stub();
+    const posts = (await run(fetchChannel("kpszsu", 0, { since: "2026-11-15" }))) as { id: number }[];
+    expect(posts.map((p) => p.id)).toEqual([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
+    expect(calls).toHaveLength(2);
   });
 });
 

@@ -32,11 +32,21 @@ export function parseChannelPage(html: string, handle: string): Post[] {
   return posts.sort((a, b) => a.id - b.id);
 }
 
+export interface FetchOptions {
+  /** Stop after this many pages (about 20 posts each). */
+  maxPages?: number;
+  /** Backfill: keep paging back until posts are older than this ISO date, ignoring maxPages' default. */
+  since?: string;
+}
+
 /**
- * Posts newer than `afterId`, oldest first. Pages back at most `maxPages`
- * pages, so a first run (or a long outage) doesn't crawl the whole channel.
+ * Posts newer than `afterId` (and on or after `since`, when given), oldest
+ * first. A normal run pages back at most 3 pages, so a first run or a long
+ * outage doesn't crawl the whole channel; a backfill pages back to `since`.
  */
-export async function fetchChannel(handle: string, afterId: number, maxPages = 3): Promise<Post[]> {
+export async function fetchChannel(handle: string, afterId: number, opts: FetchOptions = {}): Promise<Post[]> {
+  const { since } = opts;
+  const maxPages = opts.maxPages ?? (since ? 400 : 3);
   const seen = new Map<number, Post>();
   let before: number | undefined;
   for (let page = 0; page < maxPages; page++) {
@@ -45,10 +55,10 @@ export async function fetchChannel(handle: string, afterId: number, maxPages = 3
     if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
     const posts = parseChannelPage(await res.text(), handle);
     if (!posts.length) break;
-    for (const p of posts) if (p.id > afterId) seen.set(p.id, p);
-    const oldest = posts[0].id;
-    if (oldest <= afterId) break;
-    before = oldest;
+    for (const p of posts) if (p.id > afterId && (!since || p.posted >= since)) seen.set(p.id, p);
+    const oldest = posts[0];
+    if (oldest.id <= afterId || (since && oldest.posted < since)) break;
+    before = oldest.id;
     await new Promise((r) => setTimeout(r, 1500));
   }
   return [...seen.values()].sort((a, b) => a.id - b.id);
@@ -60,4 +70,9 @@ const INTERCEPT_WORDS =
 
 export function looksLikeIntercept(text: string): boolean {
   return INTERCEPT_WORDS.test(text);
+}
+
+/** A post that states a number shot down: what an official morning tally looks like. */
+export function looksLikeTally(text: string): boolean {
+  return /(збито|подавлено|shot down|intercepted|downed)/i.test(text) && /\d/.test(text);
 }

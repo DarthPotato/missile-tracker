@@ -1,0 +1,116 @@
+---
+// One logged intercept: headline, reliability, and its sources with their quotes.
+import {
+  RELIABILITY_LABEL,
+  THEATER_LABEL,
+  THREAT_LABEL,
+  eventCount,
+  reliability,
+  type CountRange,
+  type LiveEvent,
+} from "../lib/live";
+import { fmt, formatDate } from "../lib/format";
+
+interface Props {
+  event: LiveEvent;
+}
+const { event: e } = Astro.props;
+const rel = reliability(e);
+
+const range = (c?: CountRange) =>
+  !c ? "?" : Math.round(c.low) === Math.round(c.high) ? fmt(c.low) : `${fmt(c.low)}–${fmt(c.high)}`;
+
+function headlineFor(e: LiveEvent): string {
+  const hit = eventCount(e, "intercepted");
+  const fired = eventCount(e, "launched");
+  const what = THREAT_LABEL[e.threat];
+  if (hit && fired) return `${range(hit)} of ${range(fired)} ${what} shot down`;
+  if (hit) return `${range(hit)} ${what} shot down`;
+  return `${range(fired)} ${what} launched`;
+}
+---
+
+<li class="card ev">
+  <div class="ev-top">
+    <span class="small muted">
+      {formatDate(e.date)} · {THEATER_LABEL[e.theater]} · {e.defender}
+    </span>
+    <span class={`rel ${rel}`}>{RELIABILITY_LABEL[rel]}</span>
+  </div>
+  <div class="ev-main">
+    <strong>{headlineFor(e)}</strong>
+    {e.systems.length > 0 && <span class="muted small"> · {e.systems.join(", ")}</span>}
+    {e.usInvolved && <span class="us small">U.S. involved</span>}
+  </div>
+  <details>
+    <summary class="small">
+      {e.sources.length} source{e.sources.length > 1 ? "s" : ""}
+    </summary>
+    {e.sources.map((s) => (
+      <div class="src">
+        <a href={s.url} rel="noopener nofollow">
+          {s.name}
+        </a>{" "}
+        <span class="small muted">
+          {s.kind === "telegram" ? "Telegram" : "News"}
+          {s.official ? ", official" : ""} · {s.posted.slice(0, 10)}
+        </span>
+        <blockquote>“{s.quote}”</blockquote>
+      </div>
+    ))}
+  </details>
+</li>
+
+<style>
+  .ev {
+    padding: 12px 14px;
+    border-style: dashed;
+  }
+  .ev-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ev-main {
+    margin: 4px 0;
+  }
+  .rel {
+    font: 600 11px var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rel::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--serious);
+  }
+  .rel.official::before {
+    background: var(--good);
+  }
+  .rel.corroborated::before {
+    background: var(--warning);
+  }
+  .us {
+    margin-left: 8px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--series-1);
+    color: var(--series-1);
+  }
+  .src {
+    margin-top: 8px;
+  }
+  .src blockquote {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+    overflow-wrap: anywhere;
+  }
+</style>

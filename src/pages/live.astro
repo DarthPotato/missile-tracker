@@ -1,20 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
 import LiveChart from "../components/LiveChart.astro";
+import LiveEventCard from "../components/LiveEventCard.astro";
 import { getLive } from "../lib/data";
-import {
-  IRAN_THEATERS,
-  RELIABILITY_LABEL,
-  THEATER_LABEL,
-  THREAT_LABEL,
-  daysAgo,
-  eventCount,
-  filterEvents,
-  reliability,
-  totals,
-  type CountRange,
-  type LiveEvent,
-} from "../lib/live";
+import { IRAN_THEATERS, daysAgo, eventCount, filterEvents, totals, type CountRange } from "../lib/live";
 import { BUILD_DATE } from "../lib/scenario";
 import { fmt, formatDate } from "../lib/format";
 import { href } from "../lib/site";
@@ -27,28 +16,21 @@ const groups = [
     id: "iran",
     title: "Iran war theaters",
     note: "Persian Gulf, Israel and the Red Sea. These intercepts draw on the same U.S.-made interceptors the stockpile figures track.",
-    events: filterEvents(live.events, daysAgo(today, 59), IRAN_THEATERS),
+    events: filterEvents(live.events, "0000-00-00", IRAN_THEATERS),
   },
   {
     id: "ukraine",
     title: "Ukraine",
     note: "Ukraine's Air Force posts a tally every morning. Most drones are downed by guns, jammers and interceptor drones, not by U.S. missiles.",
-    events: filterEvents(live.events, daysAgo(today, 59), ["ukraine"]),
+    events: filterEvents(live.events, "0000-00-00", ["ukraine"]),
   },
 ];
 const latest = live.events.slice(0, 40);
+/** Days from `from` to `to`, inclusive. */
+const span = (from: string, to: string) => Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000) + 1;
 
 const range = (c?: CountRange) =>
   !c ? "?" : Math.round(c.low) === Math.round(c.high) ? fmt(c.low) : `${fmt(c.low)}–${fmt(c.high)}`;
-
-function headlineFor(e: LiveEvent): string {
-  const hit = eventCount(e, "intercepted");
-  const fired = eventCount(e, "launched");
-  const what = THREAT_LABEL[e.threat];
-  if (hit && fired) return `${range(hit)} of ${range(fired)} ${what} shot down`;
-  if (hit) return `${range(hit)} ${what} shot down`;
-  return `${range(fired)} ${what} launched`;
-}
 ---
 
 <Base
@@ -79,6 +61,10 @@ function headlineFor(e: LiveEvent): string {
     const e30 = filterEvents(g.events, since30);
     const t30 = totals(e30);
     const anyLaunched = e30.some((e) => eventCount(e, "launched"));
+    // Events are newest first, so the last one is where this theater's log begins.
+    const first = g.events.at(-1)?.date;
+    const tAll = totals(g.events);
+    const days = first ? Math.max(60, span(first, today)) : 60;
     return (
       <section id={g.id}>
         <div class="section-head">
@@ -96,14 +82,17 @@ function headlineFor(e: LiveEvent): string {
             <div class="tile-note">where the source gives a number</div>
           </div>
           <div class="card tile">
-            <div class="tile-label">Events logged</div>
-            <div class="tile-value">{fmt(t30.events)}</div>
+            <div class="tile-label">Reported shot down, all logged</div>
+            <div class="tile-value">{range(tAll.intercepted)}</div>
+            <div class="tile-note">
+              {first ? `${fmt(tAll.events)} events since ${formatDate(first)}` : "nothing logged yet"}
+            </div>
           </div>
         </div>
         {g.events.length ? (
-          <LiveChart events={g.events} today={today} label={g.title} />
+          <LiveChart events={g.events} today={today} days={days} label={g.title} />
         ) : (
-          <p class="empty muted small">Nothing logged in the last 60 days.</p>
+          <p class="empty muted small">Nothing logged yet.</p>
         )}
       </section>
     );
@@ -115,42 +104,18 @@ function headlineFor(e: LiveEvent): string {
     </div>
     {latest.length === 0 && <p class="muted">The feed hasn't logged anything yet.</p>}
     <ol class="events">
-      {latest.map((e) => {
-        const rel = reliability(e);
-        return (
-          <li class="card ev">
-            <div class="ev-top">
-              <span class="small muted">
-                {formatDate(e.date)} · {THEATER_LABEL[e.theater]} · {e.defender}
-              </span>
-              <span class={`rel ${rel}`}>{RELIABILITY_LABEL[rel]}</span>
-            </div>
-            <div class="ev-main">
-              <strong>{headlineFor(e)}</strong>
-              {e.systems.length > 0 && <span class="muted small"> · {e.systems.join(", ")}</span>}
-              {e.usInvolved && <span class="us small">U.S. involved</span>}
-            </div>
-            <details>
-              <summary class="small">
-                {e.sources.length} source{e.sources.length > 1 ? "s" : ""}
-              </summary>
-              {e.sources.map((s) => (
-                <div class="src">
-                  <a href={s.url} rel="noopener nofollow">
-                    {s.name}
-                  </a>{" "}
-                  <span class="small muted">
-                    {s.kind === "telegram" ? "Telegram" : "News"}
-                    {s.official ? ", official" : ""} · {s.posted.slice(0, 10)}
-                  </span>
-                  <blockquote>“{s.quote}”</blockquote>
-                </div>
-              ))}
-            </details>
-          </li>
-        );
-      })}
+      {latest.map((e) => (
+        <LiveEventCard event={e} />
+      ))}
     </ol>
+    {live.events.length > 0 && (
+      <p>
+        <a href={href("/live/log/")}>
+          Full log: {live.events.length > latest.length ? `all ${fmt(live.events.length)} events` : "everything logged"}
+          , by month
+        </a>
+      </p>
+    )}
   </section>
 </Base>
 
@@ -200,57 +165,6 @@ function headlineFor(e: LiveEvent): string {
     padding: 0;
     display: grid;
     gap: 10px;
-  }
-  .ev {
-    padding: 12px 14px;
-    border-style: dashed;
-  }
-  .ev-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .ev-main {
-    margin: 4px 0;
-  }
-  .rel {
-    font: 600 11px var(--mono);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-2);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .rel::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--serious);
-  }
-  .rel.official::before {
-    background: var(--good);
-  }
-  .rel.corroborated::before {
-    background: var(--warning);
-  }
-  .us {
-    margin-left: 8px;
-    padding: 1px 6px;
-    border-radius: 999px;
-    border: 1px solid var(--series-1);
-    color: var(--series-1);
-  }
-  .src {
-    margin-top: 8px;
-  }
-  .src blockquote {
-    margin: 4px 0 0;
-    font-size: 14px;
-    color: var(--ink-2);
-    overflow-wrap: anywhere;
   }
   .empty {
     padding: 16px;
