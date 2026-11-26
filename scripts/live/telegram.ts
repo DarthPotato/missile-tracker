@@ -40,6 +40,10 @@ export interface FetchOptions {
   maxPages?: number;
   /** Backfill: keep paging back until posts are older than this ISO date (up to 4,000 pages, about 80,000 posts). */
   since?: string;
+  /** Stop paging at this time (ms since the epoch) and return what was read, so a long backfill still finishes. */
+  deadline?: number;
+  /** Called every 100 pages with the oldest post read so far, to show progress in the run log. */
+  onProgress?: (pages: number, oldest: string) => void;
 }
 
 /**
@@ -48,7 +52,7 @@ export interface FetchOptions {
  * outage doesn't crawl the whole channel; a backfill pages back to `since`.
  */
 export async function fetchChannel(handle: string, afterId: number, opts: FetchOptions = {}): Promise<Post[]> {
-  const { since } = opts;
+  const { since, deadline, onProgress } = opts;
   const maxPages = opts.maxPages ?? (since ? 4000 : 3);
   const seen = new Map<number, Post>();
   let before: number | undefined;
@@ -62,6 +66,8 @@ export async function fetchChannel(handle: string, afterId: number, opts: FetchO
     const oldest = posts[0];
     if (oldest.id <= afterId || (since && oldest.posted < since)) break;
     before = oldest.id;
+    if ((page + 1) % 100 === 0) onProgress?.(page + 1, oldest.posted);
+    if (deadline !== undefined && Date.now() >= deadline) break;
     await new Promise((r) => setTimeout(r, 1500));
   }
   return [...seen.values()].sort((a, b) => a.id - b.id);

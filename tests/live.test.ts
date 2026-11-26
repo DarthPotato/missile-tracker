@@ -111,6 +111,13 @@ describe("fetchChannel", () => {
     expect(posts.map((p) => p.id)).toEqual([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
     expect(calls).toHaveLength(2);
   });
+
+  it("stops a backfill at its deadline and keeps what it read", async () => {
+    stub();
+    const posts = (await run(fetchChannel("kpszsu", 0, { since: "2026-11-01", deadline: 0 }))) as { id: number }[];
+    expect(posts.map((p) => p.id)).toEqual([21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
+    expect(calls).toHaveLength(1);
+  });
 });
 
 const src = (over: Partial<LiveSource> = {}): LiveSource => ({
