@@ -239,7 +239,7 @@ export const PerspectiveFile = z
 export type PerspectiveFile = z.infer<typeof PerspectiveFile>;
 
 // ---------------------------------------------------------------------------
-// U.S. drone losses (data/drones.json): the Reaper page's sourced figures.
+// U.S. drone losses (data/drones.json): the Losses page's sourced figures.
 // Fleet sizes and loss counts from U.S. officials and the press, plus the
 // running tally Iran and the Houthis claim. Quote-checked like everything else;
 // the live claim log (data/live/drone-claims.json) adds to the claimed tally.
@@ -380,7 +380,7 @@ export type Photo = z.infer<typeof Photo>;
 export const PhotosFile = z.partialRecord(MunitionId, Photo);
 export type PhotosFile = z.infer<typeof PhotosFile>;
 
-// Aircraft photos for the Reaper and jet losses page, one per type lost or
+// Aircraft photos for the aircraft losses page, one per type lost or
 // damaged in the war: data/aircraft-photos.json, src/assets/photos/aircraft/<id>.jpg.
 export const AIRCRAFT_IDS = ["mq9", "mq1c", "f15e", "f35a", "a10", "kc135", "hh60w", "mc130j", "rc135"] as const;
 export const AircraftId = z.enum(AIRCRAFT_IDS);

@@ -1,7 +1,7 @@
 ---
 // A static map of the Middle East: where intercepts were reported, where U.S.
 // jets were lost, and where Iran and the Houthis claim shoot-downs. Drawn at
-// build time from the same data as the Live and Reaper pages; no map tiles,
+// build time from the same data as the Live and Losses pages; no map tiles,
 // no scripts, no tracking.
 import Base from "../layouts/Base.astro";
 import { geoMercator, geoPath, geoBounds } from "d3-geo";
@@ -165,7 +165,7 @@ const sorted = [...marks].sort((a, b) => order.indexOf(a.kind) - order.indexOf(b
   )}
 
   <p class="small muted">
-    More on each: <a href={href("/live/")}>Live</a> for intercepts, <a href={href("/reapers/")}>Reapers</a> for losses
+    More on each: <a href={href("/live/")}>Live</a> for intercepts, <a href={href("/losses/")}>Losses</a> for aircraft
     and claims. <a href={href("/methodology/#map")}>How the map works</a>
   </p>
 </Base>
