@@ -157,6 +157,19 @@ export function headline(reports: Report[], id: MunitionId, deliveriesPerYear = 
   };
 }
 
+/**
+ * Share of the prewar stock fired, in percent. A prewar-minus-used estimate
+ * adds deliveries back into what's left, so take them out again: otherwise
+ * deliveries would read as missiles not fired.
+ */
+export function usedPct(h: Pick<Headline, "prewar" | "remaining" | "delivered">): Range {
+  const d = h.delivered ?? 0;
+  return {
+    low: ((h.prewar - (h.remaining.high - d)) / h.prewar) * 100,
+    high: ((h.prewar - (h.remaining.low - d)) / h.prewar) * 100,
+  };
+}
+
 /** Average daily use over the 39-day opening campaign, from the ceasefire tally. */
 export function phase1BurnPerDay(reports: Report[], id: MunitionId): number | undefined {
   const atCeasefire = claimsFor(reports, id)
