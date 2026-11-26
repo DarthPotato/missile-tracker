@@ -10,6 +10,7 @@ import {
   claimsFor,
   deliveredSinceWar,
   sinceWarRate,
+  usedPct,
 } from "../src/lib/model";
 import { spreadPoints } from "../src/lib/spread";
 import { formatPct, formatRange } from "../src/lib/format";
@@ -237,5 +238,17 @@ describe("U.S. share of new production", () => {
   it("halves Patriot's rebuild rate at a 50% share", () => {
     const m = ds.munitions.find((x) => x.id === "patriot")!;
     expect(defaultRebuildPerYear(m, 0.5)).toBe(defaultRebuildPerYear(m)! / 2);
+  });
+});
+
+describe("usedPct", () => {
+  it("leaves deliveries out of what was fired", () => {
+    // 2,330 before the war, 672-773 left counting 39 delivered since: 1,596-1,697 fired.
+    const u = usedPct({ prewar: 2330, remaining: { low: 672, high: 773 }, delivered: 39 });
+    expect(Math.round(u.low)).toBe(68);
+    expect(Math.round(u.high)).toBe(73);
+  });
+  it("is the complement of what's left when nothing was delivered", () => {
+    expect(usedPct({ prewar: 400, remaining: { low: 100, high: 200 } })).toEqual({ low: 50, high: 75 });
   });
 });
