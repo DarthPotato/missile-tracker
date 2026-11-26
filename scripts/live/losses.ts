@@ -96,7 +96,13 @@ export function validateClaim(raw: Raw, items: Item[]): DroneClaim | string {
   if (!(gap >= 0 && gap <= 3)) return `date ${raw.date} doesn't fit a post from ${posted}`;
   // A Telegram post with a video attached counts as footage released.
   const video = raw.video || !!item.video;
-  const source: ClaimSource = { kind: item.kind, name: item.name, url: item.url, posted: item.posted, quote: raw.quote };
+  const source: ClaimSource = {
+    kind: item.kind,
+    name: item.name,
+    url: item.url,
+    posted: item.posted,
+    quote: raw.quote,
+  };
   const candidate = {
     id: "",
     date: raw.date,

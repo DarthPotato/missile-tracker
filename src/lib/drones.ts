@@ -90,7 +90,11 @@ export interface Tally {
  * log forward. A claim that states its running total resets the count to it
  * (never down); one that doesn't adds its count.
  */
-export function claimedTotal(base: DroneFigure | undefined, claims: DroneClaim[], aircraft: DroneId): Tally | undefined {
+export function claimedTotal(
+  base: DroneFigure | undefined,
+  claims: DroneClaim[],
+  aircraft: DroneId,
+): Tally | undefined {
   let total = base?.value ?? 0;
   let asOf = base?.asOf ?? "";
   const after = claims

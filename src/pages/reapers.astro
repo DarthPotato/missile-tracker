@@ -33,7 +33,15 @@ const sections = drones.map((d) => {
     ...d.fleetAfter.map((f) => ({ ...f, kind: "official" as const, what: "Fleet" })),
     ...d.losses.map((l) => ({ ...l, what: l.adds ? "More lost" : "Lost" })),
   ].sort((a, b) => a.asOf.localeCompare(b.asOf));
-  return { d, est, ack, claimed, figures, series: lossSeries(d, claims), log: claims.filter((c) => c.aircraft === d.id) };
+  return {
+    d,
+    est,
+    ack,
+    claimed,
+    figures,
+    series: lossSeries(d, claims),
+    log: claims.filter((c) => c.aircraft === d.id),
+  };
 });
 
 // Losses-over-time chart geometry.
@@ -70,12 +78,15 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
     <div class="label warn">U.S. figures and adversary claims, kept apart</div>
     <h1>Reaper losses</h1>
     <p class="lede">
-      How many U.S. drones have been shot down. U.S. officials rarely give a count, so the page sets the few they have given
-      against the running tally Iran and the Houthis claim. Their claims are one-sided, though they often follow up with
-      video. None of this feeds the missile estimates.
+      How many U.S. drones have been shot down. U.S. officials rarely give a count, so the page sets the few they have
+      given against the running tally Iran and the Houthis claim. Their claims are one-sided, though they often follow
+      up with video. None of this feeds the missile estimates.
     </p>
     <p class="small muted">
-      Claims {log.updated ? `last read ${formatDate(log.updated.slice(0, 10))}, ${log.updated.slice(11, 16)} UTC` : "not read yet"}
+      Claims{" "}
+      {log.updated
+        ? `last read ${formatDate(log.updated.slice(0, 10))}, ${log.updated.slice(11, 16)} UTC`
+        : "not read yet"}
       from the same Telegram channels and news searches as the <a href={href("/live/")}>live log</a>.{" "}
       <a href={href("/methodology/#reapers")}>How this works</a>
     </p>
@@ -101,7 +112,9 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
             <div class="card tile">
               <div class="tile-label">Left, by U.S. count</div>
               <div class="tile-value">{q(est.acknowledged.value, est.acknowledged.qualifier)}</div>
-              <div class="tile-note">Fleet less the {ack && q(ack.value, ack.qualifier)} U.S. officials acknowledge</div>
+              <div class="tile-note">
+                Fleet less the {ack && q(ack.value, ack.qualifier)} U.S. officials acknowledge
+              </div>
             </div>
           )}
           {!est.acknowledged && ack && (
@@ -130,8 +143,8 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
 
         <figure class="card chart">
           <figcaption class="small">
-            Losses since the war began:{" "}
-            <span class="key us">U.S. acknowledged</span> <span class="key adv">claimed by Iran and the Houthis</span>
+            Losses since the war began: <span class="key us">U.S. acknowledged</span>{" "}
+            <span class="key adv">claimed by Iran and the Houthis</span>
           </figcaption>
           <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${d.name} losses over time`}>
             {c.ticks.map((v) => (
@@ -189,7 +202,10 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
           ))}
         </ul>
 
-        <h3>Claims logged since {lossesBy(d, "adversary").at(-1) ? formatDate(lossesBy(d, "adversary").at(-1)!.asOf) : "the war began"}</h3>
+        <h3>
+          Claims logged since{" "}
+          {lossesBy(d, "adversary").at(-1) ? formatDate(lossesBy(d, "adversary").at(-1)!.asOf) : "the war began"}
+        </h3>
         {dlog.length === 0 ? (
           <p class="empty small muted">
             None logged yet. The feed reads new posts every 6 hours and adds each new {DRONE_SHORT[d.id]} claim here.
@@ -209,8 +225,8 @@ function chart(us: SeriesPoint[], claimed: SeriesPoint[]) {
                 </div>
                 <div>
                   <strong>
-                    {cl.count > 1 ? `${cl.count} ${DRONE_SHORT[cl.aircraft]}s` : `An ${DRONE_SHORT[cl.aircraft]}`} claimed shot
-                    down
+                    {cl.count > 1 ? `${cl.count} ${DRONE_SHORT[cl.aircraft]}s` : `An ${DRONE_SHORT[cl.aircraft]}`}{" "}
+                    claimed shot down
                   </strong>
                   {cl.tally !== null && <span class="muted small"> · their {cl.tally}th, by their count</span>}
                   {cl.video && <span class="vid small">Video released</span>}
