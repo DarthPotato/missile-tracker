@@ -1,6 +1,27 @@
 {
-  "updated": "2026-11-26T22:22:57.240Z",
+  "updated": "2026-11-27T11:24:42.513Z",
   "events": [
+    {
+      "id": "2026-11-26-gulf-saudi-arabia-ballistic",
+      "date": "2026-11-26",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "nation.com.pk",
+          "url": "https://www.nation.com.pk/27-Nov-2026/explosions-heard-riyadh-saudis-intercept-houthi-missiles-drones",
+          "posted": "2026-11-26T12:15:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "quote": "Saudi Air Defences on Thursday intercepted and destroyed two ballistic missiles launched by the Houthi militia toward Riyadh"
+        }
+      ]
+    },
     {
       "id": "2026-11-25-gulf-saudi-arabia-ballistic",
       "date": "2026-11-25",
@@ -1301,6 +1322,28 @@
           "launched": 113,
           "intercepted": 96,
           "quote": "96 ворожих БпЛА типу Shahed (71 із них - реактивний)"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-25-gulf-saudi-arabia-ballistic",
+      "date": "2026-10-25",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "hindustantimes.com",
+          "url": "https://www.hindustantimes.com/world-news/saudi-arabia-forces-intercept-10-ballistic-missiles-launched-by-houthis-yemen-middle-east-101792919289437.html",
+          "posted": "2026-10-25T04:33:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 10,
+          "countFrom": "Saudi forces",
+          "quote": "Saudi forces say 10 ballistic missiles launched by Houthis intercepted"
         }
       ]
     },

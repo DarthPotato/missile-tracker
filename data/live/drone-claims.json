@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T22:22:57.236Z",
+  "updated": "2026-11-27T11:24:42.511Z",
   "claims": [
     {
       "id": "mq1-2026-11-26",
@@ -707,6 +707,13 @@
           "url": "https://www.kurdistan24.net/en/story/947346",
           "posted": "2026-10-20T05:56:00.000Z",
           "quote": "IRGC Claims It Downed US MQ-9 Drone Over Strait of Hormuz"
+        },
+        {
+          "kind": "news",
+          "name": "en.mehrnews.com",
+          "url": "https://en.mehrnews.com/news/248737/IRGC-downs-54th-US-MQ-9-drone-over-Strait-of-Hormuz",
+          "posted": "2026-10-20T00:38:00.000Z",
+          "quote": "IRGC downs 54th US MQ-9 drone over Strait of Hormuz"
         }
       ]
     },
