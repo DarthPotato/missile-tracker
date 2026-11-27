@@ -4,6 +4,7 @@
     "outlet": "CBS News",
     "title": "U.S. has used nearly all its stockpile of long-range missiles in Iran war, sources say",
     "url": "https://www.cbsnews.com/news/u-s-stockpile-long-range-missiles-nearly-depleted-iran-war/",
+    "archiveUrl": "https://web.archive.org/web/20260805061539/https://www.cbsnews.com/news/u-s-stockpile-long-range-missiles-nearly-depleted-iran-war/",
     "published": "2026-08-04",
     "authors": ["Jennifer Jacobs"],
     "kind": "news"
@@ -12,7 +13,21 @@
   "addedBy": "human",
   "quoteCheck": "auto",
   "claims": [
-    { "munition": "prsm", "metric": "statement", "asOf": "2026-08-04", "confidence": "reported", "attribution": "two sources with direct knowledge (CBS News)", "quote": "Specifically, the U.S. has used virtually all of its Army Tactical Missile Systems, known as ATACMS, and Precision Strike Missiles, the sources said." },
-    { "munition": "all", "metric": "statement", "asOf": "2026-08-04", "confidence": "reported", "attribution": "U.S. officials (CBS News)", "quote": "U.S. officials said there are limited inventories of the ATACMS and Precision Strike Missiles, and that the most pressing concern involves the number of Patriot and Terminal High Altitude Area Defense (THAAD) interceptors, which have been used faster than the industry can replace them." }
+    {
+      "munition": "prsm",
+      "metric": "statement",
+      "asOf": "2026-08-04",
+      "confidence": "reported",
+      "attribution": "two sources with direct knowledge (CBS News)",
+      "quote": "Specifically, the U.S. has used virtually all of its Army Tactical Missile Systems, known as ATACMS, and Precision Strike Missiles, the sources said."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-08-04",
+      "confidence": "reported",
+      "attribution": "U.S. officials (CBS News)",
+      "quote": "U.S. officials said there are limited inventories of the ATACMS and Precision Strike Missiles, and that the most pressing concern involves the number of Patriot and Terminal High Altitude Area Defense (THAAD) interceptors, which have been used faster than the industry can replace them."
+    }
   ]
 }

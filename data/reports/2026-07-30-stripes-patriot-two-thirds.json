@@ -4,6 +4,7 @@
     "outlet": "Stars and Stripes",
     "title": "Iran war has consumed nearly 67% of US Patriot interceptor stockpile, report says",
     "url": "https://www.stripes.com/theaters/middle_east/2026-07-30/iran-war-missile-stockpiles-patriots-22406307.html",
+    "archiveUrl": "https://web.archive.org/web/20260731034710/https://www.stripes.com/theaters/middle_east/2026-07-30/iran-war-missile-stockpiles-patriots-22406307.html",
     "published": "2026-07-30",
     "authors": ["Lara Korte"],
     "kind": "news"
@@ -12,8 +13,39 @@
   "addedBy": "human",
   "quoteCheck": "auto",
   "claims": [
-    { "munition": "patriot", "metric": "remaining", "low": 759, "high": 827, "qualifier": "range", "asOf": "2026-07-27", "confidence": "estimate", "attribution": "CSIS (Cancian & Park)", "quote": "They estimate that the U.S. has between 759 and 827 Patriot interceptors left, roughly a third of its prewar inventory." },
-    { "munition": "thaad", "metric": "remaining", "low": 234, "high": 278, "qualifier": "range", "asOf": "2026-07-27", "confidence": "estimate", "attribution": "CSIS (Cancian & Park)", "quote": "The U.S. also has an estimated 234 to 278 THAAD interceptors remaining, down from 452 before the war." },
-    { "munition": "thaad", "metric": "prewar", "low": 452, "high": 452, "qualifier": "about", "asOf": "2026-02-28", "confidence": "estimate", "attribution": "CSIS (Cancian & Park)", "quote": "The U.S. also has an estimated 234 to 278 THAAD interceptors remaining, down from 452 before the war.", "note": "Revised up from the 360 in CSIS's April table." }
+    {
+      "munition": "patriot",
+      "metric": "remaining",
+      "low": 759,
+      "high": 827,
+      "qualifier": "range",
+      "asOf": "2026-07-27",
+      "confidence": "estimate",
+      "attribution": "CSIS (Cancian & Park)",
+      "quote": "They estimate that the U.S. has between 759 and 827 Patriot interceptors left, roughly a third of its prewar inventory."
+    },
+    {
+      "munition": "thaad",
+      "metric": "remaining",
+      "low": 234,
+      "high": 278,
+      "qualifier": "range",
+      "asOf": "2026-07-27",
+      "confidence": "estimate",
+      "attribution": "CSIS (Cancian & Park)",
+      "quote": "The U.S. also has an estimated 234 to 278 THAAD interceptors remaining, down from 452 before the war."
+    },
+    {
+      "munition": "thaad",
+      "metric": "prewar",
+      "low": 452,
+      "high": 452,
+      "qualifier": "about",
+      "asOf": "2026-02-28",
+      "confidence": "estimate",
+      "attribution": "CSIS (Cancian & Park)",
+      "quote": "The U.S. also has an estimated 234 to 278 THAAD interceptors remaining, down from 452 before the war.",
+      "note": "Revised up from the 360 in CSIS's April table."
+    }
   ]
 }
