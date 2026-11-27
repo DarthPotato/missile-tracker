@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T11:24:42.511Z",
+  "updated": "2026-11-27T20:18:15.665Z",
   "claims": [
     {
       "id": "mq1-2026-11-26",
@@ -497,6 +497,13 @@
           "url": "https://t.me/tabzlive/110841",
           "posted": "2026-11-13T14:50:18+00:00",
           "quote": "intercepting a U.S. Army MQ-1C Gray Eagle UCAV above Kuhestak"
+        },
+        {
+          "kind": "news",
+          "name": "middleeasteye.net",
+          "url": "https://www.middleeasteye.net/live-blog/live-blog-update/irans-navy-claims-us-mq-i-drone-shot-down-southern-coast",
+          "posted": "2026-11-13T17:45:00.000Z",
+          "quote": "Iranian navy has said it shot down a US MQ-1 drone"
         }
       ]
     },

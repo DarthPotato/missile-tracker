@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T11:24:42.513Z",
+  "updated": "2026-11-27T20:18:15.668Z",
   "events": [
     {
       "id": "2026-11-26-gulf-saudi-arabia-ballistic",
@@ -92,6 +92,17 @@
           "launched": null,
           "intercepted": 1,
           "quote": "intercepted and destroyed a drone launched by"
+        },
+        {
+          "kind": "news",
+          "name": "devdiscourse.com",
+          "url": "https://www.devdiscourse.com/article/international/4012404-houthis-attack-saudi-arabias-red-sea-port-coalition-intercepts-drone-near-jeddah-missiles-over-riyadh",
+          "posted": "2026-11-25T21:33:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "countFrom": "Saudi-led coalition",
+          "quote": "coalition intercepts drone near Jeddah"
         }
       ]
     },
@@ -1407,6 +1418,27 @@
           "launched": null,
           "intercepted": 4,
           "quote": "intercepted two ballistic missiles and four drones"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-16-gulf-saudi-arabia-drone",
+      "date": "2026-09-16",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "indiatvnews.com",
+          "url": "https://www.indiatvnews.com/news/world/houthi-drone-shot-down-by-saudi-arabia-near-mecca-as-coalition-warns-of-red-line-amid-war-in-mideast-2026-09-16-1054352",
+          "posted": "2026-09-16T01:07:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "quote": "Saudi Arabia has intercepted and destroyed a drone launched by Yemen's Houthi movement near the holy city of Mecca"
         }
       ]
     },
