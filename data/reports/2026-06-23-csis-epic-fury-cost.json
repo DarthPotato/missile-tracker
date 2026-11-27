@@ -4,6 +4,7 @@
     "outlet": "CSIS",
     "title": "The War May Be Ending. What Did Epic Fury Cost?",
     "url": "https://www.csis.org/analysis/war-may-be-ending-what-did-epic-fury-cost",
+    "archiveUrl": "https://web.archive.org/web/20260624015311/https://www.csis.org/analysis/war-may-be-ending-what-did-epic-fury-cost",
     "published": "2026-06-23",
     "authors": ["Mark F. Cancian", "Chris H. Park"],
     "kind": "think-tank"
@@ -12,7 +13,20 @@
   "addedBy": "human",
   "quoteCheck": "auto",
   "claims": [
-    { "munition": "tomahawk", "metric": "statement", "asOf": "2026-06-10", "confidence": "estimate", "quote": "CSIS also included estimated munitions used related to skirmishing during the ceasefire, including 49 Tomahawks fired on June 10.", "note": "Firing during the ceasefire, on top of the April tally." },
-    { "munition": "all", "metric": "statement", "asOf": "2026-06-23", "confidence": "estimate", "quote": "Munitions: $26.1 billion. U.S. forces fired many expensive missiles, making munitions the largest component of the war cost estimate." }
+    {
+      "munition": "tomahawk",
+      "metric": "statement",
+      "asOf": "2026-06-10",
+      "confidence": "estimate",
+      "quote": "CSIS also included estimated munitions used related to skirmishing during the ceasefire, including 49 Tomahawks fired on June 10.",
+      "note": "Firing during the ceasefire, on top of the April tally."
+    },
+    {
+      "munition": "all",
+      "metric": "statement",
+      "asOf": "2026-06-23",
+      "confidence": "estimate",
+      "quote": "Munitions: $26.1 billion. U.S. forces fired many expensive missiles, making munitions the largest component of the war cost estimate."
+    }
   ]
 }
