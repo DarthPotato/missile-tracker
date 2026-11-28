@@ -1,6 +1,50 @@
 {
-  "updated": "2026-11-28T02:58:10.487Z",
+  "updated": "2026-11-28T12:19:46.296Z",
   "events": [
+    {
+      "id": "2026-11-28-gulf-saudi-arabia-cruise",
+      "date": "2026-11-28",
+      "theater": "gulf",
+      "defender": "Saudi Arabia",
+      "threat": "cruise",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "timesofisrael.com",
+          "url": "https://www.timesofisrael.com/liveblog_entry/saudi-arabia-says-air-defenses-intercepted-destroyed-houthi-cruise-missile-targeting-riyadh/",
+          "posted": "2026-11-28T02:07:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "countFrom": "Saudi military spokesman",
+          "quote": "air defense systems intercepted and destroyed a Houthi cruise missile"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-11-27",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-in/news/other/saudi-led-coalition-intercepts-houthi-ballistic-missile-targeting-southern-saudi-arabia-amid-rising-yemen-conflict-tensions/ar-AA2ip7Zm",
+          "posted": "2026-11-27T17:12:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "countFrom": "Saudi-led coalition",
+          "quote": "intercepted and destroyed a ballistic missile"
+        }
+      ]
+    },
     {
       "id": "2026-11-26-gulf-saudi-arabia-ballistic",
       "date": "2026-11-26",
@@ -19,6 +63,17 @@
           "launched": null,
           "intercepted": 2,
           "quote": "Saudi Air Defences on Thursday intercepted and destroyed two ballistic missiles launched by the Houthi militia toward Riyadh"
+        },
+        {
+          "kind": "news",
+          "name": "spa.gov.sa",
+          "url": "https://www.spa.gov.sa/en/N2548685",
+          "posted": "2026-11-26T16:00:00.000Z",
+          "official": false,
+          "launched": 5,
+          "intercepted": 5,
+          "countFrom": "Ministry of Defense spokesperson",
+          "quote": "Five Ballistic Missiles Launched toward Eastern Region Detected and Intercepted"
         }
       ]
     },
@@ -391,6 +446,28 @@
           "launched": 148,
           "intercepted": 117,
           "quote": "збито/подавлено 117 ворожих БпЛА типу Shahed"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-gulf-saudi-led-coalition-ballistic",
+      "date": "2026-11-19",
+      "theater": "gulf",
+      "defender": "Saudi-led coalition",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "reuters.com",
+          "url": "https://www.reuters.com/world/middle-east/saudi-led-coalition-says-it-intercepted-houthi-missile-targeting-southern-region-2026-11-20/",
+          "posted": "2026-11-19T19:33:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 1,
+          "countFrom": "Saudi-led coalition",
+          "quote": "Saudi air defences intercepted and destroyed a ballistic missile"
         }
       ]
     },
@@ -2809,6 +2886,50 @@
           "launched": null,
           "intercepted": 3,
           "quote": "intercepted and destroyed three ballistic missiles"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-05-gulf-uae-ballistic",
+      "date": "2026-03-05",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "qna.org.qa",
+          "url": "https://qna.org.qa/en/News-Area/News/2026-3/5/uae-defence-ministry-announces-intercepting-six-ballistic-missiles-125-drones",
+          "posted": "2026-03-05T10:23:00.000Z",
+          "official": false,
+          "launched": 7,
+          "intercepted": 6,
+          "countFrom": "Emirati Ministry of Defence",
+          "quote": "the UAE air defence systems detected seven ballistic missiles, intercepting and destroying six of them"
+        }
+      ]
+    },
+    {
+      "id": "2026-03-05-gulf-uae-drone",
+      "date": "2026-03-05",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "drone",
+      "systems": [],
+      "usInvolved": false,
+      "sources": [
+        {
+          "kind": "news",
+          "name": "qna.org.qa",
+          "url": "https://qna.org.qa/en/News-Area/News/2026-3/5/uae-defence-ministry-announces-intercepting-six-ballistic-missiles-125-drones",
+          "posted": "2026-03-05T10:23:00.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 125,
+          "countFrom": "Emirati Ministry of Defence",
+          "quote": "Intercepting Six Ballistic Missiles, 125 Drones"
         }
       ]
     },
