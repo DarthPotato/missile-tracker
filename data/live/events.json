@@ -2368,27 +2368,6 @@
       ]
     },
     {
-      "id": "2026-03-21-gulf-uae-ballistic",
-      "date": "2026-03-21",
-      "theater": "gulf",
-      "defender": "UAE",
-      "threat": "ballistic",
-      "systems": [],
-      "usInvolved": false,
-      "sources": [
-        {
-          "kind": "news",
-          "name": "news.webindia123.com",
-          "url": "https://news.webindia123.com/news/Articles/World/20260321/4430033.html",
-          "posted": "2026-03-21T18:30:00Z",
-          "official": false,
-          "launched": null,
-          "intercepted": 341,
-          "quote": "UAE air defences intercepted 341 ballistic missiles"
-        }
-      ]
-    },
-    {
       "id": "2026-03-20-gulf-saudi-arabia-drone",
       "date": "2026-03-20",
       "theater": "gulf",
@@ -2982,6 +2961,29 @@
           "quote": "five drones"
         }
       ]
+    }
+  ],
+  "totals": [
+    {
+      "id": "total-2026-03-21-gulf-uae-ballistic",
+      "theater": "gulf",
+      "defender": "UAE",
+      "threat": "ballistic",
+      "sources": [
+        {
+          "kind": "news",
+          "name": "news.webindia123.com",
+          "url": "https://news.webindia123.com/news/Articles/World/20260321/4430033.html",
+          "posted": "2026-03-21T18:30:00Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 341,
+          "countFrom": "UAE Ministry of Defence",
+          "quote": "UAE air defences intercepted 341 ballistic missiles"
+        }
+      ],
+      "asOf": "2026-03-21",
+      "since": "the war began"
     }
   ]
 }

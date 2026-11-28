@@ -3,7 +3,21 @@ import Base from "../layouts/Base.astro";
 import LiveChart from "../components/LiveChart.astro";
 import LiveEventCard from "../components/LiveEventCard.astro";
 import { getLive } from "../lib/data";
-import { IRAN_THEATERS, daysAgo, eventCount, filterEvents, totals, whoseCounts, type CountRange } from "../lib/live";
+import {
+  IRAN_THEATERS,
+  THREAT_LABEL,
+  daysAgo,
+  eventCount,
+  filterEvents,
+  latestTotals,
+  totalCount,
+  totals,
+  whoseCounts,
+  whoseTotal,
+  withThe,
+  type CountRange,
+  type Theater,
+} from "../lib/live";
 import { BUILD_DATE } from "../lib/scenario";
 import { fmt, formatDate } from "../lib/format";
 import { href } from "../lib/site";
@@ -17,12 +31,14 @@ const groups = [
     title: "Iran war theaters",
     note: "Persian Gulf, Israel and the Red Sea. These intercepts draw on the same U.S.-made interceptors the stockpile figures track.",
     events: filterEvents(live.events, "0000-00-00", IRAN_THEATERS),
+    theaters: IRAN_THEATERS,
   },
   {
     id: "ukraine",
     title: "Ukraine",
     note: "Ukraine's Air Force posts a tally every morning. Most drones are downed by guns, jammers and interceptor drones, not by U.S. missiles.",
     events: filterEvents(live.events, "0000-00-00", ["ukraine"]),
+    theaters: ["ukraine"] as readonly Theater[],
   },
 ];
 const latest = live.events.slice(0, 40);
@@ -71,6 +87,13 @@ const range = (c?: CountRange) =>
     const first = g.events.at(-1)?.date;
     const tAll = totals(g.events);
     const days = first ? Math.max(60, span(first, today)) : 60;
+    // Running totals a government gives, the newest for each country and weapon. Shown apart:
+    // adding one to the daily reports would count every earlier day twice.
+    const running = latestTotals(live.totals, g.theaters).flatMap((t) => {
+      const field = totalCount(t, "launched") ? "launched" : "intercepted";
+      const c = totalCount(t, field);
+      return c ? [{ t, field, c }] : [];
+    });
     return (
       <section id={g.id}>
         <div class="section-head">
@@ -108,6 +131,25 @@ const range = (c?: CountRange) =>
             </div>
           </div>
         </div>
+        {running.length > 0 && (
+          <div class="running">
+            <h3>Running totals governments give</h3>
+            <p class="muted small">
+              Counted since the start, so they aren't added to the daily reports above. They can't be checked either.
+            </p>
+            <ul>
+              {running.map(({ t, field, c }) => (
+                <li>
+                  <strong>{range(c)}</strong>{" "}
+                  {`${THREAT_LABEL[t.threat]} ${field === "launched" ? "fired at" : "shot down by"} ${withThe(t.defender)} since ${t.since}, as of ${formatDate(t.asOf)}.`}{" "}
+                  <span class="muted">
+                    Per <a href={t.sources[0].url}>{whoseTotal(t)}</a>.
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {g.events.length ? (
           <LiveChart events={g.events} today={today} days={days} label={g.title} />
         ) : (
@@ -178,6 +220,17 @@ const range = (c?: CountRange) =>
   .tile-note {
     font-size: 12px;
     color: var(--ink-3);
+  }
+  .running {
+    margin: 0 0 18px;
+  }
+  .running h3 {
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
+  .running ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
   }
   .events {
     list-style: none;

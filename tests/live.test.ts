@@ -9,9 +9,15 @@ import {
 } from "../scripts/live/telegram";
 import { validate, type Item } from "../scripts/live/extract";
 import {
+  LiveFile,
   dailySeries,
   eventCount,
+  latestTotals,
   mergeEvents,
+  mergeTotals,
+  totalCount,
+  whoseTotal,
+  type RunningTotal,
   reliability,
   totals,
   whoseCounts,
@@ -285,5 +291,85 @@ describe("whoseCounts", () => {
   it("falls back to the outlet, and ignores sources without a launch count", () => {
     const e = ev("UAE", [src({ name: "OSINTdefender" }), src({ name: "Reuters", launched: null })]);
     expect(whoseCounts([e])).toBe("OSINTdefender");
+  });
+});
+
+describe("running totals", () => {
+  const items: Item[] = [
+    {
+      kind: "news",
+      name: "news.webindia123.com",
+      url: "https://news.webindia123.com/a",
+      posted: "2026-03-21T18:30:00Z",
+      official: false,
+      text: "UAE air defences intercepted 341 ballistic missiles since start of West Asia conflict",
+    },
+  ];
+  const raw = {
+    item: 1,
+    date: "2026-03-21",
+    theater: "gulf",
+    defender: "UAE",
+    threat: "ballistic",
+    launched: null,
+    intercepted: 341,
+    systems: [],
+    usInvolved: false,
+    countFrom: "UAE Ministry of Defence",
+    runningTotal: true,
+    since: "the war began",
+    quote: "UAE air defences intercepted 341 ballistic missiles",
+  };
+  it("validate turns a running total into a total, not an event", () => {
+    const out = validate(raw, items) as RunningTotal;
+    expect(out.asOf).toBe("2026-03-21");
+    expect(out.since).toBe("the war began");
+    expect(out.id).toBe("total-2026-03-21-gulf-uae-ballistic");
+    expect("date" in out).toBe(false);
+    expect((validate({ ...raw, runningTotal: false }, items) as LiveEvent).date).toBe("2026-03-21");
+  });
+  const t = (over: Partial<RunningTotal>, n: number, official = false): RunningTotal => ({
+    id: "total-x",
+    asOf: "2026-03-21",
+    theater: "gulf",
+    defender: "UAE",
+    threat: "ballistic",
+    since: "the war began",
+    sources: [
+      {
+        kind: "news",
+        name: official ? "UAE MoD" : "Gulf News",
+        url: `https://example.com/${n}-${official}`,
+        posted: "2026-03-21",
+        official,
+        launched: null,
+        intercepted: n,
+        quote: "intercepted many missiles",
+      },
+    ],
+    ...over,
+  });
+  it("merges sources on the same total and never adds them up", () => {
+    const merged = mergeTotals([t({}, 341)], [t({}, 345)]);
+    expect(merged).toHaveLength(1);
+    expect(totalCount(merged[0], "intercepted")).toEqual({ low: 341, high: 345 });
+    expect(totalCount(merged[0], "launched")).toBeUndefined();
+    const withOfficial = mergeTotals(merged, [t({}, 340, true)]);
+    expect(totalCount(withOfficial[0], "intercepted")).toEqual({ low: 340, high: 340 });
+    expect(whoseTotal(withOfficial[0])).toBe("the UAE");
+  });
+  it("keeps the newest total per country and weapon, in the theaters asked for", () => {
+    const list = [
+      t({ asOf: "2026-03-10" }, 200),
+      t({ asOf: "2026-03-21" }, 341),
+      t({ threat: "drone" }, 1748),
+      t({ theater: "ukraine", defender: "Ukraine" }, 5),
+    ];
+    const latest = latestTotals(list, ["gulf"]);
+    expect(latest.map((x) => totalCount(x, "intercepted")!.low).sort((a, b) => a - b)).toEqual([341, 1748]);
+  });
+  it("credits who the report names, and old files without totals still load", () => {
+    expect(whoseTotal(t({}, 1))).toBe("Gulf News");
+    expect(LiveFile.parse({ updated: null, events: [] }).totals).toEqual([]);
   });
 });
