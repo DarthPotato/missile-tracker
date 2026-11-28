@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T20:18:15.665Z",
+  "updated": "2026-11-28T02:58:10.481Z",
   "claims": [
     {
       "id": "mq1-2026-11-26",
@@ -470,6 +470,13 @@
           "url": "https://www.hindustantimes.com/world-news/irans-irgc-claims-it-shot-down-us-mq-1-predator-drone-over-qeshm-island-101794659260137.html",
           "posted": "2026-11-14T05:20:00.000Z",
           "quote": "IRGC claimed that it had shot down a US MQ-1 Predator drone over Qeshm Island"
+        },
+        {
+          "kind": "news",
+          "name": "en.apa.az",
+          "url": "https://en.apa.az/asia/iran-shoots-down-us-mq-1-drone-over-qeshm-island-536115",
+          "posted": "2026-11-14T09:29:00.000Z",
+          "quote": "A US MQ-1 unmanned aerial vehicle (UAV) has been shot down over Qeshm Island in southern Iran"
         }
       ]
     },
@@ -2259,6 +2266,13 @@
           "url": "https://t.me/tabzlive/77844",
           "posted": "2026-04-03T15:31:50+00:00",
           "quote": "the downed U.S. fighter jet in Iran"
+        },
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-ie/news/world/us-launches-rescue-operation-after-state-tv-says-american-fighter-jet-downed-in-iran/ar-AA205uS7",
+          "posted": "2026-04-03T08:52:33.000Z",
+          "quote": "state TV says American fighter jet downed in Iran"
         }
       ]
     },

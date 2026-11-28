@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T20:18:15.668Z",
+  "updated": "2026-11-28T02:58:10.487Z",
   "events": [
     {
       "id": "2026-11-26-gulf-saudi-arabia-ballistic",
@@ -695,6 +695,17 @@
           "launched": null,
           "intercepted": 2,
           "quote": "The U.S. military said it intercepted two Iranian attack drones headed toward Bahrain"
+        },
+        {
+          "kind": "news",
+          "name": "msn.com",
+          "url": "https://www.msn.com/en-us/news/other/iran-claims-attack-on-us-military-radar-in-bahrain-revolutionary-guard-warns-of-more-strikes/ar-AA2hmsXr",
+          "posted": "2026-11-13T04:04:26.000Z",
+          "official": false,
+          "launched": null,
+          "intercepted": 2,
+          "countFrom": "US government",
+          "quote": "Says Two Drones Were Shot Down"
         }
       ]
     },
